@@ -1,9 +1,7 @@
 package com.board.controller;
 
-import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +19,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.board.model.BbsVO;
 import com.board.service.BbsService;
-import com.page.obj.PageMakerDTO;
 
 /* ##################################################### */
 /* ################## 게시판 Controller ################## */
@@ -60,19 +57,14 @@ public class BbsController {
 		bbsVO.setAmount(5);	// 페이지당 데이터 갯수
 
 		// 게시판 목록
-		List<BbsVO> getBbsList = new ArrayList<>();
-		getBbsList = bbsService.getBbsList(bbsVO);
-		
-		
-		// 페이징 처리
-		int total = bbsService.getBbsListCnt(bbsVO);
-		PageMakerDTO pageMaker = new PageMakerDTO(bbsVO, total);
+	    Map<String, Object> resultMap = new HashMap<>();
+	    resultMap = bbsService.getBbsList(bbsVO);
 
 		model.clear();
-		model.addAttribute("getBbsList", getBbsList);
-		model.addAttribute("pageMaker", pageMaker);
-		model.addAttribute("bbsVO", bbsVO);
-		model.addAttribute("total", total);
+		model.addAttribute("getBbsList", resultMap.get("getBbsList"));
+		model.addAttribute("pageMaker", resultMap.get("pageMaker"));
+		model.addAttribute("total", resultMap.get("total"));
+		model.addAttribute("bbsVO", resultMap.get("bbsVO"));
 
 		return mav;
 	}
@@ -104,7 +96,7 @@ public class BbsController {
 	    resultMap = bbsService.getBbs(bbsVO);
 	    
 		model.clear();
-		model.addAttribute("resultMap", resultMap);
+		model.addAttribute("getBbs", resultMap);
 		
 		return resultMap;
 	}

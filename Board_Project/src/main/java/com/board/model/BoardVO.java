@@ -23,4 +23,21 @@ public class BoardVO extends DefalutVO {
 	int    updNo 	=  0;  // 수정자 번호
 	String updDt 	= "";  // 수정일자
 	int    stat 	=  0;  // 상태 ex) 미사용(삭제)[0] / 사용[1] / 영구삭제[9]
+	
+	/* 그 외 필드 */
+	String replyYn 	= "";
+	String atchYn 	= "";
+	String secrtYn 	= "";
+	String bbsStat 	= "";
+	String bbsNm 	= "";
+	
+	@Override
+	public String toString() {
+		return "BoardVO [boardSeq=" + boardSeq + ", bbsSeq=" + bbsSeq + ", title=" + title + ", cont=" + cont + ", ref="
+				+ ref + ", step=" + step + ", lvl=" + lvl + ", pwd=" + pwd + ", readCnt=" + readCnt + ", regNo=" + regNo
+				+ ", regDt=" + regDt + ", updNo=" + updNo + ", updDt=" + updDt + ", stat=" + stat + ", replyYn="
+				+ replyYn + ", atchYn=" + atchYn + ", secrtYn=" + secrtYn + ", bbsStat=" + bbsStat + ", bbsNm=" + bbsNm
+				+ "]";
+	}
+	
 }

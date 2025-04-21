@@ -1,5 +1,6 @@
 package com.board.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.board.model.BbsVO;
 import com.board.service.BbsService;
 import com.board.service.mapper.BbsMapper;
+import com.page.obj.PageMakerDTO;
 
 @Service
 public class BbsServiceImpl implements BbsService{
@@ -28,8 +30,24 @@ public class BbsServiceImpl implements BbsService{
 	}
 
 	@Override
-	public List<BbsVO> getBbsList(BbsVO bbsVO) throws Exception {
-		return bbsMapper.getBbsList(bbsVO);
+	public Map<String, Object> getBbsList(BbsVO bbsVO) throws Exception {
+
+	    Map<String, Object> resultMap = new HashMap<>();
+
+		// 게시판 목록
+		List<BbsVO> getBbsList = new ArrayList<>();
+		getBbsList = bbsMapper.getBbsList(bbsVO);
+
+		// 페이징 처리
+		int totalCnt = bbsMapper.getBbsListCnt(bbsVO);
+		PageMakerDTO pageMaker = new PageMakerDTO(bbsVO, totalCnt);
+
+		resultMap.put("getBbsList", getBbsList);
+		resultMap.put("pageMaker", pageMaker);
+		resultMap.put("total", totalCnt);
+		resultMap.put("bbsVO", bbsVO);
+	    
+		return resultMap;
 	}
 
 	@Override
@@ -46,11 +64,6 @@ public class BbsServiceImpl implements BbsService{
 	@Override
 	public int changeStat(BbsVO bbsVO) throws Exception {
 		return bbsMapper.changeStat(bbsVO);
-	}
-
-	@Override
-	public int getBbsListCnt(BbsVO bbsVO) throws Exception {
-        return bbsMapper.getBbsListCnt(bbsVO);
 	}
 
 	@Override

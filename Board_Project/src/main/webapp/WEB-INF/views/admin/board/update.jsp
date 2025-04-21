@@ -10,54 +10,27 @@
 		
 		$('.custom-file-input').on('change', function (event) {
 			var inputFile = event.currentTarget;
-	   		$(inputFile).siblings('.custom-file-label').addClass("selected").html(inputFile.files[0].name);
+		    $(inputFile).siblings('.custom-file-label').addClass("selected").html(inputFile.files[0].name);
 		});
-		 
-		// 게시물 등록처리
-		$("#btn-save").on('click', function(){
+		
+	});
+
+	// 버튼제어
+	function btnControl(e, num){
+		if(e == 'upd'){
 			Swal.fire({
 				icon: "success",
-				title: "등록완료"
+				title: "수정완료"
 			}).then(function(){
 			 	$("#frm-board").submit();
 			});
-		});
-		 
-		$("#btn-reset").on('click', function(){
-			 $("#title").val('');
-			 $("#cont").val('');
-		});
-		 
-	});
-	
-	// 버튼제어
-	function btnControl(e, num){
-		if(e == 'add'){
-			btnRegister();
-		}else if(e == 'reset'){
-			btnReset();
-		}else{
-			changeStat_1(num);
-		}
-	}
 
-	// 게시물 등록&수정
-	function btnRegister(){
-		if($("#frm-typ").val() == 'add'){
-			addBbs();
+		// 답글페이지 이동
+		}else if(e == 'reply'){
+
+		// 게시물 상태변경
 		}else{
-			updateBbs();
-		}
-	}
-	
-	// 취소버튼
-	function btnReset(){
-		if($("#frm-typ").val() == 'add'){
-			$("#nm").val('');
-			$("#expln").val('');
-			$(".init-class").prop("checked", false);
-		}else{
-			getBbs($("#bbsSeq").val());
+// 			changeStat_1(num);
 		}
 	}
 	
@@ -94,7 +67,7 @@
 		$.ajax({
 			url      : "changeStat.do",
 			method   : "POST",
-			data     : $("#frm-addBbs").serialize(),
+			data     : $("#frm-board").serialize(),
 			dataType : "json",
 			success  : function(res){
 				
@@ -103,7 +76,7 @@
 						icon: "success",
 						title: cmnt
 					}).then(function(){
-						location.reload();
+						location.href = 'list.do';
 					});
 				}else{
 					Swal.fire({
@@ -112,59 +85,6 @@
 					})
 				}
 				
-			},
-			error : function(request, status, error){
-				Swal.fire({
-					icon: "error",
-					title: "통신불가"
-				})
-			}
-		});
-	}
-	
-	// 게시물 form 옵션변화 (ex.초기화면 세팅)
-	function initBbs(e){
-		if(e == 'init'){
-			$(".init-class").prop("disabled", true);
-		}else{
-			if($("#frm-typ").val() == 'add'){
-				$("#nm").val('');
-				$("#expln").val('');
-				$("#ttl-typ").html('등록');
-				$(".init-class").prop("disabled", false);
-				$(".init-class").prop("checked", false);
-			}else{
-// 				$("#ttl-typ").html('수정 / <span class="text-success">복구</span> / <span class="text-danger">삭제</span>');
-				$("#ttl-typ").html('수정');
-				$(".init-class").prop("disabled", false);
-			}
-			$("#nm").focus();
-		}
-	}
-	
-	// 게시물 등록
-	function addBbs(){
-		
-		$.ajax({
-			url      : "addBbs.do",
-			method   : "POST",
-			data     : $("#frm-addBbs").serialize(),
-			dataType : "json",
-			success  : function(res){
-				
-				if(res > 0){
-					Swal.fire({
-						icon: "success",
-						title: "등록완료"
-					}).then(function(){
-						location.href = 'list.do';
-					});
-				}else{
-					Swal.fire({
-						icon: "error",
-						title: "저장 오류"
-					})
-				}
 			},
 			error : function(request, status, error){
 				Swal.fire({
@@ -185,7 +105,7 @@
 
       	<!-- Page Heading -->
 		<div class="d-sm-flex align-items-center justify-content-between mb-4">
-         	<h1 class="h3 mb-0 text-gray-800"><a href="list.do"><strong>게시물 관리</strong></a></h1>
+         	<h1 class="h3 mb-0 text-gray-800"><strong>게시물</strong></h1>
          	<a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
      	</div>
 
@@ -193,7 +113,7 @@
 			<div class="col-xl-9 col-lg-7">
     			<div class="card shadow mb-4">
 					<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-    					<h5 class="m-0 font-weight-bold text-primary">게시물 등록</h5>
+    					<h5 class="m-0 font-weight-bold text-primary">게시물 수정</h5>
     					<div class="dropdown no-arrow">
 	        				<!-- <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 	    						<i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
@@ -215,19 +135,22 @@
                                 <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
                             </div> -->
                             <form class="user" id="frm-board" method="post" data-parsley-validate>
+                            	<input type="hidden" name="listTyp" value="${boardVO.listTyp }" />
+                            	<input type="hidden" name="boardSeq" value="${getBoard.boardSeq }" />
+                            	<input type="hidden" name="stat" id="stat" value="${getBoard.stat }" />
                                 <div class="form-group mb-4">
-                                	<select class="form-control" name="bbsSeq" required="required">
+                                	<select class="form-control" name="bbsSeq" required="required" disabled="disabled">
                                 		<option value="">=== 게시판을 선택하세요 ===</option>	
                                 	<c:forEach var="list" items="${getBbsList }">
-                                		<option value="${list.bbsSeq }">${list.nm }</option>
+                                		<option value="${list.bbsSeq }" <c:if test="${list.bbsSeq eq getBoard.bbsSeq }">selected</c:if>>${list.nm }</option>
                                 	</c:forEach>
                                 	</select>
                                 </div>
                                 <div class="form-group">
-                                	<input type="text" class="form-control" name="title" id="title" placeholder="제목" required="required">
+                                	<input type="text" class="form-control" name="title" id="title" placeholder="제목" value="${getBoard.title }" required="required">
                                 </div>
                                 <div class="form-group">
-                                	<textarea class="form-control" name="cont" id="cont" rows="15" required="required"></textarea>
+                                	<textarea class="form-control" name="cont" id="cont" rows="15" required="required">${getBoard.cont }</textarea>
                                 </div>
                                 <hr>
                                 <div class="custom-file">
@@ -245,7 +168,7 @@
 			    <div class="card shadow mb-4">
 			        	<!-- Card Header - Dropdown -->
 						<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-						    <h5 class="m-0 font-weight-bold text-primary"><span id="ttl-typ">게시물 등록중..</span></h5>
+						    <h5 class="m-0 font-weight-bold text-primary"><span id="ttl-typ">게시물 수정중..</span></h5>
 						</div>
 						<!-- .card-body START -->
 	                    <div class="card-body">
@@ -285,8 +208,8 @@
 							<div class="d-flex justify-content-between">
 								<div>
 									<div id="btn-divTag1">
-										<button class="btn btn-primary btn-icon-split init-class" id="btn-save">
-									    	<span class="text" id="btn-text-span">등록완료</span>
+										<button class="btn btn-primary btn-icon-split init-class" id="btn-save" onclick="btnControl('upd');">
+									    	<span class="text" id="btn-text-span">수정완료</span>
 										</button>
 										<button class="btn btn-secondary btn-icon-split init-class" onclick="history.back(-1);">
 						         			<span class="text">취소</span>
@@ -294,19 +217,24 @@
 									</div>
 								</div>
 								<div id="btn-divTag2">
-<!-- 									<button class="btn btn-success btn-icon-split init-class d-none" id="btn-restore" onclick="btnDel(4);"> -->
-									<button class="btn btn-success btn-icon-split init-class d-none" id="btn-restore" onclick="btnControl('stat', '1');">
-<!-- 										<span class="icon text-white-50"><i class="fas fa-trash"></i></span> -->
-					         			<span class="text">복구</span>
-					    			</button>
-									<button class="btn btn-danger btn-icon-split init-class d-none" id="btn-del" onclick="btnControl('stat', '0');">
-<!-- <!-- 										<span class="icon text-white-50"><i class="fas fa-trash"></i></span> --> -->
-<!-- 					         			<span class="text">삭제</span> -->
-					    			</button>
-									<button class="btn btn-danger btn-icon-split init-class d-none" id="btn-delPermnt" onclick="btnControl('stat', '9');">
-<!-- 										<span class="icon text-white-50"><i class="fas fa-trash"></i></span> -->
-				         				<span class="text">영구삭제</span>
-				    				</button>
+									<c:if test="${getBoard.replyYn eq 'Y' }">
+										<button class="btn btn-info btn-icon-split init-class" onclick="btnControl('reply');">
+						         			<span class="text">답글쓰기</span>
+						    			</button>
+									</c:if>
+									<c:if test="${getBoard.stat eq 0 }">
+										<button class="btn btn-success btn-icon-split init-class " id="btn-restore" onclick="btnControl('stat', '1');">
+						         			<span class="text">복구</span>
+						    			</button>
+										<button class="btn btn-danger btn-icon-split init-class" id="btn-delPermnt" onclick="btnControl('stat', '9');">
+					         				<span class="text">영구삭제</span>
+					    				</button>
+									</c:if>
+									<c:if test="${getBoard.stat eq 1 }">
+										<button class="btn btn-danger btn-icon-split init-class" id="btn-delete" onclick="btnControl('stat', '0');">
+						         			<span class="text">삭제</span>
+						    			</button>
+									</c:if>
 			    				</div>
 							</div>
 			    		</div>
