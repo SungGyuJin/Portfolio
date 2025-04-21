@@ -139,6 +139,7 @@
 			TB_BBS
 		SET
 			STAT = #{stat}
+			, UPD_NO = #{updNo}
 			, UPD_DT = NOW()
 		WHERE 1=1
 			AND BBS_SEQ = #{bbsSeq}

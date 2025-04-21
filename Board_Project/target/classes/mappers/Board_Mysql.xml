@@ -18,13 +18,19 @@
 		<result property="updNo"		column="UPD_NO" 	/>
 		<result property="updDt"		column="UPD_DT" 	/>
 		<result property="stat"			column="STAT" 		/>
+		
+		<result property="replyYn"		column="REPLY_YN" 	/>
+		<result property="atchYn"		column="ATCH_YN" 	/>
+		<result property="secrtYn"		column="SECRT_YN" 	/>
+		<result property="bbsStat"		column="BBS_STAT" 	/>
+		<result property="bbsNm"		column="BBS_NM" 	/>
 	</resultMap>
 	
 	<!-- 게시물 총 개수 -->
-    <!-- <select id="getBbsListCnt" resultType="int">
+    <select id="getBoardListCnt" resultType="int">
         SELECT
         	COUNT(*)
-        FROM TB_BBS
+        FROM TB_BOARD
 		WHERE 1=1
 			<if test="listTyp.equals('list')">
 				AND STAT = 1
@@ -33,27 +39,37 @@
 				AND STAT = 0
 			</if>
 			<if test="searchKeyword != null and !searchKeyword.equals('')">
-				AND NM LIKE CONCAT('%', #{searchKeyword}, '%')
+				<choose>
+					<when test="gubun.equals('ttl')">AND TITLE LIKE CONCAT('%', #{searchKeyword}, '%')</when>
+					<when test="gubun.equals('cn')">AND CONT LIKE CONCAT('%', #{searchKeyword}, '%')</when>
+					<otherwise>
+						AND TITLE LIKE CONCAT('%', #{searchKeyword}, '%')
+						OR CONT LIKE CONCAT('%', #{searchKeyword}, '%')
+					</otherwise>
+				</choose>
 			</if>
-    </select> -->
+    </select>
 	
 	<!-- 게시물 목록 -->
-	<!-- <select id="getBbsList" resultMap="bbsVO">
+	<select id="getBoardList" resultMap="boardVO">
 		SELECT * FROM (
 			SELECT
-				BBS_SEQ
-				, NM
-				, EXPLN
-				, REPLY_YN
-				, COMENT_YN
-				, ATCH_YN
-				, SECRT_YN
+				BOARD_SEQ
+				, BBS_SEQ
+				, TITLE
+				, CONT
+				, REF
+				, STEP
+				, LVL
+				, PWD
+				, READ_CNT
 				, REG_NO
 				, REG_DT
 				, UPD_NO
 				, UPD_DT
 				, STAT
-			FROM TB_BBS
+				, (SELECT NM FROM TB_BBS WHERE BBS_SEQ = T1.BBS_SEQ) BBS_NM
+			FROM TB_BOARD T1
 			WHERE 1=1
 				<if test="listTyp.equals('list')">
 					AND STAT = 1
@@ -62,32 +78,45 @@
 					AND STAT = 0
 				</if>
 				<if test="searchKeyword != null and !searchKeyword.equals('')">
-					AND NM LIKE CONCAT('%', #{searchKeyword}, '%')
+					<choose>
+						<when test="gubun.equals('ttl')">AND TITLE LIKE CONCAT('%', #{searchKeyword}, '%')</when>
+						<when test="gubun.equals('cn')">AND CONT LIKE CONCAT('%', #{searchKeyword}, '%')</when>
+						<otherwise>
+							AND TITLE LIKE CONCAT('%', #{searchKeyword}, '%')
+							OR CONT LIKE CONCAT('%', #{searchKeyword}, '%')
+						</otherwise>
+					</choose>
 				</if>
 		) AS T1
-		ORDER BY STAT DESC, BBS_SEQ DESC
+		ORDER BY REF DESC, STEP
 		LIMIT #{skip}, #{amount}
-	</select> -->
+	</select>
 	
 	<!-- 게시물 상세조회 -->
-	<!-- <select id="getBbs" resultMap="bbsVO">
+	<select id="getBoard" resultMap="boardVO">
 		SELECT
-			BBS_SEQ
-			, NM
-			, EXPLN
-			, REPLY_YN
-			, COMENT_YN
-			, ATCH_YN
-			, SECRT_YN
-			, REG_NO
-			, REG_DT
-			, UPD_NO
-			, UPD_DT
-			, STAT
-		FROM TB_BBS
+			B.BOARD_SEQ
+			, B.BBS_SEQ
+			, B.TITLE
+			, B.CONT
+			, B.REF
+			, B.STEP
+			, B.LVL
+			, B.PWD
+			, B.READ_CNT
+			, B.REG_NO
+			, B.UPD_NO
+			, B.UPD_DT
+			, B.STAT
+			, BBS.NM AS BBS_NM
+			, BBS.REPLY_YN
+			, BBS.ATCH_YN
+			, BBS.SECRT_YN
+			, BBS.STAT AS BBS_STAT
+		FROM TB_BOARD B LEFT JOIN TB_BBS BBS ON B.BBS_SEQ = BBS.BBS_SEQ
 		WHERE 1=1
-			AND BBS_SEQ = #{bbsSeq}
-	</select> -->
+			AND BOARD_SEQ = #{boardSeq}
+	</select>
 	
 	<!-- 게시물 등록 -->
 	<insert id="addBoard">
@@ -132,6 +161,15 @@
 		</choose>
 	</update>
 	
+	<update id="updateStep">
+		UPDATE
+			TB_BOARD
+		SET
+			STEP = STEP + 1
+		WHERE 1=1 
+			AND REF = #{ref} AND STEP > #{step}
+	</update>
+	
 	<update id="updateLvl">
 		UPDATE 
 			TB_BOARD
@@ -142,32 +180,29 @@
 	</update>
 	
 	<!-- 게시물 수정 -->
-	<!-- <update id="updateBbs">
+	<update id="updateBoard">
 		UPDATE
-			TB_BBS
+			TB_BOARD
 		SET
-			NM 			= #{nm}
-			, EXPLN 	= #{expln}
-			, REPLY_YN 	= #{replyYn}
-			, COMENT_YN = #{comentYn}
-			, ATCH_YN 	= #{atchYn}
-			, SECRT_YN 	= #{secrtYn}
-			, UPD_NO 	= #{updNo}
-			, UPD_DT 	= NOW()
-		WHERE 1=1
-			AND BBS_SEQ = #{bbsSeq}
-	</update> -->
-	
-	<!-- 게시물 상태변경(복구, 삭제, 영구삭제)(Ajax) -->
-	<!-- <update id="changeStat">
-		UPDATE
-			TB_BBS
-		SET
-			STAT = #{stat}
+			TITLE    = #{title}
+			, CONT 	 = #{cont}
+			, UPD_NO = #{updNo}
 			, UPD_DT = NOW()
 		WHERE 1=1
-			AND BBS_SEQ = #{bbsSeq}
-	</update> -->
+			AND BOARD_SEQ = #{boardSeq}
+	</update>
+	
+	<!-- 게시물 상태변경(복구, 삭제, 영구삭제)(Ajax) -->
+	<update id="changeStat">
+		UPDATE
+			TB_BOARD
+		SET
+			STAT = #{stat}
+			, UPD_NO = #{updNo}
+			, UPD_DT = NOW()
+		WHERE 1=1
+			AND BOARD_SEQ = #{boardSeq}
+	</update>
 
 
 </mapper>

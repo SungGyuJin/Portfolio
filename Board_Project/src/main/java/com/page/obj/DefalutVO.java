@@ -4,9 +4,12 @@ public class DefalutVO {
 
 	/* 검색어 */
     private String searchKeyword;
-    
+
 	/* 목록 타입 */
     private String listTyp = "list";
+
+	/* 목록 타입 */
+    private String gubun = "";
 	
 	/* 현재 페이지 */
     private int pageNum;
@@ -31,6 +34,14 @@ public class DefalutVO {
 
 	public void setListTyp(String listTyp) {
 		this.listTyp = listTyp;
+	}
+
+	public String getGubun() {
+		return gubun;
+	}
+
+	public void setGubun(String gubun) {
+		this.gubun = gubun;
 	}
 
 	/* 기본 생성자 -> 기봅 세팅 : pageNum = 1, amount = 10 */

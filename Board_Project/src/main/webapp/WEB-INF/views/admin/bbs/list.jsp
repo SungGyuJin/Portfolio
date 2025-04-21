@@ -274,11 +274,6 @@
 		});
 	}
 	
-	// 페이지 새로고침
-	function reloadPage(){
-		
-	}
-	
 </script>
 
 <input type="hidden" id="frm-typ" value="add" />
@@ -333,8 +328,8 @@
 													<col width="80">	<!-- 게시판명 	-->
 													<col width="100"> 	<!-- 설명    	-->
 													<col width="80"> 	<!-- 등록일시 	-->
-													<col width="80"> 	<!-- 수정일시 	-->
-													<col width="10"> 	<!-- 상태    	-->
+													<col width="60"> 	<!-- 수정일시 	-->
+													<col width="40"> 	<!-- 상태    	-->
 												</colgroup>
 												<thead>
 												    <tr role="row">
