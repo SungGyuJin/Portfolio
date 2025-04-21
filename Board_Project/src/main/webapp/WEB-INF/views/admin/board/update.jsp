@@ -129,7 +129,7 @@
 					</div>
 					
 					<!-- Card Body -->
-					<div class="card-body">
+					<div class="card-body"> 
 						<div class="">
                             <!-- <div class="text-left">
                                 <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
