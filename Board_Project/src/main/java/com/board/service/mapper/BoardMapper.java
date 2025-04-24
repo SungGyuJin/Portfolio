@@ -26,6 +26,15 @@ public interface BoardMapper {
     
 	/* update ref */
     void updateRef(BoardVO boardVO) throws Exception;
+
+	/* update step */
+	void updateStep(BoardVO boardVO) throws Exception;
+
+	/* update step */
+	void updateOldStep(BoardVO boardVO) throws Exception;
+
+	/* update step2 */
+	int getMaxStep(BoardVO boardVO) throws Exception;
     
     
     

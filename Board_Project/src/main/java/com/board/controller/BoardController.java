@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -61,7 +62,7 @@ public class BoardController {
 		ModelAndView mav = null;
 		mav = new ModelAndView("/admin/board/list");
 		
-		boardVO.setAmount(5);	// 페이지당 데이터 갯수
+		boardVO.setAmount(20);	// 페이지당 데이터 갯수
 
 		// 게시물 목록
 	    Map<String, Object> resultMap = new HashMap<>();
@@ -86,19 +87,6 @@ public class BoardController {
 
 	    Map<String, Object> resultMap = new HashMap<>();
 	    
-	    /* request 정보확인 START */
-		System.out.println();
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println("============ /admin/board/getBoard.do INFO  ===========");
-		Enumeration params = request.getParameterNames();
-		while(params.hasMoreElements()) {
-			String name= (String) params.nextElement();
-			System.out.println(name + ": " + request.getParameter(name));
-		}
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println();
-		/* request 정보확인 END */
-	    
 	    boardVO.setBoardSeq(Integer.parseInt(request.getParameter("no")));
 	    resultMap = boardService.getBoard(boardVO);
 	    
@@ -114,19 +102,6 @@ public class BoardController {
 			@ModelAttribute("BoardVO") BoardVO boardVO,
 			HttpServletRequest request,
 			HttpServletResponse response) throws Exception{
-
-		/* request 정보확인 START */
-		System.out.println();
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println("============ /admin/board/addBoardGET.do INFO  ===========");
-		Enumeration params = request.getParameterNames();
-		while(params.hasMoreElements()) {
-			String name= (String) params.nextElement();
-			System.out.println(name + ": " + request.getParameter(name));
-		}
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println();
-		/* request 정보확인 END */
 		
 		ModelAndView mav = null;
 		mav = new ModelAndView("/admin/board/add");
@@ -145,23 +120,11 @@ public class BoardController {
 	public String addBoardPOST(ModelMap model,
 			@ModelAttribute("BoardVO") BoardVO boardVO,
 			HttpServletRequest request,
-			HttpServletResponse response) throws Exception{
-
-		/* request 정보확인 START */
-		System.out.println();
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println("============ /admin/board/addBoardPOST.do INFO  ===========");
-		Enumeration params = request.getParameterNames();
-		while(params.hasMoreElements()) {
-			String name= (String) params.nextElement();
-			System.out.println(name + ": " + request.getParameter(name));
-		}
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println();
-		/* request 정보확인 END */
+			HttpServletResponse response,
+			HttpSession session) throws Exception{
 		
-		int result = 0;
-		result = boardService.addBoard(boardVO);
+		boardVO.setRegNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
+		int result = boardService.addBoard(boardVO);
 		
 		if(result > 0) {
 			return "redirect:list.do";
@@ -177,19 +140,6 @@ public class BoardController {
 			@ModelAttribute("BoardVO") BoardVO boardVO,
 			HttpServletRequest request,
 			HttpServletResponse response) throws Exception{
-
-		/* request 정보확인 START */
-		System.out.println();
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println("============ /admin/board/updateBoard.do INFO  ===========");
-		Enumeration params = request.getParameterNames();
-		while(params.hasMoreElements()) {
-			String name= (String) params.nextElement();
-			System.out.println(name + ": " + request.getParameter(name));
-		}
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println();
-		/* request 정보확인 END */
 		
 		ModelAndView mav = null;
 		mav = new ModelAndView("/admin/board/update");
@@ -201,21 +151,10 @@ public class BoardController {
 		Map<String, Object> resultMap = new HashMap<>();
 		resultMap = boardService.getBoard(boardVO);
 
-		System.out.println("rs: "+resultMap);
-		
 		model.clear();
 		model.addAttribute("getBoard", resultMap.get("getBoard"));
 		model.addAttribute("getBbsList", getBbsList);
 		model.addAttribute("boardVO", boardVO);
-		
-
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println("수정화면: "+boardVO.getListTyp());
-		System.out.println();
-		System.out.println();
-		System.out.println();
 
 		return mav;
 	}
@@ -225,32 +164,11 @@ public class BoardController {
 	public String updateBoardPOST(ModelMap model,
 			@ModelAttribute("BoardVO") BoardVO boardVO,
 			HttpServletRequest request,
-			HttpServletResponse response) throws Exception{
-
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println("전전: "+boardVO.getListTyp());
-		System.out.println("rq: "+request.getParameter("listTyp"));
-		System.out.println();
-		System.out.println();
+			HttpServletResponse response,
+			HttpSession session) throws Exception{
 		
-		
-		/* request 정보확인 START */
-		System.out.println();
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println("============ /admin/board/updateBoardT.do INFO  ===========");
-		Enumeration params = request.getParameterNames();
-		while(params.hasMoreElements()) {
-			String name= (String) params.nextElement();
-			System.out.println(name + ": " + request.getParameter(name));
-		}
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println();
-		/* request 정보확인 END */
-		
-		int result = 0;
-		result = boardService.updateBoard(boardVO);
+		boardVO.setUpdNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
+		int result = boardService.updateBoard(boardVO);
 		
 		if(result > 0) {
 			return "redirect:list.do?listTyp="+request.getParameter("listTyp");
@@ -259,29 +177,38 @@ public class BoardController {
 		}
 	}
 	
+	/* 게시물 수정화면 */
+	@GetMapping("/replyBoard.do")
+	public ModelAndView replyBoard(ModelMap model,
+			@ModelAttribute("BoardVO") BoardVO boardVO,
+			HttpServletRequest request,
+			HttpServletResponse response) throws Exception{
+
+		ModelAndView mav = null;
+		mav = new ModelAndView("admin/board/reply");
+		
+		// 게시물 조회
+		Map<String, Object> resultMap = new HashMap<>();
+		resultMap = boardService.getBoard(boardVO);
+		
+		model.clear();
+		model.addAttribute("getBoard", resultMap.get("getBoard"));
+		model.addAttribute("boardVO", boardVO);
+
+		return mav;
+	}
+	
 	/* 게시물 상태변경(복구, 삭제, 영구삭제)(Ajax) */
 	@PostMapping("/changeStat.do")
 	@ResponseBody
 	public int changeStat(ModelMap model,
 			@ModelAttribute("BoardVO") BoardVO boardVO,
 			HttpServletRequest request,
-			HttpServletResponse response) throws Exception{
+			HttpServletResponse response,
+			HttpSession session) throws Exception{
 
-		/* request 정보확인 START */
-		System.out.println();
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println("============ /admin/board/changeStat.do INFO  ===========");
-		Enumeration params = request.getParameterNames();
-		while(params.hasMoreElements()) {
-			String name= (String) params.nextElement();
-			System.out.println(name + ": " + request.getParameter(name));
-		}
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println();
-		/* request 정보확인 END */
-		
-		int result = 0;
-		result = boardService.changeStat(boardVO);
+		boardVO.setUpdNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
+		int result = boardService.changeStat(boardVO);
 
 		return result;
 	}

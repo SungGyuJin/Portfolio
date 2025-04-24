@@ -6,12 +6,6 @@
 
 <script>
 
-	/* 04-22(수) 
-		1. 상세화면에서의 삭제버튼 동작처리
-		2. 답글 화면, 등록, 수정 처리
-		3. 기타 예외처리, UI 처리
-	*/
-
 	$(function(){
 		
 
@@ -204,10 +198,10 @@
 					            <div class="dropdown-divider"></div>
 					            <a class="dropdown-item" href="#">Something else here</a>
 					        </div>
-	    					<button class="btn btn-primary btn-sm btn-icon-split btn-list" id="btn-list" title="목록보기" value="list">
+	    					<button class="btn btn-primary btn-icon-split btn-list" id="btn-list" title="목록보기" value="list">
 	    						<span class="text"><i class="fas fa-fw fa-table"></i> 목록</span>
 			    			</button>
-	    					<button class="btn btn-danger btn-sm btn-icon-split btn-list" id="btn-trash" title="휴지통" value="trash">
+	    					<button class="btn btn-danger btn-icon-split btn-list" id="btn-trash" title="휴지통" value="trash">
 	    						<span class="text"><i class="fas fa-trash"></i> 휴지통</span>
 			    			</button>
     					</div>
@@ -248,10 +242,22 @@
 													<c:forEach var="list" varStatus="varStatus" items="${getBoardList }">
 <%-- 													<tr class="" onclick="location.href='updateBoard.do?boardSeq=${list.boardSeq}'"> --%>
 													<tr onclick="getBoard('${list.boardSeq}');">
-														<td class="sorting_1 text-center">${list.boardSeq }</td>
+														<td class="sorting_1 text-center"><c:if test="${list.step eq 0}"> ${list.boardSeq }</c:if></td>
 <%-- 														<th class="text-primary text-center">${list.bbsNm }</th> --%>
-														<td>${list.title }</td>
-														<td class="text-center">작성자(임시)</td>
+														<td>
+															<c:if test="${list.lvl eq 1 }">
+																<c:forEach begin="0" end="${list.lvl }">&nbsp;</c:forEach>
+																<img class="mb-1" src="${pageContext.request.contextPath}/resources/assets/img/arrow-return-right.svg" />
+																<span class="border px-1 py-0 fw-bold small text-primary"><strong>RE</strong></span>
+															</c:if>
+															<c:if test="${list.lvl gt 1 }">
+																<c:forEach begin="0" end="${list.lvl }">&nbsp;&nbsp;</c:forEach>
+																<img class="mb-1" src="${pageContext.request.contextPath}/resources/assets/img/arrow-return-right.svg" />
+																<span class="border px-1 py-0 fw-bold small text-primary"><strong>RE</strong></span>
+															</c:if>
+															${list.title }
+														</td>
+														<td class="text-center"><strong>${list.userNm }</strong></td>
 														<td class="text-center">${list.regDt }</td>
 														<td class="text-center">${list.updDt }</td>
 														<td class="text-center">
@@ -333,7 +339,7 @@
 						<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
 						    <h6 class="m-0 font-weight-bold text-primary">미리보기</h6>
 						    <button class="btn btn-primary btn-icon-split" id="btn-new" onclick="location.href='addBoard.do';">
-						        <span class="text">글쓰기</span>
+						        <span class="text">신규등록</span>
 						   	</button>
 						</div>
 						<!-- .card-body START -->
@@ -349,8 +355,11 @@
 <!-- 	                      			<label for="bbs-title"><strong>내용</strong></label> -->
                                 	<textarea class="form-control init-class" name="cont" id="cont" rows="5" disabled="disabled"></textarea>
                                 </div>
+                                <div class="form-group">
+		                        	<button type="button" class="btn btn-primary btn-lg init-class w-100" id="btn-move" onclick="btnControl('move');" disabled="disabled">상세페이지 이동</button>
+                                </div>
 	                      		<hr>
-	                      		<small class="text-danger">* 게시물 옵션을 선택하세요.</small>
+	                      		<small class="text-danger">* 게시물 정보</small>
 				             	<div class="form-group row mt-2">
 									<div class="col-sm-6 mb-3 mb-sm-0">
 										<label class="toggle-wrapper">
@@ -400,11 +409,7 @@
 			
 						<div class="text-center">
 							<div class="d-flex justify-content-between">
-								<div>
-									<div id="btn-divTag1">
-		                         		<button type="button" class="btn btn-primary" id="btn-move" onclick="btnControl('move');" disabled="disabled">상세화면</button>
-									</div>
-								</div>
+								<div id="btn-divTag1"></div>
 								<div id="btn-divTag2">
 									<button class="btn btn-info btn-icon-split init-class d-none" onclick="btnControl('reply');">
 					         			<span class="text">답글쓰기</span>

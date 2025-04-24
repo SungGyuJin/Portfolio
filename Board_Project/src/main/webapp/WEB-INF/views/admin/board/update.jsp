@@ -18,6 +18,12 @@
 	// 버튼제어
 	function btnControl(e, num){
 		if(e == 'upd'){
+
+			if($("#title").val() == '' || $("#cont").val() == ''){
+				$("#frm-board").submit();
+				return false;
+			}
+
 			Swal.fire({
 				icon: "success",
 				title: "수정완료"
@@ -27,7 +33,7 @@
 
 		// 답글페이지 이동
 		}else if(e == 'reply'){
-
+			location.href = 'replyBoard.do?boardSeq='+$("#boardSeq").val();
 		// 게시물 상태변경
 		}else{
 // 			changeStat_1(num);
@@ -129,27 +135,25 @@
 					</div>
 					
 					<!-- Card Body -->
-					<div class="card-body">  
+					<div class="card-body"> 
 						<div class="">
                             <!-- <div class="text-left">
                                 <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
                             </div> -->
                             <form class="user" id="frm-board" method="post" data-parsley-validate>
-                            	<input type="hidden" name="listTyp" value="${boardVO.listTyp }" />
-                            	<input type="hidden" name="boardSeq" value="${getBoard.boardSeq }" />
+                            	<input type="hidden" name="listTyp" id="listTyp" value="${boardVO.listTyp }" />
+                            	<input type="hidden" name="boardSeq" id="boardSeq" value="${getBoard.boardSeq }" />
                             	<input type="hidden" name="stat" id="stat" value="${getBoard.stat }" />
                                 <div class="form-group mb-4">
-                                	<select class="form-control" name="bbsSeq" required="required" disabled="disabled">
-                                		<option value="">=== 게시판을 선택하세요 ===</option>	
-                                	<c:forEach var="list" items="${getBbsList }">
-                                		<option value="${list.bbsSeq }" <c:if test="${list.bbsSeq eq getBoard.bbsSeq }">selected</c:if>>${list.nm }</option>
-                                	</c:forEach>
-                                	</select>
+                                	<label for="bbsNm"><strong>게시판</strong></label>
+                                	<input type="text" class="form-control" id="bbsNm" value="${getBoard.bbsNm }" disabled="disabled">
                                 </div>
                                 <div class="form-group">
-                                	<input type="text" class="form-control" name="title" id="title" placeholder="제목" value="${getBoard.title }" required="required">
+                                	<label for="title"><strong>제목</strong></label>
+                                	<input type="text" class="form-control" name="title" id="title" placeholder="제목을 입력하세요." value="${getBoard.title }" required="required">
                                 </div>
                                 <div class="form-group">
+                                	<label for="cont"><strong>내용</strong></label>
                                 	<textarea class="form-control" name="cont" id="cont" rows="15" required="required">${getBoard.cont }</textarea>
                                 </div>
                                 <hr>
@@ -168,77 +172,60 @@
 			    <div class="card shadow mb-4">
 			        	<!-- Card Header - Dropdown -->
 						<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-						    <h5 class="m-0 font-weight-bold text-primary"><span id="ttl-typ">게시물 수정중..</span></h5>
+						    <h5 class="m-0 font-weight-bold text-primary">OPTION BOX</h5>
 						</div>
 						<!-- .card-body START -->
 	                    <div class="card-body">
-                      		<small class="text-danger">* 해당 게시판의 옵션여부입니다.</small>
+<!--                       		<small class="text-danger">* 해당 게시판의 옵션여부입니다.</small> -->
 			             	<div class="form-group row mt-2">
 								<div class="col-sm-6 mb-3 mb-sm-0">
-									<strong>답글: <span class="text-primary">사용가능</span></strong>
-								</div>
-	                      	 	<div class="col-sm-6 mb-3 mb-sm-0">
-									<strong>첨부파일: <span class="text-primary">사용가능</span></strong>
+									<strong>상태:
+										<c:if test="${getBoard.stat eq 1 }"><span class="text-primary text-lg">"게시중"</span></c:if>
+										<c:if test="${getBoard.stat eq 0 }"><span class="text-danger text-lg">"삭제됨"</span></c:if>
+									</strong>
 								</div>
 							</div>
-		                      
 	                      	<div class="form-group row">
-								<div class="col-sm-6 mb-3 mb-sm-0">
-									<strong>댓글: <span class="text-primary">사용가능</span></strong>
+								<div class="col-sm-12 mb-3 mb-sm-0">
+									<strong>최근수정: ${getBoard.updDt }</strong>
 								</div>
-								<div class="col-sm-6 mb-3 mb-sm-0">
-									<strong>비밀&nbsp;글: <span class="text-danger">불가능</span></strong>
-		                        </div>
 	                      	</div>
-			  
-							<!-- <div class="mt-4 text-center small mb-2">
-							    <span class="mr-2">
-							        <i class="fas fa-circle text-primary"></i> Direct
-							    </span>
-							    <span class="mr-2">
-							        <i class="fas fa-circle text-success"></i> Social
-							    </span>
-							    <span class="mr-2">
-							        <i class="fas fa-circle text-info"></i> Referral
-							    </span>
-							</div> -->
-			
-	                    <hr>
-						<div class="text-center">
-							<div class="d-flex justify-content-between">
-								<div>
-									<div id="btn-divTag1">
-										<button class="btn btn-primary btn-icon-split init-class" id="btn-save" onclick="btnControl('upd');">
-									    	<span class="text" id="btn-text-span">수정완료</span>
-										</button>
-										<button class="btn btn-secondary btn-icon-split init-class" onclick="history.back(-1);">
-						         			<span class="text">취소</span>
-						    			</button>
+		                    <hr>
+							<div class="text-center">
+								<div class="d-flex justify-content-between">
+									<div>
+										<div id="btn-divTag1">
+											<button class="btn btn-primary btn-icon-split init-class" id="btn-save" onclick="btnControl('upd');">
+										    	<span class="text" id="btn-text-span">수정완료</span>
+											</button>
+											<button class="btn btn-secondary btn-icon-split init-class" onclick="history.back(-1);">
+							         			<span class="text">취소</span>
+							    			</button>
+										</div>
 									</div>
+									<div id="btn-divTag2">
+										<c:if test="${getBoard.stat eq 1 && getBoard.replyYn eq 'Y'}">
+											<button class="btn btn-info btn-icon-split init-class" onclick="btnControl('reply');">
+							         			<span class="text">답글쓰기</span>
+							    			</button>
+										</c:if>
+										<c:if test="${getBoard.stat eq 0 }">
+											<button class="btn btn-success btn-icon-split init-class " id="btn-restore" onclick="btnControl('stat', '1');">
+							         			<span class="text">복구</span>
+							    			</button>
+											<button class="btn btn-danger btn-icon-split init-class" id="btn-delPermnt" onclick="btnControl('stat', '9');">
+						         				<span class="text">영구삭제</span>
+						    				</button>
+										</c:if>
+										<c:if test="${getBoard.stat eq 1 }">
+											<button class="btn btn-danger btn-icon-split init-class" id="btn-delete" onclick="btnControl('stat', '0');">
+							         			<span class="text">삭제</span>
+							    			</button>
+										</c:if>
+				    				</div>
 								</div>
-								<div id="btn-divTag2">
-									<c:if test="${getBoard.replyYn eq 'Y' }">
-										<button class="btn btn-info btn-icon-split init-class" onclick="btnControl('reply');">
-						         			<span class="text">답글쓰기</span>
-						    			</button>
-									</c:if>
-									<c:if test="${getBoard.stat eq 0 }">
-										<button class="btn btn-success btn-icon-split init-class " id="btn-restore" onclick="btnControl('stat', '1');">
-						         			<span class="text">복구</span>
-						    			</button>
-										<button class="btn btn-danger btn-icon-split init-class" id="btn-delPermnt" onclick="btnControl('stat', '9');">
-					         				<span class="text">영구삭제</span>
-					    				</button>
-									</c:if>
-									<c:if test="${getBoard.stat eq 1 }">
-										<button class="btn btn-danger btn-icon-split init-class" id="btn-delete" onclick="btnControl('stat', '0');">
-						         			<span class="text">삭제</span>
-						    			</button>
-									</c:if>
-			    				</div>
-							</div>
-			    		</div>
-					</div>	<!-- .card-body END -->
+				    		</div>
+						</div>	<!-- .card-body END -->
 					
 				</div>
 			</div>

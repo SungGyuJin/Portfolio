@@ -304,10 +304,10 @@
 					            <div class="dropdown-divider"></div>
 					            <a class="dropdown-item" href="#">Something else here</a>
 					        </div>
-	    					<button class="btn btn-primary btn-sm btn-icon-split btn-list" id="btn-list" title="목록보기" value="list">
+	    					<button class="btn btn-primary btn-icon-split btn-list" id="btn-list" title="목록보기" value="list">
 	    						<span class="text"><i class="fas fa-fw fa-table"></i> 목록</span>
 			    			</button>
-	    					<button class="btn btn-danger btn-sm btn-icon-split btn-list" id="btn-trash" title="휴지통" value="trash">
+	    					<button class="btn btn-danger btn-icon-split btn-list" id="btn-trash" title="휴지통" value="trash">
 	    						<span class="text"><i class="fas fa-trash"></i> 휴지통</span>
 			    			</button>
     					</div>

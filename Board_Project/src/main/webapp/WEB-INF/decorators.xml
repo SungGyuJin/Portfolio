@@ -19,6 +19,10 @@
        <pattern>/*</pattern>
     </decorator>
     
+	<excludes>
+		<pattern>admin/login.do</pattern>
+	</excludes>
+    
 	<!-- <decorator name="loginLayout" 	page="/WEB-INF/jsp/template/login_layout.jsp">
        <pattern>/webadmin/login.do</pattern>
        <pattern>/webadmin/*/login.do</pattern>

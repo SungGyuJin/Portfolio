@@ -15,6 +15,12 @@
 		 
 		// 게시물 등록처리
 		$("#btn-save").on('click', function(){
+			
+			if($("#bbsSeq").val() == '' || $("#title").val() == '' || $("#cont").val() == ''){
+				$("#frm-board").submit();
+				return false;
+			}
+			
 			Swal.fire({
 				icon: "success",
 				title: "등록완료"
@@ -216,7 +222,8 @@
                             </div> -->
                             <form class="user" id="frm-board" method="post" data-parsley-validate>
                                 <div class="form-group mb-4">
-                                	<select class="form-control" name="bbsSeq" required="required">
+                                	<label for="bbsSeq"><strong>게시판</strong></label>
+                                	<select class="form-control" name="bbsSeq" id="bbsSeq" required="required">
                                 		<option value="">=== 게시판을 선택하세요 ===</option>	
                                 	<c:forEach var="list" items="${getBbsList }">
                                 		<option value="${list.bbsSeq }">${list.nm }</option>
@@ -224,9 +231,11 @@
                                 	</select>
                                 </div>
                                 <div class="form-group">
-                                	<input type="text" class="form-control" name="title" id="title" placeholder="제목" required="required">
+                                	<label for="title"><strong>제목</strong></label>
+                                	<input type="text" class="form-control" name="title" id="title" placeholder="제목을 입력하세요." required="required">
                                 </div>
                                 <div class="form-group">
+                                	<label for="cont"><strong>내용</strong></label>
                                 	<textarea class="form-control" name="cont" id="cont" rows="15" required="required"></textarea>
                                 </div>
                                 <hr>
@@ -245,28 +254,15 @@
 			    <div class="card shadow mb-4">
 			        	<!-- Card Header - Dropdown -->
 						<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-						    <h5 class="m-0 font-weight-bold text-primary"><span id="ttl-typ">게시물 등록중..</span></h5>
+						    <h5 class="m-0 font-weight-bold text-primary">OPTION BOX</h5>
 						</div>
 						<!-- .card-body START -->
 	                    <div class="card-body">
-                      		<small class="text-danger">* 해당 게시판의 옵션여부입니다.</small>
-			             	<div class="form-group row mt-2">
+                      		<div class="form-group row mt-2">
 								<div class="col-sm-6 mb-3 mb-sm-0">
-									<strong>답글: <span class="text-primary">사용가능</span></strong>
-								</div>
-	                      	 	<div class="col-sm-6 mb-3 mb-sm-0">
-									<strong>첨부파일: <span class="text-primary">사용가능</span></strong>
+									<strong>상태: <span class="text-primary text-lg">"등록중"</span></strong>
 								</div>
 							</div>
-		                      
-	                      	<div class="form-group row">
-								<div class="col-sm-6 mb-3 mb-sm-0">
-									<strong>댓글: <span class="text-primary">사용가능</span></strong>
-								</div>
-								<div class="col-sm-6 mb-3 mb-sm-0">
-									<strong>비밀&nbsp;글: <span class="text-danger">불가능</span></strong>
-		                        </div>
-	                      	</div>
 			  
 							<!-- <div class="mt-4 text-center small mb-2">
 							    <span class="mr-2">

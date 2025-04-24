@@ -23,6 +23,24 @@
 	
 	<context:component-scan base-package="com.board.controller" />
 	
-	
+	<!-- Interceptor configuration -->
+	<interceptors>
+		<interceptor>
+			<!-- Path mapping for the interceptor -->
+			<mapping path="/**" />
+			<!-- Path exclusion for login -->
+			<exclude-mapping path="/admin/login.do"/>
+			<exclude-mapping path="/admin/create.do"/>
+			<exclude-mapping path="/admin/aprvChk.do"/>
+			
+			<exclude-mapping path="/resources/**"/>
+			<exclude-mapping path="/css/**"/>
+			<exclude-mapping path="/js/**"/>
+			<exclude-mapping path="/images/**"/>
+			<exclude-mapping path="/favicon.ico"/>
+			<!-- Registering the interceptor bean directly -->
+			<beans:bean class="com.board.interceptor.SessionInterceptor" />
+		</interceptor>
+	</interceptors>
 	
 </beans:beans>

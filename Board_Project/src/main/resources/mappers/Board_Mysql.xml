@@ -19,11 +19,13 @@
 		<result property="updDt"		column="UPD_DT" 	/>
 		<result property="stat"			column="STAT" 		/>
 		
+		<!-- 그 외 필드 -->
 		<result property="replyYn"		column="REPLY_YN" 	/>
 		<result property="atchYn"		column="ATCH_YN" 	/>
 		<result property="secrtYn"		column="SECRT_YN" 	/>
 		<result property="bbsStat"		column="BBS_STAT" 	/>
 		<result property="bbsNm"		column="BBS_NM" 	/>
+		<result property="userNm"		column="USER_NM" 	/>
 	</resultMap>
 	
 	<!-- 게시물 총 개수 -->
@@ -69,6 +71,7 @@
 				, UPD_DT
 				, STAT
 				, (SELECT NM FROM TB_BBS WHERE BBS_SEQ = T1.BBS_SEQ) BBS_NM
+				, (SELECT USER_NM FROM TB_USER WHERE USER_SEQ = T1.REG_NO) USER_NM
 			FROM TB_BOARD T1
 			WHERE 1=1
 				<if test="listTyp.equals('list')">
@@ -105,6 +108,7 @@
 			, B.PWD
 			, B.READ_CNT
 			, B.REG_NO
+			, B.REG_DT
 			, B.UPD_NO
 			, B.UPD_DT
 			, B.STAT
@@ -145,7 +149,7 @@
 			, #{readCnt}
 			, #{regNo}
 			, NOW()
-			, #{updNo}
+			, #{regNo}
 			, NOW()
 			, 1
 		)
@@ -167,8 +171,27 @@
 		SET
 			STEP = STEP + 1
 		WHERE 1=1 
-			AND REF = #{ref} AND STEP > #{step}
+<!-- 			AND REF = #{ref} AND STEP > #{step} -->
+			AND REF = #{ref} AND STEP >= #{step}
 	</update>
+	
+	
+	<update id="updateOldStep">
+		UPDATE
+			TB_BOARD
+		SET
+			STEP = STEP + 1
+		WHERE 1=1 
+			AND REF = #{ref} AND STEP = #{step}
+	</update>
+	
+	<select id="getMaxStep" resultType="int">
+		SELECT
+			MAX(STEP) + 1
+		FROM TB_BOARD
+		WHERE 1=1
+			AND REF = #{ref}
+	</select>
 	
 	<update id="updateLvl">
 		UPDATE 

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://www.opensymphony.com/sitemesh/page" 		prefix="page" %>
 <%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator" prefix="decorator" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html>
@@ -25,11 +26,25 @@
      <!-- Custom fonts for this template-->
     <link href="${pageContext.request.contextPath}/resources/assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="${pageContext.request.contextPath}/resources/assets/css/sb-admin-2.min.css" rel="stylesheet">
-    
-    
-    
-    
+
+
+
+
 <style>
+
+.custom-text{
+	color: white !important;
+}
+
+.fixed-size-box {
+   	width: 906px;
+   	height: 606px; 
+/*    	overflow: auto; */
+}
+
+.cursor-pointer {
+	cursor: pointer;
+}
 
 /* 부모 요소들의 overflow 해제 */
 .container-fluid, .row {
@@ -46,6 +61,7 @@
 	list-style: none;
 	padding-left: 0;
 	color:#f3616d;
+	font-size: 14px;
 }
 
 .toggle-wrapper {
@@ -112,19 +128,35 @@ table tbody tr:hover {
 </style>
     
 </head>
+<link rel="icon" href="data:;base64,iVBORw0KGgo=">
 
 <body id="page-top">
 
-    <div id="wrapper">
-		<page:applyDecorator name="leftMenu" />
-        <div id="content-wrapper" class="d-flex flex-column">
-            <div id="content">
-                <page:applyDecorator name="header" />
-                <decorator:body />
-            </div>
-            <page:applyDecorator name="footer" /> 
-        </div>
-    </div>
+	<c:choose>
+		<c:when test="${empty sessionScope.USERSEQ}">
+		    <div id="wrapper">
+		        <div id="content-wrapper" class="d-flex flex-column">
+		            <div id="content">
+		                <decorator:body />
+		            </div>
+		        </div>
+		    </div>
+		</c:when>
+		<c:otherwise>
+		    <div id="wrapper">
+				<page:applyDecorator name="leftMenu" />
+		        <div id="content-wrapper" class="d-flex flex-column">
+		            <div id="content">
+		                <page:applyDecorator name="header" />
+		                <decorator:body />
+		            </div>
+		            <page:applyDecorator name="footer" /> 
+		        </div>
+		    </div>
+		</c:otherwise>
+	</c:choose>
+	
+	
 
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">

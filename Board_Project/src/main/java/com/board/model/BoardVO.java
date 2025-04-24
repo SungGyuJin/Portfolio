@@ -30,6 +30,7 @@ public class BoardVO extends DefalutVO {
 	String secrtYn 	= "";
 	String bbsStat 	= "";
 	String bbsNm 	= "";
+	String userNm 	= ""; // 게시물 작성자이름
 	
 	@Override
 	public String toString() {

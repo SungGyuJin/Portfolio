@@ -1,9 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ page session="false" %>
+<%@ page session="true" %>
 
 <body>
+<script>
+<c:choose>
+	<c:when test="${errorCode eq '0000' }">
+		<c:if test="${loginChk eq 'Y'}">
+			localStorage.setItem("loginChk", "${sessionScope.USERID }");
+		</c:if>
+		<c:if test="${loginChk ne 'Y'}">
+			localStorage.removeItem("loginChk");
+		</c:if>
+	
+	</c:when>
+</c:choose>
+</script>
+
+
 <div class="container-fluid">
 
                     <!-- Page Heading -->

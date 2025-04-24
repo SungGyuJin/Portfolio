@@ -5,6 +5,7 @@
 	<typeAliases>
 		<typeAlias type="com.board.model.BbsVO" alias="bbsVO"/>
 		<typeAlias type="com.board.model.BoardVO" alias="boardVO"/>
+		<typeAlias type="com.board.model.LoginVO" alias="loginVO"/>
 	</typeAliases>
 	
 	
@@ -24,6 +25,7 @@
 	<mappers>
 		<mapper resource="/mappers/Bbs_Mysql.xml"/> 
 		<mapper resource="/mappers/Board_Mysql.xml"/> 
+		<mapper resource="/mappers/Login_Mysql.xml"/> 
 	</mappers>
 	
 </configuration>

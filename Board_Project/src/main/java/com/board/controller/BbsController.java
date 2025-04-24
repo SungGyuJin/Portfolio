@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,8 +37,9 @@ public class BbsController {
 	public ModelAndView bbsList(ModelMap model,
 			@ModelAttribute("BbsVO") BbsVO bbsVO,
 			HttpServletRequest request,
+			HttpSession session,
 			HttpServletResponse response) throws Exception{
-
+		
 		/* request 정보확인 START */
 		System.out.println();
 		System.out.println("++++++++++++++++++++++++++++++");
