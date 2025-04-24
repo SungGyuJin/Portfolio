@@ -54,7 +54,7 @@ public class BbsController {
 		/* request 정보확인 END */
 		
 		ModelAndView mav = null;
-		mav = new ModelAndView("/admin/bbs/list");
+		mav = new ModelAndView("admin/bbs/list");
 		
 		bbsVO.setAmount(5);	// 페이지당 데이터 갯수
 
@@ -81,19 +81,6 @@ public class BbsController {
 
 	    Map<String, Object> resultMap = new HashMap<>();
 	    
-	    /* request 정보확인 START */
-		System.out.println();
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println("============ /admin/getBbs.do INFO  ===========");
-		Enumeration params = request.getParameterNames();
-		while(params.hasMoreElements()) {
-			String name= (String) params.nextElement();
-			System.out.println(name + ": " + request.getParameter(name));
-		}
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println();
-		/* request 정보확인 END */
-	    
 	    bbsVO.setBbsSeq(Integer.parseInt(request.getParameter("no")));
 	    resultMap = bbsService.getBbs(bbsVO);
 	    
@@ -109,23 +96,11 @@ public class BbsController {
 	public int addBbs(ModelMap model,
 			@ModelAttribute("BbsVO") BbsVO bbsVO,
 			HttpServletRequest request,
-			HttpServletResponse response) throws Exception{
+			HttpServletResponse response,
+			HttpSession session) throws Exception{
 
-		/* request 정보확인 START */
-		System.out.println();
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println("============ /admin/addBbs.do INFO  ===========");
-		Enumeration params = request.getParameterNames();
-		while(params.hasMoreElements()) {
-			String name= (String) params.nextElement();
-			System.out.println(name + ": " + request.getParameter(name));
-		}
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println();
-		/* request 정보확인 END */
-		
-		int result = 0;
-		result = bbsService.addBbs(bbsVO);
+		bbsVO.setRegNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
+		int result = bbsService.addBbs(bbsVO);
 		
 		return result;
 	}
@@ -136,23 +111,11 @@ public class BbsController {
 	public int updateBbs(ModelMap model,
 			@ModelAttribute("BbsVO") BbsVO bbsVO,
 			HttpServletRequest request,
-			HttpServletResponse response) throws Exception{
+			HttpServletResponse response,
+			HttpSession session) throws Exception{
 
-		/* request 정보확인 START */
-		System.out.println();
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println("============ /admin/bbs/updateBbs.do INFO  ===========");
-		Enumeration params = request.getParameterNames();
-		while(params.hasMoreElements()) {
-			String name= (String) params.nextElement();
-			System.out.println(name + ": " + request.getParameter(name));
-		}
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println();
-		/* request 정보확인 END */
-
-		int result = 0;
-		result = bbsService.updateBbs(bbsVO);
+		bbsVO.setUpdNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
+		int result = bbsService.updateBbs(bbsVO);
 
 		return result;
 	}
@@ -163,23 +126,11 @@ public class BbsController {
 	public int changeStat(ModelMap model,
 			@ModelAttribute("BbsVO") BbsVO bbsVO,
 			HttpServletRequest request,
-			HttpServletResponse response) throws Exception{
+			HttpServletResponse response,
+			HttpSession session) throws Exception{
 
-		/* request 정보확인 START */
-		System.out.println();
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println("============ /admin/bbs/changeStat.do INFO  ===========");
-		Enumeration params = request.getParameterNames();
-		while(params.hasMoreElements()) {
-			String name= (String) params.nextElement();
-			System.out.println(name + ": " + request.getParameter(name));
-		}
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println();
-		/* request 정보확인 END */
-		
-		int result = 0;
-		result = bbsService.changeStat(bbsVO);
+		bbsVO.setUpdNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
+		int result = bbsService.changeStat(bbsVO);
 
 		return result;
 	}

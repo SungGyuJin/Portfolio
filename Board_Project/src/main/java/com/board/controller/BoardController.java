@@ -60,9 +60,9 @@ public class BoardController {
 		/* request 정보확인 END */
 		
 		ModelAndView mav = null;
-		mav = new ModelAndView("/admin/board/list");
+		mav = new ModelAndView("admin/board/list");
 		
-		boardVO.setAmount(20);	// 페이지당 데이터 갯수
+		boardVO.setAmount(10);	// 페이지당 데이터 갯수
 
 		// 게시물 목록
 	    Map<String, Object> resultMap = new HashMap<>();
@@ -104,7 +104,7 @@ public class BoardController {
 			HttpServletResponse response) throws Exception{
 		
 		ModelAndView mav = null;
-		mav = new ModelAndView("/admin/board/add");
+		mav = new ModelAndView("admin/board/add");
 		
 		// 게시판 목록(select option)
 		List<BbsVO> getBbsList = bbsService.getSelectBbsList();
@@ -142,7 +142,7 @@ public class BoardController {
 			HttpServletResponse response) throws Exception{
 		
 		ModelAndView mav = null;
-		mav = new ModelAndView("/admin/board/update");
+		mav = new ModelAndView("admin/board/update");
 
 		// 게시판 목록(select option)
 		List<BbsVO> getBbsList = bbsService.getSelectBbsList();
