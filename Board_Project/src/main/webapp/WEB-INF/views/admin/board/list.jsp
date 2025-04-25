@@ -23,6 +23,10 @@
 			$("#btn-trash").prop('disabled', true);
 		}
 		
+		$("#bbsSeq").on('change', function(e){
+			$("#frm-search").submit();
+		});
+		
 	});
 	
 	// 버튼제어
@@ -123,6 +127,9 @@
 	// 게시물 조회
 	function getBoard(no){
 		
+		$("table tr").removeClass('table-active');
+		$("#tr-"+no).addClass('table-active');
+		
 		$.ajax({
 			url      : "getBoard.do",
 			method   : "GET",
@@ -178,8 +185,8 @@
 
       	<!-- Page Heading -->
 		<div class="d-sm-flex align-items-center justify-content-between mb-4">
-         	<h1 class="h3 mb-0 text-gray-800"><strong>게시물</strong></h1>
-         	<a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+         	<h1 class="h3 mb-0 text-gray-800 ml-1"><strong>게시물</strong></h1>
+<!--          	<a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> -->
      	</div>
 
 		<div class="row">
@@ -206,13 +213,20 @@
 			    			</button>
     					</div>
 					</div>
-					
 					<!-- Card Body -->
 					<div class="card-body">
 <%-- 							<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum }" /> --%>
 <%-- 							<input type="hidden" name="amount" value="${pageMaker.cri.amount }"  /> --%>
 						<form id="frm-search" method="get">
 							<input type="hidden" name="listTyp" id="listTyp" value="${boardVO.listTyp }" readonly="readonly">
+							<div class="form-group mb-3">
+	                          	<select class="form-control text-center border-primary" name="bbsSeq" id="bbsSeq">
+	                          		<option value="0">전체 게시판</option>	
+	                          	<c:forEach var="list" items="${getBbsList }">
+	                          		<option value="${list.bbsSeq }" <c:if test="${list.bbsSeq eq boardVO.bbsSeq }">selected</c:if>>${list.nm }</option>
+	                          	</c:forEach>
+	                          	</select>
+                            </div>
 					    	<div class="table-responsive" style="overflow-x: hidden;">
 					  			<div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
 									<div class="row">
@@ -220,7 +234,6 @@
 											<table class="table table-bordered dataTable" id="dataTable" cellspacing="0" role="grid" aria-describedby="dataTable_info">
 												<colgroup>
 													<col width="10">	<!-- No. -->
-<%-- 													<col width="60">	<!-- 게시물명 --> --%>
 													<col width="120">	<!-- 제목 -->
 													<col width="60"> 	<!-- 작성자 -->
 													<col width="60"> 	<!-- 등록일시 -->
@@ -230,7 +243,6 @@
 												<thead>
 												    <tr role="row">
 												    	<th class="sorting sorting_asc text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending">No.</th>
-<!-- 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending">게시물명</th> -->
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending">제목</th>
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">작성자</th>
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">등록일시</th>
@@ -241,9 +253,8 @@
 												<tbody>
 													<c:forEach var="list" varStatus="varStatus" items="${getBoardList }">
 <%-- 													<tr class="" onclick="location.href='updateBoard.do?boardSeq=${list.boardSeq}'"> --%>
-													<tr onclick="getBoard('${list.boardSeq}');">
+													<tr onclick="getBoard('${list.boardSeq}');" id="tr-${list.boardSeq }">
 														<td class="sorting_1 text-center"><c:if test="${list.step eq 0}"> ${list.boardSeq }</c:if></td>
-<%-- 														<th class="text-primary text-center">${list.bbsNm }</th> --%>
 														<td>
 															<c:if test="${list.lvl eq 1 }">
 																<c:forEach begin="0" end="${list.lvl }">&nbsp;</c:forEach>
@@ -264,11 +275,9 @@
 															<c:choose>
 																<c:when test="${list.stat eq 1 }">
 																	<strong class="ms-3"><span class="text-primary">게시중</span></strong>
-	<!-- 																<a href="#" class="btn-success btn-sm"><i class="fas fa-check"></i></a> -->
 																</c:when>
 																<c:otherwise>
 																	<strong class="ms-3"><span class="text-danger">삭제됨</span></strong>
-	<!-- 																<a href="#" class="btn-danger btn-sm"><i class="fas fa-trash"></i></a> -->
 																</c:otherwise>
 															</c:choose>
 													    </td>
@@ -318,7 +327,7 @@
 			                                	</select>
 									    		<input type="text" class="form-control bg-light border-0 small" name="searchKeyword" placeholder="검색어를 입력하세요." aria-label="Search" aria-describedby="basic-addon2" autocomplete="off" value="${boardVO.searchKeyword }">
 									    		<div class="input-group-append">
-											        <button type="submit" class="btn btn-primary" type="button">
+											        <button type="submit" id="btn-search" class="btn btn-primary" type="button">
 											            <i class="fas fa-search fa-sm"></i>
 											        </button>
 									    		</div>
@@ -337,7 +346,7 @@
 			    <div class="card shadow mb-4">
 			        	<!-- Card Header - Dropdown -->
 						<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-						    <h6 class="m-0 font-weight-bold text-primary">미리보기</h6>
+						    <h5 class="m-0 font-weight-bold text-primary">미리보기</h5>
 						    <button class="btn btn-primary btn-icon-split" id="btn-new" onclick="location.href='addBoard.do';">
 						        <span class="text">신규등록</span>
 						   	</button>
@@ -359,7 +368,7 @@
 		                        	<button type="button" class="btn btn-primary btn-lg init-class w-100" id="btn-move" onclick="btnControl('move');" disabled="disabled">상세페이지 이동</button>
                                 </div>
 	                      		<hr>
-	                      		<small class="text-danger">* 게시물 정보</small>
+	                      		<!-- <small class="text-danger">* 게시물 정보</small>
 				             	<div class="form-group row mt-2">
 									<div class="col-sm-6 mb-3 mb-sm-0">
 										<label class="toggle-wrapper">
@@ -376,7 +385,6 @@
 										</label>
 									</div>
 								</div>
-			                      
 		                      	<div class="form-group row">
 									<div class="col-sm-6 mb-3 mb-sm-0">
 										<label class="toggle-wrapper">
@@ -392,7 +400,7 @@
 											<span class="tiny-slider"></span>
 										</label>
 			                        </div>
-		                      	</div>
+		                      	</div> -->
 							</form>
 			  
 							<!-- <div class="mt-4 text-center small mb-2">

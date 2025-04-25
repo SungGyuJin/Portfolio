@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title><decorator:title default="Board_Project" /></title>
+<title><decorator:title default="Portfolio" /></title>
 
 	<!-- Bootstrap core JavaScript-->
     <script src="${pageContext.request.contextPath}/resources/assets/vendor/jquery/jquery.min.js"></script>
@@ -26,9 +26,6 @@
      <!-- Custom fonts for this template-->
     <link href="${pageContext.request.contextPath}/resources/assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="${pageContext.request.contextPath}/resources/assets/css/sb-admin-2.min.css" rel="stylesheet">
-
-
-
 
 <style>
 

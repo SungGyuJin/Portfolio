@@ -56,7 +56,7 @@ public class BbsController {
 		ModelAndView mav = null;
 		mav = new ModelAndView("admin/bbs/list");
 		
-		bbsVO.setAmount(5);	// 페이지당 데이터 갯수
+//		bbsVO.setAmount(5);	// 페이지당 데이터 갯수
 
 		// 게시판 목록
 	    Map<String, Object> resultMap = new HashMap<>();

@@ -64,12 +64,16 @@ public class BoardController {
 		
 		boardVO.setAmount(10);	// 페이지당 데이터 갯수
 
+		// 게시판 목록(select option)
+		List<BbsVO> getBbsList = bbsService.getSelectBbsList();
+		
 		// 게시물 목록
 	    Map<String, Object> resultMap = new HashMap<>();
 	    resultMap = boardService.getBoardList(boardVO);
 		
 		model.clear();
 		model.addAttribute("getBoardList", resultMap.get("getBoardList"));
+		model.addAttribute("getBbsList", getBbsList);
 		model.addAttribute("pageMaker", resultMap.get("pageMaker"));
 		model.addAttribute("total", resultMap.get("total"));
 		model.addAttribute("boardVO", resultMap.get("boardVO"));

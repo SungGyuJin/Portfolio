@@ -200,7 +200,8 @@
 						icon: "success",
 						title: "수정완료"
 					}).then(function(){
-						location.reload();
+// 						location.reload();
+						$("#nm-"+$("#bbsSeq").val()).text($("#nm").val());
 					});
 				}else{
 					Swal.fire({
@@ -220,6 +221,10 @@
 	
 	// 게시만 조회
 	function getBbs(no){
+		
+
+		$("table tr").removeClass('table-active');
+		$("#tr-"+no).addClass('table-active');
 		
 		$("#frm-typ").val('upd');
 		initBbs('click');
@@ -284,8 +289,8 @@
 
       	<!-- Page Heading -->
 		<div class="d-sm-flex align-items-center justify-content-between mb-4">
-         	<h1 class="h3 mb-0 text-gray-800"><strong>게시판</strong></h1>
-         	<a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+         	<h1 class="h3 mb-0 text-gray-800 ml-1"><strong>게시판</strong></h1>
+<!--          	<a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> -->
      	</div>
 
 		<div class="row">
@@ -325,37 +330,32 @@
 										<div class="col-sm-12">
 											<table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
 												<colgroup>
-													<col width="80">	<!-- 게시판명 	-->
-													<col width="100"> 	<!-- 설명    	-->
-													<col width="80"> 	<!-- 등록일시 	-->
-													<col width="60"> 	<!-- 수정일시 	-->
-													<col width="40"> 	<!-- 상태    	-->
+													<col width="30">	<!-- 게시판명 	-->
+													<col width="100"> 	<!-- 등록일시 	-->
+													<col width="100"> 	<!-- 수정일시 	-->
+													<col width="20"> 	<!-- 상태    	-->
 												</colgroup>
 												<thead>
 												    <tr role="row">
 												    	<th class="sorting sorting_asc text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 154px;">게시판명</th>
-														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 237px;">설명</th>
-														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 109px;">등록일시</th>
-														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 109px;">수정일시</th>
-														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 109px;">상태</th>
+														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">등록일시</th>
+														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">수정일시</th>
+														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">상태</th>
 												    </tr>
 												</thead>
 												<tbody>
 													<c:forEach var="list" varStatus="varStatus" items="${getBbsList }">
-													<tr class="text-center" onclick="getBbs(${list.bbsSeq});">
-														<td class="sorting_1">${list.nm }</td>
-														<td>${list.expln }</td>
+													<tr class="text-center" onclick="getBbs(${list.bbsSeq});" id="tr-${list.bbsSeq }">
+														<td class="sorting_1" id="nm-${list.bbsSeq }">${list.nm }</td>
 														<td>${list.regDt }</td>
 														<td>${list.updDt }</td>
 														<td>
 															<c:choose>
 																<c:when test="${list.stat eq 1 }">
 																	<strong class="ms-3"><span class="text-primary">사용중</span></strong>
-	<!-- 																<a href="#" class="btn-success btn-sm"><i class="fas fa-check"></i></a> -->
 																</c:when>
 																<c:otherwise>
 																	<strong class="ms-3"><span class="text-danger">삭제됨</span></strong>
-	<!-- 																<a href="#" class="btn-danger btn-sm"><i class="fas fa-trash"></i></a> -->
 																</c:otherwise>
 															</c:choose>
 													    </td>
@@ -419,7 +419,7 @@
 			    <div class="card shadow mb-4">
 			        	<!-- Card Header - Dropdown -->
 						<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-						    <h6 class="m-0 font-weight-bold text-primary">게시판 <span id="ttl-typ">등록</span></h6>
+						    <h5 class="m-0 font-weight-bold text-primary">게시판 <span id="ttl-typ">등록</span></h5>
 						    <button class="btn btn-primary btn-icon-split" id="btn-new">
 						        <span class="text">신규등록</span>
 						   	</button>
