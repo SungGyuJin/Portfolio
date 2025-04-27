@@ -23,6 +23,9 @@ public interface BoardMapper {
     
     /* 게시물 총 갯수 */
     int getBoardListCnt(BoardVO boardVO) throws Exception;
+
+    /* 게시물 총 갯수(원글) */
+    int getBoardListOriCnt(BoardVO boardVO) throws Exception;
     
 	/* update ref */
     void updateRef(BoardVO boardVO) throws Exception;

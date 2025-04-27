@@ -70,6 +70,13 @@ public class BoardController {
 		// 게시물 목록
 	    Map<String, Object> resultMap = new HashMap<>();
 	    resultMap = boardService.getBoardList(boardVO);
+
+	    System.out.println();
+	    System.out.println("total: "+resultMap.get("total"));
+	    System.out.println("totalOriCnt: "+resultMap.get("totalOriCnt"));
+	    System.out.println("amount: "+boardVO.getAmount());
+	    System.out.println("현재페이지: "+boardVO.getPageNum());
+	    System.out.println();
 		
 		model.clear();
 		model.addAttribute("getBoardList", resultMap.get("getBoardList"));
@@ -77,6 +84,27 @@ public class BoardController {
 		model.addAttribute("pageMaker", resultMap.get("pageMaker"));
 		model.addAttribute("total", resultMap.get("total"));
 		model.addAttribute("boardVO", resultMap.get("boardVO"));
+		model.addAttribute("totalOriCnt", resultMap.get("totalOriCnt"));
+		model.addAttribute("replyYn", resultMap.get("replyYn"));
+		
+		int spNo = 0;
+		
+		if(boardVO.getPageNum() == 1) {
+			spNo = Integer.parseInt(resultMap.get("totalOriCnt").toString());
+		}else {
+			spNo = boardVO.getSpNo();
+		}
+
+
+		System.out.println();
+		System.out.println("boardVO.getSpNo(): "+boardVO.getSpNo());
+		System.out.println();
+		
+		System.out.println();
+		System.out.println("spNo: "+spNo);
+		System.out.println();
+		
+		model.addAttribute("spNo", spNo);
 
 		return mav;
 	}

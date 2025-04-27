@@ -217,6 +217,11 @@
 					<div class="card-body">
 <%-- 							<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum }" /> --%>
 <%-- 							<input type="hidden" name="amount" value="${pageMaker.cri.amount }"  /> --%>
+<!-- 10 - ((2 - 1) * 10) -->
+
+<%-- <h1>답글표시: ${replyYn }</h1> --%>
+
+						<c:set var="number" value="${total - ((boardVO.pageNum - 1) * boardVO.amount) }" />
 						<form id="frm-search" method="get">
 							<input type="hidden" name="listTyp" id="listTyp" value="${boardVO.listTyp }" readonly="readonly">
 							<div class="form-group mb-3">
@@ -254,7 +259,13 @@
 													<c:forEach var="list" varStatus="varStatus" items="${getBoardList }">
 <%-- 													<tr class="" onclick="location.href='updateBoard.do?boardSeq=${list.boardSeq}'"> --%>
 													<tr onclick="getBoard('${list.boardSeq}');" id="tr-${list.boardSeq }">
-														<td class="sorting_1 text-center"><c:if test="${list.step eq 0}"> ${list.boardSeq }</c:if></td>
+														<td class="sorting_1 text-center">
+<%-- 															<c:if test="${list.step eq 0}"> ${list.boardSeq }</c:if> --%>
+															<c:if test="${list.lvl eq 0 }">
+																${number }
+                    											<c:set var="number" value="${number - 1}" />
+															</c:if>
+														</td>
 														<td>
 															<c:if test="${list.lvl eq 1 }">
 																<c:forEach begin="0" end="${list.lvl }">&nbsp;</c:forEach>
@@ -302,17 +313,17 @@
 										 			
 									 			 	<!-- 이전페이지 버튼 -->
 									 			 	<c:if test="${pageMaker.prev}">
-														<li class="paginate_button page-item previous" id="dataTable_previous"><a href="/admin/board/list.do?pageNum=${pageMaker.startPage-1}" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li>
+														<li class="paginate_button page-item previous" id="dataTable_previous"><a href="/admin/board/list.do?pageNum=${pageMaker.startPage-1}&amp;searchKeyword=${boardVO.searchKeyword}&amp;bbsSeq=${boardVO.bbsSeq}" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li>
 									 				</c:if>
 									 				
 									 				<!-- 페이지 번호 -->
 													<c:forEach var="num" begin="${pageMaker.startPage }" end="${pageMaker.endPage }">
-										 				<li class="paginate_button page-item <c:if test="${pageMaker.cri.pageNum eq num }"> active</c:if>"><a href="/admin/board/list.do?pageNum=${num }&amp;searchKeyword=${boardVO.searchKeyword}" aria-controls="dataTable" data-dt-idx="${num }" tabindex="0" class="page-link">${num }</a></li>
+										 				<li class="paginate_button page-item <c:if test="${pageMaker.cri.pageNum eq num }"> active</c:if>"><a href="/admin/board/list.do?pageNum=${num }&amp;searchKeyword=${boardVO.searchKeyword}&amp;bbsSeq=${boardVO.bbsSeq}" aria-controls="dataTable" data-dt-idx="${num }" tabindex="0" class="page-link">${num }</a></li>
 													</c:forEach>
 													
 													<!-- 다음페이지 버튼 -->
 													<c:if test="${pageMaker.next}">
-											  			<li class="pageInfo_btn page-item next" id="dataTable_next"><a href="/admin/board/list.do?pageNum=${pageMaker.endPage + 1 }" aria-controls="dataTable" data-dt-idx="${pageMaker.endPage + 1 }" tabindex="0" class="page-link">Next</a></li>
+											  			<li class="pageInfo_btn page-item next" id="dataTable_next"><a href="/admin/board/list.do?pageNum=${pageMaker.endPage + 1 }&amp;searchKeyword=${boardVO.searchKeyword}&amp;bbsSeq=${boardVO.bbsSeq}" aria-controls="dataTable" data-dt-idx="${pageMaker.endPage + 1 }" tabindex="0" class="page-link">Next</a></li>
 													</c:if>
 										 		</ul>
 											</div>
@@ -336,7 +347,7 @@
 									</div>
 	      						</div>
 	       					</div>
-       					
+<%-- 							<input type="text" name="spNo" value="${number }"> --%>
 						</form>
    					</div>
          		</div>

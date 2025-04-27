@@ -12,13 +12,18 @@ import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
+import com.board.model.BbsVO;
 import com.board.model.BoardVO;
 import com.board.service.BoardService;
+import com.board.service.mapper.BbsMapper;
 import com.board.service.mapper.BoardMapper;
 import com.page.obj.PageMakerDTO;
 
 @Service
 public class BoardServiceImpl implements BoardService {
+
+	@Autowired
+	private BbsMapper bbsMapper;
 	
 	@Autowired
 	private BoardMapper boardMapper;
@@ -106,11 +111,31 @@ public class BoardServiceImpl implements BoardService {
 		// 페이징 처리
 		int totalCnt = boardMapper.getBoardListCnt(boardVO);
 		PageMakerDTO pageMaker = new PageMakerDTO(boardVO, totalCnt);
+		
+		BbsVO bbsVO = new BbsVO();
 
+		System.out.println();
+		System.out.println("bbsSeq: "+boardVO.getBbsSeq());
+		System.out.println();
+		
+		
+		bbsVO.setBbsSeq(boardVO.getBbsSeq());
+		bbsVO = bbsMapper.getBbs(bbsVO);
+
+		String replyYn = "Y";
+		
+		if(bbsVO != null) {
+			replyYn = bbsVO.getReplyYn();
+		}
+		
+		int totalOriCnt = boardMapper.getBoardListOriCnt(boardVO);
+		
 		resultMap.put("getBoardList", getBoardList);
 		resultMap.put("pageMaker", pageMaker);
 		resultMap.put("total", totalCnt);
+		resultMap.put("totalOriCnt", totalOriCnt);
 		resultMap.put("boardVO", boardVO);
+		resultMap.put("replyYn", replyYn);
 	    
 		return resultMap;
 	}

@@ -10,7 +10,11 @@ public class DefalutVO {
 
 	/* 목록 타입 */
     private String gubun = "";
+    
+    private int spNo = 0;
+    
 	
+
 	/* 현재 페이지 */
     private int pageNum;
     
@@ -19,7 +23,7 @@ public class DefalutVO {
 
     /* 스킵 할 게시물 수( (pageNum-1) * amount ) */
     private int skip;
-
+    
 	public String getSearchKeyword() {
 		return searchKeyword;
 	}
@@ -42,6 +46,14 @@ public class DefalutVO {
 
 	public void setGubun(String gubun) {
 		this.gubun = gubun;
+	}
+
+	public int getSpNo() {
+		return spNo;
+	}
+
+	public void setSpNo(int spNo) {
+		this.spNo = spNo;
 	}
 
 	/* 기본 생성자 -> 기봅 세팅 : pageNum = 1, amount = 10 */
