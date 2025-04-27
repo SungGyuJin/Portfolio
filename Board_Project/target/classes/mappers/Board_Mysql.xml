@@ -26,6 +26,7 @@
 		<result property="bbsStat"		column="BBS_STAT" 	/>
 		<result property="bbsNm"		column="BBS_NM" 	/>
 		<result property="userNm"		column="USER_NM" 	/>
+		<result property="rowNum"		column="ROW_NUM" 	/>
 	</resultMap>
 	
 	
@@ -92,7 +93,8 @@
 	<select id="getBoardList" resultMap="boardVO">
 		SELECT * FROM (
 			SELECT
-				BOARD_SEQ
+				CASE WHEN T1.LVL = 0 THEN @rownum := @rownum + 1 ELSE NULL END AS ROW_NUM
+				, BOARD_SEQ
 				, BBS_SEQ
 				, TITLE
 				, CONT
@@ -108,7 +110,7 @@
 				, STAT
 				, (SELECT NM FROM TB_BBS WHERE BBS_SEQ = T1.BBS_SEQ) BBS_NM
 				, (SELECT USER_NM FROM TB_USER WHERE USER_SEQ = T1.REG_NO) USER_NM
-			FROM TB_BOARD T1
+			FROM TB_BOARD T1, (SELECT @rownum := 0) AS TMP
 			WHERE 1=1
 				<if test="bbsSeq > 0">
 					AND BBS_SEQ = #{bbsSeq}
@@ -131,7 +133,7 @@
 						</otherwise>
 					</choose>
 				</if>
-		) AS T1
+		) AS SUB
 		ORDER BY REF DESC, STEP
 		LIMIT #{skip}, #{amount}
 	</select>

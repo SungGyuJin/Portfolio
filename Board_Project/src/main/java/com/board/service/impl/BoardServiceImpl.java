@@ -12,18 +12,13 @@ import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
-import com.board.model.BbsVO;
 import com.board.model.BoardVO;
 import com.board.service.BoardService;
-import com.board.service.mapper.BbsMapper;
 import com.board.service.mapper.BoardMapper;
 import com.page.obj.PageMakerDTO;
 
 @Service
 public class BoardServiceImpl implements BoardService {
-
-	@Autowired
-	private BbsMapper bbsMapper;
 	
 	@Autowired
 	private BoardMapper boardMapper;
@@ -55,7 +50,6 @@ public class BoardServiceImpl implements BoardService {
 						boardVO.setStep(currentMaxStep);
 						boardVO.setLvl(1);
 						
-						
 					// 답글에 대한 답글인 경우 모든 케이스	
 					}else {
 						
@@ -65,15 +59,12 @@ public class BoardServiceImpl implements BoardService {
 //						boardMapper.updateOldStep(boardVO);
 //						boardVO.setLvl(boardVO.getLvl() + 1);
 						
-						
 						/* 원본 */
 						boardVO.setStep(boardVO.getStep() + 1);
 						boardVO.setLvl(boardVO.getLvl() + 1);
 						boardMapper.updateStep(boardVO);
 					}
 				}
-				
-				
 
 				result = boardMapper.addBoard(boardVO);
 				
@@ -103,39 +94,19 @@ public class BoardServiceImpl implements BoardService {
 	public Map<String, Object> getBoardList(BoardVO boardVO) throws Exception {
 		
 	    Map<String, Object> resultMap = new HashMap<>();
-
+		
 		// 게시물 목록
 		List<BoardVO> getBoardList = new ArrayList<>();
 		getBoardList = boardMapper.getBoardList(boardVO);
-
+		
 		// 페이징 처리
 		int totalCnt = boardMapper.getBoardListCnt(boardVO);
 		PageMakerDTO pageMaker = new PageMakerDTO(boardVO, totalCnt);
 		
-		BbsVO bbsVO = new BbsVO();
-
-		System.out.println();
-		System.out.println("bbsSeq: "+boardVO.getBbsSeq());
-		System.out.println();
-		
-		
-		bbsVO.setBbsSeq(boardVO.getBbsSeq());
-		bbsVO = bbsMapper.getBbs(bbsVO);
-
-		String replyYn = "Y";
-		
-		if(bbsVO != null) {
-			replyYn = bbsVO.getReplyYn();
-		}
-		
-		int totalOriCnt = boardMapper.getBoardListOriCnt(boardVO);
-		
 		resultMap.put("getBoardList", getBoardList);
 		resultMap.put("pageMaker", pageMaker);
 		resultMap.put("total", totalCnt);
-		resultMap.put("totalOriCnt", totalOriCnt);
 		resultMap.put("boardVO", boardVO);
-		resultMap.put("replyYn", replyYn);
 	    
 		return resultMap;
 	}

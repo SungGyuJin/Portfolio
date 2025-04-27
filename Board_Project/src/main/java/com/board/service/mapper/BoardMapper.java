@@ -39,6 +39,4 @@ public interface BoardMapper {
 	/* update step2 */
 	int getMaxStep(BoardVO boardVO) throws Exception;
     
-    
-    
 }

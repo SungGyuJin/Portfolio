@@ -10,11 +10,9 @@ public class DefalutVO {
 
 	/* 목록 타입 */
     private String gubun = "";
-    
-    private int spNo = 0;
-    
-	
 
+    
+    
 	/* 현재 페이지 */
     private int pageNum;
     
@@ -46,14 +44,6 @@ public class DefalutVO {
 
 	public void setGubun(String gubun) {
 		this.gubun = gubun;
-	}
-
-	public int getSpNo() {
-		return spNo;
-	}
-
-	public void setSpNo(int spNo) {
-		this.spNo = spNo;
 	}
 
 	/* 기본 생성자 -> 기봅 세팅 : pageNum = 1, amount = 10 */

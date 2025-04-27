@@ -194,6 +194,7 @@
     			<div class="card shadow mb-4">
 					<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
     					<h5 class="m-0 font-weight-bold text-primary"><span id="bbs-ttl">게시물 목록</span> (${total })</h5>
+						
     					<div class="dropdown no-arrow">
 	        				<!-- <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 	    						<i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
@@ -215,14 +216,9 @@
 					</div>
 					<!-- Card Body -->
 					<div class="card-body">
-<%-- 							<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum }" /> --%>
-<%-- 							<input type="hidden" name="amount" value="${pageMaker.cri.amount }"  /> --%>
-<!-- 10 - ((2 - 1) * 10) -->
-
-<%-- <h1>답글표시: ${replyYn }</h1> --%>
-
-						<c:set var="number" value="${total - ((boardVO.pageNum - 1) * boardVO.amount) }" />
 						<form id="frm-search" method="get">
+								
+						
 							<input type="hidden" name="listTyp" id="listTyp" value="${boardVO.listTyp }" readonly="readonly">
 							<div class="form-group mb-3">
 	                          	<select class="form-control text-center border-primary" name="bbsSeq" id="bbsSeq">
@@ -257,13 +253,10 @@
 												</thead>
 												<tbody>
 													<c:forEach var="list" varStatus="varStatus" items="${getBoardList }">
-<%-- 													<tr class="" onclick="location.href='updateBoard.do?boardSeq=${list.boardSeq}'"> --%>
 													<tr onclick="getBoard('${list.boardSeq}');" id="tr-${list.boardSeq }">
 														<td class="sorting_1 text-center">
-<%-- 															<c:if test="${list.step eq 0}"> ${list.boardSeq }</c:if> --%>
 															<c:if test="${list.lvl eq 0 }">
-																${number }
-                    											<c:set var="number" value="${number - 1}" />
+																${list.rowNum }
 															</c:if>
 														</td>
 														<td>
@@ -347,7 +340,6 @@
 									</div>
 	      						</div>
 	       					</div>
-<%-- 							<input type="text" name="spNo" value="${number }"> --%>
 						</form>
    					</div>
          		</div>

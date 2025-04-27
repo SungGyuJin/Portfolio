@@ -9,15 +9,15 @@ import lombok.Setter;
 @Setter
 public class LoginVO extends DefalutVO {
 	
-	int    userSeq 	=   0;  // 사용자 번호
-	String userId 	=  ""; 	// ID
-	String userPwd 	=  "";	// PW
-	String userNm 	= "N";	// 사용자 이름
-	String userSe 	= "N";	// 사용자 구분(A: 관리자 / U: 일반 사용자)
-	int    stat 	=   0;	// 상태 ex) 미사용(삭제)[0] / 사용[1]
+	private int    userSeq 	=   0;  // 사용자 번호
+	private String userId 	=  ""; 	// ID
+	private String userPwd 	=  "";	// PW
+	private String userNm 	= "N";	// 사용자 이름
+	private String userSe 	= "N";	// 사용자 구분(A: 관리자 / U: 일반 사용자)
+	private int    stat 	=   0;	// 상태 ex) 미사용(삭제)[0] / 사용[1]
 	
 	/* 그 외 필드 */
-	String aprvNum 	= "";
-	String inputPwd = "";
+	private String aprvNum 	= "";
+	private String inputPwd = "";
 	
 }
