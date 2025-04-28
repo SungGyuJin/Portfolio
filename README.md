@@ -33,4 +33,7 @@
 ## 데이터베이스 모델링
 ![DbModeling](https://github.com/user-attachments/assets/142db83d-7800-4318-b9f2-f2ed6018b635)
 
+# 1. 로그인
+- 회원가입 및 로그인 처리
+
 
