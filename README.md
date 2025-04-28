@@ -31,3 +31,4 @@
 ***
 
 ## 데이터베이스 모델링
+![DB 모델링](https://github.com/user-attachments/assets/82108441-778a-45cf-9279-83912f1d2072)
