@@ -12,7 +12,7 @@
 * IDE : Spring Tool Suite 3
 * JDK : 11
 * WAS : Apache Tomcat 9.0
-* DB  : MySQL 8.0.34
+* DB : MySQL 8.0.34
 * Build Tool : Maven
 
 ***
