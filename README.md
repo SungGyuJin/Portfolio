@@ -1,6 +1,13 @@
 # Portfolio
 
 
+![회원가입 및 로그인](https://github.com/user-attachments/assets/f3535c7b-45b1-4fe7-9dce-d5ba7e15e50b)
+
+
+
+
+
+
 
 
 https://github.com/user-attachments/assets/5137f642-bcb3-412a-9021-b5f89ebbdbaa
