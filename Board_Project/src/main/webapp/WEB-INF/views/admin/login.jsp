@@ -47,7 +47,7 @@ $(function(){
                                             </div>
                                         </div>
                                         <hr>
-                                        <button type="submit" class="btn btn-primary btn-user btn-block">Login</button>
+                                        <button type="submit" class="btn btn-primary btn-user btn-block">LOGIN</button>
                                         <button type="button" class="btn btn-danger btn-user btn-block" onclick="location.href='create.do'">Create Account</button>
                                     </form>
                                 </div>

@@ -29,37 +29,6 @@
 		<result property="rowNum"		column="ROW_NUM" 	/>
 	</resultMap>
 	
-	
-	<!-- 게시물 원글 개수(답글 이용시) -->
-    <select id="getBoardListOriCnt" resultType="int">
-        SELECT
-        	COUNT(*)
-        FROM TB_BOARD T1
-		WHERE 1=1
-			AND LVL = 0
-			<if test="bbsSeq > 0">
-				AND BBS_SEQ = #{bbsSeq}
-			</if>
-			<if test="listTyp.equals('list')">
-				AND STAT = 1
-			</if>
-			<if test="listTyp.equals('trash')">
-				AND STAT = 0
-			</if>
-			<if test="searchKeyword != null and !searchKeyword.equals('')">
-				<choose>
-					<when test="gubun.equals('ttl')">AND TITLE LIKE CONCAT('%', #{searchKeyword}, '%')</when>
-					<when test="gubun.equals('cn')">AND CONT LIKE CONCAT('%', #{searchKeyword}, '%')</when>
-					<when test="gubun.equals('writer')">AND (SELECT USER_NM FROM TB_USER WHERE USER_SEQ = T1.REG_NO) LIKE CONCAT('%', #{searchKeyword}, '%')</when>
-					<otherwise>
-						AND TITLE LIKE CONCAT('%', #{searchKeyword}, '%')
-						OR CONT LIKE CONCAT('%', #{searchKeyword}, '%')
-						OR (SELECT USER_NM FROM TB_USER WHERE USER_SEQ = T1.REG_NO) LIKE CONCAT('%', #{searchKeyword}, '%')
-					</otherwise>
-				</choose>
-			</if>
-    </select>
-	
 	<!-- 게시물 총 개수 -->
     <select id="getBoardListCnt" resultType="int">
         SELECT
@@ -81,9 +50,11 @@
 					<when test="gubun.equals('cn')">AND CONT LIKE CONCAT('%', #{searchKeyword}, '%')</when>
 					<when test="gubun.equals('writer')">AND (SELECT USER_NM FROM TB_USER WHERE USER_SEQ = T1.REG_NO) LIKE CONCAT('%', #{searchKeyword}, '%')</when>
 					<otherwise>
-						AND TITLE LIKE CONCAT('%', #{searchKeyword}, '%')
-						OR CONT LIKE CONCAT('%', #{searchKeyword}, '%')
-						OR (SELECT USER_NM FROM TB_USER WHERE USER_SEQ = T1.REG_NO) LIKE CONCAT('%', #{searchKeyword}, '%')
+						AND (
+							TITLE LIKE CONCAT('%', #{searchKeyword}, '%')
+							OR CONT LIKE CONCAT('%', #{searchKeyword}, '%')
+							OR (SELECT USER_NM FROM TB_USER WHERE USER_SEQ = T1.REG_NO) LIKE CONCAT('%', #{searchKeyword}, '%')
+						)
 					</otherwise>
 				</choose>
 			</if>
@@ -127,9 +98,11 @@
 						<when test="gubun.equals('cn')">AND CONT LIKE CONCAT('%', #{searchKeyword}, '%')</when>
 						<when test="gubun.equals('writer')">AND (SELECT USER_NM FROM TB_USER WHERE USER_SEQ = T1.REG_NO) LIKE CONCAT('%', #{searchKeyword}, '%')</when>
 						<otherwise>
-							AND TITLE LIKE CONCAT('%', #{searchKeyword}, '%')
-							OR CONT LIKE CONCAT('%', #{searchKeyword}, '%')
-							OR (SELECT USER_NM FROM TB_USER WHERE USER_SEQ = T1.REG_NO) LIKE CONCAT('%', #{searchKeyword}, '%')
+							AND (
+								TITLE LIKE CONCAT('%', #{searchKeyword}, '%')
+								OR CONT LIKE CONCAT('%', #{searchKeyword}, '%')
+								OR (SELECT USER_NM FROM TB_USER WHERE USER_SEQ = T1.REG_NO) LIKE CONCAT('%', #{searchKeyword}, '%')
+							)
 						</otherwise>
 					</choose>
 				</if>

@@ -33,8 +33,6 @@
 	
 </script>
 
-<input type="hidden" id="frm-typ" value="add" />
-
 <div id="content">
 	<!-- Begin Page Content -->
 	<div class="container-fluid">
@@ -75,6 +73,10 @@
                                	<input type="hidden" name="ref" value="${getBoard.ref }">
                                	<input type="hidden" name="step" value="${getBoard.step }">
                                	<input type="hidden" name="lvl" value="${getBoard.lvl }">
+								<input type="hidden" name="pageNum" id="pageNum" value="${boardVO.pageNum }" />
+								<input type="hidden" name="searchKeyword" id="searchKeyword" value="${boardVO.searchKeyword }" />
+								<input type="hidden" name="gubun" id="gubun" value="${boardVO.gubun }" />
+                            	<input type="hidden" name="listTyp" id="listTyp" value="${boardVO.listTyp }" />
                                 <div class="form-group mb-4">
                                 	<label for="bbsNm"><strong>게시판</strong></label>
                                 	<input type="text" class="form-control" id="bbsNm" value="${getBoard.bbsNm }" disabled="disabled">

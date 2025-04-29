@@ -15,7 +15,7 @@ public class PageMakerDTO {
 	private int total;
 
 	/* 보여지는 페이지 버튼(Num)의 수 */
-	private int pageBtnCnt = 5;
+	private int pageBtnCnt = 10;
 
 	/* 현재 페이지, 페이지당 게시물 표시수 정보 */
 	private DefalutVO cri;

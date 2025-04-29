@@ -213,7 +213,7 @@ function infoChk(gubun){
                                             <input type="text" class="form-control form-control-user init-setting" name="userNm" id="userNm" placeholder="Name" autocomplete="off">
                                         </div>
                                         <hr>
-                                        <button type="button" class="btn btn-success btn-user btn-block init-setting" id="btn-save">Complete</button>
+                                        <button type="button" class="btn btn-success btn-user btn-block init-setting" id="btn-save">JOIN</button>
                                         <button type="button" class="btn btn-secondary btn-user btn-block" onclick="history.back(-1);">Back</button>
                                     </form>
                                 </div>

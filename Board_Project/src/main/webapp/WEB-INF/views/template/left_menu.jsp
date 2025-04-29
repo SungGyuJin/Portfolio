@@ -8,7 +8,8 @@
             <i class="fas fa-fw fa-table"></i>
         </div> -->
 <!--         <div class="sidebar-brand-text mx-3">BOARD_PROJECT</div> -->
-        <div class="sidebar-brand-text mx-3"><h3><strong>A D M I N</strong></h3></div>
+<!--         <div class="sidebar-brand-text mx-3"><h3><strong>A D M I N</strong></h3></div> -->
+        <div class="sidebar-brand-text mx-3"><h3><strong>M E N U</strong></h3></div>
     </a>
 
     <!-- Divider -->

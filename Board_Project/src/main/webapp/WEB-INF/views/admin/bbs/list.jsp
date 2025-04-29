@@ -397,7 +397,7 @@
 										</div>
 										<div class="col-sm-12 col-md-5 text-right">
 											<!-- <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div> -->
-											<div class="input-group w-75" style="display: inline-flex; width: auto;">
+											<div class="input-group w-75 mb-1" style="display: inline-flex; width: auto;">
 									    		<input type="text" class="form-control bg-light border-0 small" name="searchKeyword" placeholder="게시판명을 입력하세요." aria-label="Search" aria-describedby="basic-addon2" autocomplete="off" value="${bbsVO.searchKeyword }">
 									    		<div class="input-group-append">
 											        <button type="submit" class="btn btn-primary" type="button">

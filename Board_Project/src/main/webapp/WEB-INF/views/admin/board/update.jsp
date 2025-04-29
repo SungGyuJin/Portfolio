@@ -33,10 +33,10 @@
 
 		// 답글페이지 이동
 		}else if(e == 'reply'){
-			location.href = 'replyBoard.do?boardSeq='+$("#boardSeq").val();
+			location.href = 'replyBoard.do?boardSeq='+$("#boardSeq").val()+'&pageNum='+$("#pageNum").val()+'&listTyp='+$("#listTyp").val()+'&searchKeyword='+$("#searchKeyword").val()+'&gubun='+$("#gubun").val()+'&bbsSeq='+$("#bbsSeq").val();
 		// 게시물 상태변경
 		}else{
-// 			changeStat_1(num);
+			changeStat_1(num);
 		}
 	}
 	
@@ -82,7 +82,13 @@
 						icon: "success",
 						title: cmnt
 					}).then(function(){
-						location.href = 'list.do';
+						
+						if(num == 1){
+							location.href = 'list.do?listTyp=list';
+						}else{
+							location.href = 'list.do?listTyp=trash';
+						}
+						
 					});
 				}else{
 					Swal.fire({
@@ -103,7 +109,10 @@
 	
 </script>
 
-<input type="hidden" id="frm-typ" value="add" />
+<input type="hidden" id="pageNum" value="${boardVO.pageNum }" />
+<input type="hidden" id="searchKeyword" value="${boardVO.searchKeyword }" />
+<input type="hidden" id="gubun" value="${boardVO.gubun }" />
+<input type="hidden" id="bbsSeq" value="${boardVO.bbsSeq }" />
 
 <div id="content">
 	<!-- Begin Page Content -->

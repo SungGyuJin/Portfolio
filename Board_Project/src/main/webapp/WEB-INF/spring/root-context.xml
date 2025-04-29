@@ -20,16 +20,16 @@
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 		
+	<!-- properties 파일 불러오기 -->
+	<context:property-placeholder location="classpath:common.properties" />
 		
 	<!-- 자신의 PC(로컬)에 MySql을 설치했을 경우 -->
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-       <!--  <property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
-        <property name="url" value="jdbc:mysql://localhost:3306/board_project?useSSL=false&amp;serverTimezone=UTC"> -->
-        <property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
-        <property name="url" value="jdbc:log4jdbc:mysql://localhost:3306/board_project?useSSL=false&amp;serverTimezone=UTC">
-        </property>
-        <property name="username" value="root"></property>
-        <property name="password" value="7007"></property>
+        <property name="driverClassName" value="${db.driverClassName}"></property>
+        <property name="url" value="${db.url}"></property>
+        <property name="username" value="${db.username}"></property>
+        <property name="password" value="${db.password}"></property>
+        
     </bean>        
     
     <!-- sqlSessionFactory -->
@@ -47,7 +47,6 @@
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 	    <property name="dataSource" ref="dataSource" />
 	</bean>
-	
 
     <!-- @Transactional 어노테이션 활성화 -->
     <tx:annotation-driven transaction-manager="transactionManager" />

@@ -8,7 +8,6 @@
 
 	$(function(){
 		
-
 		$(".btn-list").on('click', function(){
 			location.href = 'list.do?listTyp='+$(this).val();
 		});
@@ -33,10 +32,9 @@
 	function btnControl(e, num){
 		
 		if(e == 'move'){
-			location.href = 'updateBoard.do?boardSeq='+$("#boardSeq").val()+'&listTyp='+$("#listTyp").val();
+			location.href = 'updateBoard.do?boardSeq='+$("#boardSeq").val()+'&pageNum='+$("#pageNum").val()+'&listTyp='+$("#listTyp").val()+'&searchKeyword='+$("#searchKeyword").val()+'&gubun='+$("#gubun").val()+'&bbsSeq='+$("#bbsSeq").val();
 		}else if(e == 'reply'){
-		
-			
+			location.href = 'replyBoard.do?boardSeq='+$("#boardSeq").val()+'&pageNum='+$("#pageNum").val()+'&listTyp='+$("#listTyp").val()+'&searchKeyword='+$("#searchKeyword").val()+'&gubun='+$("#gubun").val()+'&bbsSeq='+$("#bbsSeq").val();
 		// 삭제, 복구 처리
 		}else{
 			changeStat_1(num);
@@ -104,26 +102,6 @@
 		});
 	}
 	
-	// 게시물 form 옵션변화 (ex.초기화면 세팅)
-	function initBbs(e){
-		if(e == 'init'){
-			$(".init-class").prop("disabled", true);
-		}else{
-			if($("#frm-typ").val() == 'add'){
-				$("#nm").val('');
-				$("#expln").val('');
-				$("#ttl-typ").html('등록');
-				$(".init-class").prop("disabled", false);
-				$(".init-class").prop("checked", false);
-			}else{
-// 				$("#ttl-typ").html('수정 / <span class="text-success">복구</span> / <span class="text-danger">삭제</span>');
-				$("#ttl-typ").html('수정');
-				$(".init-class").prop("disabled", false);
-			}
-			$("#nm").focus();
-		}
-	}
-	
 	// 게시물 조회
 	function getBoard(no){
 		
@@ -177,7 +155,7 @@
 	
 </script>
 
-<input type="hidden" id="frm-typ" value="add" />
+<input type="hidden" id="pageNum" value="${boardVO.pageNum }" />
 
 <div id="content">
 	<!-- Begin Page Content -->
@@ -194,7 +172,6 @@
     			<div class="card shadow mb-4">
 					<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
     					<h5 class="m-0 font-weight-bold text-primary"><span id="bbs-ttl">게시물 목록</span> (${total })</h5>
-						
     					<div class="dropdown no-arrow">
 	        				<!-- <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 	    						<i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
@@ -217,8 +194,6 @@
 					<!-- Card Body -->
 					<div class="card-body">
 						<form id="frm-search" method="get">
-								
-						
 							<input type="hidden" name="listTyp" id="listTyp" value="${boardVO.listTyp }" readonly="readonly">
 							<div class="form-group mb-3">
 	                          	<select class="form-control text-center border-primary" name="bbsSeq" id="bbsSeq">
@@ -321,15 +296,15 @@
 										 		</ul>
 											</div>
 										</div>
-										<div class="col-sm-12 col-md-5 text-right">
+										<div class="col-sm-12 col-md-5 text-right mb-1">
 											<div class="input-group w-100" style="display: inline-flex; width: 100%;">
-			                                	<select class="form-control mr-1" name="gubun" style="flex: 0 0 25%;">
+			                                	<select class="form-control mr-1" name="gubun" id="gubun" style="flex: 0 0 25%;">
 			                                		<option value="">전체</option>
 			                                		<option value="ttl" <c:if test="${boardVO.gubun eq 'ttl' }">selected="selected"</c:if>>제목</option>
 			                                		<option value="cn" <c:if test="${boardVO.gubun eq 'cn' }">selected="selected"</c:if>>내용</option>
 			                                		<option value="writer" <c:if test="${boardVO.gubun eq 'writer' }">selected="selected"</c:if>>작성자</option>
 			                                	</select>
-									    		<input type="text" class="form-control bg-light border-0 small" name="searchKeyword" placeholder="검색어를 입력하세요." aria-label="Search" aria-describedby="basic-addon2" autocomplete="off" value="${boardVO.searchKeyword }">
+									    		<input type="text" class="form-control bg-light border-0 small" name="searchKeyword" id="searchKeyword" placeholder="검색어를 입력하세요." aria-label="Search" aria-describedby="basic-addon2" autocomplete="off" value="${boardVO.searchKeyword }">
 									    		<div class="input-group-append">
 											        <button type="submit" id="btn-search" class="btn btn-primary" type="button">
 											            <i class="fas fa-search fa-sm"></i>

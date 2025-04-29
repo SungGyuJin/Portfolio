@@ -1,5 +1,6 @@
 package com.board.controller;
 
+import java.net.URLEncoder;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -127,11 +128,30 @@ public class BoardController {
 			HttpServletResponse response,
 			HttpSession session) throws Exception{
 		
+		/* request 정보확인 START */
+		System.out.println();
+		System.out.println("++++++++++++++++++++++++++++++");
+		System.out.println("============ /admin/board/updateBoard.do INFO  ===========");
+		Enumeration params = request.getParameterNames();
+		while(params.hasMoreElements()) {
+			String name= (String) params.nextElement();
+			System.out.println(name + ": " + request.getParameter(name));
+		}
+		System.out.println("++++++++++++++++++++++++++++++");
+		System.out.println();
+		/* request 정보확인 END */
+		
 		boardVO.setRegNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
 		int result = boardService.addBoard(boardVO);
+
+		String searchkeyword = URLEncoder.encode(boardVO.getSearchKeyword(), "UTF-8");
 		
 		if(result > 0) {
-			return "redirect:list.do";
+			if(boardVO.getRef() > 0) {
+				return "redirect:list.do?pageNum="+boardVO.getPageNum()+"&listTyp="+request.getParameter("listTyp")+"&searchKeyword="+searchkeyword+"&gubun="+boardVO.getGubun()+"&bbsSeq="+boardVO.getBbsSeq();
+			}else {
+				return "redirect:list.do";
+			}
 		}else {
 			return "error";
 		}
@@ -174,8 +194,10 @@ public class BoardController {
 		boardVO.setUpdNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
 		int result = boardService.updateBoard(boardVO);
 		
+		String searchkeyword = URLEncoder.encode(boardVO.getSearchKeyword(), "UTF-8");
+
 		if(result > 0) {
-			return "redirect:list.do?listTyp="+request.getParameter("listTyp");
+			return "redirect:list.do?pageNum="+boardVO.getPageNum()+"&listTyp="+request.getParameter("listTyp")+"&searchKeyword="+searchkeyword+"&gubun="+boardVO.getGubun()+"&bbsSeq="+boardVO.getBbsSeq();
 		}else {
 			return "error";
 		}
