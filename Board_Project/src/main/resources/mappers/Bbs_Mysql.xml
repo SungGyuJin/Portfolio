@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.board.service.mapper.BbsMapper">
+<mapper namespace="com.gyu.portfolio.service.mapper.BbsMapper">
 	
 	<resultMap id="bbsVO" type="bbsVO">
 		<result property="bbsSeq"		column="BBS_SEQ" 	/>

@@ -52,10 +52,10 @@
     <tx:annotation-driven transaction-manager="transactionManager" />
 	
     <!-- 컴포넌트 스캔 -->
-    <context:component-scan base-package="com.board.service" />
+    <context:component-scan base-package="com.gyu.portfolio.service" />
 	
     <!-- MyBatis 매퍼 스캔 -->
-	<mybatis-spring:scan base-package="com.board.service.mapper" />
+	<mybatis-spring:scan base-package="com.gyu.portfolio.service.mapper" />
 	
 	
 </beans>

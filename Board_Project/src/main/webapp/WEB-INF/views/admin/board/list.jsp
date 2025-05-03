@@ -237,12 +237,12 @@
 														<td>
 															<c:if test="${list.lvl eq 1 }">
 																<c:forEach begin="0" end="${list.lvl }">&nbsp;</c:forEach>
-																<img class="mb-1" src="${pageContext.request.contextPath}/resources/assets/img/arrow-return-right.svg" />
+																<img class="mb-1" src="${pageContext.request.contextPath}/resources/admin/assets/img/arrow-return-right.svg" />
 																<span class="border px-1 py-0 fw-bold small text-primary"><strong>RE</strong></span>
 															</c:if>
 															<c:if test="${list.lvl gt 1 }">
 																<c:forEach begin="0" end="${list.lvl }">&nbsp;&nbsp;</c:forEach>
-																<img class="mb-1" src="${pageContext.request.contextPath}/resources/assets/img/arrow-return-right.svg" />
+																<img class="mb-1" src="${pageContext.request.contextPath}/resources/admin/assets/img/arrow-return-right.svg" />
 																<span class="border px-1 py-0 fw-bold small text-primary"><strong>RE</strong></span>
 															</c:if>
 															${list.title }
@@ -281,7 +281,7 @@
 										 			
 									 			 	<!-- 이전페이지 버튼 -->
 									 			 	<c:if test="${pageMaker.prev}">
-														<li class="paginate_button page-item previous" id="dataTable_previous"><a href="/admin/board/list.do?pageNum=${pageMaker.startPage-1}&amp;searchKeyword=${boardVO.searchKeyword}&amp;bbsSeq=${boardVO.bbsSeq}" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li>
+														<li class="paginate_button page-item previous" id="dataTable_previous"><a href="/admin/board/list.do?pageNum=${pageMaker.startPage-1}&amp;searchKeyword=${boardVO.searchKeyword}&amp;bbsSeq=${boardVO.bbsSeq}" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">&lt;</a></li>
 									 				</c:if>
 									 				
 									 				<!-- 페이지 번호 -->
@@ -291,9 +291,10 @@
 													
 													<!-- 다음페이지 버튼 -->
 													<c:if test="${pageMaker.next}">
-											  			<li class="pageInfo_btn page-item next" id="dataTable_next"><a href="/admin/board/list.do?pageNum=${pageMaker.endPage + 1 }&amp;searchKeyword=${boardVO.searchKeyword}&amp;bbsSeq=${boardVO.bbsSeq}" aria-controls="dataTable" data-dt-idx="${pageMaker.endPage + 1 }" tabindex="0" class="page-link">Next</a></li>
+											  			<li class="pageInfo_btn page-item next" id="dataTable_next"><a href="/admin/board/list.do?pageNum=${pageMaker.endPage + 1 }&amp;searchKeyword=${boardVO.searchKeyword}&amp;bbsSeq=${boardVO.bbsSeq}" aria-controls="dataTable" data-dt-idx="${pageMaker.endPage + 1 }" tabindex="0" class="page-link">&gt;</a></li>
 													</c:if>
 										 		</ul>
+										 		<h1>${pageMaker.endPage }</h1>
 											</div>
 										</div>
 										<div class="col-sm-12 col-md-5 text-right mb-1">

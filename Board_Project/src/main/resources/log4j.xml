@@ -11,7 +11,7 @@
 	</appender>
 	
 	<!-- Application Loggers -->
-	<logger name="com.board.controller">
+	<logger name="com.gyu.portfolio.controller">
 		<level value="INFO" />
 	</logger>
 	

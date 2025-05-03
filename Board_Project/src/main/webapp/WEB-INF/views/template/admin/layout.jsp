@@ -10,22 +10,22 @@
 <title><decorator:title default="Portfolio" /></title>
 
 	<!-- Bootstrap core JavaScript-->
-    <script src="${pageContext.request.contextPath}/resources/assets/vendor/jquery/jquery.min.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/assets/js/sb-admin-2.min.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/assets/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/admin/assets/vendor/jquery/jquery.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/admin/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/admin/assets/js/sb-admin-2.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/admin/assets/vendor/jquery-easing/jquery.easing.min.js"></script>
     
     <!-- parsley -->
-    <script src="${pageContext.request.contextPath }/resources/assets/vendor/parsley.js/parsley.min.js"></script>
-	<script src="${pageContext.request.contextPath }/resources/assets/vendor/parsley.js/i18n/ko.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/admin/assets/vendor/parsley.js/parsley.min.js"></script>
+	<script src="${pageContext.request.contextPath }/resources/admin/assets/vendor/parsley.js/i18n/ko.js"></script>
     
     <!-- sweetalert2 -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/vendor/sweetalert2/sweetalert2.min.css"/>
-	<script src="${pageContext.request.contextPath}/resources/assets/vendor/sweetalert2/sweetalert2.all.min.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/admin/assets/vendor/sweetalert2/sweetalert2.min.css"/>
+	<script src="${pageContext.request.contextPath}/resources/admin/assets/vendor/sweetalert2/sweetalert2.all.min.js"></script>
     
      <!-- Custom fonts for this template-->
-    <link href="${pageContext.request.contextPath}/resources/assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="${pageContext.request.contextPath}/resources/assets/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/admin/assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="${pageContext.request.contextPath}/resources/admin/assets/css/sb-admin-2.min.css" rel="stylesheet">
 
 <style>
 
