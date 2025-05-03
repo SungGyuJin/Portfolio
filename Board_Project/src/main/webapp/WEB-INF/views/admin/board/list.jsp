@@ -279,6 +279,14 @@
 											<div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
 										 		<ul class="pagination">
 										 			
+										 			<%-- <fmt:parseNumber value = "${pageMaker.endPage}" var = "endPage"/>
+										 			<fmt:parseNumber value = "${pageMaker.realEndPageNum}" var = "realEnd"/> --%>
+										 			
+									 			 	<!-- 첫페이지 버튼 -->
+									 			 	<%-- <c:if test="${pageMaker.prev}">
+														<li class="paginate_button page-item previous" id="dataTable_previous"><a href="/admin/board/list.do?pageNum=1&amp;searchKeyword=${boardVO.searchKeyword}&amp;bbsSeq=${boardVO.bbsSeq}" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">◀</a></li>
+									 				</c:if> --%>
+										 			
 									 			 	<!-- 이전페이지 버튼 -->
 									 			 	<c:if test="${pageMaker.prev}">
 														<li class="paginate_button page-item previous" id="dataTable_previous"><a href="/admin/board/list.do?pageNum=${pageMaker.startPage-1}&amp;searchKeyword=${boardVO.searchKeyword}&amp;bbsSeq=${boardVO.bbsSeq}" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">&lt;</a></li>
@@ -293,8 +301,13 @@
 													<c:if test="${pageMaker.next}">
 											  			<li class="pageInfo_btn page-item next" id="dataTable_next"><a href="/admin/board/list.do?pageNum=${pageMaker.endPage + 1 }&amp;searchKeyword=${boardVO.searchKeyword}&amp;bbsSeq=${boardVO.bbsSeq}" aria-controls="dataTable" data-dt-idx="${pageMaker.endPage + 1 }" tabindex="0" class="page-link">&gt;</a></li>
 													</c:if>
+													
+													<!-- 끝페이지 버튼 -->
+													<%-- <c:if test="${pageMaker.next}">
+											  			<li class="pageInfo_btn page-item next" id="dataTable_next"><a href="/admin/board/list.do?pageNum=${pageMaker.realEndPageNum }&amp;searchKeyword=${boardVO.searchKeyword}&amp;bbsSeq=${boardVO.bbsSeq}" aria-controls="dataTable" data-dt-idx="${pageMaker.endPage + 1 }" tabindex="0" class="page-link">▶</a></li>
+													</c:if> --%>
+													
 										 		</ul>
-										 		<h1>${pageMaker.endPage }</h1>
 											</div>
 										</div>
 										<div class="col-sm-12 col-md-5 text-right mb-1">
