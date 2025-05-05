@@ -1,6 +1,5 @@
 package com.gyu.portfolio.controller;
 
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,7 +51,7 @@ public class LoginController {
 			) throws Exception{
 		
 		ModelAndView mav = null;
-		mav = new ModelAndView("/index");
+		mav = new ModelAndView("admin/main");
 		
 		LoginVO vo = null;
 		vo = loginService.getLogin(loginVO);

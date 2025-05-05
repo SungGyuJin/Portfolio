@@ -16,12 +16,15 @@
 	<decorator name="leftMenu" 	page="/WEB-INF/views/template/admin/left_menu.jsp"/>
 	<decorator name="footer" 	page="/WEB-INF/views/template/admin/footer.jsp"/>
 	<decorator name="layout" 	page="/WEB-INF/views/template/admin/layout.jsp">
-       <pattern>/*</pattern>
+       <pattern>/**</pattern>
     </decorator>
     
 	<excludes>
-		<pattern>admin/login.do</pattern>
+<!-- 		<pattern>/</pattern> -->
+		<pattern>/main.do</pattern>
+		<pattern>/main.do/**</pattern>
 	</excludes>
+	
     
 	<!-- <decorator name="loginLayout" 	page="/WEB-INF/jsp/template/login_layout.jsp">
        <pattern>/webadmin/login.do</pattern>

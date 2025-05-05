@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
  * Handles requests for the application home page.
  */
 @Controller
+@RequestMapping(value="/admin")
 public class MainController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(MainController.class);
@@ -23,7 +24,7 @@ public class MainController {
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = "/main.do", method = RequestMethod.GET)
 	public ModelAndView home(Locale locale, Model model) {
 
 		System.out.println("++++++++++++++++++++++++++++");
@@ -31,7 +32,7 @@ public class MainController {
 		System.out.println("++++++++++++++++++++++++++++");
 		
 		ModelAndView mav = null;
-		mav = new ModelAndView("index");
+		mav = new ModelAndView("admin/main");
 		
 		logger.info("Welcome home! The client locale is {}.", locale);
 		

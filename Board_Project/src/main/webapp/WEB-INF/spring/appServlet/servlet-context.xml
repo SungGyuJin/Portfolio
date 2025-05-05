@@ -22,6 +22,7 @@
 	</beans:bean>
 	
 	<context:component-scan base-package="com.gyu.portfolio.controller" />
+	<context:component-scan base-package="com.gyu.portfolio.front.controller" />
 	
 	<!-- Interceptor configuration -->
 	<interceptors>
@@ -32,6 +33,10 @@
 			<exclude-mapping path="/admin/login.do"/>
 			<exclude-mapping path="/admin/create.do"/>
 			<exclude-mapping path="/admin/aprvChk.do"/>
+			
+			<exclude-mapping path="/"/>
+			<exclude-mapping path="/main.do"/>
+			<exclude-mapping path="/main.do/**"/>
 			
 			<exclude-mapping path="/resources/**"/>
 			<exclude-mapping path="/css/**"/>
