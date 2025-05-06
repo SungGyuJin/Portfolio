@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+
+
 <body class="bg-gradient-primary">
 <script>
 
@@ -13,7 +16,12 @@ $(function(){
 		$("#loginChk").prop("checked", false);
 	}
 	
+	var str = '${sessionScope.USERID}';
 	
+	if(str.length > 0){
+		location.href = '/admin/main.do';
+	}
+
 });
 
 </script>

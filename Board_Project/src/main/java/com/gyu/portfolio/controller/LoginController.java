@@ -57,12 +57,12 @@ public class LoginController {
 		vo = loginService.getLogin(loginVO);
 
 		if(vo == null) {
-			mav.setViewName("login_error");
+			mav.setViewName("admin/login_error");
 			mav.addObject("errorMsg", "아이디가 존재하지 않습니다.");
 			mav.addObject("errorMsgEng", "The ID does not exist.");
 		}else {
 			if(!vo.getUserPwd().toString().equals(vo.getInputPwd())) {
-				mav.setViewName("login_error");
+				mav.setViewName("admin/login_error");
 				mav.addObject("errorMsg", "비밀번호가 일치하지 않습니다.");
 				mav.addObject("errorMsgEng", "Password does not match.");
 			}else {
