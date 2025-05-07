@@ -36,6 +36,52 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/front/main/js/scripts.js"></script>
 <!-- <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script> -->
+
+
+<style>
+.cursor-pointer {
+	cursor: pointer;
+}
+
+.my-primary {
+  color: #fff;
+  background-color: #4e73df;
+  border-color: #4e73df;
+}
+
+.my-primary:hover {
+  color: #fff;
+  background-color: #2e59d9;
+  border-color: #2653d4;
+}
+
+
+.my-success {
+  color: #fff;
+  background-color: #1cc88a;
+  border-color: #1cc88a;
+}
+
+.my-success:hover {
+  color: #fff;
+  background-color: #17a673;
+  border-color: #169b6b;
+}
+
+.my-danger {
+  color: #fff;
+  background-color: #e74a3b;
+  border-color: #e74a3b;
+}
+
+.my-danger:hover {
+  color: #fff;
+  background-color: #e02d1b;
+  border-color: #d52a1a;
+}
+
+
+</style>
         
         
 </head>
