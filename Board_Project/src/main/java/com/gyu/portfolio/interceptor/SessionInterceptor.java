@@ -23,8 +23,16 @@ public class SessionInterceptor implements HandlerInterceptor {
 			
 			if(session.getAttribute("USERID") == null){
 				//System.out.println("===no session===");
-				response.sendRedirect("/admin/login.do");
-				return false;
+
+				String uri = request.getRequestURI();
+				
+				if (uri.matches("^/main.*")) {
+					return true;
+				}else {
+					response.sendRedirect("/admin/login.do");
+					return false;
+				}
+				
 			}else{
 				//System.out.println("===session===");
 				return true;

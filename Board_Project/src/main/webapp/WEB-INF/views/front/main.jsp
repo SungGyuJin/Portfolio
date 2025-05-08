@@ -8,35 +8,156 @@
 
 $(function(){
 	
-	$(".btn-opt").on('click', function(){
-		
-		if($(this).val() == 1){
-			getBoardMain();
-		}
+	$('#frm-board').on('submit', function(e) {
+        e.preventDefault();  // 기본 submit 막음
+    });
+	
+ 	$('#frm-board').on('keydown', function(e) {
+    	if(e.key === 'Enter') {
+            e.preventDefault();
+    		changeList();
+        }
 	});
 	
-	
+	$('#portfolioModal1').modal({
+	    backdrop: 'static',   // 바깥 클릭해도 안 꺼짐
+	    keyboard: false       // ESC 눌러도 안 꺼짐
+	});
 });
+
 
 /* ########## BOARD ########## */
 
-// 게시판 메인화면 이동
-function getBoardMain(){
-	
-	
+function changeList(){
+	getBoardList();
 }
 
 // 게시물 목록
 function getBoardList(){
-	
-	var html = '';
-	
-	html += ''
-	
-	
-	
-	
-	
+
+	$.ajax({
+		url      : "/main/getBoardList.do",
+		method   : "get",
+		data     : $("#frm-board").serialize(),
+		dataType : "json",
+		success  : function(res){
+
+// 			console.log(res)
+			
+			let bbsList 		= res.getBbsList;
+			let boardList 		= res.getBoardList;
+			let boardListCnt 	= res.total;
+			let page 			= res.pageMaker;
+			let vo 				= res.boardVO;
+			let html 			= '';
+
+			html += 	'<div class="mb-3">';
+			html += 		'<div class="d-flex justify-content-between">';
+			html += 			'<div>';
+			html += 				'<select class="form-select cursor-pointer" name="bbsSeq" onchange="changeList();" id="sel-bbs">';
+			html += 					'<option value="0">전체</option>';
+									for(let i=0; i < bbsList.length; i++){
+			html += 					'<option value="'+bbsList[i].bbsSeq+'">'+bbsList[i].nm+'</option>';
+									}
+			html += 				'</select>';
+			html += 			'</div>';
+			html += 			'<div>';
+			html += 				'<select class="form-select cursor-pointer" name="amount" onchange="changeList();" id="sel-amount">';
+			html += 					'<option value="10">10개씩</option>';
+			html += 					'<option value="20">20개씩</option>';
+			html += 					'<option value="50">50개씩</option>';
+			html += 					'<option value="100">100개씩</option>';
+			html += 				'</select>';
+			html += 			'</div>';
+			html += 		'</div>';
+			html += 	'</div>';
+			html += 	'<div class="table-responsive mb-4" style="border-radius: 15px; overflow: hidden; border: 1px solid #ddd;">';
+			html += 		'<table class="table table-bordered table-striped table-hover table-lg mb-0 cursor-pointer">';
+			html += 			'<colgroup>';
+			html += 				'<col width="10">';
+			html += 				'<col width="100">';
+			html += 				'<col width="40">';
+			html += 				'<col width="40">';
+			html += 				'<col width="10">';
+			html += 			'</colgroup>';
+			html += 			'<thead class="table-light">';
+			html += 				'<tr>';
+			html += 					'<th>No</th>';
+			html += 					'<th>제목</th>';
+			html += 					'<th>작성자</th>';
+			html += 					'<th>작성일</th>';
+			html += 					'<th>조회수</th>';
+			html += 				'</tr>';
+			html += 			'</thead>';
+			html += 			'<tbody>';
+			
+								// 데이터 출력부분
+								for(let i=0; i < boardList.length; i++){
+			html +=					'<tr>';
+										boardList[i].rowNum > 0 ? html += '<td>'+boardList[i].rowNum+'</td>' : html += '<td></td>';
+			html +=						'<td>'+boardList[i].title+'</td>';
+			html +=						'<td>'+boardList[i].userNm+'</td>';
+			html +=						'<td>'+boardList[i].regDt.substring(0, 10)+'</td>';
+			html +=						'<td>'+boardList[i].readCnt+'</td>';
+			html +=					'</tr>';
+								}
+			
+			html += 			'</tbody>';
+			html += 		'</table>';
+			html += 	'</div>';
+			html += 	'<div class="d-flex justify-content-between">';
+			
+								// 페이징
+			
+			html += 		'<nav aria-label="Page navigation">';
+			html += 			'<ul class="pagination justify-content-center">';
+			html += 				'<li class="page-item disabled">';
+			html += 					'<a class="page-link" href="#" tabindex="-1">이전</a>';
+			html += 				'</li>';
+			html += 				'<li class="page-item active">';
+			html += 					'<a class="page-link" href="#">1</a>';
+			html += 				'</li>';
+			html += 				'<li class="page-item">';
+			html += 					'<a class="page-link" href="#">2</a>';
+			html += 				'</li>';
+			html += 				'<li class="page-item">';
+			html += 					'<a class="page-link" href="#">다음</a>';
+			html += 				'</li>';
+			html += 			'</ul>';
+			html += 		'</nav>';
+			html += 		'<div class="row g-3 mb-4 d-flex justify-content-end">';
+			html += 			'<div class="input-group">';
+			html += 				'<div style="flex: 0 0 20%;">';
+			html += 					'<select class="form-select me-1">';
+			html += 						'<option value="">전체</option>';
+			html += 						'<option value="title">제목</option>';
+			html += 						'<option value="cn">내용</option>';
+			html += 						'<option value="writer">작성자</option>';
+			html += 					'</select>';
+			html += 				'</div>';
+			html += 				'<input type="text" class="form-control ms-1 me-1" name="searchKeyword" placeholder="검색어 입력" autocomplete="off" style="flex: 0 0 60%;">';
+			html += 				'<button type="button" class="btn btn-success my-primary" onclick="changeList();" style="flex: 0 0 18%;">검색</button>';
+			html += 			'</div>';
+			html += 		'</div>';
+			html += 	'</div>';
+			
+
+			$("#append-board").html(html);
+			$("#append-cnt").html(boardListCnt+' 개의 글');
+			$("#sel-amount").val(vo.amount);
+			$("#sel-bbs").val(vo.bbsSeq);
+			
+		},
+		error : function(request, status, error){
+// 			console.log("status: " + request.status);
+			console.log("responseText: " + request.responseText);
+			console.log("error: " + error);
+			Swal.fire({
+				icon: "error",
+				title: "통신불가"
+			})
+		}
+	});
 	
 }
 
@@ -58,168 +179,17 @@ function getBoardList(){
                         <p class="item-intro text-muted mb-4 fs-4">사용자가 원하는 게시판에 글을 쓰고, 수정할 수 있으며 댓글, 비밀 글 등의 옵션이 있는 게시판입니다.</p>
 
                         <div class="modal-body" id="modal-board">
-                        	<div class="text-end">
-	                            <button type="submit" class="btn my-danger">내가 쓴 글</button>
-	                            <button type="submit" class="btn my-success">글쓰기</button>
-                        	</div>
+                            <div class="d-flex justify-content-between">
+                            	<span class="mt-2" id="append-cnt"></span>
+                            	<div>
+		                            <button type="button" class="btn my-danger">내가 쓴 글</button>
+		                            <button type="button" class="btn my-success">글쓰기</button>
+                            	</div>
+                            </div>
                         	<hr>
-                        	
-                        	<div id="append-board">
-                        	
-	                            <form id="frm-board">
-		                            <div class="mb-3">
-		                            	<div class="d-flex justify-content-between">
-			    							<div>
-				                                <select class="form-select cursor-pointer">
-				                                    <option value="">전체</option>
-				                                    <option value="notice">공지사항</option>
-				                                    <option value="qna">Q&A</option>
-				                                    <option value="free">자유게시판</option>
-				                                </select>
-			    							</div>
-		    								<div>
-				                                <select class="form-select cursor-pointer">
-				                                    <option value="10">10개씩</option>
-				                                    <option value="20">20개씩</option>
-				                                    <option value="50">50개씩</option>
-				                                    <option value="100">100개씩</option>
-				                                </select>
-										    </div>
-										</div>
-		                            </div>
-	
-		                            <div class="table-responsive mb-4" style="border-radius: 15px; overflow: hidden; border: 1px solid #ddd;">
-		                                <table class="table table-bordered table-striped table-hover table-lg mb-0 cursor-pointer">
-		                                    <colgroup>
-		                                        <col width="10">
-		                                        <col width="100">
-		                                        <col width="40">
-		                                        <col width="40">
-		                                        <col width="10">
-		                                    </colgroup>
-		                                    <thead class="table-light">
-		                                        <tr>
-		                                            <th>No</th>
-		                                            <th>제목</th>
-		                                            <th>작성자</th>
-		                                            <th>작성일</th>
-		                                            <th>조회수</th>
-		                                        </tr>
-		                                    </thead>
-		                                    <tbody>
-		                                        <tr>
-		                                            <td>1</td>
-		                                            <td>첫 번째 게시글</td>
-		                                            <td>홍길동</td>
-		                                            <td>2025-05-06</td>
-		                                            <td>123</td>
-		                                        </tr>
-		                                        <tr>
-		                                            <td>2</td>
-		                                            <td>두 번째 게시글</td>
-		                                            <td>김철수</td>
-		                                            <td>2025-05-05</td>
-		                                            <td>98</td>
-		                                        </tr>
-		                                        <tr>
-		                                            <td>3</td>
-		                                            <td>세 번째 게시글</td>
-		                                            <td>이영희</td>
-		                                            <td>2025-05-04</td>
-		                                            <td>76</td>
-		                                        </tr>
-		                                        <tr>
-		                                            <td>3</td>
-		                                            <td>세 번째 게시글</td>
-		                                            <td>이영희</td>
-		                                            <td>2025-05-04</td>
-		                                            <td>76</td>
-		                                        </tr>
-		                                        <tr>
-		                                            <td>3</td>
-		                                            <td>세 번째 게시글</td>
-		                                            <td>이영희</td>
-		                                            <td>2025-05-04</td>
-		                                            <td>76</td>
-		                                        </tr>
-		                                        <tr>
-		                                            <td>3</td>
-		                                            <td>세 번째 게시글</td>
-		                                            <td>이영희</td>
-		                                            <td>2025-05-04</td>
-		                                            <td>76</td>
-		                                        </tr>
-		                                        <tr>
-		                                            <td>3</td>
-		                                            <td>세 번째 게시글</td>
-		                                            <td>이영희</td>
-		                                            <td>2025-05-04</td>
-		                                            <td>76</td>
-		                                        </tr>
-		                                        <tr>
-		                                            <td>3</td>
-		                                            <td>세 번째 게시글</td>
-		                                            <td>이영희</td>
-		                                            <td>2025-05-04</td>
-		                                            <td>76</td>
-		                                        </tr>
-		                                        <tr>
-		                                            <td>3</td>
-		                                            <td>세 번째 게시글</td>
-		                                            <td>이영희</td>
-		                                            <td>2025-05-04</td>
-		                                            <td>76</td>
-		                                        </tr>
-		                                        <tr>
-		                                            <td>3</td>
-		                                            <td>세 번째 게시글</td>
-		                                            <td>이영희</td>
-		                                            <td>2025-05-04</td>
-		                                            <td>76</td>
-		                                        </tr>
-		                                    </tbody>
-		                                </table>
-		                            </div>
-	
-									<div class="d-flex justify-content-between">
-								    	<nav aria-label="Page navigation">
-								            <ul class="pagination justify-content-center">
-								                <li class="page-item disabled">
-								                    <a class="page-link" href="#" tabindex="-1">이전</a>
-								                </li>
-								                <li class="page-item active">
-								                    <a class="page-link" href="#">1</a>
-								                </li>
-								                <li class="page-item">
-								                    <a class="page-link" href="#">2</a>
-								                </li>
-								                <li class="page-item">
-								                    <a class="page-link" href="#">3</a>
-								                </li>
-								                <li class="page-item">
-								                    <a class="page-link" href="#">다음</a>
-								                </li>
-								            </ul>
-								        </nav>
-			                            <div class="row g-3 mb-4 d-flex justify-content-end">
-											<div class="input-group">
-												<div style="flex: 0 0 20%;">
-										            <select class="form-select me-1">
-										                <option value="">전체</option>
-										                <option value="title">제목</option>
-										                <option value="cn">내용</option>
-										                <option value="writer">작성자</option>
-										            </select>
-												</div>
-										        <input type="text" class="form-control ms-1 me-1" style="flex: 0 0 60%;" placeholder="검색어 입력" autocomplete="off">
-										        <button type="submit" class="btn btn-success my-primary" style="flex: 0 0 18%;">검색</button>
-										    </div>
-										</div>
-									</div>
-								
-								</form>
-                        	</div>
-							
+                        	<form id="frm-board">
+                        	<div id="append-board"></div>
+                        	</form>
                         </div>
                     </div>
                 </div>
@@ -336,7 +306,7 @@ function getBoardList(){
                         <div class="portfolio-item">
                             <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal1">
 <!--                             <a class="portfolio-link" href="/main.do/1"> -->
-                                <div class="portfolio-hover">
+                                <div class="portfolio-hover" id="" onclick="getBoardList();">
                                     <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
                                 </div>
                                 <img class="img-fluid" src="${pageContext.request.contextPath}/resources/front/main/assets/img/portfolio/1-board-img.jpg" alt="..." />

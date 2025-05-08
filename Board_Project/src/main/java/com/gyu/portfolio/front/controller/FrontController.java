@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.gyu.portfolio.model.BbsVO;
@@ -33,7 +34,7 @@ public class FrontController {
 	private BoardService boardService;
 	
 	
-	@GetMapping("/")
+	@GetMapping(value={"/", "/main"})
 	public String redirectToMain() {
 	    return "redirect:/main.do";
 	}
@@ -81,5 +82,37 @@ public class FrontController {
 		
 		return mav;
 	}
+	
+
+	/* 게시물 목록 */
+	@GetMapping("/main/getBoardList.do")
+	@ResponseBody
+	public Map<String, Object> getBoard(ModelMap model,
+			@ModelAttribute("BoardVO") BoardVO boardVO,
+			HttpServletRequest request,
+			HttpServletResponse response) throws Exception{
+
+		/* request 정보확인 START */
+		System.out.println();
+		System.out.println("++++++++++++++++++++++++++++++");
+		System.out.println("============ /getBoardList.do INFO  ===========");
+		Enumeration params = request.getParameterNames();
+		while(params.hasMoreElements()) {
+			String name= (String) params.nextElement();
+			System.out.println(name + ": " + request.getParameter(name));
+		}
+		System.out.println("++++++++++++++++++++++++++++++");
+		System.out.println();
+		/* request 정보확인 END */
+
+		// 게시물 목록
+	    Map<String, Object> resultMap = new HashMap<>();
+
+//		boardVO.setAmount(10);	// 페이지당 데이터 갯수
+	    resultMap = boardService.getBoardList(boardVO);
+
+		return resultMap;
+	}
+	
 	
 }

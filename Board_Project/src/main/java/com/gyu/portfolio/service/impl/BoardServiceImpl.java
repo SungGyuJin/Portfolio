@@ -13,13 +13,18 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.gyu.portfolio.common.PageMakerDTO;
+import com.gyu.portfolio.model.BbsVO;
 import com.gyu.portfolio.model.BoardVO;
 import com.gyu.portfolio.service.BoardService;
+import com.gyu.portfolio.service.mapper.BbsMapper;
 import com.gyu.portfolio.service.mapper.BoardMapper;
 
 @Service
 public class BoardServiceImpl implements BoardService {
-	
+
+	@Autowired
+	private BbsMapper bbsMapper;
+
 	@Autowired
 	private BoardMapper boardMapper;
 
@@ -99,11 +104,15 @@ public class BoardServiceImpl implements BoardService {
 		List<BoardVO> getBoardList = new ArrayList<>();
 		getBoardList = boardMapper.getBoardList(boardVO);
 		
+		// 게시판 목록(select option)
+		List<BbsVO> getBbsList = bbsMapper.getSelectBbsList();
+		
 		// 페이징 처리
 		int totalCnt = boardMapper.getBoardListCnt(boardVO);
 		PageMakerDTO pageMaker = new PageMakerDTO(boardVO, totalCnt);
-		
+
 		resultMap.put("getBoardList", getBoardList);
+		resultMap.put("getBbsList", getBbsList);
 		resultMap.put("pageMaker", pageMaker);
 		resultMap.put("total", totalCnt);
 		resultMap.put("boardVO", boardVO);
