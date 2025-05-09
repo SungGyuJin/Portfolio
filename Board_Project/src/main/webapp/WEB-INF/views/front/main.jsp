@@ -52,8 +52,6 @@ function getBoardList(num){
 		data     : $("#frm-board").serialize(),
 		dataType : "json",
 		success  : function(res){
-
-// 			console.log(res)
 			
 			let bbsList 		= res.getBbsList;
 			let boardList 		= res.getBoardList;
@@ -61,6 +59,8 @@ function getBoardList(num){
 			let page 			= res.pageMaker;
 			let vo 				= res.boardVO;
 			let html 			= '';
+
+// 			console.log(boardListCnt);
 
 			html += 	'<div class="mb-3">';
 			html += 		'<div class="d-flex justify-content-between">';
@@ -121,6 +121,7 @@ function getBoardList(num){
 			html += 		'<nav aria-label="Page navigation">';
 			html += 			'<ul class="pagination justify-content-center">';
 								
+							if(boardListCnt > 0){
 								if(page.prev){
 			html += 				'<li class="page-item"><a class="page-link" href="javascript:changeList('+(page.startPage -1)+');" tabindex="-1">이전</a></li>';
 								}
@@ -134,8 +135,12 @@ function getBoardList(num){
 								}
 
 								if(page.next){
-			html += 				'<li class="page-item"><a class="page-link" href="javascript:changeList('+ (page.endPage +1) +');">다음</a></li>';
-								}
+			html += 					'<li class="page-item active"><a class="page-link" href="javascript:void(0);">'+num+'</a></li>';
+									}
+							}else{
+			html += 				'<li class="page-item active"><a class="page-link" href="javascript:void(0);">1</a></li>';
+							}
+			
 			
 			html += 			'</ul>';
 			html += 		'</nav>';
