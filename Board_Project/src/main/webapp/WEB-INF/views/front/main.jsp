@@ -28,13 +28,24 @@ $(function(){
 
 /* ########## BOARD ########## */
 
-function changeList(){
-	getBoardList();
+function changeList(num){
+	getBoardList(num);
 }
 
 // 게시물 목록
-function getBoardList(){
-
+function getBoardList(num){
+	
+	$("#searchKeyword").val($("#js-searchKeyword").val());
+	
+	if($("#js-searchKeyword").val() != null){
+		
+		if($("#oldKeyword").val() == $("#js-searchKeyword").val()){
+			$("#pageNum").val(num);
+		}else{
+			$("#pageNum").val('1');
+		}
+	}
+	
 	$.ajax({
 		url      : "/main/getBoardList.do",
 		method   : "get",
@@ -54,7 +65,7 @@ function getBoardList(){
 			html += 	'<div class="mb-3">';
 			html += 		'<div class="d-flex justify-content-between">';
 			html += 			'<div>';
-			html += 				'<select class="form-select cursor-pointer" name="bbsSeq" onchange="changeList();" id="sel-bbs">';
+			html += 				'<select class="form-select cursor-pointer" name="bbsSeq" onchange="changeList('+vo.pageNum+');" id="sel-bbs">';
 			html += 					'<option value="0">전체</option>';
 									for(let i=0; i < bbsList.length; i++){
 			html += 					'<option value="'+bbsList[i].bbsSeq+'">'+bbsList[i].nm+'</option>';
@@ -62,7 +73,7 @@ function getBoardList(){
 			html += 				'</select>';
 			html += 			'</div>';
 			html += 			'<div>';
-			html += 				'<select class="form-select cursor-pointer" name="amount" onchange="changeList();" id="sel-amount">';
+			html += 				'<select class="form-select cursor-pointer" name="amount" onchange="changeList('+vo.pageNum+');" id="sel-amount">';
 			html += 					'<option value="10">10개씩</option>';
 			html += 					'<option value="20">20개씩</option>';
 			html += 					'<option value="50">50개씩</option>';
@@ -107,36 +118,43 @@ function getBoardList(){
 			html += 	'</div>';
 			html += 	'<div class="d-flex justify-content-between">';
 			
-								// 페이징
-			
 			html += 		'<nav aria-label="Page navigation">';
 			html += 			'<ul class="pagination justify-content-center">';
-			html += 				'<li class="page-item disabled">';
-			html += 					'<a class="page-link" href="#" tabindex="-1">이전</a>';
-			html += 				'</li>';
-			html += 				'<li class="page-item active">';
-			html += 					'<a class="page-link" href="#">1</a>';
-			html += 				'</li>';
-			html += 				'<li class="page-item">';
-			html += 					'<a class="page-link" href="#">2</a>';
-			html += 				'</li>';
-			html += 				'<li class="page-item">';
-			html += 					'<a class="page-link" href="#">다음</a>';
-			html += 				'</li>';
+								
+								if(page.prev){
+			html += 				'<li class="page-item"><a class="page-link" href="javascript:changeList('+(page.startPage -1)+');" tabindex="-1">이전</a></li>';
+								}
+
+								for(let num=page.startPage; num <= page.endPage; num++){
+									if(vo.pageNum == num){
+			html += 					'<li class="page-item active"><a class="page-link" href="javascript:void(0);">'+num+'</a></li>';
+									}else{
+			html += 					'<li class="page-item"><a class="page-link" href="javascript:changeList('+num+');">'+num+'</a></li>';
+									}
+								}
+
+								if(page.next){
+			html += 				'<li class="page-item"><a class="page-link" href="javascript:changeList('+ (page.endPage +1) +');">다음</a></li>';
+								}
+			
 			html += 			'</ul>';
 			html += 		'</nav>';
+			
+			
 			html += 		'<div class="row g-3 mb-4 d-flex justify-content-end">';
 			html += 			'<div class="input-group">';
-			html += 				'<div style="flex: 0 0 20%;">';
-			html += 					'<select class="form-select me-1">';
+			html += 				'<div style="flex: 0 0 25%;">';
+			html += 					'<select class="form-select me-1" name="gubun" id="sel-gubun">';
 			html += 						'<option value="">전체</option>';
 			html += 						'<option value="title">제목</option>';
 			html += 						'<option value="cn">내용</option>';
 			html += 						'<option value="writer">작성자</option>';
 			html += 					'</select>';
 			html += 				'</div>';
-			html += 				'<input type="text" class="form-control ms-1 me-1" name="searchKeyword" placeholder="검색어 입력" autocomplete="off" style="flex: 0 0 60%;">';
-			html += 				'<button type="button" class="btn btn-success my-primary" onclick="changeList();" style="flex: 0 0 18%;">검색</button>';
+			
+			
+			html += 				'<input type="text" class="form-control ms-1 me-1" id="js-searchKeyword" placeholder="검색어 입력" value="'+vo.searchKeyword+'" autocomplete="off" style="flex: 0 0 58%;">';
+			html += 				'<button type="button" class="btn btn-success my-primary" onclick="changeList();" style="flex: 0 0 15%;">검색</button>';
 			html += 			'</div>';
 			html += 		'</div>';
 			html += 	'</div>';
@@ -146,6 +164,10 @@ function getBoardList(){
 			$("#append-cnt").html(boardListCnt+' 개의 글');
 			$("#sel-amount").val(vo.amount);
 			$("#sel-bbs").val(vo.bbsSeq);
+			$("#searchKeyword").val(vo.searchKeyword);
+			$("#sel-gubun").val(vo.gubun);
+			
+			$("#oldKeyword").val(vo.searchKeyword);
 			
 		},
 		error : function(request, status, error){
@@ -172,7 +194,7 @@ function getBoardList(){
             </div>
 <!--             <div class="container py-5"> -->
             <div class="container">
-            <img class="img-fluid" src="${pageContext.request.contextPath}/resources/front/main/assets/img/portfolio/1-board-img.jpg" alt="Board Image" style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%;" />
+            	<img class="img-fluid" src="${pageContext.request.contextPath}/resources/front/main/assets/img/portfolio/1-board-img.jpg" alt="Board Image" style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%;" />
                 <div class="row justify-content-center">
                     <div class="col-lg-12">
                         <h2 class="text-uppercase mb-4">Board</h2>
@@ -186,9 +208,12 @@ function getBoardList(){
 		                            <button type="button" class="btn my-success">글쓰기</button>
                             	</div>
                             </div>
+							<input type="hidden" id="oldKeyword" value="">
                         	<hr>
                         	<form id="frm-board">
-                        	<div id="append-board"></div>
+                        		<input type="hidden" name="pageNum" id="pageNum" value="1">
+                        		<input type="hidden" name="searchKeyword" id="searchKeyword" autocomplete="off">
+                        		<div id="append-board"></div>
                         	</form>
                         </div>
                     </div>
