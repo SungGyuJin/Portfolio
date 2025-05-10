@@ -23,6 +23,7 @@ $(function(){
 	    backdrop: 'static',   // 바깥 클릭해도 안 꺼짐
 	    keyboard: false       // ESC 눌러도 안 꺼짐
 	});
+	
 });
 
 
@@ -39,7 +40,7 @@ function getBoardList(num){
 	
 	if($("#js-searchKeyword").val() != null){
 		
-		if($("#oldKeyword").val() == $("#js-searchKeyword").val()){
+		if($("#oldKeyword").val() == $("#js-searchKeyword").val() && num != null){
 			$("#pageNum").val(num);
 		}else{
 			$("#pageNum").val('1');
@@ -60,7 +61,7 @@ function getBoardList(num){
 			let vo 				= res.boardVO;
 			let html 			= '';
 
-// 			console.log(boardListCnt);
+// 			console.log(boardList);
 
 			html += 	'<div class="mb-3">';
 			html += 		'<div class="d-flex justify-content-between">';
@@ -85,11 +86,11 @@ function getBoardList(num){
 			html += 	'<div class="table-responsive mb-4" style="border-radius: 15px; overflow: hidden; border: 1px solid #ddd;">';
 			html += 		'<table class="table table-bordered table-striped table-hover table-lg mb-0 cursor-pointer">';
 			html += 			'<colgroup>';
-			html += 				'<col width="10">';
-			html += 				'<col width="100">';
+			html += 				'<col width="40">';
+			html += 				'<col width="130">';
 			html += 				'<col width="40">';
 			html += 				'<col width="40">';
-			html += 				'<col width="10">';
+			html += 				'<col width="40">';
 			html += 			'</colgroup>';
 			html += 			'<thead class="table-light">';
 			html += 				'<tr>';
@@ -106,7 +107,16 @@ function getBoardList(num){
 								for(let i=0; i < boardList.length; i++){
 			html +=					'<tr>';
 										boardList[i].rowNum > 0 ? html += '<td>'+boardList[i].rowNum+'</td>' : html += '<td></td>';
-			html +=						'<td>'+boardList[i].title+'</td>';
+			html +=						'<td class="text-start">';
+			
+										if(boardList[i].lvl > 0){
+											for(let k=0; k < boardList[i].lvl; k++){
+												html += "\u00a0";
+											}
+			html +=							'<img class="mb-1" src="'+contextPath +'/resources/admin/assets/img/arrow-return-right.svg" />\u00a0';
+										}
+			html +=						boardList[i].title+'</td>';
+			
 			html +=						'<td>'+boardList[i].userNm+'</td>';
 			html +=						'<td>'+boardList[i].regDt.substring(0, 10)+'</td>';
 			html +=						'<td>'+boardList[i].readCnt+'</td>';
@@ -135,8 +145,8 @@ function getBoardList(num){
 								}
 
 								if(page.next){
-			html += 					'<li class="page-item active"><a class="page-link" href="javascript:void(0);">'+num+'</a></li>';
-									}
+			html += 				'<li class="page-item"><a class="page-link" href="javascript:changeList('+(page.endPage +1)+');">다음</a></li>';
+								}
 							}else{
 			html += 				'<li class="page-item active"><a class="page-link" href="javascript:void(0);">1</a></li>';
 							}
@@ -177,8 +187,8 @@ function getBoardList(num){
 		},
 		error : function(request, status, error){
 // 			console.log("status: " + request.status);
-			console.log("responseText: " + request.responseText);
-			console.log("error: " + error);
+// 			console.log("responseText: " + request.responseText);
+// 			console.log("error: " + error);
 			Swal.fire({
 				icon: "error",
 				title: "통신불가"

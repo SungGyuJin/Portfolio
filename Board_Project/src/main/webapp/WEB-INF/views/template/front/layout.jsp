@@ -37,6 +37,9 @@
 <script src="${pageContext.request.contextPath}/resources/front/main/js/scripts.js"></script>
 <!-- <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script> -->
 
+<script type="text/javascript">
+var contextPath = '${pageContext.request.contextPath}';
+</script>
 
 <style>
 .cursor-pointer {
