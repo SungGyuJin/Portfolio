@@ -136,4 +136,29 @@ public class BoardServiceImpl implements BoardService {
 		return boardMapper.changeStat(boardVO);
 	}
 
+	@Override
+	public Map<String, Object> getFrontBoardList(BoardVO boardVO) throws Exception {
+		
+	    Map<String, Object> resultMap = new HashMap<>();
+		
+		// 게시물 목록
+		List<BoardVO> getBoardList = new ArrayList<>();
+		getBoardList = boardMapper.getFrontBoardList(boardVO);
+		
+		// 게시판 목록(select option)
+		List<BbsVO> getBbsList = bbsMapper.getSelectBbsList();
+		
+		// 페이징 처리
+		int totalCnt = boardMapper.getBoardListCnt(boardVO);
+		PageMakerDTO pageMaker = new PageMakerDTO(boardVO, totalCnt);
+
+		resultMap.put("getBoardList", getBoardList);
+		resultMap.put("getBbsList", getBbsList);
+		resultMap.put("pageMaker", pageMaker);
+		resultMap.put("total", totalCnt);
+		resultMap.put("boardVO", boardVO);
+	    
+		return resultMap;
+	}
+
 }

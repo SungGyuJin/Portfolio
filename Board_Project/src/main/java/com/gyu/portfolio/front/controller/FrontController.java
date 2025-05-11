@@ -109,7 +109,8 @@ public class FrontController {
 	    Map<String, Object> resultMap = new HashMap<>();
 
 //		boardVO.setAmount(10);	// 페이지당 데이터 갯수
-	    resultMap = boardService.getBoardList(boardVO);
+	    boardVO.setListTyp("list");
+	    resultMap = boardService.getFrontBoardList(boardVO);
 
 		return resultMap;
 	}

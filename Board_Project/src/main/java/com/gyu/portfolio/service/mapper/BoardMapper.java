@@ -6,6 +6,9 @@ import com.gyu.portfolio.model.BoardVO;
 
 public interface BoardMapper {
 
+	/* ########################################################################################################### */
+	/* ################################################## Admin ################################################## */
+	
 	// 게시물 등록
 	int addBoard(BoardVO boardVO) throws Exception;
 
@@ -38,5 +41,15 @@ public interface BoardMapper {
 
 	/* update step2 */
 	int getMaxStep(BoardVO boardVO) throws Exception;
+	
+
+	/* ########################################################################################################### */
+	/* ################################################## Front ################################################## */
+
+	// 게시물 목록
+	List<BoardVO> getFrontBoardList(BoardVO boardVO) throws Exception;
+	
+    /* 게시물 총 갯수 */
+    int getFrontBoardListCnt(BoardVO boardVO) throws Exception;
     
 }

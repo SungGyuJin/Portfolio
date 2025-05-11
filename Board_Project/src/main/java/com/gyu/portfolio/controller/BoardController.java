@@ -143,11 +143,10 @@ public class BoardController {
 		
 		boardVO.setRegNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
 		int result = boardService.addBoard(boardVO);
-
-		String searchkeyword = URLEncoder.encode(boardVO.getSearchKeyword(), "UTF-8");
 		
 		if(result > 0) {
 			if(boardVO.getRef() > 0) {
+				String searchkeyword = URLEncoder.encode(boardVO.getSearchKeyword(), "UTF-8");
 				return "redirect:list.do?pageNum="+boardVO.getPageNum()+"&listTyp="+request.getParameter("listTyp")+"&searchKeyword="+searchkeyword+"&gubun="+boardVO.getGubun()+"&bbsSeq="+boardVO.getBbsSeq();
 			}else {
 				return "redirect:list.do";
@@ -155,7 +154,6 @@ public class BoardController {
 		}else {
 			return "error";
 		}
-		
 	}
 
 	/* 게시물 수정화면 */

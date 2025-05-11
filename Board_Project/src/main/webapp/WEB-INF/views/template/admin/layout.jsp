@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title><decorator:title default="Portfolio" /></title>
+<title><decorator:title default="Portfolio Admin" /></title>
 
 	<!-- Bootstrap core JavaScript-->
     <script src="${pageContext.request.contextPath}/resources/admin/assets/vendor/jquery/jquery.min.js"></script>

@@ -29,36 +29,9 @@
 		<result property="rowNum"		column="ROW_NUM" 	/>
 	</resultMap>
 	
-	<!-- 게시물 총 개수 -->
-    <select id="getBoardListCnt" resultType="int">
-        SELECT
-        	COUNT(*)
-        FROM TB_BOARD T1
-		WHERE 1=1
-			<if test="bbsSeq > 0">
-				AND BBS_SEQ = #{bbsSeq}
-			</if>
-			<if test="listTyp.equals('list')">
-				AND STAT = 1
-			</if>
-			<if test="listTyp.equals('trash')">
-				AND STAT = 0
-			</if>
-			<if test="searchKeyword != null and !searchKeyword.equals('')">
-				<choose>
-					<when test="gubun.equals('ttl')">AND TITLE LIKE CONCAT('%', #{searchKeyword}, '%')</when>
-					<when test="gubun.equals('cn')">AND CONT LIKE CONCAT('%', #{searchKeyword}, '%')</when>
-					<when test="gubun.equals('writer')">AND (SELECT USER_NM FROM TB_USER WHERE USER_SEQ = T1.REG_NO) LIKE CONCAT('%', #{searchKeyword}, '%')</when>
-					<otherwise>
-						AND (
-							TITLE LIKE CONCAT('%', #{searchKeyword}, '%')
-							OR CONT LIKE CONCAT('%', #{searchKeyword}, '%')
-							OR (SELECT USER_NM FROM TB_USER WHERE USER_SEQ = T1.REG_NO) LIKE CONCAT('%', #{searchKeyword}, '%')
-						)
-					</otherwise>
-				</choose>
-			</if>
-    </select>
+	
+	<!-- #################################################################################################### -->
+	<!-- ############################################# Admin SQL ############################################ -->
 	
 	<!-- 게시물 목록 -->
 	<select id="getBoardList" resultMap="boardVO">
@@ -110,6 +83,37 @@
 		ORDER BY REF DESC, STEP
 		LIMIT #{skip}, #{amount}
 	</select>
+	
+	<!-- 게시물 총 개수 -->
+    <select id="getBoardListCnt" resultType="int">
+        SELECT
+        	COUNT(*)
+        FROM TB_BOARD T1
+		WHERE 1=1
+			<if test="bbsSeq > 0">
+				AND BBS_SEQ = #{bbsSeq}
+			</if>
+			<if test="listTyp.equals('list')">
+				AND STAT = 1
+			</if>
+			<if test="listTyp.equals('trash')">
+				AND STAT = 0
+			</if>
+			<if test="searchKeyword != null and !searchKeyword.equals('')">
+				<choose>
+					<when test="gubun.equals('ttl')">AND TITLE LIKE CONCAT('%', #{searchKeyword}, '%')</when>
+					<when test="gubun.equals('cn')">AND CONT LIKE CONCAT('%', #{searchKeyword}, '%')</when>
+					<when test="gubun.equals('writer')">AND (SELECT USER_NM FROM TB_USER WHERE USER_SEQ = T1.REG_NO) LIKE CONCAT('%', #{searchKeyword}, '%')</when>
+					<otherwise>
+						AND (
+							TITLE LIKE CONCAT('%', #{searchKeyword}, '%')
+							OR CONT LIKE CONCAT('%', #{searchKeyword}, '%')
+							OR (SELECT USER_NM FROM TB_USER WHERE USER_SEQ = T1.REG_NO) LIKE CONCAT('%', #{searchKeyword}, '%')
+						)
+					</otherwise>
+				</choose>
+			</if>
+    </select>
 	
 	<!-- 게시물 상세조회 -->
 	<select id="getBoard" resultMap="boardVO">
@@ -243,5 +247,94 @@
 			AND BOARD_SEQ = #{boardSeq}
 	</update>
 
+	<!-- #################################################################################################### -->
+	<!-- ############################################# Front SQL ############################################ -->
+	
+	<!-- 게시물 목록 -->
+	<select id="getFrontBoardList" resultMap="boardVO">
+		SELECT * FROM (
+			SELECT
+				CASE
+					WHEN T1.BBS_SEQ = 1 THEN NULL
+					WHEN T1.LVL = 0 THEN @rownum := @rownum + 1
+					ELSE NULL END AS ROW_NUM
+				, BOARD_SEQ
+				, BBS_SEQ
+				, TITLE
+				, CONT
+				, REF
+				, STEP
+				, LVL
+				, PWD
+				, READ_CNT
+				, REG_NO
+				, REG_DT
+				, UPD_NO
+				, UPD_DT
+				, STAT
+				, (SELECT NM FROM TB_BBS WHERE BBS_SEQ = T1.BBS_SEQ) BBS_NM
+				, (SELECT USER_NM FROM TB_USER WHERE USER_SEQ = T1.REG_NO) USER_NM
+			FROM TB_BOARD T1, (SELECT @rownum := 0) AS TMP
+			WHERE 1=1
+				<if test="listTyp.equals('list')">
+					AND STAT = 1
+				</if>
+				<if test="listTyp.equals('trash')">
+					AND STAT = 0
+				</if>
+				<choose>
+					<when test="bbsSeq > 0">AND (BBS_SEQ = 1 OR BBS_SEQ = #{bbsSeq})</when>
+					<otherwise>AND BBS_SEQ IN(SELECT BBS_SEQ FROM TB_BBS WHERE STAT = 1)</otherwise>
+				</choose>
+				<if test="searchKeyword != null and !searchKeyword.equals('')">
+					<choose>
+						<when test="gubun.equals('ttl')">AND TITLE LIKE CONCAT('%', #{searchKeyword}, '%')</when>
+						<when test="gubun.equals('cn')">AND CONT LIKE CONCAT('%', #{searchKeyword}, '%')</when>
+						<when test="gubun.equals('writer')">AND (SELECT USER_NM FROM TB_USER WHERE USER_SEQ = T1.REG_NO) LIKE CONCAT('%', #{searchKeyword}, '%')</when>
+						<otherwise>
+							AND (
+								TITLE LIKE CONCAT('%', #{searchKeyword}, '%')
+								OR CONT LIKE CONCAT('%', #{searchKeyword}, '%')
+								OR (SELECT USER_NM FROM TB_USER WHERE USER_SEQ = T1.REG_NO) LIKE CONCAT('%', #{searchKeyword}, '%')
+							)
+						</otherwise>
+					</choose>
+				</if>
+		) AS SUB
+		ORDER BY BBS_SEQ ASC, REF DESC, STEP
+		LIMIT #{skip}, #{amount}
+	</select>
+	
+	<!-- 게시물 총 개수 -->
+    <select id="getFrontBoardListCnt" resultType="int">
+        SELECT
+        	COUNT(*)
+        FROM TB_BOARD T1
+		WHERE 1=1
+			<if test="listTyp.equals('list')">
+				AND STAT = 1
+			</if>
+			<if test="listTyp.equals('trash')">
+				AND STAT = 0
+			</if>
+			<choose>
+				<when test="bbsSeq > 0">AND (BBS_SEQ = 1 OR BBS_SEQ = #{bbsSeq})</when>
+				<otherwise>AND BBS_SEQ IN(SELECT BBS_SEQ FROM TB_BBS WHERE STAT = 1)</otherwise>
+			</choose>
+			<if test="searchKeyword != null and !searchKeyword.equals('')">
+				<choose>
+					<when test="gubun.equals('ttl')">AND TITLE LIKE CONCAT('%', #{searchKeyword}, '%')</when>
+					<when test="gubun.equals('cn')">AND CONT LIKE CONCAT('%', #{searchKeyword}, '%')</when>
+					<when test="gubun.equals('writer')">AND (SELECT USER_NM FROM TB_USER WHERE USER_SEQ = T1.REG_NO) LIKE CONCAT('%', #{searchKeyword}, '%')</when>
+					<otherwise>
+						AND (
+							TITLE LIKE CONCAT('%', #{searchKeyword}, '%')
+							OR CONT LIKE CONCAT('%', #{searchKeyword}, '%')
+							OR (SELECT USER_NM FROM TB_USER WHERE USER_SEQ = T1.REG_NO) LIKE CONCAT('%', #{searchKeyword}, '%')
+						)
+					</otherwise>
+				</choose>
+			</if>
+    </select>
 
 </mapper>

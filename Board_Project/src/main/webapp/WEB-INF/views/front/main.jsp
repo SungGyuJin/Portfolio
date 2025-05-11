@@ -61,7 +61,7 @@ function getBoardList(num){
 			let vo 				= res.boardVO;
 			let html 			= '';
 
-// 			console.log(boardList);
+// 			console.log(boardListCnt);
 
 			html += 	'<div class="mb-3">';
 			html += 		'<div class="d-flex justify-content-between">';
@@ -69,7 +69,9 @@ function getBoardList(num){
 			html += 				'<select class="form-select cursor-pointer" name="bbsSeq" onchange="changeList('+vo.pageNum+');" id="sel-bbs">';
 			html += 					'<option value="0">전체</option>';
 									for(let i=0; i < bbsList.length; i++){
-			html += 					'<option value="'+bbsList[i].bbsSeq+'">'+bbsList[i].nm+'</option>';
+										if(bbsList[i].bbsSeq != 1){
+			html += 						'<option value="'+bbsList[i].bbsSeq+'">'+bbsList[i].nm+'</option>';
+										}
 									}
 			html += 				'</select>';
 			html += 			'</div>';
@@ -105,17 +107,23 @@ function getBoardList(num){
 			
 								// 데이터 출력부분
 								for(let i=0; i < boardList.length; i++){
-			html +=					'<tr>';
+									
+									if(boardList[i].bbsSeq == 1){
+			html +=						'<tr class="bg-primary">';
+			html +=							'<td class="text-danger fw-bolder">공지</td>';
+			html +=							'<td class="text-start text-danger fw-bolder"><img class="mb-1" src="'+contextPath +'/resources/front/main/assets/img/spk.png" style="max-width: 20px;"/>\u00a0\u00a0';
+									}else{
 										boardList[i].rowNum > 0 ? html += '<td>'+boardList[i].rowNum+'</td>' : html += '<td></td>';
-			html +=						'<td class="text-start">';
-			
+			html +=							'<td class="text-start">';
 										if(boardList[i].lvl > 0){
 											for(let k=0; k < boardList[i].lvl; k++){
 												html += "\u00a0";
 											}
 			html +=							'<img class="mb-1" src="'+contextPath +'/resources/admin/assets/img/arrow-return-right.svg" />\u00a0';
 										}
-			html +=						boardList[i].title+'</td>';
+									}
+
+			html +=								boardList[i].title+'</td>';
 			
 			html +=						'<td>'+boardList[i].userNm+'</td>';
 			html +=						'<td>'+boardList[i].regDt.substring(0, 10)+'</td>';
@@ -200,9 +208,10 @@ function getBoardList(num){
 
 </script>
 
-	<div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered mx-auto" style="max-width: 50%;">
-<!--     <div class="modal-dialog modal-dialog-centered modal-lg"> -->
+	<div class="portfolio-modal modal fade" id="modalBoardList" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered mx-auto" style="max-width: 100%;">
+<!--         <div class="modal-dialog modal-dialog-centered mx-auto" style="max-width: 50%;"> -->
+<!--     <div class="modal-dialog modal-dialog-centered"> -->
         <div class="modal-content">
             <div class="close-modal" data-bs-dismiss="modal">
                 <img src="${pageContext.request.contextPath}/resources/front/main/assets/img/close-icon.svg" alt="Close modal" style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%;" />
@@ -344,7 +353,7 @@ function getBoardList(num){
                     <div class="col-lg-12 col-sm-6 mb-4">
                         <!-- Portfolio item 1-->
                         <div class="portfolio-item">
-                            <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal1">
+                            <a class="portfolio-link" data-bs-toggle="modal" href="#modalBoardList">
 <!--                             <a class="portfolio-link" href="/main.do/1"> -->
                                 <div class="portfolio-hover" id="" onclick="getBoardList();">
                                     <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
@@ -360,7 +369,6 @@ function getBoardList(num){
                 </div>
             </div>
         </section>
-        
         
         <!-- OG -->
         <!-- Portfolio item 1 modal popup-->
@@ -398,6 +406,71 @@ function getBoardList(num){
                 </div>
             </div>
         </div> --%>
+        
+        
+        <section class="page-section" id="contact">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="section-heading text-uppercase">Contact Us</h2>
+                    <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
+                </div>
+                <!-- * * * * * * * * * * * * * * *-->
+                <!-- * * SB Forms Contact Form * *-->
+                <!-- * * * * * * * * * * * * * * *-->
+                <!-- This form is pre-integrated with SB Forms.-->
+                <!-- To make this form functional, sign up at-->
+                <!-- https://startbootstrap.com/solution/contact-forms-->
+                <!-- to get an API token!-->
+                <form id="contactForm" data-sb-form-api-token="API_TOKEN">
+                    <div class="row align-items-stretch mb-5">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <!-- Name input-->
+                                <input class="form-control" id="name" type="text" placeholder="Your Name *" data-sb-validations="required" data-sb-can-submit="no">
+                                <div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>
+                            </div>
+                            <div class="form-group">
+                                <!-- Email address input-->
+                                <input class="form-control" id="email" type="email" placeholder="Your Email *" data-sb-validations="required,email" data-sb-can-submit="no">
+                                <div class="invalid-feedback" data-sb-feedback="email:required">An email is required.</div>
+                                <div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid.</div>
+                            </div>
+                            <div class="form-group mb-md-0">
+                                <!-- Phone number input-->
+                                <input class="form-control" id="phone" type="tel" placeholder="Your Phone *" data-sb-validations="required" data-sb-can-submit="no">
+                                <div class="invalid-feedback" data-sb-feedback="phone:required">A phone number is required.</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group form-group-textarea mb-md-0">
+                                <!-- Message input-->
+                                <textarea class="form-control" id="message" placeholder="Your Message *" data-sb-validations="required" data-sb-can-submit="no"></textarea>
+                                <div class="invalid-feedback" data-sb-feedback="message:required">A message is required.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Submit success message-->
+                    <!---->
+                    <!-- This is what your users will see when the form-->
+                    <!-- has successfully submitted-->
+                    <div class="d-none" id="submitSuccessMessage">
+                        <div class="text-center text-white mb-3">
+                            <div class="fw-bolder">Form submission successful!</div>
+                            To activate this form, sign up at
+                            <br>
+                            <a href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
+                        </div>
+                    </div>
+                    <!-- Submit error message-->
+                    <!---->
+                    <!-- This is what your users will see when there is-->
+                    <!-- an error submitting the form-->
+                    <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-3">Error sending message!</div></div>
+                    <!-- Submit Button-->
+                    <div class="text-center"><button class="btn btn-primary btn-xl text-uppercase disabled" id="submitButton" type="submit">Send Message</button></div>
+                </form>
+            </div>
+        </section>
         
         
 </body>

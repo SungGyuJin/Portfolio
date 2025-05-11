@@ -6,6 +6,9 @@ import com.gyu.portfolio.model.BoardVO;
 
 public interface BoardService {
 
+	/* ########################################################################################################### */
+	/* ################################################## Admin ################################################## */
+	
 	// 게시물 등록
 	int addBoard(BoardVO boardVO) throws Exception;
 
@@ -20,5 +23,13 @@ public interface BoardService {
 
 	/* 게시물 상태변경(복구, 삭제, 영구삭제)(Ajax) */
 	int changeStat(BoardVO boardVO) throws Exception;
+	
+	
+	/* ########################################################################################################### */
+	/* ################################################## Front ################################################## */
+
+	// 게시물 목록
+	Map<String, Object> getFrontBoardList(BoardVO boardVO) throws Exception;
+	
 
 }
