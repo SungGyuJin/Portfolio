@@ -4537,9 +4537,10 @@ textarea.form-control-lg {
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 
 
-  color: #4e73df;
+/*   color: #4e73df; */
+  color: #000;
   background-color: #fff;
-  border: 1px solid #dddfeb;
+/*   border: 1px solid #dddfeb; */
 }
 @media (prefers-reduced-motion: reduce) {
   .page-link {
@@ -4569,9 +4570,15 @@ textarea.form-control-lg {
 /*   background-color: var(--bs-pagination-active-bg); */
 /*   border-color: var(--bs-pagination-active-border-color); */
   
-  color: #fff;
-  background-color: #4e73df;
+/*   color: #fff; */
+  color: #000;
+/*   background-color: #4e73df; */
+  background-color: #E5E7EA;
   border-color: #4e73df;
+  
+  /* 추가 */
+  font-weight: bold;
+  border-radius: .375rem;
 }
 .page-link.disabled, .disabled > .page-link {
   color: var(--bs-pagination-disabled-color);
@@ -11021,6 +11028,7 @@ header.masthead .masthead-heading {
   justify-content: center;
   opacity: 0;
   transition: opacity ease-in-out 0.25s;
+  border-radius: .375rem !important;
 }
 #portfolio .portfolio-item .portfolio-link .portfolio-hover .portfolio-hover-content {
   font-size: 1.25rem;
@@ -11331,4 +11339,41 @@ section#contact form#contactForm :-ms-input-placeholder {
   text-align: center;
   font-size: 0.9rem;
   font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+
+/* ############################################################################################################## */
+/* ############################################################################################################## */
+/* ############################################################################################################## */
+
+.modal-half-right {
+  position: fixed;
+  top: 0;
+  right: 0;
+  margin: 0;
+  height: 100%;
+  max-width: 30%;
+  width: 30%;
+}
+
+.modal-half-right .modal-content {
+/*   height: 100%; */
+  height: 100%;
+  overflow-y: auto;
+  border-radius: .375rem;
+  padding: 1rem;
+}
+
+.modal-half-left {
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin: 0;
+  height: 100%;
+  max-width: 45%;
+  width: 45%;
+}
+
+.modal-half-left .modal-content {
+  height: 100%;
 }

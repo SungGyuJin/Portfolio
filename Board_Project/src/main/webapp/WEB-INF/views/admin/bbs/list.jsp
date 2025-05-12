@@ -401,7 +401,7 @@
 									    		<input type="text" class="form-control bg-light border-0 small" name="searchKeyword" placeholder="게시판명을 입력하세요." aria-label="Search" aria-describedby="basic-addon2" autocomplete="off" value="${bbsVO.searchKeyword }">
 									    		<div class="input-group-append">
 											        <button type="submit" class="btn btn-primary" type="button">
-											            <i class="fas fa-search fa-sm"></i>
+											            <i class="fas fa-search"></i>
 											        </button>
 									    		</div>
 											</div>

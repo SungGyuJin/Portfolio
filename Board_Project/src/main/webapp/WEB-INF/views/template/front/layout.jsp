@@ -42,6 +42,17 @@ var contextPath = '${pageContext.request.contextPath}';
 </script>
 
 <style>
+
+.my-round{
+  border-radius: .375rem !important;
+}
+
+.my-textarea:focus {
+  outline: none;
+  box-shadow: none;
+  border-color: transparent;
+}
+
 .cursor-pointer {
 	cursor: pointer;
 }
@@ -56,6 +67,19 @@ var contextPath = '${pageContext.request.contextPath}';
   color: #fff;
   background-color: #2e59d9;
   border-color: #2653d4;
+}
+
+
+.my-green {
+  color: #fff;
+  background-color: #03c75a;
+  border-color: #03c75a;
+}
+
+.my-green:hover {
+  color: #fff;
+  background-color: #03c75a;
+  border-color: #03c75a;
 }
 
 
