@@ -57,17 +57,48 @@ function getBoardPost(){
 	  $('.modal-backdrop').last().css('z-index', '1055');
 }
 
-function getBoard(){
-	  // Bootstrap 모달 인스턴스 생성 및 표시
-	  var getBoardModal = new bootstrap.Modal($('#getBoardModal')[0], {
-	    backdrop: true,
-	    keyboard: false
-	  });
-	  getBoardModal.show();
+function getBoard(no){
+	
+	// Bootstrap 모달 인스턴스 생성 및 표시
+	var getBoardModal = new bootstrap.Modal($('#getBoardModal')[0], {
+		backdrop: true,
+		keyboard: false
+	});
+	getBoardModal.show();
 
-	  // z-index 조정 (중첩 모달 문제 방지)
-	  $('#getBoardModal').css('z-index', '1060');
-	  $('.modal-backdrop').last().css('z-index', '1055');
+	// z-index 조정 (중첩 모달 문제 방지)
+	$('#getBoardModal').css('z-index', '1060');
+	$('.modal-backdrop').last().css('z-index', '1055');
+	  
+	$.ajax({
+		url      : "/main/getBoard.do",
+		method   : "GET",
+		data     : {"no" : no},
+		dataType : "json",
+		success  : function(res){
+			
+			var data = res.getBoard;
+			
+			console.log(data)
+
+			$("#brd-bbsNm").html(data.bbsNm);
+			$("#brd-ttl").html(data.title);
+			$("#brd-userNm").html(data.userNm);
+			$("#brd-regDt").html(data.regDt);
+			$("#brd-readCnt").html(data.readCnt);
+
+			$("#brd-cn").html(data.cont);
+			
+			$("#brdReadCnt-"+data.boardSeq).html(data.readCnt);	
+			
+		},
+		error : function(request, status, error){
+			Swal.fire({
+				icon: "error",
+				title: "통신불가"
+			})
+		}
+	});
 }
 
 function changeList(num){
@@ -102,7 +133,7 @@ function getBoardList(num){
 			let vo 				= res.boardVO;
 			let html 			= '';
 
-// 			console.log(boardListCnt);
+			console.log(boardList);
 
 			html += 	'<div class="mb-3">';
 			html += 		'<div class="d-flex justify-content-between">';
@@ -120,14 +151,17 @@ function getBoardList(num){
 			html += 				'<select class="form-select cursor-pointer" name="amount" onchange="changeList('+vo.pageNum+');" id="sel-amount">';
 			html += 					'<option value="10">10개씩</option>';
 			html += 					'<option value="20">20개씩</option>';
+			html += 					'<option value="30">30개씩</option>';
+			html += 					'<option value="40">40개씩</option>';
 			html += 					'<option value="50">50개씩</option>';
-			html += 					'<option value="100">100개씩</option>';
 			html += 				'</select>';
 			html += 			'</div>';
 			html += 		'</div>';
 			html += 	'</div>';
 			html += 	'<div class="table-responsive mb-4" style="border-radius: 15px; overflow: hidden; border: 1px solid #ddd;">';
-			html += 		'<table class="table table-bordered table-striped table-hover table-lg mb-0 cursor-pointer">';
+// 			html += 		'<table class="table table-bordered table-striped table-hover table-lg mb-0 cursor-pointer">';
+			html += 		'<table class="table table-hover mb-0 cursor-pointer">';
+// 			html += 		'<table class="table">';
 			html += 			'<colgroup>';
 			html += 				'<col width="40">';
 			html += 				'<col width="130">';
@@ -135,10 +169,10 @@ function getBoardList(num){
 			html += 				'<col width="40">';
 			html += 				'<col width="40">';
 			html += 			'</colgroup>';
+// 			html += 			'<thead class="" style="background-color: #f8f9fa;">';
 			html += 			'<thead class="table-light">';
 			html += 				'<tr>';
-			html += 					'<th>No</th>';
-			html += 					'<th>제목</th>';
+			html += 					'<th colspan="2">제목</th>';
 			html += 					'<th>작성자</th>';
 			html += 					'<th>작성일</th>';
 			html += 					'<th>조회수</th>';
@@ -150,12 +184,13 @@ function getBoardList(num){
 								for(let i=0; i < boardList.length; i++){
 									
 									if(boardList[i].bbsSeq == 1){
-			html +=						'<tr class="bg-primary" onclick="getBoard();">';
+// 			html +=						'<tr class="bg-primary" onclick="getBoard();">';
+			html +=						'<tr class="" onclick="getBoard('+boardList[i].boardSeq+');">';
 			html +=							'<td class="text-danger fw-bolder">공지</td>';
 			html +=							'<td class="text-start text-danger fw-bolder"><img class="mb-1" src="'+contextPath +'/resources/front/main/assets/img/spk.png" style="max-width: 20px;"/>\u00a0\u00a0';
 									}else{
-			html +=						'<tr onclick="getBoard();">';
-										boardList[i].rowNum > 0 ? html += '<td>'+boardList[i].rowNum+'</td>' : html += '<td></td>';
+			html +=						'<tr onclick="getBoard('+boardList[i].boardSeq+');">';
+										boardList[i].rowNum > 0 ? html += '<td class="text-secondary"><small>'+boardList[i].rowNum+'</small></td>' : html += '<td></td>';
 			html +=							'<td class="text-start">';
 										if(boardList[i].lvl > 0){
 											for(let k=0; k < boardList[i].lvl; k++){
@@ -165,11 +200,11 @@ function getBoardList(num){
 										}
 									}
 
-			html +=								boardList[i].title+'</td>';
+			html +=								'<small>'+boardList[i].title+'</small></td>';
 			
-			html +=						'<td>'+boardList[i].userNm+'</td>';
-			html +=						'<td><small>'+boardList[i].regDt.substring(0, 10)+'</small></td>';
-			html +=						'<td>'+boardList[i].readCnt+'</td>';
+			html +=						'<td class="text-secondary"><small>'+boardList[i].userNm+'</small></td>';
+			html +=						'<td class="text-secondary"><small>'+boardList[i].regDt+'</small></td>';
+			html +=						'<td class="text-secondary"><small id="brdReadCnt-'+boardList[i].boardSeq+'">'+boardList[i].readCnt+'</small></td>';
 			html +=					'</tr>';
 								}
 			
@@ -220,7 +255,7 @@ function getBoardList(num){
 			html += 				'</div>';
 			
 			
-			html += 				'<input type="text" class="form-control me-1 my-round" id="js-searchKeyword" placeholder="검색어 입력" value="'+vo.searchKeyword+'" autocomplete="off" style="flex: 0 0 35%;">';
+			html += 				'<input type="text" class="form-control me-1 my-round" id="js-searchKeyword" placeholder="검색어 입력" value="'+vo.searchKeyword+'" autocomplete="off" style="flex: 0 0 30%;">';
 // 			html += 				'<button type="button" class="btn btn-success my-primary my-round" onclick="changeList();" style="flex: 0 0 15%;"></button>';
 			html += 				'<button type="button" class="btn my-green my-round" onclick="changeList();"><i class="fas fa-search fa-lg"></i></button>';
 			html += 			'</div>';
@@ -258,7 +293,7 @@ function getBoardList(num){
         <div class="modal-dialog modal-dialog-centered mx-auto" style="max-width: 100%;">
 <!--         <div class="modal-dialog modal-dialog-centered mx-auto" style="max-width: 50%;"> -->
 <!--     <div class="modal-dialog modal-dialog-centered"> -->
-        <div class="modal-content">
+        <div class="modal-content m-3">
             <div class="close-modal" data-bs-dismiss="modal">
                 <img src="${pageContext.request.contextPath}/resources/front/main/assets/img/close-icon.svg" alt="Close modal" style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%;" />
             </div>
@@ -283,7 +318,10 @@ function getBoardList(num){
                         	<form id="frm-board">
                         		<input type="hidden" name="pageNum" id="pageNum" value="1">
                         		<input type="hidden" name="searchKeyword" id="searchKeyword" autocomplete="off">
-                        		<div id="append-board"></div>
+                        		<div id="append-board">
+                        		
+                        		
+                        		</div>
                         	</form>
                         </div>
                     </div>
@@ -311,16 +349,16 @@ function getBoardList(num){
     <div class="modal-header border-0 pb-0 mt-4">
       <div class="w-100 d-flex justify-content-between align-items-start mt-2 text-start">
         <div>
-          <small class="text-success fw-bold ms-1">가입인사 &gt;</small>
-          <h4 class="fw-bold mt-1">매트 교체 완료</h4>
+          <small class="text-success fw-bold ms-1"><span id="brd-bbsNm"></span>&gt;</small>
+          <h4 class="fw-bold mt-1" id="brd-ttl">매트 교체 완료</h4>
           
           <div class="d-flex align-items-center mt-2 mb-4">
-  <img src="${pageContext.request.contextPath}/resources/front/main/assets/img/profile.png" class="me-2" alt="프로필 이미지" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">
+  			<img src="${pageContext.request.contextPath}/resources/front/main/assets/img/profile.png" class="me-2" alt="프로필 이미지" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">
             
             <div>
-            <span class="me-2">작성자</span><br>
+            <span class="me-2 fw-bolder" id="brd-userNm">작성자</span><br>
 <!--             <span class="badge bg-secondary me-2">올림피아</span> -->
-            <span class="text-muted small">2025.05.09. 19:25&nbsp;&nbsp;조회 366</span>
+            <span class="text-muted small"><span id="brd-regDt">2025.05.09. 19:25</span>&nbsp;&nbsp;조회 <span id="brd-readCnt">366</span></span>
             </div>
           </div>
           
@@ -334,11 +372,7 @@ function getBoardList(num){
 
     <!-- 본문 -->
     <div class="modal-body text-start">
-      <p>일반 고무매트에 발바닥 사포질 당하다가 고밀 고무매트로 바꾸고 나니 천국이네요.<br>혼자 락 넣고 조립하고 몸살이었지만 행복합니다.</p>
-      <p>일반 고무매트에 발바닥 사포질 당하다가 고밀 고무매트로 바꾸고 나니 천국이네요.<br>혼자 락 넣고 조립하고 몸살이었지만 행복합니다.</p>
-      <p>일반 고무매트에 발바닥 사포질 당하다가 고밀 고무매트로 바꾸고 나니 천국이네요.<br>혼자 락 넣고 조립하고 몸살이었지만 행복합니다.</p>
-      <p>일반 고무매트에 발바닥 사포질 당하다가 고밀 고무매트로 바꾸고 나니 천국이네요.<br>혼자 락 넣고 조립하고 몸살이었지만 행복합니다.</p>
-      <p>일반 고무매트에 발바닥 사포질 당하다가 고밀 고무매트로 바꾸고 나니 천국이네요.<br>혼자 락 넣고 조립하고 몸살이었지만 행복합니다.</p>
+    	<pre  id="brd-cn"></pre>
     </div>
 
     <!-- <div class="modal-footer border-0 d-flex justify-content-between align-items-center">
@@ -528,37 +562,62 @@ function getBoardList(num){
         </header>
         
         
-        <!-- Services-->
-        <section class="page-section" id="services">
+        <!-- Tech Stack -->
+        <section class="page-section" id="techStack">
             <div class="container">
                 <div class="text-center">
-                    <h2 class="section-heading text-uppercase">Services</h2>
-                    <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
+                    <h2 class="section-heading text-uppercase">Tech Stack</h2>
+                    <h3 class="section-subheading text-muted">Tools & Technologies</h3>
                 </div>
                 <div class="row text-center">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <span class="fa-stack fa-4x">
-                            <i class="fas fa-circle fa-stack-2x text-primary"></i>
-                            <i class="fas fa-shopping-cart fa-stack-1x fa-inverse"></i>
+							<img class="img-fluid my-round" src="${pageContext.request.contextPath}/resources/front/main/assets/img/lnglogos/java.png" alt="javaLogo" />
                         </span>
-                        <h4 class="my-3">E-Commerce</h4>
-                        <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
+<!--                         <h5 class="my-5"></h5> -->
+                        <p class="text-muted my-5">Java</p>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <span class="fa-stack fa-4x">
-                            <i class="fas fa-circle fa-stack-2x text-primary"></i>
-                            <i class="fas fa-laptop fa-stack-1x fa-inverse"></i>
+							<img class="img-fluid my-round" src="${pageContext.request.contextPath}/resources/front/main/assets/img/lnglogos/springframework.png" alt="springframeworkLogo" />
                         </span>
-                        <h4 class="my-3">Responsive Design</h4>
-                        <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
+                        <p class="text-muted my-5">Spring Framework</p>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <span class="fa-stack fa-4x">
-                            <i class="fas fa-circle fa-stack-2x text-primary"></i>
-                            <i class="fas fa-lock fa-stack-1x fa-inverse"></i>
+							<img class="img-fluid my-round" src="${pageContext.request.contextPath}/resources/front/main/assets/img/lnglogos/html.png" alt="htmlLogo" />
                         </span>
-                        <h4 class="my-3">Web Security</h4>
-                        <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
+                        <p class="text-muted my-5">HTML</p>
+                    </div>
+                    <div class="col-md-3">
+                        <span class="fa-stack fa-4x">
+							<img class="img-fluid my-round" src="${pageContext.request.contextPath}/resources/front/main/assets/img/lnglogos/javascript.png" alt="javascriptLogo" />
+                        </span>
+                        <p class="text-muted my-5">JavaScript</p>
+                    </div>
+                    <div class="col-md-3">
+                        <span class="fa-stack fa-4x">
+							<img class="img-fluid my-round" src="${pageContext.request.contextPath}/resources/front/main/assets/img/lnglogos/bootstrap.png" alt="bootstrapLogo" />
+                        </span>
+                        <p class="text-muted my-5">Bootstarp</p>
+                    </div>
+                    <div class="col-md-3">
+                        <span class="fa-stack fa-4x">
+							<img class="img-fluid my-round" src="${pageContext.request.contextPath}/resources/front/main/assets/img/lnglogos/jquery.png" alt="jqueryLogo" style="max-width: 135px;"/>
+                        </span>
+                        <p class="text-muted my-5">jQuery</p>
+                    </div>
+                    <div class="col-md-3">
+                        <span class="fa-stack fa-4x">
+							<img class="img-fluid my-round" src="${pageContext.request.contextPath}/resources/front/main/assets/img/lnglogos/mysql.png" alt="mysqlLogo" />
+                        </span>
+                        <p class="text-muted my-5">MySQL</p>
+                    </div>
+                    <div class="col-md-3">
+                        <span class="fa-stack fa-4x">
+							<img class="img-fluid my-round" src="${pageContext.request.contextPath}/resources/front/main/assets/img/lnglogos/git.png" alt="gitLogo" />
+                        </span>
+                        <p class="text-muted my-5">Git</p>
                     </div>
                 </div>
             </div>
@@ -570,7 +629,7 @@ function getBoardList(num){
             <div class="container">
                 <div class="text-center">
                     <h2 class="section-heading text-uppercase">Portfolio</h2>
-                    <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
+                    <h3 class="section-subheading text-muted">Click on the portfolio you want.</h3>
                 </div>
                 <div class="row">
                     <div class="col-lg-12 col-sm-6 mb-4">
@@ -631,51 +690,51 @@ function getBoardList(num){
         </div> --%>
         
         
-        <section class="page-section" id="contact">
+        <!-- <section class="page-section" id="contact">
             <div class="container">
                 <div class="text-center">
                     <h2 class="section-heading text-uppercase">Contact Us</h2>
                     <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
                 </div>
-                <!-- * * * * * * * * * * * * * * *-->
-                <!-- * * SB Forms Contact Form * *-->
-                <!-- * * * * * * * * * * * * * * *-->
-                <!-- This form is pre-integrated with SB Forms.-->
-                <!-- To make this form functional, sign up at-->
-                <!-- https://startbootstrap.com/solution/contact-forms-->
-                <!-- to get an API token!-->
+                * * * * * * * * * * * * * * *
+                * * SB Forms Contact Form * *
+                * * * * * * * * * * * * * * *
+                This form is pre-integrated with SB Forms.
+                To make this form functional, sign up at
+                https://startbootstrap.com/solution/contact-forms
+                to get an API token!
                 <form id="contactForm" data-sb-form-api-token="API_TOKEN">
                     <div class="row align-items-stretch mb-5">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <!-- Name input-->
+                                Name input
                                 <input class="form-control" id="name" type="text" placeholder="Your Name *" data-sb-validations="required" data-sb-can-submit="no">
                                 <div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>
                             </div>
                             <div class="form-group">
-                                <!-- Email address input-->
+                                Email address input
                                 <input class="form-control" id="email" type="email" placeholder="Your Email *" data-sb-validations="required,email" data-sb-can-submit="no">
                                 <div class="invalid-feedback" data-sb-feedback="email:required">An email is required.</div>
                                 <div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid.</div>
                             </div>
                             <div class="form-group mb-md-0">
-                                <!-- Phone number input-->
+                                Phone number input
                                 <input class="form-control" id="phone" type="tel" placeholder="Your Phone *" data-sb-validations="required" data-sb-can-submit="no">
                                 <div class="invalid-feedback" data-sb-feedback="phone:required">A phone number is required.</div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group form-group-textarea mb-md-0">
-                                <!-- Message input-->
+                                Message input
                                 <textarea class="form-control" id="message" placeholder="Your Message *" data-sb-validations="required" data-sb-can-submit="no"></textarea>
                                 <div class="invalid-feedback" data-sb-feedback="message:required">A message is required.</div>
                             </div>
                         </div>
                     </div>
-                    <!-- Submit success message-->
-                    <!---->
-                    <!-- This is what your users will see when the form-->
-                    <!-- has successfully submitted-->
+                    Submit success message
+                   
+                    This is what your users will see when the form
+                    has successfully submitted
                     <div class="d-none" id="submitSuccessMessage">
                         <div class="text-center text-white mb-3">
                             <div class="fw-bolder">Form submission successful!</div>
@@ -684,16 +743,16 @@ function getBoardList(num){
                             <a href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
                         </div>
                     </div>
-                    <!-- Submit error message-->
-                    <!---->
-                    <!-- This is what your users will see when there is-->
-                    <!-- an error submitting the form-->
+                    Submit error message
+                   
+                    This is what your users will see when there is
+                    an error submitting the form
                     <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-3">Error sending message!</div></div>
-                    <!-- Submit Button-->
+                    Submit Button
                     <div class="text-center"><button class="btn btn-primary btn-xl text-uppercase disabled" id="submitButton" type="submit">Send Message</button></div>
                 </form>
             </div>
-        </section>
+        </section> -->
         
         
 </body>

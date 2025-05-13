@@ -30,6 +30,9 @@ public interface BoardService {
 
 	// 게시물 목록
 	Map<String, Object> getFrontBoardList(BoardVO boardVO) throws Exception;
+
+	// 게시물 조회
+	Map<String, Object> getFrontBoard(BoardVO boardVO) throws Exception;
 	
 
 }

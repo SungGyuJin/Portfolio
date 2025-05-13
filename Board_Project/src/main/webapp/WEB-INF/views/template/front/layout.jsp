@@ -108,6 +108,12 @@ var contextPath = '${pageContext.request.contextPath}';
 }
 
 
+  table .remove-outline {
+    border-right: none !important;
+  }
+
+
+
 </style>
         
         

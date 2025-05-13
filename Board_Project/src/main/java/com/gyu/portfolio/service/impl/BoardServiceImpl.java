@@ -161,4 +161,19 @@ public class BoardServiceImpl implements BoardService {
 		return resultMap;
 	}
 
+	@Override
+	public Map<String, Object> getFrontBoard(BoardVO boardVO) throws Exception {
+
+	    Map<String, Object> resultMap = new HashMap<>();
+	    
+	    // 조회수 카운트
+	    boardMapper.updateReadCnt(boardVO);
+	    
+	    BoardVO getBoard = boardMapper.getFrontBoard(boardVO);
+	    
+	    resultMap.put("getBoard", getBoard);
+	    
+		return resultMap;
+	}
+
 }

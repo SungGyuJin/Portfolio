@@ -15,11 +15,11 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0 fw-bolder">
-                        <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#techStack">Tech Stack</a></li>
                         <li class="nav-item"><a class="nav-link" href="#portfolio">Portfolio</a></li>
 <!--                         <li class="nav-item"><a class="nav-link" href="#about">About</a></li> -->
 <!--                         <li class="nav-item"><a class="nav-link" href="#team">Team</a></li> -->
-                        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+<!--                         <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li> -->
                     </ul>
                 </div>
             </div>

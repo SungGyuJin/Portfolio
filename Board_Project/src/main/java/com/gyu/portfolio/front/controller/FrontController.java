@@ -87,7 +87,7 @@ public class FrontController {
 	/* 게시물 목록 */
 	@GetMapping("/main/getBoardList.do")
 	@ResponseBody
-	public Map<String, Object> getBoard(ModelMap model,
+	public Map<String, Object> getBoardList(ModelMap model,
 			@ModelAttribute("BoardVO") BoardVO boardVO,
 			HttpServletRequest request,
 			HttpServletResponse response) throws Exception{
@@ -112,6 +112,38 @@ public class FrontController {
 	    boardVO.setListTyp("list");
 	    resultMap = boardService.getFrontBoardList(boardVO);
 
+		return resultMap;
+	}
+
+	/* 게시물 조회 */
+	@GetMapping("/main/getBoard.do")
+	@ResponseBody
+	public Map<String, Object> getBoard(ModelMap model,
+			@ModelAttribute("BoardVO") BoardVO boardVO,
+			HttpServletRequest request,
+			HttpServletResponse response) throws Exception{
+
+		/* request 정보확인 START */
+		System.out.println();
+		System.out.println("++++++++++++++++++++++++++++++");
+		System.out.println("============ /getBoard.do INFO  ===========");
+		Enumeration params = request.getParameterNames();
+		while(params.hasMoreElements()) {
+			String name= (String) params.nextElement();
+			System.out.println(name + ": " + request.getParameter(name));
+		}
+		System.out.println("++++++++++++++++++++++++++++++");
+		System.out.println();
+		/* request 정보확인 END */
+		
+	    Map<String, Object> resultMap = new HashMap<>();
+	    
+	    boardVO.setBoardSeq(Integer.parseInt(request.getParameter("no")));
+	    resultMap = boardService.getFrontBoard(boardVO);
+	    
+		model.clear();
+		model.addAttribute("resultMap", resultMap);
+		
 		return resultMap;
 	}
 	

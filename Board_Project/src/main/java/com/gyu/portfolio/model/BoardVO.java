@@ -30,7 +30,6 @@ public class BoardVO extends DefalutVO {
 	private String secrtYn 	= "";
 	private String bbsStat 	= "";
 	private String bbsNm 	= "";
-	private String userNm 	= ""; // 게시물 작성자이름
 	
 	private int rowNum 		=  0;
 
@@ -40,7 +39,8 @@ public class BoardVO extends DefalutVO {
 				+ ref + ", step=" + step + ", lvl=" + lvl + ", pwd=" + pwd + ", readCnt=" + readCnt + ", regNo=" + regNo
 				+ ", regDt=" + regDt + ", updNo=" + updNo + ", updDt=" + updDt + ", stat=" + stat + ", replyYn="
 				+ replyYn + ", atchYn=" + atchYn + ", secrtYn=" + secrtYn + ", bbsStat=" + bbsStat + ", bbsNm=" + bbsNm
-				+ ", userNm=" + userNm + ", rowNum=" + rowNum + "]";
+				+ ", rowNum=" + rowNum + "]";
 	}
+
 	
 }

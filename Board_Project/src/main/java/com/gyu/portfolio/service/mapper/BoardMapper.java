@@ -51,5 +51,11 @@ public interface BoardMapper {
 	
     /* 게시물 총 갯수 */
     int getFrontBoardListCnt(BoardVO boardVO) throws Exception;
+
+	// 게시물 조회
+	BoardVO getFrontBoard(BoardVO boardVO) throws Exception;
+	
+	// 조회수 카운트
+	int updateReadCnt(BoardVO boardVO) throws Exception;
     
 }

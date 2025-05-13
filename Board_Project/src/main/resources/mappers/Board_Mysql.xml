@@ -268,7 +268,7 @@
 				, PWD
 				, READ_CNT
 				, REG_NO
-				, REG_DT
+				, DATE_FORMAT(REG_DT, '%Y. %m. %d.') REG_DT
 				, UPD_NO
 				, UPD_DT
 				, STAT
@@ -336,5 +336,42 @@
 				</choose>
 			</if>
     </select>
+    
+	<!-- 게시물 상세조회 -->
+	<select id="getFrontBoard" resultMap="boardVO">
+		SELECT
+			B.BOARD_SEQ
+			, B.BBS_SEQ
+			, B.TITLE
+			, B.CONT
+			, B.REF
+			, B.STEP
+			, B.LVL
+			, B.PWD
+			, B.READ_CNT
+			, B.REG_NO
+			, DATE_FORMAT(B.REG_DT, '%Y. %m. %d.  %H:%i') REG_DT
+			, B.UPD_NO
+			, B.UPD_DT
+			, B.STAT
+			, (SELECT USER_NM FROM TB_USER WHERE USER_SEQ = B.REG_NO ) USER_NM
+			, BBS.NM AS BBS_NM
+			, BBS.REPLY_YN
+			, BBS.ATCH_YN
+			, BBS.SECRT_YN
+			, BBS.STAT AS BBS_STAT
+		FROM TB_BOARD B LEFT JOIN TB_BBS BBS ON B.BBS_SEQ = BBS.BBS_SEQ
+		WHERE 1=1
+			AND BOARD_SEQ = #{boardSeq}
+	</select>
+	
+	<update id="updateReadCnt">
+		UPDATE
+			TB_BOARD
+		SET
+			READ_CNT = READ_CNT + 1
+		WHERE 1=1
+			AND BOARD_SEQ = #{boardSeq}
+	</update>
 
 </mapper>

@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gyu.portfolio.service.mapper.CmntMapper">
+	
+	<resultMap id="cmntVO" type="cmntVO">
+		<result property="cmntSeq"		column="CMNT_SEQ" 	/>
+		<result property="boardSeq"		column="BOARD_SEQ" 	/>
+		<result property="cn"			column="CN" 		/>
+		<result property="ref"			column="REF" 		/>
+		<result property="step"			column="STEP" 		/>
+		<result property="lvl"			column="LVL" 		/>
+		<result property="pwd"			column="PWD" 		/>
+		
+		<result property="regNo"		column="REG_NO" 	/>
+		<result property="regDt"		column="REG_DT" 	/>
+		<result property="updNo"		column="UPD_NO" 	/>
+		<result property="updDt"		column="UPD_DT" 	/>
+		<result property="stat"			column="STAT" 		/>
+		
+		<!-- 그 외 필드 -->
+		<result property="userNm"		column="USER_NM" 	/>
+		
+	</resultMap>
+	
+	<!-- 댓글 목록 -->
+	<select id="getCmntList" resultMap="cmntVO">
+		SELECT
+			CMNT_SEQ
+			, BOARD_SEQ
+			, CN
+			, REF
+			, STEP
+			, LVL
+			, PWD
+			, REG_NO
+			, REG_DT
+			, UPD_NO
+			, UPD_DT
+			, STAT
+		FROM TB_COMMENT
+		WHERE 1=1
+			AND BOARD_SEQ = #{boardSeq}
+	</select>
+	
+	<!-- 댓글 총 개수 -->
+    <select id="getCmntListCnt" resultType="int">
+    	SELECT COUNT(*) FROM TB_COMMENT WHERE BOARD_SEQ = #{boardSeq}
+    </select>
+	
+	<!-- 댓글 조회 -->
+	<select id="getCmnt" resultMap="cmntVO">
+		SELECT
+			CMNT_SEQ
+			, BOARD_SEQ
+			, CN
+			, REF
+			, STEP
+			, LVL
+			, PWD
+			, REG_NO
+			, REG_DT
+			, UPD_NO
+			, UPD_DT
+			, STAT
+		FROM TB_COMMENT
+		WHERE 1=1
+			AND CMNT_SEQ = #{cmntSeq}
+	</select>
+	
+	<!-- 댓글 등록 -->
+	<insert id="addCmnt">
+		INSERT INTO TB_COMMENT(
+			BOARD_SEQ
+			, CN
+			, REF
+			, STEP
+			, LVL
+			, PWD
+			, REG_NO
+			, REG_DT
+			, UPD_NO
+			, UPD_DT
+			, STAT
+		)VALUES (
+			#{boardSeq}
+			, #{cn}
+			, #{ref}
+			, #{step}
+			, #{lvl}
+			, #{pwd}
+			, #{regNo}
+			, NOW()
+			, #{regNo}
+			, NOW()
+			, 1
+		)
+		<selectKey keyProperty="cmntSeq" resultType="integer" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>		
+	</insert>
+	
+	<!-- 댓글 수정 -->
+	<update id="updateCmnt">
+		UPDATE 
+			TB_COMMENT
+		SET
+			CN = #{cn}
+			, UPD_NO = #{updNo}
+			, UPD_DT = NOW()
+		WHERE 1=1
+			AND CMNT_SEQ = #{cmntSeq}
+	</update>
+	
+	<!-- 댓글 삭제 -->
+	<update id="deleteCmnt">
+		UPDATE
+			TB_COMMENT
+		SET
+			STAT = 0
+			, UPD_NO = #{updNo}
+			, UPD_DT = NOW()
+		WHERE 1=1
+			AND CMNT_SEQ = #{cmntSeq}
+	</update>
+
+	<update id="updateRef">
+		<choose>
+			<when test="ref > 0">UPDATE TB_COMMENT SET REF = #{ref} WHERE CMNT_SEQ = #{cmntSeq}</when>
+			<otherwise>UPDATE TB_COMMENT SET REF = #{cmntSeq} WHERE CMNT_SEQ = #{cmntSeq}</otherwise>
+		</choose>
+	</update>
+	
+	<update id="updateStep">
+		UPDATE
+			TB_COMMENT
+		SET
+			STEP = STEP + 1
+		WHERE 1=1 
+<!-- 			AND REF = #{ref} AND STEP > #{step} -->
+			AND REF = #{ref} AND STEP >= #{step}
+	</update>
+	
+	<select id="getMaxStep" resultType="int">
+		SELECT
+			MAX(STEP) + 1
+		FROM TB_COMMENT
+		WHERE 1=1
+			AND REF = #{ref}
+	</select>
+	
+	<update id="updateLvl">
+		UPDATE 
+			TB_COMMENT
+		SET
+			LVL = #{lvl} + 1
+		WHERE 1=1
+			AND CMNT_SEQ = #{cmntSeq}
+	</update>
+
+</mapper>

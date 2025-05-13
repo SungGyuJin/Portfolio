@@ -3,9 +3,10 @@
 <configuration>
 	<!--mapper에서 매칭할 parmeter Type 별칭 설정-->
 	<typeAliases>
-		<typeAlias type="com.gyu.portfolio.model.BbsVO" alias="bbsVO"/>
-		<typeAlias type="com.gyu.portfolio.model.BoardVO" alias="boardVO"/>
-		<typeAlias type="com.gyu.portfolio.model.LoginVO" alias="loginVO"/>
+		<typeAlias type="com.gyu.portfolio.model.BbsVO"		alias="bbsVO"	/>
+		<typeAlias type="com.gyu.portfolio.model.BoardVO" 	alias="boardVO"	/>
+		<typeAlias type="com.gyu.portfolio.model.CmntVO" 	alias="cmntVO"	/>
+		<typeAlias type="com.gyu.portfolio.model.LoginVO" 	alias="loginVO"	/>
 	</typeAliases>
 	
 	
@@ -23,9 +24,10 @@
 	</environments> -->
 	
 	<mappers>
-		<mapper resource="/mappers/Bbs_Mysql.xml"/> 
-		<mapper resource="/mappers/Board_Mysql.xml"/> 
-		<mapper resource="/mappers/Login_Mysql.xml"/> 
+		<mapper resource="/mappers/Bbs_Mysql.xml"	/> 
+		<mapper resource="/mappers/Board_Mysql.xml"	/>
+		<mapper resource="/mappers/Cmnt_Mysql.xml"	/>
+		<mapper resource="/mappers/Login_Mysql.xml"	/>
 	</mappers>
 	
 </configuration>
