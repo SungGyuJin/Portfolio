@@ -55,7 +55,7 @@ public class LoginController {
 		
 		LoginVO vo = null;
 		vo = loginService.getLogin(loginVO);
-
+		
 		if(vo == null) {
 			mav.setViewName("admin/login_error");
 			mav.addObject("errorMsg", "아이디가 존재하지 않습니다.");
@@ -67,10 +67,14 @@ public class LoginController {
 				mav.addObject("errorMsgEng", "Password does not match.");
 			}else {
 
-				mav.addObject("loginChk", request.getParameter("loginChk"));
-				mav.addObject("errorCode", "0000");
-				
-				processLogin(request, vo);
+				if(vo.getUserSe().equals("U")) {
+					processLogin(request, vo);
+					response.sendRedirect("/main.do");
+				}else {
+					mav.addObject("loginChk", request.getParameter("loginChk"));
+					mav.addObject("errorCode", "0000");
+					processLogin(request, vo);
+				}
 			}
 		}
 		
@@ -80,11 +84,17 @@ public class LoginController {
 
 	private void processLogin(HttpServletRequest request, LoginVO rs){
 		HttpSession session = request.getSession();
-
 		
 		session.setAttribute("USERSEQ", rs.getUserSeq());
 		session.setAttribute("USERID", rs.getUserId());
 		session.setAttribute("USERNM", rs.getUserNm());
+		session.setAttribute("USERSE", rs.getUserSe());
+		
+		if(rs.getUserSe().equals("U")) {
+			session.setAttribute("loginChk", request.getParameter("loginChk"));
+			session.setAttribute("errorCode", "0000");
+		}
+		
 	}
 	
 	@GetMapping(value="/logout.do")
@@ -93,13 +103,22 @@ public class LoginController {
 			HttpServletResponse response,
 			HttpSession session) throws Exception{
 		
+		String returnVal = "redirect:login.do";
+		
+		if(session.getAttribute("USERSE").equals("U")) {
+			returnVal = "redirect:/main.do";
+		}
+		
 		session.removeAttribute("USERSEQ");
 		session.removeAttribute("USERID");
 		session.removeAttribute("USERNM");
+		session.removeAttribute("USERSE");
+		session.removeAttribute("loginChk");
+		session.removeAttribute("errorCode");
 		
 		session.invalidate();
 		
-		return "redirect:login.do";
+		return returnVal;
 	}
 	
 

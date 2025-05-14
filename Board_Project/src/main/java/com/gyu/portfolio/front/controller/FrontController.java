@@ -2,11 +2,11 @@ package com.gyu.portfolio.front.controller;
 
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,24 +14,25 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.gyu.portfolio.model.BbsVO;
 import com.gyu.portfolio.model.BoardVO;
-import com.gyu.portfolio.service.BbsService;
+import com.gyu.portfolio.model.CmntVO;
 import com.gyu.portfolio.service.BoardService;
+import com.gyu.portfolio.service.CmntService;
 
 @Controller
 @RequestMapping(value="/")
 public class FrontController {
 
 	@Autowired
-	private BbsService bbsService;
-	
-	@Autowired
 	private BoardService boardService;
+
+	@Autowired
+	private CmntService cmntService;
 	
 	
 	@GetMapping(value={"/", "/main"})
@@ -143,6 +144,66 @@ public class FrontController {
 	    
 		model.clear();
 		model.addAttribute("resultMap", resultMap);
+		
+		return resultMap;
+	}
+	
+
+	/* 댓글 등록처리 */
+	@PostMapping("/main/addCmnt.do")
+	@ResponseBody
+	public int addCmnt(ModelMap model,
+			@ModelAttribute("CmntVO") CmntVO cmntVO,
+			HttpServletRequest request,
+			HttpServletResponse response,
+			HttpSession session) throws Exception{
+
+		/* request 정보확인 START */
+		System.out.println();
+		System.out.println("++++++++++++++++++++++++++++++");
+		System.out.println("============ /addCmnt.do INFO  ===========");
+		Enumeration params = request.getParameterNames();
+		while(params.hasMoreElements()) {
+			String name= (String) params.nextElement();
+			System.out.println(name + ": " + request.getParameter(name));
+		}
+		System.out.println("++++++++++++++++++++++++++++++");
+		System.out.println();
+		/* request 정보확인 END */
+
+		cmntVO.setRegNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
+		int result = cmntService.addCmnt(cmntVO);
+		
+		return result;
+	}
+	
+
+	/* 댓글 목록 */
+	@GetMapping("/main/getCmntList.do")
+	@ResponseBody
+	public Map<String, Object> getCmntList(ModelMap model,
+			@ModelAttribute("CmntVO") CmntVO cmntVO,
+			HttpServletRequest request,
+			HttpServletResponse response,
+			HttpSession session) throws Exception{
+
+		/* request 정보확인 START */
+		System.out.println();
+		System.out.println("++++++++++++++++++++++++++++++");
+		System.out.println("============ /getCmntList.do INFO  ===========");
+		Enumeration params = request.getParameterNames();
+		while(params.hasMoreElements()) {
+			String name= (String) params.nextElement();
+			System.out.println(name + ": " + request.getParameter(name));
+		}
+		System.out.println("++++++++++++++++++++++++++++++");
+		System.out.println();
+		/* request 정보확인 END */
+
+	    Map<String, Object> resultMap = new HashMap<>();
+	    
+	    cmntVO.setBoardSeq(Integer.parseInt(request.getParameter("no")));
+	    resultMap = cmntService.getCmntList(cmntVO);
 		
 		return resultMap;
 	}

@@ -43,6 +43,16 @@ var contextPath = '${pageContext.request.contextPath}';
 
 <style>
 
+.my-writer{
+  display: inline-block;
+  background-color: #e6f5ec;   /* 연한 민트/녹색 계열 */
+  color: #00a862;              /* 글자색: 네이버 녹색 느낌 */
+  font-size: 12px;             /* 작고 단정한 글자 */
+  padding: 2px 8px;            /* 좌우 넉넉한 여백 */
+  border-radius: 999px;        /* pill 형태: 최대치 둥글기 */
+  font-weight: bold;       
+}
+
 .my-round{
   border-radius: .375rem !important;
 }
@@ -107,11 +117,10 @@ var contextPath = '${pageContext.request.contextPath}';
   border-color: #d52a1a;
 }
 
-
-  table .remove-outline {
-    border-right: none !important;
-  }
-
+.tr-hover:hover{
+  --bs-table-accent-bg: var(--bs-table-hover-bg);
+  color: var(--bs-table-hover-color);
+}
 
 
 </style>
@@ -119,6 +128,9 @@ var contextPath = '${pageContext.request.contextPath}';
         
 </head>
 <body id="page-top">
+<input type="hidden" id="uno" value="${sessionScope.USERSEQ }"> 
+<input type="hidden" id="unm" value="${sessionScope.USERNM }"> 
+
 	<page:applyDecorator name="headerFront" />
 		<decorator:body />
 	<page:applyDecorator name="footerFront" />

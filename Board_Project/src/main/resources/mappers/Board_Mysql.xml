@@ -27,6 +27,7 @@
 		<result property="bbsNm"		column="BBS_NM" 	/>
 		<result property="userNm"		column="USER_NM" 	/>
 		<result property="rowNum"		column="ROW_NUM" 	/>
+		<result property="cmntCnt"		column="CMNT_CNT" 	/>
 	</resultMap>
 	
 	
@@ -274,6 +275,7 @@
 				, STAT
 				, (SELECT NM FROM TB_BBS WHERE BBS_SEQ = T1.BBS_SEQ) BBS_NM
 				, (SELECT USER_NM FROM TB_USER WHERE USER_SEQ = T1.REG_NO) USER_NM
+				, (SELECT COUNT(*) FROM TB_COMMENT WHERE STAT = 1 AND BOARD_SEQ = T1.BOARD_SEQ) CMNT_CNT
 			FROM TB_BOARD T1, (SELECT @rownum := 0) AS TMP
 			WHERE 1=1
 				<if test="listTyp.equals('list')">
@@ -288,15 +290,19 @@
 				</choose>
 				<if test="searchKeyword != null and !searchKeyword.equals('')">
 					<choose>
-						<when test="gubun.equals('ttl')">AND TITLE LIKE CONCAT('%', #{searchKeyword}, '%')</when>
 						<when test="gubun.equals('cn')">AND CONT LIKE CONCAT('%', #{searchKeyword}, '%')</when>
 						<when test="gubun.equals('writer')">AND (SELECT USER_NM FROM TB_USER WHERE USER_SEQ = T1.REG_NO) LIKE CONCAT('%', #{searchKeyword}, '%')</when>
+						<when test="gubun.equals('cmnt')">
+							AND EXISTS (
+							    SELECT 1
+							    FROM TB_COMMENT C
+							    WHERE C.STAT = 1
+							      AND C.BOARD_SEQ = T1.BOARD_SEQ
+							      AND C.CN LIKE CONCAT('%', #{searchKeyword}, '%')
+							  )
+						</when>						
 						<otherwise>
-							AND (
-								TITLE LIKE CONCAT('%', #{searchKeyword}, '%')
-								OR CONT LIKE CONCAT('%', #{searchKeyword}, '%')
-								OR (SELECT USER_NM FROM TB_USER WHERE USER_SEQ = T1.REG_NO) LIKE CONCAT('%', #{searchKeyword}, '%')
-							)
+							AND (TITLE LIKE CONCAT('%', #{searchKeyword}, '%') OR CONT LIKE CONCAT('%', #{searchKeyword}, '%'))
 						</otherwise>
 					</choose>
 				</if>
@@ -323,15 +329,19 @@
 			</choose>
 			<if test="searchKeyword != null and !searchKeyword.equals('')">
 				<choose>
-					<when test="gubun.equals('ttl')">AND TITLE LIKE CONCAT('%', #{searchKeyword}, '%')</when>
 					<when test="gubun.equals('cn')">AND CONT LIKE CONCAT('%', #{searchKeyword}, '%')</when>
 					<when test="gubun.equals('writer')">AND (SELECT USER_NM FROM TB_USER WHERE USER_SEQ = T1.REG_NO) LIKE CONCAT('%', #{searchKeyword}, '%')</when>
+					<when test="gubun.equals('cmnt')">
+						AND EXISTS (
+						    SELECT 1
+						    FROM TB_COMMENT C
+						    WHERE C.STAT = 1
+						      AND C.BOARD_SEQ = T1.BOARD_SEQ
+						      AND C.CN LIKE CONCAT('%', #{searchKeyword}, '%')
+						  )
+					</when>						
 					<otherwise>
-						AND (
-							TITLE LIKE CONCAT('%', #{searchKeyword}, '%')
-							OR CONT LIKE CONCAT('%', #{searchKeyword}, '%')
-							OR (SELECT USER_NM FROM TB_USER WHERE USER_SEQ = T1.REG_NO) LIKE CONCAT('%', #{searchKeyword}, '%')
-						)
+						AND (TITLE LIKE CONCAT('%', #{searchKeyword}, '%') OR CONT LIKE CONCAT('%', #{searchKeyword}, '%'))
 					</otherwise>
 				</choose>
 			</if>

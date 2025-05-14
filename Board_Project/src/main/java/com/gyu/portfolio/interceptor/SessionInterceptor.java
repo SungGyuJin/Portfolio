@@ -11,7 +11,6 @@ import org.springframework.web.servlet.ModelAndView;
 @Configuration
 public class SessionInterceptor implements HandlerInterceptor {
 	
-	
 	/* preHandle() — 컨트롤러 진입 전에 실행됨 (여기서 로그인 체크) */
 	@Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -20,22 +19,39 @@ public class SessionInterceptor implements HandlerInterceptor {
 
 		try {	
 			HttpSession session = request.getSession();
+			String uri = request.getRequestURI();
 			
+			/* 세션 X */
 			if(session.getAttribute("USERID") == null){
-				//System.out.println("===no session===");
 
-				String uri = request.getRequestURI();
-				
+				// 로그인 안했지만 front는 허용
 				if (uri.matches("^/main.*")) {
 					return true;
-				}else {
-					response.sendRedirect("/admin/login.do");
-					return false;
+				}
+
+				System.out.println();
+				System.out.println("2");
+				System.out.println();
+				
+				// 그 외 로그인 페이지로 이동
+				response.sendRedirect("/admin/login.do");
+//				response.sendRedirect("/main.do");
+				return false;
+
+			/* 세션 O */
+			}else{
+				
+				if (uri.matches("^/admin/logout\\.do$") || uri.matches("^/main.*")) {
+					return true;
 				}
 				
-			}else{
-				//System.out.println("===session===");
-				return true;
+				// 로그인 했지만, 사용자 계정일 경우 front로 return
+				if(session.getAttribute("USERSE").toString().equals("U")) {
+					response.sendRedirect("/main.do");
+					return false;
+				}else {
+					return true;
+				}
 			}
 			
 		}catch(Exception e) {

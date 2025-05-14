@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <body>
 
@@ -19,7 +20,18 @@
                         <li class="nav-item"><a class="nav-link" href="#portfolio">Portfolio</a></li>
 <!--                         <li class="nav-item"><a class="nav-link" href="#about">About</a></li> -->
 <!--                         <li class="nav-item"><a class="nav-link" href="#team">Team</a></li> -->
-<!--                         <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li> -->
+<!-- 		                 <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li> -->
+
+						<c:choose>
+							<c:when test="${empty sessionScope.USERID }">
+		                        <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/admin/login.do">Login</a></li>
+							</c:when>
+							<c:otherwise>
+		                        <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/admin/logout.do">Logout</a></li>
+							</c:otherwise>
+						</c:choose>
+                        
+                        
                     </ul>
                 </div>
             </div>

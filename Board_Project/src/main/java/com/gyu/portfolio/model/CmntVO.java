@@ -23,5 +23,6 @@ public class CmntVO extends DefalutVO {
 	private int    stat 	=  0;  // 상태 ex) 미사용(삭제)[0] / 사용[1] / 영구삭제[9]
 	
 	/* 그 외 필드 */
+	private String authYn	= "";  // 현재댓글의 게시글 작성자 여부
 	
 }

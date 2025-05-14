@@ -19,6 +19,7 @@
 		
 		<!-- 그 외 필드 -->
 		<result property="userNm"		column="USER_NM" 	/>
+		<result property="authYn"		column="AUTH_YN" 	/>
 		
 	</resultMap>
 	
@@ -33,13 +34,16 @@
 			, LVL
 			, PWD
 			, REG_NO
-			, REG_DT
+			, DATE_FORMAT(REG_DT, '%Y. %m. %d.  %H:%i') REG_DT
 			, UPD_NO
 			, UPD_DT
 			, STAT
-		FROM TB_COMMENT
+			, (SELECT USER_NM FROM TB_USER WHERE USER_SEQ = T1.REG_NO ) USER_NM
+			, CASE WHEN (SELECT REG_NO FROM TB_BOARD WHERE BOARD_SEQ = T1.BOARD_SEQ) = T1.REG_NO THEN 'Y' ELSE 'N' END AUTH_YN
+		FROM TB_COMMENT T1
 		WHERE 1=1
 			AND BOARD_SEQ = #{boardSeq}
+			AND STAT = 1
 	</select>
 	
 	<!-- 댓글 총 개수 -->

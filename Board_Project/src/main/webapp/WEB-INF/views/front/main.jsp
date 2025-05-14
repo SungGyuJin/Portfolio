@@ -1,9 +1,28 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page session="true" %>
 
 <body>
 <script>
+
+/* 
+	1. 비로그인시 댓글쓰기 금지
+	2. 대댓글, 수정, 삭제 기능
+	3. 바로 readme 수정후 이력서 한번더 ㄱㄱ
+*/
+
+<c:choose>
+	<c:when test="${errorCode eq '0000' }">
+		<c:if test="${loginChk eq 'Y'}">
+			localStorage.setItem("loginChk", "${sessionScope.USERID }");
+		</c:if>
+		<c:if test="${loginChk ne 'Y'}">
+			localStorage.removeItem("loginChk");
+		</c:if>
+	
+	</c:when>
+</c:choose>
 
 
 $(function(){
@@ -18,6 +37,7 @@ $(function(){
     		changeList();
         }
 	});
+ 	
 	
 	$('#getBoardListModal').modal({
 	    backdrop: 'static',   // 바깥 클릭해도 안 꺼짐
@@ -39,10 +59,15 @@ $(function(){
 		$(this).css('height', this.scrollHeight + 'px');
 	});
 	
+	// 댓글 등록처리
+	$("#btn-addCmnt").on('click', function(){
+		addCmnt();
+	});
+	
 });
 
-
-/* ########## BOARD ########## */
+/* ################################################################################################# */
+/* ######################################## BOARD ################################################## */
 
 function getBoardPost(){
 	  // Bootstrap 모달 인스턴스 생성 및 표시
@@ -77,19 +102,24 @@ function getBoard(no){
 		dataType : "json",
 		success  : function(res){
 			
-			var data = res.getBoard;
+			console.log(res)
 			
-			console.log(data)
+			var data 	 = res.getBoard;
+			var cmntList = res.getCmntList;
 
+			// 게시물 관련
 			$("#brd-bbsNm").html(data.bbsNm);
 			$("#brd-ttl").html(data.title);
 			$("#brd-userNm").html(data.userNm);
 			$("#brd-regDt").html(data.regDt);
 			$("#brd-readCnt").html(data.readCnt);
-
 			$("#brd-cn").html(data.cont);
+			$("#brdReadCnt-"+data.boardSeq).html(data.readCnt);
 			
-			$("#brdReadCnt-"+data.boardSeq).html(data.readCnt);	
+			// 댓글 관련
+			$("#cmnt-boardSeq").val(data.boardSeq);
+			
+			getCmntList(data.boardSeq);
 			
 		},
 		error : function(request, status, error){
@@ -160,7 +190,7 @@ function getBoardList(num){
 			html += 	'</div>';
 			html += 	'<div class="table-responsive mb-4" style="border-radius: 15px; overflow: hidden; border: 1px solid #ddd;">';
 // 			html += 		'<table class="table table-bordered table-striped table-hover table-lg mb-0 cursor-pointer">';
-			html += 		'<table class="table table-hover mb-0 cursor-pointer">';
+			html += 		'<table class="table mb-0">';
 // 			html += 		'<table class="table">';
 			html += 			'<colgroup>';
 			html += 				'<col width="40">';
@@ -181,15 +211,20 @@ function getBoardList(num){
 			html += 			'<tbody>';
 			
 								// 데이터 출력부분
+								
+							if(boardList.length > 0){
+									
 								for(let i=0; i < boardList.length; i++){
 									
 									if(boardList[i].bbsSeq == 1){
 // 			html +=						'<tr class="bg-primary" onclick="getBoard();">';
-			html +=						'<tr class="" onclick="getBoard('+boardList[i].boardSeq+');">';
+			html +=						'<tr class="tr-hover cursor-pointer" onclick="getBoard('+boardList[i].boardSeq+');">';
 			html +=							'<td class="text-danger fw-bolder">공지</td>';
-			html +=							'<td class="text-start text-danger fw-bolder"><img class="mb-1" src="'+contextPath +'/resources/front/main/assets/img/spk.png" style="max-width: 20px;"/>\u00a0\u00a0';
+			html +=							'<td class="text-start fw-bolder">';
+			html +=								'<img class="mb-1" src="'+contextPath +'/resources/front/main/assets/img/spk.png" style="max-width: 20px;"/>\u00a0\u00a0';
+			html +=								'<small class="text-danger">'+boardList[i].title+'</small>';
 									}else{
-			html +=						'<tr onclick="getBoard('+boardList[i].boardSeq+');">';
+			html +=						'<tr class="tr-hover cursor-pointer" onclick="getBoard('+boardList[i].boardSeq+');">';
 										boardList[i].rowNum > 0 ? html += '<td class="text-secondary"><small>'+boardList[i].rowNum+'</small></td>' : html += '<td></td>';
 			html +=							'<td class="text-start">';
 										if(boardList[i].lvl > 0){
@@ -198,15 +233,29 @@ function getBoardList(num){
 											}
 			html +=							'<img class="mb-1" src="'+contextPath +'/resources/admin/assets/img/arrow-return-right.svg" />\u00a0';
 										}
+			html +=							'<small class="">'+boardList[i].title+'</small>';
 									}
 
-			html +=								'<small>'+boardList[i].title+'</small></td>';
+									if(boardList[i].cmntCnt > 0){
+			html +=							'<span class="text-muted ms-1"><strong>['+boardList[i].cmntCnt+']</strong></span>';
+									}
+			
+			html +=						'</td>';
 			
 			html +=						'<td class="text-secondary"><small>'+boardList[i].userNm+'</small></td>';
 			html +=						'<td class="text-secondary"><small>'+boardList[i].regDt+'</small></td>';
 			html +=						'<td class="text-secondary"><small id="brdReadCnt-'+boardList[i].boardSeq+'">'+boardList[i].readCnt+'</small></td>';
 			html +=					'</tr>';
 								}
+							}else{
+			html +=					'<tr>';
+			html +=						'<td colspan="5">';
+			html +=							'<img class="m-4 w-25" src="'+contextPath +'/resources/front/main/assets/img/nocontent.png" />';
+			html += 						'<br><strong>검색 결과가 존재하지 않습니다.</strong><br><br>';
+			html +=						'</td>';
+			html +=					'<tr>';
+							}
+								
 			
 			html += 			'</tbody>';
 			html += 		'</table>';
@@ -286,6 +335,149 @@ function getBoardList(num){
 	
 }
 
+
+/* ################################################################################################# */
+/* ######################################## COMMENT ################################################ */
+
+// 댓글 등록
+function addCmnt(){
+
+	if(confirm("등록하시겠습니까?")){
+		
+		$.ajax({
+			url      : "/main/addCmnt.do",
+			method   : "POST",
+			data     : $("#frm-cmnt").serialize(),
+			dataType : "json",
+			success  : function(res){
+				
+				if(res > 0){
+					alert("등록되었습니다.")
+					getCmntList($("#cmnt-boardSeq").val());
+				}
+			},
+			error : function(request, status, error){
+				Swal.fire({
+					icon: "error",
+					title: "통신불가"
+				})
+			}
+		});
+	}
+}
+
+// 댓글 목록
+function getCmntList(no){
+	
+	$.ajax({
+		url      : "/main/getCmntList.do",
+		method   : "GET",
+		data     : {"no" : no},
+		dataType : "json",
+		success  : function(res){
+			
+			console.log(res)
+			
+			var cmntList = res.getCmntList;			
+			var html = '';
+			
+			if(cmntList.length > 0){
+				
+				for(var i=0; i < cmntList.length; i++){
+					
+					html += '<li class="mb-3 border-bottom pb-2 d-flex align-items-start" id="cmntRow-'+i+'">';
+					html += 	'<img src="'+contextPath+'/resources/front/main/assets/img/profile.png" alt="프로필 이미지" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">';
+					html += 	'<div class="ms-2 flex-grow-1">';
+					html += 		'<div class="mb-1">';
+					html += 			'<span class="fw-bold">'+cmntList[i].userNm+'</span>';
+
+					if(cmntList[i].authYn == 'Y'){
+						html += 		'<span class="my-writer ms-2"><span>작성자</span></span>';
+					}
+					
+						html += 		'<small class="text-muted ms-2 cursor-pointer cmnt-reply-btn" id="cmnt-replyBtn-'+i+'" onclick="replyCmnt(\''+cmntList[i].boardSeq+'\', \''+cmntList[i].ref+'\', \''+cmntList[i].step+'\', \''+cmntList[i].lvl+'\', \''+i+'\', this);">답글쓰기</small>';
+						
+					if(cmntList[i].regNo == $("#uno").val()){
+						html += 		'<small class="text-muted ms-2 cursor-pointer" onclick="updateCmnt('+cmntList[i].cmntSeq+', \'upd\');">수정</small>';
+						html += 		'<small class="text-muted ms-2 cursor-pointer" onclick="updateCmnt('+cmntList[i].cmntSeq+', \'del\');">삭제</small>';
+					}
+					
+					html += 		'</div>';
+					html += 		'<div class="text-body">'+cmntList[i].cn+'</div>';
+					html += 		'<small class="text-muted">'+cmntList[i].regDt+'</small>';
+					html += 	'</div>';
+					html += '</li>';
+				}
+		
+			}else{
+				html += '<li class="mb-3 border-bottom pb-2 d-flex align-items-start">';
+				html += 	'<div class="flex-grow-1 mb-2">';
+				html += 		'<div class="text-body text-center m-3">등록된 댓글이 없습니다. 댓글을 작성해주세요.</div>';
+				html += 	'</div>';
+				html += '</li>';
+			}
+			
+			$("#cmnt-cmntCnt").html(cmntList.length);
+			$("#append-cmnt").html(html);
+			
+		},
+		error : function(request, status, error){
+			Swal.fire({
+				icon: "error",
+				title: "통신불가"
+			})
+		}
+	});
+}
+
+// 댓글 수정 및 삭제
+function updateCmnt(no, gubun){
+	
+	if(gubun == 'upd'){
+		
+		
+		$("#cmntRow-"+no).append(html);
+		
+	}else{
+		
+	}
+	
+}
+
+// 대댓글 등록
+function replyCmnt(brdSeq, ref, step, lvl, no, info){
+
+	$(".frm-temp").remove();
+	$(".cmnt-reply-btn").not("#cmnt-replyBtn-"+no).html('답글쓰기');
+	
+	// 답글쓰기 클릭
+	if($(info).text().length > 3){
+		
+		let html = '';
+
+		html += 	'<form class="frm-temp" id="frmCmnt-'+no+'">';
+		html += 		'<input type="hidden" name="boardSeq" value="'+brdSeq+'">';
+		html += 		'<input type="hidden" name="ref" value="'+ref+'">';
+		html += 		'<input type="hidden" name="step" value="'+step+'">';
+		html += 		'<input type="hidden" name="lvl" value="'+lvl+'">';
+		html += 		'<div class="comment-box border rounded p-3 position-relative text-start mb-3" style="min-height: 100px;">';
+		html += 			'<div class="fw-bold mb-1">${sessionScope.USERNM}</div>';
+		html += 				'<textarea class="form-control border-0 p-0 my-textarea autosize-textarea" id="cmnt-replyCn" name="cn" placeholder="답글 작성중..." rows="2" style="resize: none;"></textarea>';
+		html += 				'<button type="button" class="btn text-muted position-absolute" id="btn-addCmnt" style="bottom: 10px; right: 10px;">등록</button>';
+		html += 		'</div>';
+		html += 	'</form>';
+		
+		$("#cmntRow-"+no).after(html);
+		$("#cmnt-replyBtn-"+no).html('취소');
+		$("#cmnt-replyCn").focus();
+		
+	// 취소 클릭	
+	}else{
+		$("#cmnt-replyBtn-"+no).html('답글쓰기');
+	}
+	
+}
+
 </script>
 
 	<!-- getBoardList Modal -->
@@ -309,7 +501,7 @@ function getBoardList(num){
                             <div class="d-flex justify-content-between">
                             	<span class="mt-2" id="append-cnt"></span>
                             	<div>
-		                            <button type="button" class="btn my-danger">내가 쓴 글</button>
+<!-- 		                            <button type="button" class="btn my-danger">내가 쓴 글</button> -->
 		                            <button type="button" class="btn my-success" onclick="getBoardPost();">글쓰기</button>
                             	</div>
                             </div>
@@ -347,6 +539,7 @@ function getBoardList(num){
             </div>
     <!-- 상단 툴바 -->
     <div class="modal-header border-0 pb-0 mt-4">
+    <hr>
       <div class="w-100 d-flex justify-content-between align-items-start mt-2 text-start">
         <div>
           <small class="text-success fw-bold ms-1"><span id="brd-bbsNm"></span>&gt;</small>
@@ -387,81 +580,21 @@ function getBoardList(num){
     </div> -->
     
      <!-- 댓글 -->
-    <div class="comments-section m-3 text-start">
-  <h6 class="fw-bold mb-3">댓글 <span class="text-danger">12</span></h6>
+    <div class="comments-section m-4 text-start">
+  		<h6 class="fw-bold mb-3">댓글 <span class="text-danger" id="cmnt-cmntCnt">0</span></h6>
+    	<hr>
+  		<ul class="list-unstyled mt-4" id="append-cmnt"></ul>
   
-  <ul class="list-unstyled mt-4">
-  
-    <li class="mb-3 border-bottom pb-2 d-flex align-items-start">
-  <img src="${pageContext.request.contextPath}/resources/front/main/assets/img/profile.png" alt="프로필 이미지" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">
-  <div class="ms-2 flex-grow-1">
-    <div class="mb-1">
-    	<span class="fw-bold">박아무개</span>
-    	<small class="text-muted ms-2">2025.05.09. 19:43</small>
-    	<small class="text-muted ms-2 cursor-pointer">답글쓰기</small>
-    </div>
-    <div class="text-body">매트 교체하시면서 운동 다 하셨겠네요 ㅎㅎ<br>축하드립니다!</div>
-  </div>
-</li>
-
-
-    <li class="mb-3 border-bottom pb-2 d-flex align-items-start">
-  <img src="${pageContext.request.contextPath}/resources/front/main/assets/img/profile.png" alt="프로필 이미지" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">
-  <div class="ms-2 flex-grow-1">
-      <div class="mb-1">
-    	<span class="fw-bold">하하하</span>
-       <small class="text-muted ms-2">2025.05.09. 20:09</small>
-    	<small class="text-muted ms-2 cursor-pointer">답글쓰기</small>
-       </div>
-      <div class="text-body">매트 크기 단차 없나요? 매트 공유 좀 해주세요</div>
-  </div>
-</li>
-
-
-    <li class="mb-3 border-bottom pb-2 d-flex align-items-start">
-  <img src="${pageContext.request.contextPath}/resources/front/main/assets/img/profile.png" alt="프로필 이미지" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">
-  <div class="ms-2 flex-grow-1">
-	      <div class="mb-1"> 
-    		<span class="fw-bold">닉네임</span>
-	      <span class="badge bg-success">작성자</span>
-	       <small class="text-muted ms-2">2025.05.09. 21:09</small>
-    	<small class="text-muted ms-2 cursor-pointer">답글쓰기</small>
-	      
-	    </div>
-      <div class="text-body">기존에는 5t 고무매트를 사용했는데요.<br>
-        고무별로 땡위치에는 눌림이 생기긴 합니다.<br>
-        지금은 eva 고강도매트(18t)로 밀바닥에 깔고...</div>
-  </div>
-</li>
-
-<!-- 댓글 없을때 -->
-    <li class="mb-3 border-bottom pb-2 d-flex align-items-start">
-  <div class="flex-grow-1 mb-2">
-      <div class="text-body text-center m-3">등록된 댓글이 없습니다. 댓글을 작성해주세요.</div>
-  </div>
-</li>
-    
-
-    
-    
-  </ul>
-  
-  
-<div class="comment-box border rounded p-3 position-relative text-start mb-3" style="min-height: 100px;">
-  <div class="fw-bold mb-1">호돈신</div>
-  <textarea class="form-control border-0 p-0 my-textarea autosize-textarea" placeholder="댓글을 남겨보세요" rows="2" style="resize: none;"></textarea>
-
-  <!-- 아이콘 btn -->
-  <!-- <div class="mt-2">
-    <button class="btn btn-light btn-sm"><i class="bi bi-camera"></i></button>
-    <button class="btn btn-light btn-sm"><i class="bi bi-emoji-smile"></i></button>
-  </div> -->
-
-  <button class="btn text-muted position-absolute" style="bottom: 10px; right: 10px;">등록</button>
-</div>
-</div>
-
-
+  		<form id="frm-cmnt">
+  			<input type="hidden" name="boardSeq" id="cmnt-boardSeq">
+			<div class="comment-box border rounded p-3 position-relative text-start mb-3" style="min-height: 100px;">
+	  			<div class="fw-bold mb-1">${sessionScope.USERNM}</div>
+	  			<textarea class="form-control border-0 p-0 my-textarea autosize-textarea" name="cn" placeholder="댓글을 남겨보세요." rows="2" style="resize: none;"></textarea>
+	  			<button type="button" class="btn text-muted position-absolute" id="btn-addCmnt" style="bottom: 10px; right: 10px;">등록</button>
+			</div>
+  		</form>
+	</div>
+	<!-- .comments-section End -->
     
   </div>
 </div>
@@ -488,7 +621,7 @@ function getBoardList(num){
                                     <p class="fs-5">사용자가 원하는 게시판에 글을 쓰고, 수정할 수 있으며 댓글, 비밀 글 등의 옵션이 있는 게시판입니다.</p>
                                     <ul class="list-inline">
                                         <li>
-                                            <strong>Client:</strong>
+<!--                                             <strong>Client:</strong> -->
                                             Threads(Name)
                                         </li>
                                         <li>

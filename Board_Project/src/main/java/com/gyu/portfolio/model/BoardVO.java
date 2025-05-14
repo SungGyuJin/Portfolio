@@ -31,7 +31,8 @@ public class BoardVO extends DefalutVO {
 	private String bbsStat 	= "";
 	private String bbsNm 	= "";
 	
-	private int rowNum 		=  0;
+	private int    rowNum 	=  0;
+	private int    cmntCnt 	=  0;
 
 	@Override
 	public String toString() {

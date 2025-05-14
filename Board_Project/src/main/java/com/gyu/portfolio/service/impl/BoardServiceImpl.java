@@ -149,7 +149,7 @@ public class BoardServiceImpl implements BoardService {
 		List<BbsVO> getBbsList = bbsMapper.getSelectBbsList();
 		
 		// 페이징 처리
-		int totalCnt = boardMapper.getBoardListCnt(boardVO);
+		int totalCnt = boardMapper.getFrontBoardListCnt(boardVO);
 		PageMakerDTO pageMaker = new PageMakerDTO(boardVO, totalCnt);
 
 		resultMap.put("getBoardList", getBoardList);
@@ -166,10 +166,12 @@ public class BoardServiceImpl implements BoardService {
 
 	    Map<String, Object> resultMap = new HashMap<>();
 	    
-	    // 조회수 카운트
+	    // 게시물 조회수 카운트
 	    boardMapper.updateReadCnt(boardVO);
 	    
-	    BoardVO getBoard = boardMapper.getFrontBoard(boardVO);
+	    // 게시물 상세
+	    BoardVO getBoard = null;
+	    getBoard = boardMapper.getFrontBoard(boardVO);
 	    
 	    resultMap.put("getBoard", getBoard);
 	    

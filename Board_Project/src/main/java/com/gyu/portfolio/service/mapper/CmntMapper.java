@@ -1,6 +1,6 @@
 package com.gyu.portfolio.service.mapper;
 
-import java.util.Map;
+import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -19,10 +19,10 @@ public interface CmntMapper {
 	int deleteCmnt(CmntVO cmntVO) throws Exception;
 
 	// 댓글 목록
-	Map<String, Object> getCmntList(CmntVO cmntVO) throws Exception;
+	List<CmntVO> getCmntList(CmntVO cmntVO) throws Exception;
 	
 	// 댓글 조회
-	Map<String, Object> getCmnt(CmntVO cmntVO) throws Exception;
+	CmntVO getCmnt(CmntVO cmntVO) throws Exception;
 
 	/* update ref */
     void updateRef(CmntVO cmntVO) throws Exception;

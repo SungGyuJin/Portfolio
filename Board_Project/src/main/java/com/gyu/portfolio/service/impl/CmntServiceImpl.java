@@ -1,5 +1,8 @@
 package com.gyu.portfolio.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,27 +81,42 @@ public class CmntServiceImpl implements CmntService{
 	}
 
 	@Override
-	public int updateCmnt(CmntVO CmntVO) throws Exception {
+	public int updateCmnt(CmntVO cmntVO) throws Exception {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int deleteCmnt(CmntVO CmntVO) throws Exception {
+	public int deleteCmnt(CmntVO cmntVO) throws Exception {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public Map<String, Object> getCmntList(CmntVO CmntVO) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public Map<String, Object> getCmntList(CmntVO cmntVO) throws Exception {
+
+		Map<String, Object> resultMap = new HashMap<>();
+
+		// 댓글 목록
+		List<CmntVO> getCmntList = new ArrayList<>();
+		getCmntList = cmntMapper.getCmntList(cmntVO);
+
+		resultMap.put("getCmntList", getCmntList);
+	    
+		return resultMap;
 	}
 
 	@Override
-	public Map<String, Object> getCmnt(CmntVO CmntVO) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public Map<String, Object> getCmnt(CmntVO cmntVO) throws Exception {
+		Map<String, Object> resultMap = new HashMap<>();
+
+		// 댓글 상세
+		CmntVO getCmnt = null;
+		getCmnt = cmntMapper.getCmnt(cmntVO);
+
+		resultMap.put("getCmnt", getCmnt);
+	    
+		return resultMap;
 	}
 
 
