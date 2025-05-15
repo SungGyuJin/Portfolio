@@ -44,6 +44,7 @@
 		WHERE 1=1
 			AND BOARD_SEQ = #{boardSeq}
 			AND STAT = 1
+		ORDER BY REF ASC, STEP
 	</select>
 	
 	<!-- 댓글 총 개수 -->

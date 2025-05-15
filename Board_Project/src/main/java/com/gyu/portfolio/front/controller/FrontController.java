@@ -208,5 +208,35 @@ public class FrontController {
 		return resultMap;
 	}
 	
+
+	/* 댓글 삭제처리 */
+	@PostMapping("/main/deleteCmnt.do")
+	@ResponseBody
+	public int deleteCmnt(ModelMap model,
+			@ModelAttribute("CmntVO") CmntVO cmntVO,
+			HttpServletRequest request,
+			HttpServletResponse response,
+			HttpSession session) throws Exception{
+
+		/* request 정보확인 START */
+		System.out.println();
+		System.out.println("++++++++++++++++++++++++++++++");
+		System.out.println("============ /deleteCmnt.do INFO  ===========");
+		Enumeration params = request.getParameterNames();
+		while(params.hasMoreElements()) {
+			String name= (String) params.nextElement();
+			System.out.println(name + ": " + request.getParameter(name));
+		}
+		System.out.println("++++++++++++++++++++++++++++++");
+		System.out.println();
+		/* request 정보확인 END */
+
+		cmntVO.setCmntSeq(Integer.parseInt(request.getParameter("no")));
+		cmntVO.setUpdNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
+		int result = cmntService.deleteCmnt(cmntVO);
+		
+		return result;
+	}
+	
 	
 }

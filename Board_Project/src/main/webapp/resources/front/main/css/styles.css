@@ -269,7 +269,8 @@ samp {
 pre {
   display: block;
   margin-top: 0;
-  margin-bottom: 1rem;
+/*   margin-bottom: 1rem; */
+  margin-bottom: 0rem;
   overflow: auto;
   font-size: 0.875em;
 }
@@ -1757,7 +1758,7 @@ progress {
 }
 .table > :not(caption) > * > * {
   padding: 0.5rem 0.5rem;
-  background-color: var(--bs-table-bg);
+/*   background-color: var(--bs-table-bg); */
   border-bottom-width: 1px;
   box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
 }
@@ -4502,7 +4503,8 @@ textarea.form-control-lg {
 .pagination {
   --bs-pagination-padding-x: 0.75rem;
   --bs-pagination-padding-y: 0.375rem;
-  --bs-pagination-font-size: 1rem;
+/*   --bs-pagination-font-size: 1rem; */
+  --bs-pagination-font-size: 14px;
   --bs-pagination-color: var(--bs-link-color);
   --bs-pagination-bg: #fff;
   --bs-pagination-border-width: 1px;
@@ -4539,7 +4541,8 @@ textarea.form-control-lg {
 
 /*   color: #4e73df; */
   color: #000;
-  background-color: #fff;
+/*   background-color: #fff; */
+  background-color: #f9f9f8;
 /*   border: 1px solid #dddfeb; */
 }
 @media (prefers-reduced-motion: reduce) {
@@ -4573,9 +4576,9 @@ textarea.form-control-lg {
 /*   color: #fff; */
   color: #000;
 /*   background-color: #4e73df; */
-  background-color: #E5E7EA;
+/*   background-color: #E5E7EA; */
+  background-color: #dcdcdc;
   border-color: #4e73df;
-  
   /* 추가 */
   font-weight: bold;
   border-radius: .375rem;
@@ -4807,7 +4810,8 @@ textarea.form-control-lg {
   --bs-list-group-bg: #fff;
   --bs-list-group-border-color: rgba(0, 0, 0, 0.125);
   --bs-list-group-border-width: 1px;
-  --bs-list-group-border-radius: 0.375rem;
+/*   --bs-list-group-border-radius: 0.375rem; */
+  --bs-list-group-border-radius: 0.875rem;
   --bs-list-group-item-padding-x: 1rem;
   --bs-list-group-item-padding-y: 0.5rem;
   --bs-list-group-action-color: #495057;

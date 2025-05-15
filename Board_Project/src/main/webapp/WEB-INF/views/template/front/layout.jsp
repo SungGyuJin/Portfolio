@@ -95,7 +95,8 @@ var contextPath = '${pageContext.request.contextPath}';
 
 .my-success {
   color: #fff;
-  background-color: #1cc88a;
+/*   background-color: #1cc88a; */
+  background-color: #03c75a;
   border-color: #1cc88a;
 }
 
@@ -118,8 +119,103 @@ var contextPath = '${pageContext.request.contextPath}';
 }
 
 .tr-hover:hover{
-  --bs-table-accent-bg: var(--bs-table-hover-bg);
+/*   --bs-table-accent-bg: var(--bs-table-hover-bg); */
+  --bs-table-accent-bg: #f8f9fa;
   color: var(--bs-table-hover-color);
+}
+
+.register_box {
+  text-align: right; /* 오른쪽 정렬 예시 */
+  margin-top: 10px;
+}
+
+.btn_register {
+  display: inline-block;
+  padding: 6px 12px;   /* 살짝 작게 */
+  font-size: 13px;     /* 기본보다 살짝 작음 */
+  line-height: 1.4;
+  color: white;
+  background-color: #03c75a;
+  border: none;
+  border-radius: 4px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn_register:hover {
+  background-color: #02b14d;
+}
+
+.btn_register:active {
+  background-color: #029740;
+}
+
+.btn_register.is_active {
+  opacity: 1;
+}
+
+.btn_register.disabled {
+  pointer-events: none;   /* 클릭 안 되게 */
+  background-color: #ccc; /* 회색 처리 */
+  color: #999;
+  cursor: not-allowed;
+}
+
+textarea:disabled {
+  background-color: #FFFFFF !important;  /* 배경색 변경 */
+/*   color: #555;                /* 글자색 변경 */ */
+/*   border: 1px solid #ccc;     /* 테두리 색 변경 */ */
+/*   cursor: not-allowed;        /* 마우스 커서 변경 */ */
+}
+
+.my-thead{
+	background-color: #ffffff;
+}
+
+.badge {
+/*   display: inline-block; */
+  background-color: #ffe3e4;
+  color: #ff4e59;
+  border: 1px solid #ffc6c9;
+  padding: 2px 6px;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 4px;
+  margin-right: 5px;
+}
+
+tr.notice td.title {
+  color: #d30000;
+/*   font-weight: bold; */
+}
+
+.my-notice{
+	display: inline-block; 
+  	background-color: #ffe3e4;
+  	color: #ff4e59;
+  	border: 1px solid #ffc6c9;
+  	padding: 2px 6px;
+ 	font-size: 12px;
+ 	font-weight: bold;
+ 	border-radius: 4px;
+  	margin-right: 5px;
+  	width: 56px;
+}
+
+.my-a{
+	text-decoration: none;
+}
+.my-a:hover {
+ 	text-decoration: underline;
+}
+
+.tr-notice{
+	background-color: #f9f9f8;
+}
+
+.cmnt-cnt {
+	color: #FF7A85;
 }
 
 

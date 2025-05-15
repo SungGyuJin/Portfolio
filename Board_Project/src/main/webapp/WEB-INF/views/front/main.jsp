@@ -7,9 +7,8 @@
 <script>
 
 /* 
-	1. 비로그인시 댓글쓰기 금지
-	2. 대댓글, 수정, 삭제 기능
-	3. 바로 readme 수정후 이력서 한번더 ㄱㄱ
+	1. 수정 기능
+	2. 바로 readme 수정후 이력서 한번더 ㄱㄱ
 */
 
 <c:choose>
@@ -61,7 +60,7 @@ $(function(){
 	
 	// 댓글 등록처리
 	$("#btn-addCmnt").on('click', function(){
-		addCmnt();
+		addCmnt('frm-addCmnt');
 	});
 	
 });
@@ -94,7 +93,9 @@ function getBoard(no){
 	// z-index 조정 (중첩 모달 문제 방지)
 	$('#getBoardModal').css('z-index', '1060');
 	$('.modal-backdrop').last().css('z-index', '1055');
-	  
+	
+	$("#cmnt-cn").val('');
+	
 	$.ajax({
 		url      : "/main/getBoard.do",
 		method   : "GET",
@@ -135,6 +136,13 @@ function changeList(num){
 	getBoardList(num);
 }
 
+// 게시판 이동
+function changeBbsSeq(no, info){
+	$("#bbsSeq").val(no);
+	$("#bbsNm").val($(info).text());
+	getBoardList();
+}
+
 // 게시물 목록
 function getBoardList(num){
 	
@@ -156,27 +164,32 @@ function getBoardList(num){
 		dataType : "json",
 		success  : function(res){
 			
-			let bbsList 		= res.getBbsList;
-			let boardList 		= res.getBoardList;
-			let boardListCnt 	= res.total;
-			let page 			= res.pageMaker;
-			let vo 				= res.boardVO;
-			let html 			= '';
-
-			console.log(boardList);
+			var bbsList 		= res.getBbsList;
+			var boardList 		= res.getBoardList;
+			var boardListCnt 	= res.total;
+			var page 			= res.pageMaker;
+			var vo 				= res.boardVO;
+			var html 			= '';
+			var html_bbs		= '';
+			
+			// 게시판 목록
+			for(let i=0; i < bbsList.length; i++){
+				html_bbs += '<tr>';
+				if(i == 0){
+					html_bbs += '<td><a href="javascript:void(0)" class="my-a text-dark" onclick="changeBbsSeq(0, this);">전체글보기</td>';
+				}
+				if(bbsList[i].bbsSeq != 1){
+					html_bbs += '<td><a href="javascript:void(0)" class="my-a text-dark" onclick="changeBbsSeq('+bbsList[i].bbsSeq+', this);">'+bbsList[i].nm+'</a></td>';
+				}
+				html_bbs += '</tr>';
+			}
+			
+			$("#append-bbs").html(html_bbs);
 
 			html += 	'<div class="mb-3">';
 			html += 		'<div class="d-flex justify-content-between">';
-			html += 			'<div>';
-			html += 				'<select class="form-select cursor-pointer" name="bbsSeq" onchange="changeList('+vo.pageNum+');" id="sel-bbs">';
-			html += 					'<option value="0">전체</option>';
-									for(let i=0; i < bbsList.length; i++){
-										if(bbsList[i].bbsSeq != 1){
-			html += 						'<option value="'+bbsList[i].bbsSeq+'">'+bbsList[i].nm+'</option>';
-										}
-									}
-			html += 				'</select>';
-			html += 			'</div>';
+// 			html += 			'<div><h4 id="area-bbsNm">전체글보기</h4></div>';
+			html += 			'<div><h4>'+(vo.bbsSeq > 0 ? vo.bbsNm : '전체글보기')+'</h4></div>';
 			html += 			'<div>';
 			html += 				'<select class="form-select cursor-pointer" name="amount" onchange="changeList('+vo.pageNum+');" id="sel-amount">';
 			html += 					'<option value="10">10개씩</option>';
@@ -188,19 +201,9 @@ function getBoardList(num){
 			html += 			'</div>';
 			html += 		'</div>';
 			html += 	'</div>';
-			html += 	'<div class="table-responsive mb-4" style="border-radius: 15px; overflow: hidden; border: 1px solid #ddd;">';
-// 			html += 		'<table class="table table-bordered table-striped table-hover table-lg mb-0 cursor-pointer">';
-			html += 		'<table class="table mb-0">';
-// 			html += 		'<table class="table">';
-			html += 			'<colgroup>';
-			html += 				'<col width="40">';
-			html += 				'<col width="130">';
-			html += 				'<col width="40">';
-			html += 				'<col width="40">';
-			html += 				'<col width="40">';
-			html += 			'</colgroup>';
-// 			html += 			'<thead class="" style="background-color: #f8f9fa;">';
-			html += 			'<thead class="table-light">';
+// 			html += 	'<div class="table-responsive mb-4" style="border-radius: 15px; overflow: hidden; border: 1px solid #ddd;">';
+			html += 		'<table class="table table-sm mb-5">';
+			html += 			'<thead class="my-thead text-muted">';
 			html += 				'<tr>';
 			html += 					'<th colspan="2">제목</th>';
 			html += 					'<th>작성자</th>';
@@ -217,14 +220,13 @@ function getBoardList(num){
 								for(let i=0; i < boardList.length; i++){
 									
 									if(boardList[i].bbsSeq == 1){
-// 			html +=						'<tr class="bg-primary" onclick="getBoard();">';
-			html +=						'<tr class="tr-hover cursor-pointer" onclick="getBoard('+boardList[i].boardSeq+');">';
-			html +=							'<td class="text-danger fw-bolder">공지</td>';
+			html +=						'<tr class="tr-notice">';
+			html +=							'<td class=""><span class="my-notice">공지</span></td>';
 			html +=							'<td class="text-start fw-bolder">';
 			html +=								'<img class="mb-1" src="'+contextPath +'/resources/front/main/assets/img/spk.png" style="max-width: 20px;"/>\u00a0\u00a0';
-			html +=								'<small class="text-danger">'+boardList[i].title+'</small>';
+			html +=								'<small><a href="javascript:getBoard('+boardList[i].boardSeq+');" class="my-a text-danger">'+boardList[i].title+'</a></small>';
 									}else{
-			html +=						'<tr class="tr-hover cursor-pointer" onclick="getBoard('+boardList[i].boardSeq+');">';
+			html +=						'<tr>';
 										boardList[i].rowNum > 0 ? html += '<td class="text-secondary"><small>'+boardList[i].rowNum+'</small></td>' : html += '<td></td>';
 			html +=							'<td class="text-start">';
 										if(boardList[i].lvl > 0){
@@ -233,11 +235,11 @@ function getBoardList(num){
 											}
 			html +=							'<img class="mb-1" src="'+contextPath +'/resources/admin/assets/img/arrow-return-right.svg" />\u00a0';
 										}
-			html +=							'<small class="">'+boardList[i].title+'</small>';
+			html +=							'<small><a href="javascript:getBoard('+boardList[i].boardSeq+');" class="my-a text-dark">'+boardList[i].title+'</a></small>';
 									}
 
 									if(boardList[i].cmntCnt > 0){
-			html +=							'<span class="text-muted ms-1"><strong>['+boardList[i].cmntCnt+']</strong></span>';
+			html +=							'<span class="cmnt-cnt fw-bolder ms-1">['+boardList[i].cmntCnt+']</span>';
 									}
 			
 			html +=						'</td>';
@@ -259,11 +261,11 @@ function getBoardList(num){
 			
 			html += 			'</tbody>';
 			html += 		'</table>';
-			html += 	'</div>';
+// 			html += 	'</div>';
 			
 // 			html += 	'<div class="d-flex justify-content-between">';
-			html += 	'<div class="">';
-			
+			html += 	'<div style="background-color: #f9f9f8;">';
+			html +=			'<br>';
 			html += 		'<nav aria-label="Page navigation">';
 			html += 			'<ul class="pagination justify-content-center mb-4">';
 								
@@ -290,10 +292,10 @@ function getBoardList(num){
 			
 			html += 			'</ul>';
 			html += 		'</nav>';
-			
+
 
 			html += 		'<div class="row g-3 mb-4 d-flex justify-content-end">';
-			html += 			'<div class="input-group justify-content-center">';
+			html += 			'<div class="input-group justify-content-center mb-4">';
 			html += 				'<div class="me-1" style="width: 15%;">';
 			html += 					'<select class="form-select me-1 my-round" name="gubun" id="sel-gubun">';
 			html += 						'<option value="">제목 + 내용</option>';
@@ -340,20 +342,26 @@ function getBoardList(num){
 /* ######################################## COMMENT ################################################ */
 
 // 댓글 등록
-function addCmnt(){
-
+function addCmnt(frm){
+	
 	if(confirm("등록하시겠습니까?")){
 		
 		$.ajax({
 			url      : "/main/addCmnt.do",
 			method   : "POST",
-			data     : $("#frm-cmnt").serialize(),
+			data     : $("#"+frm).serialize(),
 			dataType : "json",
 			success  : function(res){
 				
 				if(res > 0){
 					alert("등록되었습니다.")
 					getCmntList($("#cmnt-boardSeq").val());
+					getBoardList($("#pageNum").val());
+					
+					if(frm == 'frm-addCmnt'){
+						$("#cmnt-cn").val('');
+					}
+					
 				}
 			},
 			error : function(request, status, error){
@@ -386,6 +394,13 @@ function getCmntList(no){
 				for(var i=0; i < cmntList.length; i++){
 					
 					html += '<li class="mb-3 border-bottom pb-2 d-flex align-items-start" id="cmntRow-'+i+'">';
+					
+					if(cmntList[i].lvl > 0){
+						for(var k=0; k < cmntList[i].lvl; k++){
+							html += '&emsp;&emsp;&emsp;';
+						}
+					}
+					
 					html += 	'<img src="'+contextPath+'/resources/front/main/assets/img/profile.png" alt="프로필 이미지" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">';
 					html += 	'<div class="ms-2 flex-grow-1">';
 					html += 		'<div class="mb-1">';
@@ -395,7 +410,7 @@ function getCmntList(no){
 						html += 		'<span class="my-writer ms-2"><span>작성자</span></span>';
 					}
 					
-						html += 		'<small class="text-muted ms-2 cursor-pointer cmnt-reply-btn" id="cmnt-replyBtn-'+i+'" onclick="replyCmnt(\''+cmntList[i].boardSeq+'\', \''+cmntList[i].ref+'\', \''+cmntList[i].step+'\', \''+cmntList[i].lvl+'\', \''+i+'\', this);">답글쓰기</small>';
+						html += 		'<small class="text-muted ms-2 cursor-pointer cmnt-reply-btn" id="cmnt-replyBtn-'+i+'" onclick="replyCmntView(\''+cmntList[i].boardSeq+'\', \''+cmntList[i].ref+'\', \''+cmntList[i].step+'\', \''+cmntList[i].lvl+'\', \''+i+'\', this);">답글쓰기</small>';
 						
 					if(cmntList[i].regNo == $("#uno").val()){
 						html += 		'<small class="text-muted ms-2 cursor-pointer" onclick="updateCmnt('+cmntList[i].cmntSeq+', \'upd\');">수정</small>';
@@ -403,7 +418,7 @@ function getCmntList(no){
 					}
 					
 					html += 		'</div>';
-					html += 		'<div class="text-body">'+cmntList[i].cn+'</div>';
+					html += 		'<div class="text-body"><pre>'+cmntList[i].cn+'</pre></div>';
 					html += 		'<small class="text-muted">'+cmntList[i].regDt+'</small>';
 					html += 	'</div>';
 					html += '</li>';
@@ -430,24 +445,48 @@ function getCmntList(no){
 	});
 }
 
-// 댓글 수정 및 삭제
+// 댓글 수정(삭제)
 function updateCmnt(no, gubun){
 	
+	// 수정
 	if(gubun == 'upd'){
 		
 		
 		$("#cmntRow-"+no).append(html);
-		
-	}else{
-		
-	}
 	
+	// 삭제
+	}else{
+
+		if(confirm("삭제하시겠습니까?")){
+			
+			$.ajax({
+				url      : "/main/deleteCmnt.do",
+				method   : "POST",
+				data     : {"no" : no},
+				dataType : "json",
+				success  : function(res){
+					
+					if(res > 0){
+						alert("삭제되었습니다.")
+						getCmntList($("#cmnt-boardSeq").val());
+						getBoardList($("#pageNum").val());
+					}
+				},
+				error : function(request, status, error){
+					Swal.fire({
+						icon: "error",
+						title: "통신불가"
+					})
+				}
+			});
+		}
+	}
 }
 
-// 대댓글 등록
-function replyCmnt(brdSeq, ref, step, lvl, no, info){
+// 답글쓰기 클릭시 변화
+function replyCmntView(brdSeq, ref, step, lvl, no, info){
 
-	$(".frm-temp").remove();
+	$("#frm-addReplyCmnt").remove();
 	$(".cmnt-reply-btn").not("#cmnt-replyBtn-"+no).html('답글쓰기');
 	
 	// 답글쓰기 클릭
@@ -455,15 +494,17 @@ function replyCmnt(brdSeq, ref, step, lvl, no, info){
 		
 		let html = '';
 
-		html += 	'<form class="frm-temp" id="frmCmnt-'+no+'">';
+		html += 	'<form class="" id="frm-addReplyCmnt">';
 		html += 		'<input type="hidden" name="boardSeq" value="'+brdSeq+'">';
 		html += 		'<input type="hidden" name="ref" value="'+ref+'">';
 		html += 		'<input type="hidden" name="step" value="'+step+'">';
 		html += 		'<input type="hidden" name="lvl" value="'+lvl+'">';
 		html += 		'<div class="comment-box border rounded p-3 position-relative text-start mb-3" style="min-height: 100px;">';
-		html += 			'<div class="fw-bold mb-1">${sessionScope.USERNM}</div>';
-		html += 				'<textarea class="form-control border-0 p-0 my-textarea autosize-textarea" id="cmnt-replyCn" name="cn" placeholder="답글 작성중..." rows="2" style="resize: none;"></textarea>';
-		html += 				'<button type="button" class="btn text-muted position-absolute" id="btn-addCmnt" style="bottom: 10px; right: 10px;">등록</button>';
+		html += 			'<div class="fw-bold mb-1">'+$("#unm").val()+'</div>';
+		html += 			'<textarea class="form-control border-0 p-0 my-textarea autosize-textarea" id="cmnt-replyCn" name="cn" onkeyup="btnAddCmntChange(\'reply\');" placeholder="답글 작성중..." rows="2" style="resize: none;"></textarea>';
+		html +=				'<div class="register_box">';
+		html += 				'<button type="button" class="button btn_register is_active disabled" id="btn-addReplyCmnt" onclick="addCmnt(\'frm-addReplyCmnt\');">등록</button>';
+		html += 			'</div>';
 		html += 		'</div>';
 		html += 	'</form>';
 		
@@ -474,6 +515,27 @@ function replyCmnt(brdSeq, ref, step, lvl, no, info){
 	// 취소 클릭	
 	}else{
 		$("#cmnt-replyBtn-"+no).html('답글쓰기');
+	}
+}
+
+function btnAddCmntChange(str){
+	
+	// 새 댓글
+	if(str == 'add'){
+		
+		if($("#cmnt-cn").val().trim().length > 0){
+			$("#btn-addCmnt").removeClass('disabled');
+		}else{
+			$("#btn-addCmnt").addClass('disabled');
+		}
+		
+	// 대댓글
+	}else if(str == 'reply'){
+		if($("#cmnt-replyCn").val().trim().length > 0){
+			$("#btn-addReplyCmnt").removeClass('disabled');
+		}else{
+			$("#btn-addReplyCmnt").addClass('disabled');
+		}
 	}
 	
 }
@@ -490,19 +552,22 @@ function replyCmnt(brdSeq, ref, step, lvl, no, info){
                 <img src="${pageContext.request.contextPath}/resources/front/main/assets/img/close-icon.svg" alt="Close modal" style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%;" />
             </div>
 <!--             <div class="container py-5"> -->
-            <div class="container">
+<!--             <div class="container"> -->
+            <div class="container-fluid">
             	<img class="img-fluid" src="${pageContext.request.contextPath}/resources/front/main/assets/img/portfolio/1-board-img.jpg" alt="Board Image" style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%;" />
                 <div class="row justify-content-center">
                     <div class="col-lg-12">
 <!--                         <h2 class="text-uppercase mb-4">Board</h2> -->
 <!--                         <p class="item-intro text-muted mb-4 fs-4">사용자가 원하는 게시판에 글을 쓰고, 수정할 수 있으며 댓글, 비밀 글 등의 옵션이 있는 게시판입니다.</p> -->
 
-                        <div class="modal-body" id="modal-board">
+                        <%-- <div class="modal-body" id="modal-board">
+                        
+                        
+                        
                             <div class="d-flex justify-content-between">
                             	<span class="mt-2" id="append-cnt"></span>
                             	<div>
-<!-- 		                            <button type="button" class="btn my-danger">내가 쓴 글</button> -->
-		                            <button type="button" class="btn my-success" onclick="getBoardPost();">글쓰기</button>
+		                            <button type="button" class="btn my-success" onclick="getBoardPost();"><img src="${pageContext.request.contextPath}/resources/front/main/assets/img/pencil.png" class="me-2" alt="pencil" style="width: 25px; height: 25px;" />글쓰기</button>
                             	</div>
                             </div>
 							<input type="hidden" id="oldKeyword" value="">
@@ -515,6 +580,38 @@ function replyCmnt(brdSeq, ref, step, lvl, no, info){
                         		
                         		</div>
                         	</form>
+                        </div> --%>
+                        
+                        
+						<div class="modal-body" id="modal-board">
+	                        <div class="row">
+	                        	<div class="col-md-1 me-2" style="margin-top: 8rem; margin-left: 27rem;">
+<!-- 	                        		<div class="table-responsive" style="border-radius: 15px; overflow: hidden; border: 1px solid #ddd;"> -->
+	                        		<table class="table table-sm mb-0">
+										<tbody class="text-muted" id="append-bbs"></tbody>
+									</table>
+<!-- 								</div> -->
+	                        	</div>
+		                        <div class="col-md-6">
+		                            <div class="d-flex justify-content-between">
+		                            	<span class="mt-2" id="append-cnt"></span>
+		                            	<div>
+				                            <button type="button" class="btn my-success" onclick="getBoardPost();"><img src="${pageContext.request.contextPath}/resources/front/main/assets/img/pencil.png" class="me-2" alt="pencil" style="width: 25px; height: 25px;" />글쓰기</button>
+		                            	</div>
+		                            </div>
+									<input type="hidden" id="oldKeyword" value="">
+		                        	<hr>
+		                        	<form id="frm-board">
+		                        		<input type="hidden" name="bbsSeq" id="bbsSeq" value="0">
+		                        		<input type="hidden" name="pageNum" id="pageNum" value="1">
+		                        		<input type="hidden" name="searchKeyword" id="searchKeyword" autocomplete="off">
+		                        		<input type="hidden" name="bbsNm" id="bbsNm" value="${vo.pageNum }">
+		                        		
+		                        		
+		                        		<div id="append-board"></div>
+		                        	</form>
+		                        </div>
+	                        </div> <!-- .row end -->
                         </div>
                     </div>
                 </div>
@@ -565,7 +662,7 @@ function replyCmnt(brdSeq, ref, step, lvl, no, info){
 
     <!-- 본문 -->
     <div class="modal-body text-start">
-    	<pre  id="brd-cn"></pre>
+    	<pre id="brd-cn"></pre>
     </div>
 
     <!-- <div class="modal-footer border-0 d-flex justify-content-between align-items-center">
@@ -584,13 +681,25 @@ function replyCmnt(brdSeq, ref, step, lvl, no, info){
   		<h6 class="fw-bold mb-3">댓글 <span class="text-danger" id="cmnt-cmntCnt">0</span></h6>
     	<hr>
   		<ul class="list-unstyled mt-4" id="append-cmnt"></ul>
-  
-  		<form id="frm-cmnt">
+  		
+  		<form id="frm-addCmnt">
   			<input type="hidden" name="boardSeq" id="cmnt-boardSeq">
 			<div class="comment-box border rounded p-3 position-relative text-start mb-3" style="min-height: 100px;">
 	  			<div class="fw-bold mb-1">${sessionScope.USERNM}</div>
-	  			<textarea class="form-control border-0 p-0 my-textarea autosize-textarea" name="cn" placeholder="댓글을 남겨보세요." rows="2" style="resize: none;"></textarea>
-	  			<button type="button" class="btn text-muted position-absolute" id="btn-addCmnt" style="bottom: 10px; right: 10px;">등록</button>
+	  			
+	  			<c:choose>
+	  				<c:when test="${empty sessionScope.USERSEQ }">
+	  					<textarea class="form-control border-0 p-0 my-textarea autosize-textarea" placeholder="로그인이 필요합니다." rows="2" style="resize: none;" disabled></textarea>
+	  				</c:when>
+	  				<c:otherwise>
+			  			<textarea class="form-control border-0 p-0 my-textarea autosize-textarea" name="cn" id="cmnt-cn" onkeyup="btnAddCmntChange('add');" placeholder="댓글을 남겨보세요." rows="2" style="resize: none;"></textarea>
+	  				</c:otherwise>
+	  			</c:choose>
+	  			
+				<div class="register_box">
+					<button type="button" class="button btn_register is_active disabled" id="btn-addCmnt">등록</button>
+				</div>
+			
 			</div>
   		</form>
 	</div>

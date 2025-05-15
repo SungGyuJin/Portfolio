@@ -88,8 +88,7 @@ public class CmntServiceImpl implements CmntService{
 
 	@Override
 	public int deleteCmnt(CmntVO cmntVO) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		return cmntMapper.deleteCmnt(cmntVO);
 	}
 
 	@Override
