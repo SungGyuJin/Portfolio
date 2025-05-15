@@ -7,8 +7,7 @@
 <script>
 
 /* 
-	1. 수정 기능
-	2. 바로 readme 수정후 이력서 한번더 ㄱㄱ
+	1. 바로 readme 수정후 이력서 한번더 ㄱㄱ
 */
 
 <c:choose>
@@ -60,7 +59,7 @@ $(function(){
 	
 	// 댓글 등록처리
 	$("#btn-addCmnt").on('click', function(){
-		addCmnt('frm-addCmnt');
+		addCmnt('frm-addCmnt', 'add');
 	});
 	
 });
@@ -138,8 +137,11 @@ function changeList(num){
 
 // 게시판 이동
 function changeBbsSeq(no, info){
+	
+	$("#js-searchKeyword").val('');
+	
 	$("#bbsSeq").val(no);
-	$("#bbsNm").val($(info).text());
+// 	$("#bbsNm").val($(info).text());
 	getBoardList();
 }
 
@@ -172,24 +174,36 @@ function getBoardList(num){
 			var html 			= '';
 			var html_bbs		= '';
 			
+			var bbsNm = '';
+			var bbsSeq = 0;
+			
 			// 게시판 목록
 			for(let i=0; i < bbsList.length; i++){
 				html_bbs += '<tr>';
 				if(i == 0){
-					html_bbs += '<td><a href="javascript:void(0)" class="my-a text-dark" onclick="changeBbsSeq(0, this);">전체글보기</td>';
+					html_bbs += '<td class="my-td"> └ <a href="javascript:void(0)" id="bbsSeq-0" class="my-a text-dark" onclick="changeBbsSeq(0, this);"><img class="mb-1 me-1" src="'+contextPath +'/resources/front/main/assets/img/bbs_icon.png" style="max-width: 16px;"/>전체글보기</td>';
 				}
 				if(bbsList[i].bbsSeq != 1){
-					html_bbs += '<td><a href="javascript:void(0)" class="my-a text-dark" onclick="changeBbsSeq('+bbsList[i].bbsSeq+', this);">'+bbsList[i].nm+'</a></td>';
+					html_bbs += '<td class="my-td"> └ <a href="javascript:void(0)" id="bbsSeq-'+bbsList[i].bbsSeq+'" class="my-a text-dark" onclick="changeBbsSeq('+bbsList[i].bbsSeq+', this);"><img class="mb-1 me-1" src="'+contextPath +'/resources/front/main/assets/img/bbs_icon.png" style="max-width: 16px;"/>'+bbsList[i].nm+'</a></td>';
 				}
 				html_bbs += '</tr>';
+				
+				if(vo.bbsSeq == bbsList[i].bbsSeq){
+					bbsSeq = bbsList[i].bbsSeq;
+					bbsNm = bbsList[i].nm;
+				}
 			}
 			
 			$("#append-bbs").html(html_bbs);
+			$("#bbsSeq-"+bbsSeq).addClass('fw-bolder');
+			
+			if(bbsNm.length == 0){
+				bbsNm = '전체글보기';
+			}
 
 			html += 	'<div class="mb-3">';
 			html += 		'<div class="d-flex justify-content-between">';
-// 			html += 			'<div><h4 id="area-bbsNm">전체글보기</h4></div>';
-			html += 			'<div><h4>'+(vo.bbsSeq > 0 ? vo.bbsNm : '전체글보기')+'</h4></div>';
+			html += 			'<div><h4>'+bbsNm+'</h4></div>';
 			html += 			'<div>';
 			html += 				'<select class="form-select cursor-pointer" name="amount" onchange="changeList('+vo.pageNum+');" id="sel-amount">';
 			html += 					'<option value="10">10개씩</option>';
@@ -201,8 +215,14 @@ function getBoardList(num){
 			html += 			'</div>';
 			html += 		'</div>';
 			html += 	'</div>';
-// 			html += 	'<div class="table-responsive mb-4" style="border-radius: 15px; overflow: hidden; border: 1px solid #ddd;">';
 			html += 		'<table class="table table-sm mb-5">';
+			html +=				'<colgroup>';
+			html +=					'<col width="5%">';
+			html +=					'<col width="30%">';
+			html +=					'<col width="10%">';
+			html +=					'<col width="10%">';
+			html +=					'<col width="10%">';
+			html +=				'</colgroup>';
 			html += 			'<thead class="my-thead text-muted">';
 			html += 				'<tr>';
 			html += 					'<th colspan="2">제목</th>';
@@ -213,8 +233,7 @@ function getBoardList(num){
 			html += 			'</thead>';
 			html += 			'<tbody>';
 			
-								// 데이터 출력부분
-								
+							// 데이터 출력부분
 							if(boardList.length > 0){
 									
 								for(let i=0; i < boardList.length; i++){
@@ -233,7 +252,13 @@ function getBoardList(num){
 											for(let k=0; k < boardList[i].lvl; k++){
 												html += "\u00a0";
 											}
-			html +=							'<img class="mb-1" src="'+contextPath +'/resources/admin/assets/img/arrow-return-right.svg" />\u00a0';
+// 											html +=							'<img class="mb-1" src="'+contextPath +'/resources/admin/assets/img/arrow-return-right.svg" />\u00a0';
+
+							
+
+
+// 							html +=							'└\u00a0';
+			html +=							' └ <small><span class="border px-1 py-0 fw-bold small my-danger me-1"><strong>RE</strong></span></small>';
 										}
 			html +=							'<small><a href="javascript:getBoard('+boardList[i].boardSeq+');" class="my-a text-dark">'+boardList[i].title+'</a></small>';
 									}
@@ -252,8 +277,10 @@ function getBoardList(num){
 							}else{
 			html +=					'<tr>';
 			html +=						'<td colspan="5">';
-			html +=							'<img class="m-4 w-25" src="'+contextPath +'/resources/front/main/assets/img/nocontent.png" />';
-			html += 						'<br><strong>검색 결과가 존재하지 않습니다.</strong><br><br>';
+// 			html +=							'<img class="m-4 w-25" src="'+contextPath +'/resources/front/main/assets/img/nocontent.png" />';
+			html +=							'<img class="m-4" src="'+contextPath +'/resources/front/main/assets/img/nocontent.png" style="max-height: 230px;" />';
+// 			html += 						'<br><strong>검색 결과가 존재하지 않습니다.</strong><br><br>';
+			html += 						'<br>검색 결과가 존재하지 않습니다.<br><br>';
 			html +=						'</td>';
 			html +=					'<tr>';
 							}
@@ -261,7 +288,6 @@ function getBoardList(num){
 			
 			html += 			'</tbody>';
 			html += 		'</table>';
-// 			html += 	'</div>';
 			
 // 			html += 	'<div class="d-flex justify-content-between">';
 			html += 	'<div style="background-color: #f9f9f8;">';
@@ -306,7 +332,7 @@ function getBoardList(num){
 			html += 				'</div>';
 			
 			
-			html += 				'<input type="text" class="form-control me-1 my-round" id="js-searchKeyword" placeholder="검색어 입력" value="'+vo.searchKeyword+'" autocomplete="off" style="flex: 0 0 30%;">';
+			html += 				'<input type="text" class="form-control me-1 my-round" id="js-searchKeyword" placeholder="검색어를 입력해주세요" value="'+vo.searchKeyword+'" autocomplete="off" style="flex: 0 0 30%;">';
 // 			html += 				'<button type="button" class="btn btn-success my-primary my-round" onclick="changeList();" style="flex: 0 0 15%;"></button>';
 			html += 				'<button type="button" class="btn my-green my-round" onclick="changeList();"><i class="fas fa-search fa-lg"></i></button>';
 			html += 			'</div>';
@@ -342,25 +368,20 @@ function getBoardList(num){
 /* ######################################## COMMENT ################################################ */
 
 // 댓글 등록
-function addCmnt(frm){
+function addCmnt(frm, gubun){
 	
-	if(confirm("등록하시겠습니까?")){
+	if(gubun == 'update'){
 		
 		$.ajax({
-			url      : "/main/addCmnt.do",
+			url      : "/main/updateCmnt.do",
 			method   : "POST",
 			data     : $("#"+frm).serialize(),
 			dataType : "json",
 			success  : function(res){
 				
 				if(res > 0){
-					alert("등록되었습니다.")
 					getCmntList($("#cmnt-boardSeq").val());
 					getBoardList($("#pageNum").val());
-					
-					if(frm == 'frm-addCmnt'){
-						$("#cmnt-cn").val('');
-					}
 					
 				}
 			},
@@ -371,7 +392,35 @@ function addCmnt(frm){
 				})
 			}
 		});
+		
+	}else{
+		
+		$.ajax({
+			url      : "/main/addCmnt.do",
+			method   : "POST",
+			data     : $("#"+frm).serialize(),
+			dataType : "json",
+			success  : function(res){
+				
+				if(res > 0){
+					getCmntList($("#cmnt-boardSeq").val());
+					getBoardList($("#pageNum").val());
+					
+					if(gubun == 'add'){
+						$("#btn-addCmnt").addClass('disabled');
+						$("#cmnt-cn").val('');
+					}
+				}
+			},
+			error : function(request, status, error){
+				Swal.fire({
+					icon: "error",
+					title: "통신불가"
+				})
+			}
+		});
 	}
+	
 }
 
 // 댓글 목록
@@ -410,16 +459,16 @@ function getCmntList(no){
 						html += 		'<span class="my-writer ms-2"><span>작성자</span></span>';
 					}
 					
-						html += 		'<small class="text-muted ms-2 cursor-pointer cmnt-reply-btn" id="cmnt-replyBtn-'+i+'" onclick="replyCmntView(\''+cmntList[i].boardSeq+'\', \''+cmntList[i].ref+'\', \''+cmntList[i].step+'\', \''+cmntList[i].lvl+'\', \''+i+'\', this);">답글쓰기</small>';
+						html += 		'<small class="text-muted ms-2 cursor-pointer cmnt-reply-btn" id="cmnt-replyBtn-'+i+'" onclick="replyCmntView(\''+cmntList[i].boardSeq+'\', \''+cmntList[i].ref+'\', \''+cmntList[i].step+'\', \''+cmntList[i].lvl+'\', \''+i+'\');">답글쓰기</small>';
 						
 					if(cmntList[i].regNo == $("#uno").val()){
-						html += 		'<small class="text-muted ms-2 cursor-pointer" onclick="updateCmnt('+cmntList[i].cmntSeq+', \'upd\');">수정</small>';
+						html += 		'<small class="text-muted ms-2 cursor-pointer" onclick="updateCmnt('+cmntList[i].cmntSeq+', \'upd\', '+i+');">수정</small>';
 						html += 		'<small class="text-muted ms-2 cursor-pointer" onclick="updateCmnt('+cmntList[i].cmntSeq+', \'del\');">삭제</small>';
 					}
 					
 					html += 		'</div>';
 					html += 		'<div class="text-body"><pre>'+cmntList[i].cn+'</pre></div>';
-					html += 		'<small class="text-muted">'+cmntList[i].regDt+'</small>';
+					html += 		'<small class="text-muted">'+cmntList[i].updDt+'</small>';
 					html += 	'</div>';
 					html += '</li>';
 				}
@@ -427,7 +476,7 @@ function getCmntList(no){
 			}else{
 				html += '<li class="mb-3 border-bottom pb-2 d-flex align-items-start">';
 				html += 	'<div class="flex-grow-1 mb-2">';
-				html += 		'<div class="text-body text-center m-3">등록된 댓글이 없습니다. 댓글을 작성해주세요.</div>';
+				html += 		'<div class="text-body text-center m-3">등록된 댓글이 없습니다.</div>';
 				html += 	'</div>';
 				html += '</li>';
 			}
@@ -445,14 +494,65 @@ function getCmntList(no){
 	});
 }
 
+// 취소버튼
+function btnCmntCancel(no, gubun){
+	
+	if(gubun == 'update'){
+		$("#frm-updateCmnt").remove();
+		$("#cmntRow-"+no).removeClass('d-none');
+	}else if(gubun == 'reply'){
+		$("#frm-addReplyCmnt").remove();
+	}
+	
+}
+
+var liOld = null;
+
 // 댓글 수정(삭제)
-function updateCmnt(no, gubun){
+function updateCmnt(cmntSeq, gubun, no){
 	
 	// 수정
 	if(gubun == 'upd'){
 		
+		if(liOld != null){
+			$("#cmntRow-"+liOld).removeClass('d-none');
+		}
+		liOld = no;
 		
-		$("#cmntRow-"+no).append(html);
+		$(".frm-updateCmnt").remove();
+		
+		$.ajax({
+			url      : "/main/getCmnt.do",
+			method   : "GET",
+			data     : {"no" : cmntSeq},
+			dataType : "json",
+			success  : function(res){
+				
+				let html = '';
+				
+				html += 	'<form class="frm-updateCmnt" id="frm-updateCmnt">';
+				html += 		'<input type="hidden" name="cmntSeq" value="'+cmntSeq+'">';
+				html += 		'<div class="comment-box border rounded p-3 position-relative text-start mb-3" style="min-height: 100px;">';
+				html += 			'<div class="fw-bold mb-1">'+$("#unm").val()+'</div>';
+				html += 			'<textarea class="form-control border-0 p-0 my-textarea autosize-textarea" id="cmnt-updateCn" name="cn" onkeyup="btnAddCmntChange(\'update\');" placeholder="댓글 수정중..." rows="2" style="resize: none;">'+res.getCmnt.cn+'</textarea>';
+				html +=				'<div class="register_box">';
+				html += 				'<button type="button" class="button btn_cancel is_active me-1" id="btn-updCancel" onclick="btnCmntCancel('+no+', \'update\')">취소</button>';
+				html += 				'<button type="button" class="button btn_register is_active" id="btn-updateCmnt" onclick="addCmnt(\'frm-updateCmnt\', \'update\');">수정</button>';
+				html += 			'</div>';
+				html += 		'</div>';
+				html += 	'</form>';
+				
+				$("#cmntRow-"+no).after(html);
+				$("#cmntRow-"+no).addClass('d-none');
+				
+			},
+			error : function(request, status, error){
+				Swal.fire({
+					icon: "error",
+					title: "통신불가"
+				})
+			}
+		});
 	
 	// 삭제
 	}else{
@@ -462,7 +562,7 @@ function updateCmnt(no, gubun){
 			$.ajax({
 				url      : "/main/deleteCmnt.do",
 				method   : "POST",
-				data     : {"no" : no},
+				data     : {"no" : cmntSeq},
 				dataType : "json",
 				success  : function(res){
 					
@@ -483,53 +583,51 @@ function updateCmnt(no, gubun){
 	}
 }
 
+
 // 답글쓰기 클릭시 변화
-function replyCmntView(brdSeq, ref, step, lvl, no, info){
+function replyCmntView(brdSeq, ref, step, lvl, no){
 
 	$("#frm-addReplyCmnt").remove();
-	$(".cmnt-reply-btn").not("#cmnt-replyBtn-"+no).html('답글쓰기');
 	
-	// 답글쓰기 클릭
-	if($(info).text().length > 3){
-		
-		let html = '';
+	let html = '';
 
-		html += 	'<form class="" id="frm-addReplyCmnt">';
-		html += 		'<input type="hidden" name="boardSeq" value="'+brdSeq+'">';
-		html += 		'<input type="hidden" name="ref" value="'+ref+'">';
-		html += 		'<input type="hidden" name="step" value="'+step+'">';
-		html += 		'<input type="hidden" name="lvl" value="'+lvl+'">';
-		html += 		'<div class="comment-box border rounded p-3 position-relative text-start mb-3" style="min-height: 100px;">';
-		html += 			'<div class="fw-bold mb-1">'+$("#unm").val()+'</div>';
-		html += 			'<textarea class="form-control border-0 p-0 my-textarea autosize-textarea" id="cmnt-replyCn" name="cn" onkeyup="btnAddCmntChange(\'reply\');" placeholder="답글 작성중..." rows="2" style="resize: none;"></textarea>';
-		html +=				'<div class="register_box">';
-		html += 				'<button type="button" class="button btn_register is_active disabled" id="btn-addReplyCmnt" onclick="addCmnt(\'frm-addReplyCmnt\');">등록</button>';
-		html += 			'</div>';
-		html += 		'</div>';
-		html += 	'</form>';
+	html += 	'<form class="" id="frm-addReplyCmnt">';
+	html += 		'<input type="hidden" name="boardSeq" value="'+brdSeq+'">';
+	html += 		'<input type="hidden" name="ref" value="'+ref+'">';
+	html += 		'<input type="hidden" name="step" value="'+step+'">';
+	html += 		'<input type="hidden" name="lvl" value="'+lvl+'">';
+	html += 		'<div class="comment-box border rounded p-3 position-relative text-start mb-3 ms-5" style="min-height: 100px;">';
+	html += 			'<div class="fw-bold mb-1">'+$("#unm").val()+'</div>';
+	html += 			'<textarea class="form-control border-0 p-0 my-textarea autosize-textarea" id="cmnt-replyCn" name="cn" onkeyup="btnAddCmntChange(\'reply\');" placeholder="답글 작성중..." rows="2" style="resize: none;"></textarea>';
+	html +=				'<div class="register_box">';
+	html += 				'<button type="button" class="button btn_cancel is_active me-1" id="btn-replyCancel" onclick="btnCmntCancel('+no+', \'reply\')">취소</button>';
+	html += 				'<button type="button" class="button btn_register is_active disabled" id="btn-addReplyCmnt" onclick="addCmnt(\'frm-addReplyCmnt\', \'reply\');">등록</button>';
+	html += 			'</div>';
+	html += 		'</div>';
+	html += 	'</form>';
+	
+	$("#cmntRow-"+no).after(html);
+	$("#cmnt-replyCn").focus();
 		
-		$("#cmntRow-"+no).after(html);
-		$("#cmnt-replyBtn-"+no).html('취소');
-		$("#cmnt-replyCn").focus();
-		
-	// 취소 클릭	
-	}else{
-		$("#cmnt-replyBtn-"+no).html('답글쓰기');
-	}
 }
 
 function btnAddCmntChange(str){
 	
-	// 새 댓글
+	// 등록
 	if(str == 'add'){
-		
 		if($("#cmnt-cn").val().trim().length > 0){
 			$("#btn-addCmnt").removeClass('disabled');
 		}else{
 			$("#btn-addCmnt").addClass('disabled');
 		}
-		
-	// 대댓글
+	// 수정
+	}else if(str == 'update'){
+		if($("#cmnt-updateCn").val().trim().length > 0){
+			$("#btn-updateCmnt").removeClass('disabled');
+		}else{
+			$("#btn-updateCmnt").addClass('disabled');
+		}
+	// 답글(대댓글)
 	}else if(str == 'reply'){
 		if($("#cmnt-replyCn").val().trim().length > 0){
 			$("#btn-addReplyCmnt").removeClass('disabled');
@@ -537,7 +635,6 @@ function btnAddCmntChange(str){
 			$("#btn-addReplyCmnt").addClass('disabled');
 		}
 	}
-	
 }
 
 </script>
@@ -554,7 +651,6 @@ function btnAddCmntChange(str){
 <!--             <div class="container py-5"> -->
 <!--             <div class="container"> -->
             <div class="container-fluid">
-            	<img class="img-fluid" src="${pageContext.request.contextPath}/resources/front/main/assets/img/portfolio/1-board-img.jpg" alt="Board Image" style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%;" />
                 <div class="row justify-content-center">
                     <div class="col-lg-12">
 <!--                         <h2 class="text-uppercase mb-4">Board</h2> -->
@@ -582,17 +678,19 @@ function btnAddCmntChange(str){
                         	</form>
                         </div> --%>
                         
-                        
-						<div class="modal-body" id="modal-board">
+						<div class="modal-body mt-5" id="modal-board">
 	                        <div class="row">
-	                        	<div class="col-md-1 me-2" style="margin-top: 8rem; margin-left: 27rem;">
+<!-- 	                        <div class="row d-flex align-items-stretch"> -->
+<!-- 	                        	<div class="col-md-1 me-2" style="margin-top: 8rem; margin-left: 27rem;"> -->
+	                        	<div class="col-md-1 me-2" style="margin-left: 27rem; margin-top: -0.18rem;">
 <!-- 	                        		<div class="table-responsive" style="border-radius: 15px; overflow: hidden; border: 1px solid #ddd;"> -->
-	                        		<table class="table table-sm mb-0">
-										<tbody class="text-muted" id="append-bbs"></tbody>
+            						<img class="img-fluid mb-3" src="${pageContext.request.contextPath}/resources/front/main/assets/img/portfolio/1-board-img.jpg" alt="Board Image" style="width: 100%; max-height: 100%; object-fit: cover; border-radius: 5%;" />
+	                        		<table class="table table-sm mb-0 text-start">
+										<tbody class="text-muted my-thead" id="append-bbs"></tbody>
 									</table>
 <!-- 								</div> -->
 	                        	</div>
-		                        <div class="col-md-6">
+		                        <div class="col-md-6 mt-4">
 		                            <div class="d-flex justify-content-between">
 		                            	<span class="mt-2" id="append-cnt"></span>
 		                            	<div>

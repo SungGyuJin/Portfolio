@@ -129,6 +129,27 @@ var contextPath = '${pageContext.request.contextPath}';
   margin-top: 10px;
 }
 
+.btn_cancel {
+  display: inline-block;
+  padding: 6px 12px;   /* 살짝 작게 */
+  font-size: 13px;     /* 기본보다 살짝 작음 */
+  line-height: 1.4;
+  color: #a0a0a0;
+  background-color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn_cancel:hover {
+/*   background-color: #a0a0a0; */
+}
+.btn_cancel:active {
+  background-color: #d2d2d2;
+}
+
 .btn_register {
   display: inline-block;
   padding: 6px 12px;   /* 살짝 작게 */
@@ -171,6 +192,8 @@ textarea:disabled {
 
 .my-thead{
 	background-color: #ffffff;
+	border-top: 1px solid black;
+/*     border-bottom: 1px solid black; /* 여기서 맨 위 선 굵게 */ */
 }
 
 .badge {
@@ -203,6 +226,10 @@ tr.notice td.title {
   	width: 56px;
 }
 
+img.blocking-hover {
+  pointer-events: none;
+}
+
 .my-a{
 	text-decoration: none;
 }
@@ -218,6 +245,9 @@ tr.notice td.title {
 	color: #FF7A85;
 }
 
+.my-td{
+/* 	font-size: 0.875rem; */
+}
 
 </style>
         

@@ -142,7 +142,14 @@ public class BoardController {
 		/* request 정보확인 END */
 		
 		boardVO.setRegNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
-		int result = boardService.addBoard(boardVO);
+		int result = 0;
+		result = boardService.addBoard(boardVO);
+		
+		
+//		for(int i=0; i < 80; i++) {
+			
+//		}
+		
 		
 		if(result > 0) {
 			if(boardVO.getRef() > 0) {

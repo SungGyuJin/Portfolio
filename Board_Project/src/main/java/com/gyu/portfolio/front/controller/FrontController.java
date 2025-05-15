@@ -177,6 +177,34 @@ public class FrontController {
 		return result;
 	}
 	
+	/* 댓글 수정처리 */
+	@PostMapping("/main/updateCmnt.do")
+	@ResponseBody
+	public int updateCmnt(ModelMap model,
+			@ModelAttribute("CmntVO") CmntVO cmntVO,
+			HttpServletRequest request,
+			HttpServletResponse response,
+			HttpSession session) throws Exception{
+
+		/* request 정보확인 START */
+		System.out.println();
+		System.out.println("++++++++++++++++++++++++++++++");
+		System.out.println("============ /addCmnt.do INFO  ===========");
+		Enumeration params = request.getParameterNames();
+		while(params.hasMoreElements()) {
+			String name= (String) params.nextElement();
+			System.out.println(name + ": " + request.getParameter(name));
+		}
+		System.out.println("++++++++++++++++++++++++++++++");
+		System.out.println();
+		/* request 정보확인 END */
+
+		cmntVO.setRegNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
+		int result = cmntService.updateCmnt(cmntVO);
+		
+		return result;
+	}
+	
 
 	/* 댓글 목록 */
 	@GetMapping("/main/getCmntList.do")
@@ -204,6 +232,36 @@ public class FrontController {
 	    
 	    cmntVO.setBoardSeq(Integer.parseInt(request.getParameter("no")));
 	    resultMap = cmntService.getCmntList(cmntVO);
+		
+		return resultMap;
+	}
+
+	/* 댓글 조회 */
+	@GetMapping("/main/getCmnt.do")
+	@ResponseBody
+	public Map<String, Object> getCmnt(ModelMap model,
+			@ModelAttribute("CmntVO") CmntVO cmntVO,
+			HttpServletRequest request,
+			HttpServletResponse response,
+			HttpSession session) throws Exception{
+
+		/* request 정보확인 START */
+		System.out.println();
+		System.out.println("++++++++++++++++++++++++++++++");
+		System.out.println("============ /getCmnt.do INFO  ===========");
+		Enumeration params = request.getParameterNames();
+		while(params.hasMoreElements()) {
+			String name= (String) params.nextElement();
+			System.out.println(name + ": " + request.getParameter(name));
+		}
+		System.out.println("++++++++++++++++++++++++++++++");
+		System.out.println();
+		/* request 정보확인 END */
+
+	    Map<String, Object> resultMap = new HashMap<>();
+	    
+	    cmntVO.setCmntSeq(Integer.parseInt(request.getParameter("no")));
+	    resultMap = cmntService.getCmnt(cmntVO);
 		
 		return resultMap;
 	}

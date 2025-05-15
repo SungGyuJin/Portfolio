@@ -2022,10 +2022,12 @@ progress {
 }
 .form-control:focus {
   color: #212529;
-  background-color: #fff;
-  border-color: #ffe480;
+/*   background-color: #fff; */
+/*   border-color: #ffe480; */
+  border-color: #03c75a;
   outline: 0;
-  box-shadow: 0 0 0 0.25rem rgba(255, 200, 0, 0.25);
+/*   box-shadow: 0 0 0 0.25rem rgba(255, 200, 0, 0.25); */
+
 }
 .form-control::-webkit-date-and-time-value {
   height: 1.5em;
@@ -2170,9 +2172,9 @@ textarea.form-control-lg {
   }
 }
 .form-select:focus {
-  border-color: #ffe480;
+/*   border-color: #ffe480; */
   outline: 0;
-  box-shadow: 0 0 0 0.25rem rgba(255, 200, 0, 0.25);
+/*   box-shadow: 0 0 0 0.25rem rgba(255, 200, 0, 0.25); */
 }
 .form-select[multiple], .form-select[size]:not([size="1"]) {
   padding-right: 0.75rem;
@@ -4577,7 +4579,8 @@ textarea.form-control-lg {
   color: #000;
 /*   background-color: #4e73df; */
 /*   background-color: #E5E7EA; */
-  background-color: #dcdcdc;
+/*   background-color: #dcdcdc; */
+  background-color: #e5e7ea;
   border-color: #4e73df;
   /* 추가 */
   font-weight: bold;
