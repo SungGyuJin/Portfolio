@@ -11357,8 +11357,8 @@ section#contact form#contactForm :-ms-input-placeholder {
   position: fixed;
   top: 0;
   right: 0;
-  margin: 0;
-  height: 100%;
+  margin: 1;
+  height: 98%;
   max-width: 30%;
   width: 30%;
 }

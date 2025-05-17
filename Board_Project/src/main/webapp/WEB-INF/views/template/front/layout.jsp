@@ -10,7 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <meta name="description" content="" />
 <meta name="author" content="" />
-<title><decorator:title default="Portfolio" /></title>
+<title><decorator:title default="Portfolio Collection" /></title>
 
 <!-- jQuery -->
 <script src="${pageContext.request.contextPath}/resources/admin/assets/vendor/jquery/jquery.min.js"></script>
@@ -247,6 +247,16 @@ img.blocking-hover {
 
 .my-td{
 /* 	font-size: 0.875rem; */
+}
+
+.board-img {
+  width: 100%;         /* 부모 너비에 맞춤 */
+/*   max-width: 200px;    /* 최대 너비 제한 */ */
+  height: 150px;       /* 고정 높이 */
+  object-fit: cover;   /* 비율 유지하며 꽉 채우기 */
+  border-radius: 5%;
+  margin-bottom: 0.825rem !important;
+	
 }
 
 </style>
