@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 public class BoardVO extends DefalutVO {
 	
-	private int    boardSeq =  0;  // 게시물 번호
+	private Integer    boardSeq =  0;  // 게시물 번호
 	private int    bbsSeq 	=  0;  // 게시판 번호
 	private String title 	= "";  // 제목
 	private String cont 	= "";  // 내용

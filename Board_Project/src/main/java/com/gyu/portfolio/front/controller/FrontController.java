@@ -2,6 +2,7 @@ package com.gyu.portfolio.front.controller;
 
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,14 +14,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.gyu.portfolio.model.BbsVO;
 import com.gyu.portfolio.model.BoardVO;
 import com.gyu.portfolio.model.CmntVO;
+import com.gyu.portfolio.service.BbsService;
 import com.gyu.portfolio.service.BoardService;
 import com.gyu.portfolio.service.CmntService;
 
@@ -28,6 +30,9 @@ import com.gyu.portfolio.service.CmntService;
 @RequestMapping(value="/")
 public class FrontController {
 
+	@Autowired
+	private BbsService bbsService;
+	
 	@Autowired
 	private BoardService boardService;
 
@@ -40,7 +45,6 @@ public class FrontController {
 	    return "redirect:/main.do";
 	}
 	
-	/* Front Main2  */
 	@GetMapping(value="/main.do")
 	public ModelAndView main(ModelMap model,
 			HttpServletRequest request,
@@ -49,41 +53,14 @@ public class FrontController {
 		ModelAndView mav = null;
 		mav = new ModelAndView("front/main");
 		
-		return mav;
-	}
-
-	@GetMapping("/main.do/{id}")
-	public ModelAndView mainList(ModelMap model,
-			@PathVariable("id") int id,
-			@ModelAttribute("BoardVO") BoardVO boardVO,
-			HttpServletRequest request,
-			HttpServletResponse response) throws Exception{
-
-		/* request 정보확인 START */
-		System.out.println();
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println("============ /admin/board/list.do INFO  ===========");
-		Enumeration params = request.getParameterNames();
-		while(params.hasMoreElements()) {
-			String name= (String) params.nextElement();
-			System.out.println(name + ": " + request.getParameter(name));
-		}
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println();
-		/* request 정보확인 END */
-
-		ModelAndView mav = null;
+		List<BbsVO> getBbsList = null;
+		getBbsList = bbsService.getSelectBbsList();
 		
-		// Portfolio :: 게시물 메인
-		if(id == 1) {
-			System.out.println("if 진입");
-			mav = new ModelAndView("front/board/list");
-		}
-		
+		model.clear();
+		model.addAttribute("getBbsList", getBbsList);
 		
 		return mav;
 	}
-	
 
 	/* 게시물 목록 */
 	@GetMapping("/main/getBoardList.do")
@@ -148,7 +125,37 @@ public class FrontController {
 		return resultMap;
 	}
 	
+	/* 게시물 등록처리 */
+	@PostMapping("/main/addBoard.do")
+	@ResponseBody
+	public int addBoard(ModelMap model,
+			@ModelAttribute("BoardVO") BoardVO boardVO,
+			HttpServletRequest request,
+			HttpServletResponse response,
+			HttpSession session) throws Exception{
 
+		/* request 정보확인 START */
+		System.out.println();
+		System.out.println("++++++++++++++++++++++++++++++");
+		System.out.println("============ /addBoard.do INFO  ===========");
+		Enumeration params = request.getParameterNames();
+		while(params.hasMoreElements()) {
+			String name= (String) params.nextElement();
+			System.out.println(name + ": " + request.getParameter(name));
+		}
+		System.out.println("++++++++++++++++++++++++++++++");
+		System.out.println();
+		/* request 정보확인 END */
+
+		boardVO.setRegNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
+		int result = boardService.addBoard(boardVO);
+		
+		return result;
+	}
+
+	// #############################################################################################################
+	// ################################################## Comment ##################################################
+	
 	/* 댓글 등록처리 */
 	@PostMapping("/main/addCmnt.do")
 	@ResponseBody

@@ -16,6 +16,10 @@
 <script src="${pageContext.request.contextPath}/resources/admin/assets/vendor/jquery/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/admin/assets/vendor/jquery-easing/jquery.easing.min.js"></script>
 
+<!-- parsley -->
+<script src="${pageContext.request.contextPath }/resources/admin/assets/vendor/parsley.js/parsley.min.js"></script>
+<script src="${pageContext.request.contextPath }/resources/admin/assets/vendor/parsley.js/i18n/ko.js"></script>
+
 <!-- sweetalert2 -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/admin/assets/vendor/sweetalert2/sweetalert2.min.css"/>
 <script src="${pageContext.request.contextPath}/resources/admin/assets/vendor/sweetalert2/sweetalert2.all.min.js"></script>
@@ -256,7 +260,37 @@ img.blocking-hover {
   object-fit: cover;   /* 비율 유지하며 꽉 채우기 */
   border-radius: 5%;
   margin-bottom: 0.825rem !important;
+/*   position: fixed; */
 	
+}
+
+.naver-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #e6f6ed; /* 연한 연두색 배경 */
+  color: #03c75a; /* 네이버 초록색 */
+  font-weight: 600;
+  border-radius: 12px;
+  text-decoration: none;
+  font-size: 16px;
+  text-align: center;
+  border: none;
+}
+/* 마우스 호버시 조금 어둡게 */
+.naver-button:hover {
+  background-color: #d2f0e1;
+}
+
+/* 버튼 눌렀을 때 더 어둡게 */
+.naver-button:active {
+  background-color: #bfe7d3;
+}
+
+.parsley-errors-list{
+	list-style: none;
+	padding-left: 0;
+	color:#f3616d;
+	font-size: 14px;
 }
 
 </style>

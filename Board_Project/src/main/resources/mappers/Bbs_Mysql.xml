@@ -18,6 +18,9 @@
 		<result property="stat"			column="STAT" 		/>
 	</resultMap>
 	
+	<!-- #################################################################################################### -->
+	<!-- ############################################# Admin SQL ############################################ -->
+	
 	<!-- 게시판 총 개수 -->
     <select id="getBbsListCnt" resultType="int">
         SELECT
@@ -146,7 +149,18 @@
 	</update>
 	
 	<select id="getSelectBbsList" resultMap="bbsVO">
-		SELECT BBS_SEQ, NM FROM TB_BBS WHERE STAT = 1
+		SELECT
+			BBS_SEQ
+			, NM
+			, EXPLN
+			, REPLY_YN
+			, COMENT_YN
+			, ATCH_YN
+			, SECRT_YN
+		FROM TB_BBS WHERE STAT = 1
 	</select>
+	
+	<!-- #################################################################################################### -->
+	<!-- ############################################# Front SQL ############################################ -->
 	
 </mapper>

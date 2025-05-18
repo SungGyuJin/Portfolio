@@ -6,10 +6,6 @@
 <body>
 <script>
 
-/* 
-	1. 바로 readme 수정후 이력서 한번더 ㄱㄱ
-*/
-
 <c:choose>
 	<c:when test="${errorCode eq '0000' }">
 		<c:if test="${loginChk eq 'Y'}">
@@ -62,10 +58,67 @@ $(function(){
 		addCmnt('frm-addCmnt', 'add');
 	});
 	
+	$("#btn-addBoard").on('click', function(){
+		addBoard();
+	});
+	
 });
 
 /* ################################################################################################# */
 /* ######################################## BOARD ################################################## */
+
+// 게시물 등록
+function addBoard(){
+	
+	if($("#brd-select").val() == ''){
+		alert('게시판을 선택해 주세요.');
+		return false;
+	}
+
+	if($("#brd-title").val().trim() == ''){
+		alert('제목을 입력해 주세요.');
+		return false;
+	}
+
+	if($("#brd-cont").val().trim() == ''){
+		alert('내용을 입력해 주세요.');
+		return false;
+	}
+
+	$.ajax({
+		url      : "/main/addBoard.do",
+		method   : "POST",
+		data     : $("#frm-addBoard").serialize(),
+		dataType : "json",
+		success  : function(res){
+			
+			if(res > 0){
+				alert('등록되었습니다.');
+				$("#btn-addBoard-close").trigger('click');
+				$("#bbsSeq").val($("#brd-select").val());
+				getBoardList('1');
+				$("#brd-select").val('');
+				$("#brd-title").val('');
+				$("#brd-cont").val('');
+			}
+		},
+		error : function(request, status, error){
+			Swal.fire({
+				icon: "error",
+				title: "통신불가"
+			})
+		}
+	});
+}
+
+// 게시판 클릭
+function bbsClick(){
+	if($("#bbsSeq").val() == 0){
+		$("#brd-select").val('');
+	}else{
+		$("#brd-select").val($("#bbsSeq").val());
+	}
+}
 
 function getBoardPost(){
 	  // Bootstrap 모달 인스턴스 생성 및 표시
@@ -78,6 +131,8 @@ function getBoardPost(){
 	  // z-index 조정 (중첩 모달 문제 방지)
 	  $('#getBoardPostModal').css('z-index', '1060');
 	  $('.modal-backdrop').last().css('z-index', '1055');
+	
+// 	$(".parsley-required").remove();
 }
 
 function getBoard(no){
@@ -101,8 +156,6 @@ function getBoard(no){
 		data     : {"no" : no},
 		dataType : "json",
 		success  : function(res){
-			
-			console.log(res)
 			
 			var data 	 = res.getBoard;
 			var cmntList = res.getCmntList;
@@ -181,10 +234,10 @@ function getBoardList(num){
 			for(let i=0; i < bbsList.length; i++){
 				html_bbs += '<tr>';
 				if(i == 0){
-					html_bbs += '<td class="my-td"> └ <a href="javascript:void(0)" id="bbsSeq-0" class="my-a text-dark" onclick="changeBbsSeq(0, this);"><img class="mb-1 me-1" src="'+contextPath +'/resources/front/main/assets/img/bbs_icon.png" style="max-width: 16px;"/>전체글보기</td>';
+					html_bbs += '<td class="my-td"> └ <a href="javascript:bbsClick(0)" id="bbsSeq-0" class="my-a text-dark" onclick="changeBbsSeq(0, this);"><img class="mb-1 me-1" src="'+contextPath +'/resources/front/main/assets/img/bbs_icon.png" style="max-width: 16px;"/>전체글보기</td>';
 				}
 				if(bbsList[i].bbsSeq != 1){
-					html_bbs += '<td class="my-td"> └ <a href="javascript:void(0)" id="bbsSeq-'+bbsList[i].bbsSeq+'" class="my-a text-dark" onclick="changeBbsSeq('+bbsList[i].bbsSeq+', this);"><img class="mb-1 me-1" src="'+contextPath +'/resources/front/main/assets/img/bbs_icon.png" style="max-width: 16px;"/>'+bbsList[i].nm+'</a></td>';
+					html_bbs += '<td class="my-td"> └ <a href="javascript:bbsClick('+bbsList[i].bbsSeq+')" id="bbsSeq-'+bbsList[i].bbsSeq+'" class="my-a text-dark" onclick="changeBbsSeq('+bbsList[i].bbsSeq+', this);"><img class="mb-1 me-1" src="'+contextPath +'/resources/front/main/assets/img/bbs_icon.png" style="max-width: 16px;"/>'+bbsList[i].nm+'</a></td>';
 				}
 				html_bbs += '</tr>';
 				
@@ -382,7 +435,6 @@ function addCmnt(frm, gubun){
 				if(res > 0){
 					getCmntList($("#cmnt-boardSeq").val());
 					getBoardList($("#pageNum").val());
-					
 				}
 			},
 			error : function(request, status, error){
@@ -647,52 +699,17 @@ function btnAddCmntChange(str){
             <div class="close-modal" data-bs-dismiss="modal">
                 <img src="${pageContext.request.contextPath}/resources/front/main/assets/img/close-icon.svg" alt="Close modal" style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%;" />
             </div>
-<!--             <div class="container py-5"> -->
-<!--             <div class="container"> -->
             <div class="container-fluid">
                 <div class="row justify-content-center">
                     <div class="col-lg-12">
-<!--                         <h2 class="text-uppercase mb-4">Board</h2> -->
-<!--                         <p class="item-intro text-muted mb-4 fs-4">사용자가 원하는 게시판에 글을 쓰고, 수정할 수 있으며 댓글, 비밀 글 등의 옵션이 있는 게시판입니다.</p> -->
-
-                        <%-- <div class="modal-body" id="modal-board">
-                        
-                        
-                        
-                            <div class="d-flex justify-content-between">
-                            	<span class="mt-2" id="append-cnt"></span>
-                            	<div>
-		                            <button type="button" class="btn my-success" onclick="getBoardPost();"><img src="${pageContext.request.contextPath}/resources/front/main/assets/img/pencil.png" class="me-2" alt="pencil" style="width: 25px; height: 25px;" />글쓰기</button>
-                            	</div>
-                            </div>
-							<input type="hidden" id="oldKeyword" value="">
-                        	<hr>
-                        	<form id="frm-board">
-                        		<input type="hidden" name="pageNum" id="pageNum" value="1">
-                        		<input type="hidden" name="searchKeyword" id="searchKeyword" autocomplete="off">
-                        		<div id="append-board">
-                        		
-                        		
-                        		</div>
-                        	</form>
-                        </div> --%>
-                        
 						<div class="modal-body mt-5" id="modal-board">
-<!-- 	                        <div class="row align-items-start"> -->
 	                        <div class="row">
-<!-- 	                        <div class="row d-flex align-items-stretch"> -->
 	                        	<div class="col-md-2"></div>
 	                        	<div class="col-md-1">
-<!-- 									<div class="col-md-1 me-2 d-flex align-items-center justify-content-center" style="min-height: 150px;"> -->
-									<div class="col-md-1 me-2 d-flex align-items-center justify-content-center">
-									</div>
-<!--             						<div class="image-wrapper"> -->
-<%-- 	            						<img class="img-fluid" src="${pageContext.request.contextPath}/resources/front/main/assets/img/portfolio/1-board-img.jpg" alt="Board Image" style="width: 100%; max-height: 100%; object-fit: cover; border-radius: 5%;" /> --%>
+									<div class="col-md-1 me-2 d-flex align-items-center justify-content-center"></div>
+            						<div class="image-wrapper">
 	            						<img class="img-fluid board-img" src="${pageContext.request.contextPath}/resources/front/main/assets/img/portfolio/1-board-img.jpg" alt="Board Image" />
-<!--             						</div> -->
-<!-- 									<div class="image-wrapper" style="max-width: 100px; overflow: hidden; border-radius: 5%;"> -->
-<%-- 								  		<img class="img-fluid mb-3" src="${pageContext.request.contextPath}/resources/front/main/assets/img/portfolio/1-board-img.jpg" alt="Board Image" style="width: 100%; max-height: 100%; object-fit: cover; border-radius: 5%;" /> --%>
-<!-- 									</div> -->
+            						</div>
 	                        		<table class="table table-sm mb-0 text-start">
 										<tbody class="text-muted my-thead" id="append-bbs"></tbody>
 									</table>
@@ -702,7 +719,7 @@ function btnAddCmntChange(str){
 		                            <div class="d-flex justify-content-between">
 		                            	<span class="mt-2" id="append-cnt"></span>
 		                            	<div>
-				                            <button type="button" class="btn my-success" onclick="getBoardPost();"><img src="${pageContext.request.contextPath}/resources/front/main/assets/img/pencil.png" class="me-2" alt="pencil" style="width: 25px; height: 25px;" />글쓰기</button>
+				                            <button type="button" class="btn my-success" id="btn-addBoradModal" onclick="getBoardPost();"><img src="${pageContext.request.contextPath}/resources/front/main/assets/img/pencil.png" class="me-2" alt="pencil" style="width: 25px; height: 25px;" />글쓰기</button>
 		                            	</div>
 		                            </div>
 									<input type="hidden" id="oldKeyword" value="">
@@ -712,14 +729,10 @@ function btnAddCmntChange(str){
 		                        		<input type="hidden" name="pageNum" id="pageNum" value="1">
 		                        		<input type="hidden" name="searchKeyword" id="searchKeyword" autocomplete="off">
 		                        		<input type="hidden" name="bbsNm" id="bbsNm" value="${vo.pageNum }">
-		                        		
-		                        		
 		                        		<div id="append-board"></div>
 		                        	</form>
 		                        </div>
-		                        
-		                        
-	                        </div> <!-- .row end -->
+	                        </div>	<!-- .row end -->
                         </div>
                     </div>
                 </div>
@@ -728,135 +741,112 @@ function btnAddCmntChange(str){
     </div>
 </div>
 
+	<!-- getBoard Modal -->
+	<div class="portfolio-modal modal fade" id="getBoardModal" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-half-right modal-lg">
+  			<div class="modal-content modal-content-scrollable" id="modal-board">
+	            <div class="close-modal" data-bs-dismiss="modal">
+	            	<img src="${pageContext.request.contextPath}/resources/front/main/assets/img/close-icon.svg" alt="Close modal" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">
+	            </div>
+    			<!-- 상단 툴바 -->
+				<div class="modal-header border-0 pb-0 mt-4">
+    				<hr>
+      				<div class="w-100 d-flex justify-content-between align-items-start mt-2 text-start">
+        				<div>
+          					<small class="text-success fw-bold ms-1"><span id="brd-bbsNm"></span>&gt;</small>
+          					<h4 class="fw-bold mt-1" id="brd-ttl">매트 교체 완료</h4>
+          					<div class="d-flex align-items-center mt-2 mb-4">
+  								<img src="${pageContext.request.contextPath}/resources/front/main/assets/img/profile.png" class="me-2" alt="프로필 이미지" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">
+            					<div>
+            						<span class="me-2 fw-bolder" id="brd-userNm">작성자</span><br>
+            						<span class="text-muted small"><span id="brd-regDt">2025.05.09. 19:25</span>&nbsp;&nbsp;조회 <span id="brd-readCnt">366</span></span>
+            					</div>
+          					</div>
+        				</div>
+      				</div>
+					<hr>
+    			</div>
 
-		
+			    <!-- 본문 -->
+			    <div class="modal-body text-start">
+			    	<pre id="brd-cn"></pre>
+			    </div>
 
-		
-
-        <!-- getBoard Modal -->
-        <div class="portfolio-modal modal fade" id="getBoardModal" tabindex="-1" role="dialog" aria-hidden="true">
-<!--             <div class="modal-dialog modal-dialog-centered mx-auto" style="max-width: 50%;"> -->
-<!--             <div class="modal-dialog modal-dialog-centered"> -->
-            <div class="modal-dialog modal-half-right modal-lg">
-  <div class="modal-content modal-content-scrollable" id="modal-board">
-            <div class="close-modal" data-bs-dismiss="modal">
-            	<img src="${pageContext.request.contextPath}/resources/front/main/assets/img/close-icon.svg" alt="Close modal" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">
-            </div>
-    <!-- 상단 툴바 -->
-    <div class="modal-header border-0 pb-0 mt-4">
-    <hr>
-      <div class="w-100 d-flex justify-content-between align-items-start mt-2 text-start">
-        <div>
-          <small class="text-success fw-bold ms-1"><span id="brd-bbsNm"></span>&gt;</small>
-          <h4 class="fw-bold mt-1" id="brd-ttl">매트 교체 완료</h4>
-          
-          <div class="d-flex align-items-center mt-2 mb-4">
-  			<img src="${pageContext.request.contextPath}/resources/front/main/assets/img/profile.png" class="me-2" alt="프로필 이미지" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">
-            
-            <div>
-            <span class="me-2 fw-bolder" id="brd-userNm">작성자</span><br>
-<!--             <span class="badge bg-secondary me-2">올림피아</span> -->
-            <span class="text-muted small"><span id="brd-regDt">2025.05.09. 19:25</span>&nbsp;&nbsp;조회 <span id="brd-readCnt">366</span></span>
-            </div>
-          </div>
-          
-          
-          
-        </div>
-      </div>
-<hr>
-    </div>
-
-
-    <!-- 본문 -->
-    <div class="modal-body text-start">
-    	<pre id="brd-cn"></pre>
-    </div>
-
-    <!-- <div class="modal-footer border-0 d-flex justify-content-between align-items-center">
-      <div>
-        <button class="btn btn-sm btn-outline-danger"><i class="bi bi-heart"></i> 좋아요</button>
-        <span class="ms-2">댓글 12</span>
-      </div>
-      <div>
-        <button class="btn btn-sm btn-light">공유</button>
-        <button class="btn btn-sm btn-light">신고</button>
-      </div>
-    </div> -->
-    
-     <!-- 댓글 -->
-    <div class="comments-section m-4 text-start">
-  		<h6 class="fw-bold mb-3">댓글 <span class="text-danger" id="cmnt-cmntCnt">0</span></h6>
-    	<hr>
-  		<ul class="list-unstyled mt-4" id="append-cmnt"></ul>
-  		
-  		<form id="frm-addCmnt">
-  			<input type="hidden" name="boardSeq" id="cmnt-boardSeq">
-			<div class="comment-box border rounded p-3 position-relative text-start mb-3" style="min-height: 100px;">
-	  			<div class="fw-bold mb-1">${sessionScope.USERNM}</div>
-	  			
-	  			<c:choose>
-	  				<c:when test="${empty sessionScope.USERSEQ }">
-	  					<textarea class="form-control border-0 p-0 my-textarea autosize-textarea" placeholder="로그인이 필요합니다." rows="2" style="resize: none;" disabled></textarea>
-	  				</c:when>
-	  				<c:otherwise>
-			  			<textarea class="form-control border-0 p-0 my-textarea autosize-textarea" name="cn" id="cmnt-cn" onkeyup="btnAddCmntChange('add');" placeholder="댓글을 남겨보세요." rows="2" style="resize: none;"  spellcheck="false"></textarea>
-	  				</c:otherwise>
-	  			</c:choose>
-	  			
-				<div class="register_box">
-					<button type="button" class="button btn_register is_active disabled" id="btn-addCmnt">등록</button>
-				</div>
-			
-			</div>
-  		</form>
+    			<!-- 댓글 -->
+			    <div class="comments-section m-4 text-start">
+			  		<h6 class="fw-bold mb-3">댓글 <span class="text-danger" id="cmnt-cmntCnt">0</span></h6>
+			    	<hr>
+			  		<ul class="list-unstyled mt-4" id="append-cmnt"></ul>
+			  		
+			  		<form id="frm-addCmnt">
+			  			<input type="hidden" name="boardSeq" id="cmnt-boardSeq">
+						<div class="comment-box border rounded p-3 position-relative text-start mb-3" style="min-height: 100px;">
+				  			<div class="fw-bold mb-1">${sessionScope.USERNM}</div>
+				  			<c:choose>
+				  				<c:when test="${empty sessionScope.USERSEQ }">
+				  					<textarea class="form-control border-0 p-0 my-textarea autosize-textarea" placeholder="로그인이 필요합니다." rows="2" style="resize: none;" disabled></textarea>
+				  				</c:when>
+				  				<c:otherwise>
+						  			<textarea class="form-control border-0 p-0 my-textarea autosize-textarea" name="cn" id="cmnt-cn" onkeyup="btnAddCmntChange('add');" placeholder="댓글을 남겨보세요." rows="2" style="resize: none;"  spellcheck="false"></textarea>
+				  				</c:otherwise>
+				  			</c:choose>
+							<div class="register_box <c:if test="${empty sessionScope.USERSEQ }">invisible</c:if>">
+								<button type="button" class="button btn_register is_active disabled" id="btn-addCmnt">등록</button>
+							</div>
+						</div>
+			  		</form>
+				</div>	<!-- .comments-section End -->
+				
+  			</div>
+		</div>
 	</div>
-	<!-- .comments-section End -->
-    
-  </div>
-</div>
-
-        </div>
         
-        <!-- getBoardPost Modal -->
-        <div class="portfolio-modal modal fade" id="getBoardPostModal" tabindex="-1" role="dialog" aria-hidden="true">
-<!--             <div class="modal-dialog modal-dialog-centered mx-auto" style="max-width: 50%;"> -->
-<!--             <div class="modal-dialog modal-dialog-centered"> -->
-            <div class="modal-dialog modal-half-left">
-                <div class="modal-content" id="modal-board">
-                    <div class="close-modal" data-bs-dismiss="modal">
-                    	<img src="${pageContext.request.contextPath}/resources/front/main/assets/img/close-icon.svg" alt="Close modal" />
-                    </div>
-                    <div class="container">
-                        <div class="row justify-content-center">
-                            <div class="col-lg-8">
-                                <div class="modal-body">
-                                    <!-- Project details-->
-                                    <h2 class="text-uppercase">왼쪽</h2>
-                                    <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
-                                    <img class="img-fluid d-block mx-auto" src="${pageContext.request.contextPath}/resources/front/main/assets/img/portfolio/1-board-img.jpg" alt="..." />
-                                    <p class="fs-5">사용자가 원하는 게시판에 글을 쓰고, 수정할 수 있으며 댓글, 비밀 글 등의 옵션이 있는 게시판입니다.</p>
-                                    <ul class="list-inline">
-                                        <li>
-<!--                                             <strong>Client:</strong> -->
-                                            Threads(Name)
-                                        </li>
-                                        <li>
-                                            <strong>Category:</strong>
-                                            Illustration
-                                        </li>
-                                    </ul>
-<!--                                     <button class="btn btn-danger btn-xl text-uppercase btn-opt" data-bs-dismiss="modal" type="button" value="1"> -->
-                                    <button type="button" class="btn btn-danger btn-xl text-uppercase btn-opt" value="1">
-                                        GO
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+	<!-- addBoard Modal -->
+	<div class="portfolio-modal modal fade" id="getBoardPostModal" tabindex="-1" role="dialog" aria-hidden="true">
+  		<div class="modal-dialog modal-half-left modal-lg">
+    		<div class="modal-content modal-content-scrollable" id="modal-addBoard">
+				<div class="close-modal" data-bs-dismiss="modal" id="btn-addBoard-close">
+					<img src="${pageContext.request.contextPath}/resources/front/main/assets/img/close-icon.svg" alt="Close modal" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">
+				</div>
+				<div class="modal-header border-0 pb-0 mt-4">
+					<div class="w-100 mt-2 text-start">
+			            <div class="d-flex justify-content-between mt-5">
+				        	<h1>글쓰기</h1>
+				            <button type="button" class="naver-button" id="btn-addBoard">등록</button>
+			            </div>
+			         	<div style="border-top: 1px solid #000; margin-top: 20px;">
+				        	<form id="frm-addBoard" enctype="multipart/form-data">
+					            <div class="mb-3 mt-3">
+					            	<label for="brd-select" class="form-label fw-bold">게시판</label>
+					              	<select class="form-select" name="bbsSeq" id="brd-select">
+					              		<option value="">게시판을 선택해 주세요.</option>
+										<c:forEach var="list" items="${getBbsList }">
+											<c:if test="${list.bbsSeq ne 1 }">
+												<option value="${list.bbsSeq }">${list.nm }</option>
+											</c:if>
+										</c:forEach>
+					              	</select>
+					            </div>
+					            <div class="mb-3">
+					            	<label for="brd-title" class="form-label fw-bold">제목</label>
+					              	<input type="text" class="form-control my-input" name="title" id="brd-title">
+					            </div>
+					            <div class="mb-3">
+					            	<label for="brd-cont" class="form-label fw-bold">내용</label>
+					              	<textarea class="form-control my-input" name="cont" id="brd-cont" rows="20"></textarea>
+					            </div>
+					            <div class="mb-4">
+									<label for="brd-file" class="form-label fw-bold">첨부파일</label>
+					              	<input type="file" class="form-control my-input" name="uploadFile" id="brd-file" multiple>
+					            </div>
+				        	</form>
+			          	</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
         
         
         <!-- Modal Sample -->
