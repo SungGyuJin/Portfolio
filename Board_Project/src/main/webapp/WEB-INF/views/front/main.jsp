@@ -706,13 +706,18 @@ function btnAddCmntChange(str){
 	                        <div class="row">
 	                        	<div class="col-md-2"></div>
 	                        	<div class="col-md-1">
+            						<div class="sticky-sidebar">
 									<div class="col-md-1 me-2 d-flex align-items-center justify-content-center"></div>
+            						
+            						
+            						
             						<div class="image-wrapper">
 	            						<img class="img-fluid board-img" src="${pageContext.request.contextPath}/resources/front/main/assets/img/portfolio/1-board-img.jpg" alt="Board Image" />
             						</div>
 	                        		<table class="table table-sm mb-0 text-start">
 										<tbody class="text-muted my-thead" id="append-bbs"></tbody>
 									</table>
+            						</div>
 	                        	</div>
 	                        	
 		                        <div class="col-md-6 mt-4">

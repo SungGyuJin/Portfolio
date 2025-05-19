@@ -33,7 +33,7 @@ public class BoardVO extends DefalutVO {
 	
 	private int    rowNum 	=  0;
 	private int    cmntCnt 	=  0;
-
+	
 	@Override
 	public String toString() {
 		return "BoardVO [boardSeq=" + boardSeq + ", bbsSeq=" + bbsSeq + ", title=" + title + ", cont=" + cont + ", ref="

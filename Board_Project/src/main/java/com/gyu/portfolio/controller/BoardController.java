@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.gyu.portfolio.model.BbsVO;
@@ -188,13 +190,45 @@ public class BoardController {
 		return mav;
 	}
 	
-	/* 게시물 수정처리(Ajax) */
+	/* 게시물 수정처리 */
 	@PostMapping("/updateBoard.do")
 	public String updateBoardPOST(ModelMap model,
 			@ModelAttribute("BoardVO") BoardVO boardVO,
+			@RequestParam(value="file", required=false) MultipartFile[] file,
 			HttpServletRequest request,
 			HttpServletResponse response,
 			HttpSession session) throws Exception{
+		
+		/* request 정보확인 START */
+		System.out.println();
+		System.out.println("++++++++++++++++++++++++++++++");
+		System.out.println("============ /admin/board/updateBoard.do INFO  ===========");
+		Enumeration params = request.getParameterNames();
+		while(params.hasMoreElements()) {
+			String name= (String) params.nextElement();
+			System.out.println(name + ": " + request.getParameter(name));
+		}
+		System.out.println("++++++++++++++++++++++++++++++");
+		System.out.println();
+		/* request 정보확인 END */
+
+		System.out.println();
+		System.out.println("file.length: "+file.length);
+		System.out.println();
+		
+		if (file != null) {
+		    System.out.println("파일 개수: " + file.length);
+		    for (MultipartFile f : file) {
+		        if (!f.isEmpty()) {
+		            System.out.println("------ 파일 정보 ------");
+		            System.out.println("파일 이름: " + f.getOriginalFilename());
+		            System.out.println("파일 크기: " + f.getSize());
+		            System.out.println("Content-Type: " + f.getContentType());
+		        } else {
+		            System.out.println("비어 있는 파일이 전달됨");
+		        }
+		    }
+		}
 		
 		boardVO.setUpdNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
 		int result = boardService.updateBoard(boardVO);

@@ -120,7 +120,7 @@
 
       	<!-- Page Heading -->
 		<div class="d-sm-flex align-items-center justify-content-between mb-4">
-         	<h1 class="h3 mb-0 text-gray-800"><strong>게시물</strong></h1>
+         	<h1 class="h3 mb-0 text-gray-800"><strong>게시물 관리</strong></h1>
          	<a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
      	</div>
 
@@ -149,7 +149,8 @@
                             <!-- <div class="text-left">
                                 <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
                             </div> -->
-                            <form class="user" id="frm-board" method="post" data-parsley-validate>
+                            <form class="user" id="frm-board" method="post" enctype="multipart/form-data" data-parsley-validate>
+<!--                             <form class="user" id="frm-board" method="post" data-parsley-validate> -->
                             	<input type="hidden" name="listTyp" id="listTyp" value="${boardVO.listTyp }" />
                             	<input type="hidden" name="boardSeq" id="boardSeq" value="${getBoard.boardSeq }" />
                             	<input type="hidden" name="stat" id="stat" value="${getBoard.stat }" />
@@ -167,10 +168,10 @@
                                 </div>
                                 <hr>
                                 <div class="custom-file">
-								    <input type="file" class="custom-file-input" id="customFile" multiple="multiple">
+<!-- 								    <input type="file" class="custom-file-input" name="file" id="customFile" multiple="multiple"> -->
+								    <input type="file" class="custom-file-input" name="file" id="customFile" multiple="multiple">
 									<label class="custom-file-label" for="customFile">파일을 선택하세요</label>
 								</div>
-								<button type="submit" class="d-none" id="btn-hiddenSave"></button>
                             </form>
                         </div>
    					</div>

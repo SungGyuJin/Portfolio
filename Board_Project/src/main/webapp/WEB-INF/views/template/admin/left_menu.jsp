@@ -27,7 +27,7 @@
 
     <!-- Heading -->
     <div class="sidebar-heading">
-        Interface
+        Portfolio
     </div>
 
     <!-- BOARD -->
@@ -39,8 +39,8 @@
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
 <!--                 <h6 class="collapse-header">Custom Components:</h6> -->
-                <a class="collapse-item" href="/admin/bbs/list.do">게시판</a>
-                <a class="collapse-item" href="/admin/board/list.do">게시물</a>
+                <a class="collapse-item" href="/admin/bbs/list.do">게시판 관리</a>
+                <a class="collapse-item" href="/admin/board/list.do">게시물 관리</a>
             </div>
         </div>
     </li>

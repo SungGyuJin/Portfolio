@@ -27,6 +27,15 @@
     <link href="${pageContext.request.contextPath}/resources/admin/assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="${pageContext.request.contextPath}/resources/admin/assets/css/sb-admin-2.min.css" rel="stylesheet">
 
+	<!-- FilePond core -->
+	<link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
+	<script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
+	
+	<!-- Optional: File type validation & image preview -->
+	<script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
+	<script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+	<link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet" />
+
 <style>
 
 .custom-text{

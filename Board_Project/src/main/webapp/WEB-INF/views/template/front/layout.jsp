@@ -258,8 +258,8 @@ img.blocking-hover {
 /*   max-width: 200px;    /* 최대 너비 제한 */ */
   height: 150px;       /* 고정 높이 */
   object-fit: cover;   /* 비율 유지하며 꽉 채우기 */
-  border-radius: 5%;
-  margin-bottom: 0.825rem !important;
+  border-radius: 3%;
+  margin-bottom: 0.325rem !important;
 /*   position: fixed; */
 	
 }
@@ -291,6 +291,12 @@ img.blocking-hover {
 	padding-left: 0;
 	color:#f3616d;
 	font-size: 14px;
+}
+
+.sticky-sidebar {
+  position: sticky;
+  top: 100px; /* 원하는 위치로 조정 */
+  z-index: 1; /* 필요하면 다른 요소랑 겹칠 때 */
 }
 
 </style>
