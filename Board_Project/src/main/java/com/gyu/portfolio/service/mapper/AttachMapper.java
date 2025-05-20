@@ -1,0 +1,24 @@
+package com.gyu.portfolio.service.mapper;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import com.gyu.portfolio.model.AttachVO;
+
+@Mapper
+public interface AttachMapper {
+	
+	/* 첨부파일 등록 */
+	int addAttach(AttachVO attachVO) throws Exception;
+
+	/* 첨부파일 삭제 */
+	int deleteAttach(AttachVO attachVO) throws Exception;
+
+	/* 첨부파일 목록 */
+	List<AttachVO> getAttachList(AttachVO attachVO) throws Exception;
+
+	/* 첨부파일 조회 */
+	AttachVO getAttach(AttachVO attachVO) throws Exception;
+	
+}

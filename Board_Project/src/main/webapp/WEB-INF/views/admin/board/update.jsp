@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-
 <body>
 <script>
 
@@ -13,8 +12,11 @@
 		    $(inputFile).siblings('.custom-file-label').addClass("selected").html(inputFile.files[0].name);
 		});
 		
+		
+		
+		
 	});
-
+	
 	// 버튼제어
 	function btnControl(e, num){
 		if(e == 'upd'){
@@ -167,11 +169,36 @@
                                 	<textarea class="form-control" name="cont" id="cont" rows="15" required="required">${getBoard.cont }</textarea>
                                 </div>
                                 <hr>
-                                <div class="custom-file">
-<!-- 								    <input type="file" class="custom-file-input" name="file" id="customFile" multiple="multiple"> -->
+                                <!-- <div class="custom-file">
 								    <input type="file" class="custom-file-input" name="file" id="customFile" multiple="multiple">
 									<label class="custom-file-label" for="customFile">파일을 선택하세요</label>
+								</div> -->
+								
+								<!-- Dropzone -->
+                                <!-- <div class="form-group">
+                                	<label><strong>첨부파일</strong></label>
+									<div id="myDropzone" class="dropzone dz-zone cursor-pointer">
+									    <div class="dz-message text-center" id="file-list" data-dz-message>
+									    	<span><strong>여기에 파일을 드래그하거나 클릭해주세요.</strong></span>
+									    </div>
+									</div>
+                                </div> -->
+                                
+                                <div class="form-group">
+									<label><strong>첨부파일</strong></label>
+								  	<div id="myDropzone" class="dropzone dz-zone cursor-pointer">
+								    	<div class="dz-message text-left" data-dz-message>
+								      		<span><strong>여기에 파일을 드래그하거나 클릭해주세요.</strong></span>
+								    	</div>
+								  	</div>
 								</div>
+								
+                                <div class="form-group">
+								   	<div id="file-list" class="dz-message text-left" data-dz-message>
+								   		
+								    </div>
+                                </div>
+								
                             </form>
                         </div>
    					</div>
@@ -242,4 +269,80 @@
     	</div>
 	</div>
 </div>
+
+
+
+<script>
+	
+Dropzone.autoDiscover = false;
+
+var myDropzone = new Dropzone("#myDropzone", {
+    url: "./upload.do",
+    paramName: "file", // 서버에 보낼 파라미터 이름
+    maxFilesize: 5, // 5MB
+    acceptedFiles: "image/*,application/pdf,.doc,.docx,.xls,.xlsx,.txt",
+    uploadMultiple: false, // ← 이걸 false 또는 제거하면 기본값이라 각 파일 따로 업로드됨
+    parallelUploads: 5,
+    autoProcessQueue: false,
+    createImageThumbnails: false,
+    addRemoveLinks: true,
+//     previewTemplate: "",
+    dictRemoveFile: "삭제",
+    dictDefaultMessage: "여기에 파일을 드래그하거나 클릭하여 업로드하세요.",
+
+    init: function () {
+        var dropZoneIns = this;
+
+        this.on("drop", function () {
+            // 기존 파일 제거 후 새로운 파일 처리
+            this.removeAllFiles(true); // true = 서버 업로드 여부와 관계없이 클라이언트 파일 제거
+            $("#file-list").empty();   // 리스트도 비우기
+        });
+        
+        this.on("addedfile", function (file) {
+        	
+        	if(file.previewElement){
+                file.previewElement.remove();
+            }
+        	
+
+            // 파일 정보
+            const fileName = file.name;
+            const fileSize = (file.size / 1024).toFixed(2); // KB
+
+            
+            var html = '';
+
+            html += '<div class="d-flex justify-content-between mt-1 div-drop">';
+            html += 	'<div>'+fileName+'&nbsp;&nbsp;'+fileSize+' KB</div>';
+            html += 	'<div>';
+            html +=			'<button type="button" class="btn btn-secondary btn-sm">삭제</button>';
+            html +=		'</div>';
+            html += '</div>';
+            
+//             document.getElementById("file-list").appendChild(entry);
+        	
+        	if($(".div-drop").length == 0){
+	        	$("#file-list").empty();
+        	}
+        	
+			$("#file-list").append(html);
+            
+       	});
+        
+        
+        dropZoneIns.on("success", function (file, response) {
+            console.log("업로드 성공", response);
+        });
+
+        dropZoneIns.on("error", function (file, errMessage) {
+            console.error("업로드 실패", errMessage);
+        });
+
+    }
+});
+
+
+</script>
+
 </body>

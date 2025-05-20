@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.gyu.portfolio.model.AttachVO;
 import com.gyu.portfolio.model.BbsVO;
 import com.gyu.portfolio.model.BoardVO;
 import com.gyu.portfolio.service.BbsService;
@@ -32,9 +35,17 @@ import com.gyu.portfolio.service.BoardService;
 /* ##################################################### */
 
 @Controller
+@PropertySource("classpath:/common.properties")
 @RequestMapping(value="/admin/board")
 public class BoardController {
 
+
+	@Value("${Root.Path}")
+	String ROOT_PATH;
+
+	@Value("${Upload.Path}")
+	String UPLOAD_PATH;
+	
 	@Autowired
 	private BbsService bbsService;
 	
@@ -263,19 +274,36 @@ public class BoardController {
 		return mav;
 	}
 	
-	/* 게시물 상태변경(복구, 삭제, 영구삭제)(Ajax) */
-	@PostMapping("/changeStat.do")
+	/* 파일 업로드 */
+	@PostMapping("/upload.do")
 	@ResponseBody
-	public int changeStat(ModelMap model,
-			@ModelAttribute("BoardVO") BoardVO boardVO,
+	public Map<String, Object> upload(ModelMap model,
+			@ModelAttribute("AttachVO") AttachVO attachVO,
+			@RequestParam("file") MultipartFile[] file,
 			HttpServletRequest request,
-			HttpServletResponse response,
-			HttpSession session) throws Exception{
+			HttpServletResponse response
+			) throws Exception{
 
-		boardVO.setUpdNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
-		int result = boardService.changeStat(boardVO);
+		/* request 정보확인 START */
+		System.out.println();
+		System.out.println("++++++++++++++++++++++++++++++");
+		System.out.println("============ /admin/board/upload.do INFO  ===========");
+		Enumeration params = request.getParameterNames();
+		while(params.hasMoreElements()) {
+			String name= (String) params.nextElement();
+			System.out.println(name + ": " + request.getParameter(name));
+		}
+		System.out.println("++++++++++++++++++++++++++++++");
+		System.out.println();
+		/* request 정보확인 END */
+		
 
-		return result;
+		Map<String, Object> resultMap = new HashMap<>();
+		resultMap.put("result", 200);
+		
+		
+		return resultMap;
 	}
+	
 	
 }

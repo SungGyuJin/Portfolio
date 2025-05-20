@@ -13,7 +13,10 @@
     <script src="${pageContext.request.contextPath}/resources/admin/assets/vendor/jquery/jquery.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/admin/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/admin/assets/js/sb-admin-2.min.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/admin/assets/vendor/jquery-easing/jquery.easing.min.js"></script>
+<%--     <script src="${pageContext.request.contextPath}/resources/admin/assets/vendor/jquery-easing/jquery.easing.min.js"></script> --%>
+    
+    <!-- Drop zone -->
+    <script src="${pageContext.request.contextPath }/resources/admin/assets/vendor/dropzone/dropzone-min.js"></script>
     
     <!-- parsley -->
     <script src="${pageContext.request.contextPath }/resources/admin/assets/vendor/parsley.js/parsley.min.js"></script>
@@ -26,15 +29,6 @@
      <!-- Custom fonts for this template-->
     <link href="${pageContext.request.contextPath}/resources/admin/assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="${pageContext.request.contextPath}/resources/admin/assets/css/sb-admin-2.min.css" rel="stylesheet">
-
-	<!-- FilePond core -->
-	<link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
-	<script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
-	
-	<!-- Optional: File type validation & image preview -->
-	<script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
-	<script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
-	<link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet" />
 
 <style>
 
@@ -129,6 +123,16 @@ table tbody tr:hover {
 
 .hover-row:hover {
 	background-color: #f5f5f5;
+}
+
+.dz-zone {
+/*     margin-top: 20px; */
+    border: 2px solid #007bff;
+	padding: 20px;
+    height: 180px;
+    justify-content: center;
+    align-items: center;
+	display: flex;
 }
 
 </style>
