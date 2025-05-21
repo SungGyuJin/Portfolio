@@ -127,12 +127,30 @@ table tbody tr:hover {
 
 .dz-zone {
 /*     margin-top: 20px; */
-    border: 2px solid #007bff;
+    border: 2px dotted #007bff;
 	padding: 20px;
-    height: 180px;
+    height: 250px;
     justify-content: center;
     align-items: center;
 	display: flex;
+}
+.dz-zone:hover {
+	background-color: #f8f9fc;
+}
+
+.added-zone {
+/*     margin-top: 20px; */
+/* 	border: 1px solid #000000; */
+	padding: 20px;
+    height: 250px;
+    justify-content: center;
+    align-items: center;
+	display: flex;
+}
+
+.added-file {
+	overflow: auto;
+	height: 250px;
 }
 
 </style>

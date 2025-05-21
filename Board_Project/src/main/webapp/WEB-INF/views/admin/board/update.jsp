@@ -108,6 +108,7 @@
 			}
 		});
 	}
+
 	
 </script>
 
@@ -156,47 +157,37 @@
                             	<input type="hidden" name="listTyp" id="listTyp" value="${boardVO.listTyp }" />
                             	<input type="hidden" name="boardSeq" id="boardSeq" value="${getBoard.boardSeq }" />
                             	<input type="hidden" name="stat" id="stat" value="${getBoard.stat }" />
-                                <div class="form-group mb-4">
-                                	<label for="bbsNm"><strong>게시판</strong></label>
+                                <div class="form-group font-weight-bold mb-4">
+                                	<label for="bbsNm">게시판</label>
                                 	<input type="text" class="form-control" id="bbsNm" value="${getBoard.bbsNm }" disabled="disabled">
                                 </div>
-                                <div class="form-group">
-                                	<label for="title"><strong>제목</strong></label>
+                                <div class="form-group font-weight-bold">
+                                	<label for="title">제목</label>
                                 	<input type="text" class="form-control" name="title" id="title" placeholder="제목을 입력하세요." value="${getBoard.title }" required="required">
                                 </div>
-                                <div class="form-group">
-                                	<label for="cont"><strong>내용</strong></label>
+                                <div class="form-group font-weight-bold">
+                                	<label for="cont">내용</label>
                                 	<textarea class="form-control" name="cont" id="cont" rows="15" required="required">${getBoard.cont }</textarea>
                                 </div>
-                                <hr>
-                                <!-- <div class="custom-file">
-								    <input type="file" class="custom-file-input" name="file" id="customFile" multiple="multiple">
-									<label class="custom-file-label" for="customFile">파일을 선택하세요</label>
-								</div> -->
-								
-								<!-- Dropzone -->
-                                <!-- <div class="form-group">
-                                	<label><strong>첨부파일</strong></label>
-									<div id="myDropzone" class="dropzone dz-zone cursor-pointer">
-									    <div class="dz-message text-center" id="file-list" data-dz-message>
-									    	<span><strong>여기에 파일을 드래그하거나 클릭해주세요.</strong></span>
-									    </div>
-									</div>
-                                </div> -->
                                 
-                                <div class="form-group">
-									<label><strong>첨부파일</strong></label>
-								  	<div id="myDropzone" class="dropzone dz-zone cursor-pointer">
-								    	<div class="dz-message text-left" data-dz-message>
-								      		<span><strong>여기에 파일을 드래그하거나 클릭해주세요.</strong></span>
-								    	</div>
-								  	</div>
-								</div>
-								
-                                <div class="form-group">
-								   	<div id="file-list" class="dz-message text-left" data-dz-message>
-								   		
-								    </div>
+                                <div class="row">
+                                	<div class="col-md-6">
+										<label><strong>첨부파일</strong></label>
+									  	<div id="myDropzone" class="dropzone dz-zone cursor-pointer">
+									    	<div class="dz-message font-weight-bold">
+									      		여기에 파일을 드래그하거나 클릭해주세요.
+									    	</div>
+									  	</div>
+                                	</div>
+                                	<div class="col-md-6">
+										<label>총&nbsp;&nbsp;<span class="font-weight-bold" id="addedCnt">0</span> 개</label>
+									   	<div id="file-list" class="dz-message added-file font-weight-bold added-zone">
+									   		<span id="text-added">첨부된 파일이 없습니다.</span>
+									    </div>
+                                	</div>
+                                </div>
+                                <div id="file-data">
+                                	
                                 </div>
 								
                             </form>
@@ -275,25 +266,26 @@
 <script>
 	
 Dropzone.autoDiscover = false;
+var fileCnt = 0;
 
 var myDropzone = new Dropzone("#myDropzone", {
     url: "./upload.do",
-    paramName: "file", // 서버에 보낼 파라미터 이름
+    paramName: "file", // 서버에 보낼 Param
     maxFilesize: 5, // 5MB
     acceptedFiles: "image/*,application/pdf,.doc,.docx,.xls,.xlsx,.txt",
     uploadMultiple: false, // ← 이걸 false 또는 제거하면 기본값이라 각 파일 따로 업로드됨
     parallelUploads: 5,
-    autoProcessQueue: false,
+    autoProcessQueue: true,
     createImageThumbnails: false,
     addRemoveLinks: true,
 //     previewTemplate: "",
     dictRemoveFile: "삭제",
-    dictDefaultMessage: "여기에 파일을 드래그하거나 클릭하여 업로드하세요.",
+//     dictDefaultMessage: "여기에 파일을 드래그하거나 클릭하여 업로드하세요.",
 
     init: function () {
         var dropZoneIns = this;
 
-        this.on("drop", function () {
+        this.on("drop", function (file) {
             // 기존 파일 제거 후 새로운 파일 처리
             this.removeAllFiles(true); // true = 서버 업로드 여부와 관계없이 클라이언트 파일 제거
             $("#file-list").empty();   // 리스트도 비우기
@@ -301,46 +293,81 @@ var myDropzone = new Dropzone("#myDropzone", {
         
         this.on("addedfile", function (file) {
         	
+//         	console.log(this.files.length)
+//         	this.removeAllFiles(true);
+        	
         	if(file.previewElement){
                 file.previewElement.remove();
             }
-        	
+
+        	if(fileCnt == 0){
+        		$(".file-area").remove();
+        	}
+            
+			fileCnt++;
 
             // 파일 정보
-            const fileName = file.name;
-            const fileSize = (file.size / 1024).toFixed(2); // KB
-
-            
+            const fileName 		= file.name;
+            const fileSizeKb 	= (file.size / 1024).toFixed(2); // KB
+            const fileSizeByte 	= file.size; 					 // Byte
+			
             var html = '';
-
-            html += '<div class="d-flex justify-content-between mt-1 div-drop">';
-            html += 	'<div>'+fileName+'&nbsp;&nbsp;'+fileSize+' KB</div>';
-            html += 	'<div>';
-            html +=			'<button type="button" class="btn btn-secondary btn-sm">삭제</button>';
+            
+            html += '<div class="d-flex justify-content-between mt-1 file-area" id="fileDiv-'+fileCnt+'">';
+            html += 	fileName;
+            html +=		'<div>'+fileSizeKb+' KB';
+            html +=			'<button type="button" class="btn btn-secondary btn-sm ml-2" onclick="removeFile('+fileCnt+');">삭제</button>';
             html +=		'</div>';
             html += '</div>';
             
 //             document.getElementById("file-list").appendChild(entry);
         	
-        	if($(".div-drop").length == 0){
-	        	$("#file-list").empty();
+        	
+        	if($(".file-area").length == 0){
+	        	$("#text-added").removeClass('d-none');
+        	}else{
+	        	$("#text-added").addClass('d-none');
         	}
         	
 			$("#file-list").append(html);
-            
+			
+			if($(".file-area").length > 0){
+				$("#file-list").removeClass('added-zone');
+				$("#text-added").addClass('d-none');
+			}
+			
+			this.processQueue();
+			
        	});
         
+        // 마지막 파일까지 드래그 및 첨부 후
+        this.on("queuecomplete", function() {
+        	fileCnt = 0;
+        	$("#addedCnt").text($(".file-area").length);
+        });
         
         dropZoneIns.on("success", function (file, response) {
-            console.log("업로드 성공", response);
+//             console.log("업로드 성공", response);
         });
 
-        dropZoneIns.on("error", function (file, errMessage) {
-            console.error("업로드 실패", errMessage);
+        this.on("error", function (file, errMessage) {
+//             console.error("업로드 실패", errMessage);
+            console.log("업로드 실패");
+            console.log(file)
         });
 
     }
 });
+
+
+function removeFile(num){
+	$("#fileDiv-"+num).remove();
+	$("#addedCnt").text($(".file-area").length);
+	if($(".file-area").length == 0){
+		$("#file-list").addClass('added-zone');
+		$("#text-added").removeClass('d-none');
+	}
+}
 
 
 </script>

@@ -27,6 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.gyu.portfolio.model.AttachVO;
 import com.gyu.portfolio.model.BbsVO;
 import com.gyu.portfolio.model.BoardVO;
+import com.gyu.portfolio.service.AttachService;
 import com.gyu.portfolio.service.BbsService;
 import com.gyu.portfolio.service.BoardService;
 
@@ -45,6 +46,9 @@ public class BoardController {
 
 	@Value("${Upload.Path}")
 	String UPLOAD_PATH;
+	
+	@Autowired
+	private AttachService attachService;
 	
 	@Autowired
 	private BbsService bbsService;
@@ -279,7 +283,6 @@ public class BoardController {
 	@ResponseBody
 	public Map<String, Object> upload(ModelMap model,
 			@ModelAttribute("AttachVO") AttachVO attachVO,
-			@RequestParam("file") MultipartFile[] file,
 			HttpServletRequest request,
 			HttpServletResponse response
 			) throws Exception{
@@ -300,7 +303,6 @@ public class BoardController {
 
 		Map<String, Object> resultMap = new HashMap<>();
 		resultMap.put("result", 200);
-		
 		
 		return resultMap;
 	}

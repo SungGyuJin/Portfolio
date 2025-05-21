@@ -26,7 +26,7 @@ public class AttachVO extends DefalutVO {
 	private String updDt 		= "";  // 수정일자
 	private int    stat 		=  0;  // 상태 ex) 미사용(삭제)[0] / 사용[1] / 영구삭제[9]
 	
-	private MultipartFile file  = null;
+	private MultipartFile file[]  = null;
 	
 	/* 그 외 필드 */
 	
