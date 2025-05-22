@@ -270,12 +270,13 @@ var fileCnt = 0;
 
 var myDropzone = new Dropzone("#myDropzone", {
     url: "./upload.do",
-    paramName: "file", // 서버에 보낼 Param
+    paramName: "files", // 서버에 보낼 Param
     maxFilesize: 5, // 5MB
     acceptedFiles: "image/*,application/pdf,.doc,.docx,.xls,.xlsx,.txt",
-    uploadMultiple: false, // ← 이걸 false 또는 제거하면 기본값이라 각 파일 따로 업로드됨
+    uploadMultiple: true, // ← 이걸 false 또는 제거하면 기본값이라 각 파일 따로 업로드됨
     parallelUploads: 5,
     autoProcessQueue: true,
+//     autoProcessQueue: false,
     createImageThumbnails: false,
     addRemoveLinks: true,
 //     previewTemplate: "",
@@ -292,7 +293,8 @@ var myDropzone = new Dropzone("#myDropzone", {
         });
         
         this.on("addedfile", function (file) {
-        	
+
+//          document.getElementById("file-list").appendChild(entry);
 //         	console.log(this.files.length)
 //         	this.removeAllFiles(true);
         	
@@ -302,6 +304,7 @@ var myDropzone = new Dropzone("#myDropzone", {
 
         	if(fileCnt == 0){
         		$(".file-area").remove();
+        		$(".fileData-area").remove();
         	}
             
 			fileCnt++;
@@ -310,7 +313,8 @@ var myDropzone = new Dropzone("#myDropzone", {
             const fileName 		= file.name;
             const fileSizeKb 	= (file.size / 1024).toFixed(2); // KB
             const fileSizeByte 	= file.size; 					 // Byte
-			
+            const filetype 		= file.type; 					 // 형식
+
             var html = '';
             
             html += '<div class="d-flex justify-content-between mt-1 file-area" id="fileDiv-'+fileCnt+'">';
@@ -320,8 +324,15 @@ var myDropzone = new Dropzone("#myDropzone", {
             html +=		'</div>';
             html += '</div>';
             
-//             document.getElementById("file-list").appendChild(entry);
+        	var fileData_html = '';
         	
+        	fileData_html += '<div class="d-flex fileData-area fileData-'+fileCnt+'">';
+        	fileData_html += 	'<input type="text" name="arrFileOrgNm" value="'+fileName+'">';
+        	fileData_html += 	'<input type="text" name="arrFileSize" value="'+fileSizeByte+'">';
+        	fileData_html += 	'<input type="text" name="arrFileType" value="'+filetype+'">';
+        	fileData_html += '</div>';
+        	
+        	$("#file-data").append(fileData_html);
         	
         	if($(".file-area").length == 0){
 	        	$("#text-added").removeClass('d-none');
@@ -336,9 +347,13 @@ var myDropzone = new Dropzone("#myDropzone", {
 				$("#text-added").addClass('d-none');
 			}
 			
-			this.processQueue();
-			
+// 			this.processQueue();
+	        
        	});
+        
+        this.on("success", function(file, response) {
+    		console.log("success 진입")
+    	});
         
         // 마지막 파일까지 드래그 및 첨부 후
         this.on("queuecomplete", function() {
@@ -362,6 +377,7 @@ var myDropzone = new Dropzone("#myDropzone", {
 
 function removeFile(num){
 	$("#fileDiv-"+num).remove();
+	$(".fileData-"+num).remove();
 	$("#addedCnt").text($(".file-area").length);
 	if($(".file-area").length == 0){
 		$("#file-list").addClass('added-zone');
