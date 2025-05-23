@@ -6,6 +6,7 @@
 		<result property="attachSeq"	column="ATTACH_SEQ"   />
 		<result property="boardSeq"		column="BOARD_SEQ" 	  />
 		<result property="fileNm"		column="FILE_NM" 	  />
+		<result property="fileExt"		column="FILE_EXT" 	  />
 		<result property="fileSz"		column="FILE_SZ" 	  />
 		<result property="filePath"		column="FILE_PATH" 	  />
 		<result property="strgFileNm"	column="STRG_FILE_NM" />
@@ -22,6 +23,59 @@
 	<!-- #################################################################################################### -->
 	<!-- ############################################# Admin SQL ############################################ -->
 	
+	
+	<insert id="addAttach">
+		INSERT INTO TB_ATTACH(
+			BOARD_SEQ
+			, FILE_NM
+			, FILE_EXT
+			, FILE_SZ
+			, FILE_PATH
+			, STRG_FILE_NM
+			, THUMB_YN
+			, DWNLD_CNT
+			, REG_NO
+			, REG_DT
+			, UPD_NO
+			, UPD_DT
+			, STAT
+		)VALUES (
+			#{boardSeq}
+			, #{fileNm}
+			, #{fileExt}
+			, #{fileSz}
+			, #{filePath}
+			, #{strgFileNm}
+			, #{thumbYn}
+			, #{dwnldCnt}
+			, #{regNo}
+			, NOW()
+			, #{regNo}
+			, NOW()
+			, #{stat}
+		)
+	</insert>
+	
+	<select id="getAttachList" resultMap="attachVO">
+		SELECT
+			ATTACH_SEQ
+			, BOARD_SEQ
+			, FILE_NM
+			, FILE_EXT
+			, FILE_SZ
+			, FILE_PATH
+			, STRG_FILE_NM
+			, THUMB_YN
+			, DWNLD_CNT
+			, REG_NO
+			, REG_DT
+			, UPD_NO
+			, UPD_DT
+			, STAT
+		FROM TB_ATTACH
+		WHERE 1=1
+			AND BOARD_SEQ = #{boardSeq}
+	</select>
 	
 	
 </mapper>

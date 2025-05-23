@@ -1,5 +1,9 @@
 package com.gyu.portfolio.common;
 
+/**
+ * @author GYU
+ *
+ */
 public class DefalutVO {
 
 	/* 검색어 */
@@ -98,5 +102,7 @@ public class DefalutVO {
 	public String toString() {
 		return "Criteria [pageNum=" + pageNum + ", amount=" + amount + "]";
 	}
+	
+	
 
 }

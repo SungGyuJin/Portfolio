@@ -13,15 +13,20 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.gyu.portfolio.common.PageMakerDTO;
+import com.gyu.portfolio.model.AttachVO;
 import com.gyu.portfolio.model.BbsVO;
 import com.gyu.portfolio.model.BoardVO;
 import com.gyu.portfolio.service.BoardService;
+import com.gyu.portfolio.service.mapper.AttachMapper;
 import com.gyu.portfolio.service.mapper.BbsMapper;
 import com.gyu.portfolio.service.mapper.BoardMapper;
 
 @Service
 public class BoardServiceImpl implements BoardService {
 
+	@Autowired
+	private AttachMapper attachMapper;
+	
 	@Autowired
 	private BbsMapper bbsMapper;
 
@@ -87,10 +92,48 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public int updateBoard(BoardVO boardVO) throws Exception {
+	public int updateBoard(BoardVO boardVO, AttachVO attachVO) throws Exception {
+
+		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+		
+		TransactionStatus status = transactionManager.getTransaction(def);
 		
 		int result = 0;
-		result = boardMapper.updateBoard(boardVO);
+		
+		try{
+			
+			result = boardMapper.updateBoard(boardVO);
+			
+			// 첨부파일 등록
+			if(attachVO.getArrFileOrgNm() != null) {
+				
+				AttachVO vo = new AttachVO();
+				
+				vo.setBoardSeq(boardVO.getBoardSeq());
+				vo.setRegNo(boardVO.getUpdNo());
+				vo.setThumbYn("N");
+				vo.setDwnldCnt(0);
+				vo.setStat(1);
+				
+				for(int i=0; i < attachVO.getArrFileOrgNm().length; i++) {
+					vo.setFileNm(attachVO.getArrFileOrgNm()[i]);
+					vo.setFileExt(attachVO.getArrFileExt()[i]);
+					vo.setFileSz(attachVO.getArrFileSize()[i]);
+					vo.setFilePath(attachVO.getArrFilePath()[i]);
+					vo.setStrgFileNm(attachVO.getArrFileSvgNm()[i]);
+					
+					attachMapper.addAttach(vo);
+				}
+			}
+			
+			transactionManager.commit(status);
+		}catch(Exception e){
+			transactionManager.rollback(status);
+			System.out.println();
+			System.out.println(e.getMessage());
+			System.out.println();
+		}
 		
 		return result;
 	}
@@ -124,9 +167,16 @@ public class BoardServiceImpl implements BoardService {
 	public Map<String, Object> getBoard(BoardVO boardVO) throws Exception {
 
 	    Map<String, Object> resultMap = new HashMap<>();
-	    
 	    BoardVO getBoard = boardMapper.getBoard(boardVO);
+	    List<AttachVO> getAttachList = new ArrayList<>();
+	    
+	    AttachVO attachVO = new AttachVO();
+	    attachVO.setBoardSeq(boardVO.getBoardSeq());
+	    
+	    getAttachList = attachMapper.getAttachList(attachVO);
+
 	    resultMap.put("getBoard", getBoard);
+	    resultMap.put("getAttachList", getAttachList);
 	    
 		return resultMap;
 	}

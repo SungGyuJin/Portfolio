@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 
 <body>
 <script>
@@ -179,17 +181,40 @@
 									    	</div>
 									  	</div>
                                 	</div>
+                                	
+                                	
                                 	<div class="col-md-6">
-										<label>총&nbsp;&nbsp;<span class="font-weight-bold" id="addedCnt">0</span> 개</label>
-									   	<div id="file-list" class="dz-message added-file font-weight-bold added-zone">
-									   		<span id="text-added">첨부된 파일이 없습니다.</span>
+                                	<input type="hidden" id="fileTotalCnt" value="${fn:length(getAttachList) + 1}">
+										<label>총&nbsp;&nbsp;<span class="font-weight-bold" id="addedCnt">${fn:length(getAttachList)}</span> 개</label>
+									   	<div id="file-list" class="dz-message added-file font-weight-bold <c:if test="${empty getAttachList }">added-zone</c:if>">
+		                                	<c:forEach var="list" varStatus="varStatus" items="${getAttachList }">
+		                                		<div class="d-flex justify-content-between mt-1 file-area" id="fileDiv-${varStatus.count }">
+									            	${list.fileNm }
+										           	<div>
+										           		<fmt:formatNumber value="${list.fileSz / 1024.0}" type="number" maxFractionDigits="2" minFractionDigits="2" /> KB
+										           		<button type="button" class="btn btn-secondary btn-sm ml-2" onclick="removeFile(${varStatus.count });">삭제</button>
+										            </div>
+									            </div>
+											</c:forEach>
+											<c:if test="${empty getAttachList }">
+												<span id="text-added">첨부된 파일이 없습니다.</span>
+											</c:if>
 									    </div>
                                 	</div>
                                 </div>
+                                
                                 <div id="file-data">
-                                	
+                                	<c:forEach var="list" varStatus="varStatus" items="${getAttachList }">
+                                		<div class="d-flex fileData-area fileData-${varStatus.count }">
+                                			<input type="text" name="arrFileOrgNm" value="${list.fileNm }">
+                                			<input type="text" name="arrFileSvgNm" value="${list.strgFileNm }">
+                                			<input type="text" name="arrFileExt" value="${list.fileExt }">
+                                			<input type="text" name="arrFilePath" value="${list.filePath }">
+                                			<input type="text" name="arrFileSize" value="${list.fileSz }">
+                                		</div>
+                                	</c:forEach>
                                 </div>
-								
+                                
                             </form>
                         </div>
    					</div>
@@ -266,7 +291,6 @@
 <script>
 	
 Dropzone.autoDiscover = false;
-var fileCnt = 0;
 
 var myDropzone = new Dropzone("#myDropzone", {
     url: "./upload.do",
@@ -274,7 +298,7 @@ var myDropzone = new Dropzone("#myDropzone", {
     maxFilesize: 5, // 5MB
     acceptedFiles: "image/*,application/pdf,.doc,.docx,.xls,.xlsx,.txt",
     uploadMultiple: true, // ← 이걸 false 또는 제거하면 기본값이라 각 파일 따로 업로드됨
-    parallelUploads: 5,
+    parallelUploads: 1,
     autoProcessQueue: true,
 //     autoProcessQueue: false,
     createImageThumbnails: false,
@@ -291,7 +315,8 @@ var myDropzone = new Dropzone("#myDropzone", {
             this.removeAllFiles(true); // true = 서버 업로드 여부와 관계없이 클라이언트 파일 제거
             $("#file-list").empty();   // 리스트도 비우기
         });
-        
+
+        var fileCnt = $("#fileTotalCnt").val();
         this.on("addedfile", function (file) {
 
 //          document.getElementById("file-list").appendChild(entry);
@@ -306,8 +331,6 @@ var myDropzone = new Dropzone("#myDropzone", {
         		$(".file-area").remove();
         		$(".fileData-area").remove();
         	}
-            
-			fileCnt++;
 
             // 파일 정보
             const fileName 		= file.name;
@@ -323,16 +346,6 @@ var myDropzone = new Dropzone("#myDropzone", {
             html +=			'<button type="button" class="btn btn-secondary btn-sm ml-2" onclick="removeFile('+fileCnt+');">삭제</button>';
             html +=		'</div>';
             html += '</div>';
-            
-        	var fileData_html = '';
-        	
-        	fileData_html += '<div class="d-flex fileData-area fileData-'+fileCnt+'">';
-        	fileData_html += 	'<input type="text" name="arrFileOrgNm" value="'+fileName+'">';
-        	fileData_html += 	'<input type="text" name="arrFileSize" value="'+fileSizeByte+'">';
-        	fileData_html += 	'<input type="text" name="arrFileType" value="'+filetype+'">';
-        	fileData_html += '</div>';
-        	
-        	$("#file-data").append(fileData_html);
         	
         	if($(".file-area").length == 0){
 	        	$("#text-added").removeClass('d-none');
@@ -348,12 +361,10 @@ var myDropzone = new Dropzone("#myDropzone", {
 			}
 			
 // 			this.processQueue();
-	        
+
+			fileCnt++;
+			
        	});
-        
-        this.on("success", function(file, response) {
-    		console.log("success 진입")
-    	});
         
         // 마지막 파일까지 드래그 및 첨부 후
         this.on("queuecomplete", function() {
@@ -361,8 +372,23 @@ var myDropzone = new Dropzone("#myDropzone", {
         	$("#addedCnt").text($(".file-area").length);
         });
         
-        dropZoneIns.on("success", function (file, response) {
-//             console.log("업로드 성공", response);
+        // After controller
+        var fileHiddenCnt = $("#fileTotalCnt").val();
+        this.on("success", function (file, response) {
+            
+        	var hiddenFile_html = '';
+
+        	hiddenFile_html += '<div class="d-flex fileData-area fileData-'+fileHiddenCnt+'">';
+        	hiddenFile_html +=     '<input type="text" name="arrFileOrgNm" value="'+response.fileOrgNm+'">';
+        	hiddenFile_html += 	   '<input type="text" name="arrFileSvgNm" value="'+response.fileSvgNm+'">';
+        	hiddenFile_html += 	   '<input type="text" name="arrFileExt" value="'+response.fileExt+'">';
+        	hiddenFile_html += 	   '<input type="text" name="arrFilePath" value="'+response.filePath+'">';
+        	hiddenFile_html += 	   '<input type="text" name="arrFileSize" value="'+response.fileSz+'">';
+        	hiddenFile_html +='</div>';
+        	
+        	$("#file-data").append(hiddenFile_html);
+        	
+        	fileHiddenCnt++;
         });
 
         this.on("error", function (file, errMessage) {
@@ -382,6 +408,7 @@ function removeFile(num){
 	if($(".file-area").length == 0){
 		$("#file-list").addClass('added-zone');
 		$("#text-added").removeClass('d-none');
+		$("#file-list").html('<span id="text-added">첨부된 파일이 없습니다.</span>');
 	}
 }
 

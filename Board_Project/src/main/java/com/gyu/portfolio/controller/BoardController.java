@@ -201,6 +201,7 @@ public class BoardController {
 
 		model.clear();
 		model.addAttribute("getBoard", resultMap.get("getBoard"));
+		model.addAttribute("getAttachList", resultMap.get("getAttachList"));
 		model.addAttribute("getBbsList", getBbsList);
 		model.addAttribute("boardVO", boardVO);
 
@@ -212,7 +213,6 @@ public class BoardController {
 	public String updateBoardPOST(ModelMap model,
 			@ModelAttribute("BoardVO") BoardVO boardVO,
 			@ModelAttribute("AttachVO") AttachVO attachVO,
-//			@RequestParam(value="file", required=false) MultipartFile[] file,
 			HttpServletRequest request,
 			HttpServletResponse response,
 			HttpSession session) throws Exception{
@@ -228,7 +228,6 @@ public class BoardController {
 		}
 		System.out.println("++++++++++++++++++++++++++++++");
 		System.out.println();
-		
 		/* request 정보확인 END */
 
 //		System.out.println();
@@ -250,8 +249,8 @@ public class BoardController {
 //		}
 		
 		boardVO.setUpdNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
-//		int result = boardService.updateBoard(boardVO, attachVO);
-		int result = 1;
+		int result = boardService.updateBoard(boardVO, attachVO);
+//		int result = 1;
 		
 		String searchkeyword = URLEncoder.encode(boardVO.getSearchKeyword(), "UTF-8");
 
@@ -306,7 +305,6 @@ public class BoardController {
 		/* request 정보확인 END */
 
 		Map<String, Object> resultMap = new HashMap<>();
-
 		
 		for (MultipartFile file : attachVO.getFiles()) {
 
@@ -320,13 +318,13 @@ public class BoardController {
 	        if (dotIdx > 0) {
 	            fileExt = fileOrgNm.substring(dotIdx);
 	        }
-	    
+
 	        String uuid = UUID.randomUUID().toString();
 	        fileSvgNm = uuid + fileExt;
 	        
 	        File destFile = new File(filePath, fileSvgNm);
 	        file.transferTo(destFile);
-
+	        
 	        resultMap.put("fileOrgNm", fileOrgNm);
 	        resultMap.put("fileSvgNm", fileSvgNm);
 	        resultMap.put("fileExt",   fileExt);

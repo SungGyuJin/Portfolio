@@ -2,6 +2,7 @@ package com.gyu.portfolio.service;
 
 import java.util.Map;
 
+import com.gyu.portfolio.model.AttachVO;
 import com.gyu.portfolio.model.BoardVO;
 
 public interface BoardService {
@@ -13,7 +14,7 @@ public interface BoardService {
 	int addBoard(BoardVO boardVO) throws Exception;
 
 	// 게시물 수정
-	int updateBoard(BoardVO boardVO) throws Exception;
+	int updateBoard(BoardVO boardVO, AttachVO attachVO) throws Exception;
 
 	// 게시물 목록
 	Map<String, Object> getBoardList(BoardVO boardVO) throws Exception;
