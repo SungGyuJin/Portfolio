@@ -209,12 +209,13 @@
 										<div class="col-sm-12">
 											<table class="table table-bordered dataTable" id="dataTable" cellspacing="0" role="grid" aria-describedby="dataTable_info">
 												<colgroup>
-													<col width="10">	<!-- No. -->
-													<col width="120">	<!-- 제목 -->
-													<col width="60"> 	<!-- 작성자 -->
-													<col width="60"> 	<!-- 등록일시 -->
-													<col width="60"> 	<!-- 수정일시 -->
-													<col width="40"> 	<!-- 상태 -->
+													<col width="5%">	<!-- No. -->
+													<col width="25%">	<!-- 제목 -->
+													<col width="5%"> 	<!-- 작성자 -->
+													<col width="10%"> 	<!-- 등록일시 -->
+													<col width="10%"> 	<!-- 수정일시 -->
+													<col width="5%"> 	<!-- 첨부파일 -->
+													<col width="5%"> 	<!-- 상태 -->
 												</colgroup>
 												<thead>
 												    <tr role="row">
@@ -223,6 +224,7 @@
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">작성자</th>
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">등록일시</th>
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">수정일시</th>
+														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">첨부파일</th>
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">상태</th>
 												    </tr>
 												</thead>
@@ -250,6 +252,7 @@
 														<td class="text-center"><strong>${list.userNm }</strong></td>
 														<td class="text-center">${list.regDt }</td>
 														<td class="text-center">${list.updDt }</td>
+														<td class="text-center p-0"><c:if test="${list.atchCnt gt 0 }"><img src="${pageContext.request.contextPath}/resources/admin/assets/img/atch_icon.png" class="mt-2" style="max-width: 30px;" /></c:if></td>
 														<td class="text-center">
 															<c:choose>
 																<c:when test="${list.stat eq 1 }">
@@ -264,7 +267,7 @@
 													</c:forEach>
 													<c:if test="${empty getBoardList }">
 													<tr class="text-center">
-														<td colspan="6">
+														<td colspan="7">
 															<c:if test="${boardVO.listTyp eq 'list' }"><strong class="text-lg"><br>등록된 게시물이 없습니다.<br><br></strong></c:if>
 															<c:if test="${boardVO.listTyp eq 'trash' }"><strong class="text-lg"><br>삭제된 게시물이 없습니다.<br><br></strong></c:if>
 														</td>

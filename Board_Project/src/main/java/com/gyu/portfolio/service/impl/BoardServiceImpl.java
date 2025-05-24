@@ -104,11 +104,11 @@ public class BoardServiceImpl implements BoardService {
 		try{
 			
 			result = boardMapper.updateBoard(boardVO);
+
+			AttachVO vo = new AttachVO();
 			
 			// 첨부파일 등록
 			if(attachVO.getArrFileOrgNm() != null) {
-				
-				AttachVO vo = new AttachVO();
 				
 				vo.setBoardSeq(boardVO.getBoardSeq());
 				vo.setRegNo(boardVO.getUpdNo());
@@ -125,6 +125,11 @@ public class BoardServiceImpl implements BoardService {
 					
 					attachMapper.addAttach(vo);
 				}
+			}
+			
+			// 첨부파일 삭제
+			if(attachVO.getDelSeqArr() != null) {
+				attachMapper.deleteAttach(attachVO);
 			}
 			
 			transactionManager.commit(status);

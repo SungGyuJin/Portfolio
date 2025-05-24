@@ -153,6 +153,11 @@ table tbody tr:hover {
 	height: 250px;
 }
 
+.table-lg th,
+.table-lg td {
+  padding: 1.2rem;
+}
+
 </style>
     
 </head>

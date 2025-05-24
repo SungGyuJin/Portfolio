@@ -35,8 +35,7 @@ public class AttachServiceImpl implements AttachService{
 
 	@Override
 	public AttachVO getAttach(AttachVO attachVO) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return attachMapper.getAttach(attachVO);
 	}
 	
 

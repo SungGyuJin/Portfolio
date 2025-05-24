@@ -78,4 +78,36 @@
 	</select>
 	
 	
+	<select id="getAttach" resultMap="attachVO">
+		SELECT
+			ATTACH_SEQ
+			, BOARD_SEQ
+			, FILE_NM
+			, FILE_EXT
+			, FILE_SZ
+			, FILE_PATH
+			, STRG_FILE_NM
+			, THUMB_YN
+			, DWNLD_CNT
+			, REG_NO
+			, REG_DT
+			, UPD_NO
+			, UPD_DT
+			, STAT
+		FROM TB_ATTACH
+		WHERE 1=1
+			AND ATTACH_SEQ = #{attachSeq}
+	</select>
+	
+	<delete id="deleteAttach">
+		DELETE FROM TB_ATTACH
+		WHERE 1=1
+			AND BOARD_SEQ = #{boardSeq}
+			AND ATTACH_SEQ IN(
+		 	<foreach collection="delSeqArr" item="seq" separator=",">
+		 		#{seq}
+		 	</foreach>
+			)
+	</delete>
+	
 </mapper>

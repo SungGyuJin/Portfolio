@@ -39,6 +39,8 @@ public class AttachVO extends DefalutVO {
 	private String[] arrFilePath   = null;	// 파일경로
 	private long[]   arrFileSize   = null;	// 파일크기(Byte)
 	
+	private String[] delSeqArr 	   = null;
+	
 	@Override
 	public String toString() {
 		return "AttachVO [attachSeq=" + attachSeq + ", boardSeq=" + boardSeq + ", fileNm=" + fileNm + ", fileExt="

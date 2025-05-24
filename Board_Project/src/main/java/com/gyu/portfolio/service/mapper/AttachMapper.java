@@ -20,5 +20,5 @@ public interface AttachMapper {
 
 	/* 첨부파일 조회 */
 	AttachVO getAttach(AttachVO attachVO) throws Exception;
-	
+
 }

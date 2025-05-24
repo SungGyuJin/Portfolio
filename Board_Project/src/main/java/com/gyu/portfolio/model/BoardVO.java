@@ -33,6 +33,7 @@ public class BoardVO extends DefalutVO {
 	
 	private int    rowNum 	=  0;
 	private int    cmntCnt 	=  0;
+	private int    atchCnt 	=  0;
 	
 	@Override
 	public String toString() {

@@ -1,7 +1,10 @@
 package com.gyu.portfolio.controller;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.IOException;
+import java.io.FileInputStream;
+import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -82,7 +85,7 @@ public class BoardController {
 		ModelAndView mav = null;
 		mav = new ModelAndView("admin/board/list");
 		
-		boardVO.setAmount(10);	// 페이지당 데이터 갯수
+		boardVO.setAmount(15);	// 페이지당 데이터 갯수
 
 		// 게시판 목록(select option)
 		List<BbsVO> getBbsList = bbsService.getSelectBbsList();
@@ -229,28 +232,9 @@ public class BoardController {
 		System.out.println("++++++++++++++++++++++++++++++");
 		System.out.println();
 		/* request 정보확인 END */
-
-//		System.out.println();
-//		System.out.println("file.length: "+file.length);
-//		System.out.println();
-		
-//		if (file != null) {
-//		    System.out.println("파일 개수: " + file.length);
-//		    for (MultipartFile f : file) {
-//		        if (!f.isEmpty()) {
-//		            System.out.println("------ 파일 정보 ------");
-//		            System.out.println("파일 이름: " + f.getOriginalFilename());
-//		            System.out.println("파일 크기: " + f.getSize());
-//		            System.out.println("Content-Type: " + f.getContentType());
-//		        } else {
-//		            System.out.println("비어 있는 파일이 전달됨");
-//		        }
-//		    }
-//		}
 		
 		boardVO.setUpdNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
 		int result = boardService.updateBoard(boardVO, attachVO);
-//		int result = 1;
 		
 		String searchkeyword = URLEncoder.encode(boardVO.getSearchKeyword(), "UTF-8");
 
@@ -333,6 +317,50 @@ public class BoardController {
 	    }
 		
 		return resultMap;
+	}
+	
+	@GetMapping("/fileDownload")
+	public void fileDownload(ModelMap model,
+			@ModelAttribute("AttachVO") AttachVO attachVO,
+			HttpServletRequest request,
+			HttpServletResponse response
+			) throws Exception {
+		 
+		AttachVO getAttach = null;
+		attachVO.setAttachSeq(Integer.parseInt(request.getParameter("no")));
+		getAttach = attachService.getAttach(attachVO);
+
+		String orgFileNm = getAttach.getFileNm();
+		String svgFileNm = getAttach.getStrgFileNm();
+
+        // upload되어 있는 파일 위치
+        File file = new File(ROOT_PATH+UPLOAD_PATH + File.separator + svgFileNm);
+
+        if (!file.exists()) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "파일이 존재하지 않습니다");
+            return;
+        }
+
+        String mimeType = URLConnection.guessContentTypeFromName(file.getName());
+        if (mimeType == null) {
+            mimeType = "application/octet-stream";
+        }
+
+        response.setContentType(mimeType);
+        response.setHeader("Content-Disposition",
+                "attachment; filename=\"" + URLEncoder.encode(orgFileNm, "UTF-8") + "\"");
+
+        try (BufferedInputStream in = new BufferedInputStream(new FileInputStream(file));
+             BufferedOutputStream out = new BufferedOutputStream(response.getOutputStream())) {
+
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            while ((bytesRead = in.read(buffer)) != -1) {
+                out.write(buffer, 0, bytesRead);
+            }
+
+            out.flush();
+        }
 	}
 	
 	
