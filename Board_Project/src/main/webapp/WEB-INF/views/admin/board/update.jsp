@@ -9,13 +9,25 @@
 
 	$(function(){
 		
+		CKEDITOR.replace("cont", {
+			removePlugins: 'elementspath, exportpdf',
+			resize_enabled: false,
+		    height: 400
+		});
+		   
+		// CKEditor 경고 및 로그 비활성화
+	    CKEDITOR.on('instanceReady', function(evt) {
+	        // 로그 관련 모든 함수 덮어쓰기
+	        console.warn = function () {};
+	        console.error = function () {};
+	        console.log = function () {};
+	    });
+		   
+		
 		$('.custom-file-input').on('change', function (event) {
 			var inputFile = event.currentTarget;
 		    $(inputFile).siblings('.custom-file-label').addClass("selected").html(inputFile.files[0].name);
 		});
-		
-		
-		
 		
 	});
 	

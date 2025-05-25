@@ -47,6 +47,29 @@ var contextPath = '${pageContext.request.contextPath}';
 
 <style>
 
+.editor-preview {
+  background-color: #ffffff;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  overflow: auto;
+/*   min-height: 200px; */
+/*   overflow: auto; */
+/*   height: 200px; */
+
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  white-space: normal;
+}
+
+.editor-preview img {
+  max-width: 100%;
+  height: auto;
+}
+
+.cke_notification_warning {
+    display: none !important;
+}
+
 .my-writer{
   display: inline-block;
   background-color: #e6f5ec;   /* 연한 민트/녹색 계열 */

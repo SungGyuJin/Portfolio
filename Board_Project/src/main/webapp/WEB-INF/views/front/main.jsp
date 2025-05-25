@@ -711,7 +711,7 @@ function btnAddCmntChange(str){
             						
             						
             						
-            						<div class="image-wrapper">
+            						<div class="image-wrapper mb-2">
 	            						<img class="img-fluid board-img" src="${pageContext.request.contextPath}/resources/front/main/assets/img/portfolio/1-board-img.jpg" alt="Board Image" />
             						</div>
 	                        		<table class="table table-sm mb-0 text-start">
@@ -774,7 +774,9 @@ function btnAddCmntChange(str){
 
 			    <!-- 본문 -->
 			    <div class="modal-body text-start">
-			    	<pre id="brd-cn"></pre>
+			    	
+					<div class="p-2 rounded editor-preview" id="brd-cn"></div>
+<!-- 			    	<pre id=""></pre> -->
 			    </div>
 
     			<!-- 댓글 -->

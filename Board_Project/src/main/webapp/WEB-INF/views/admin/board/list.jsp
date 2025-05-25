@@ -121,7 +121,8 @@
 				
 				$("#boardSeq").val(getBoard.boardSeq);
 				$("#title").val(getBoard.title);
-				$("#cont").val(getBoard.cont);
+// 				$("#cont").val(getBoard.cont);
+				$("#cont").html(getBoard.cont);
 				$("#stat").val(getBoard.stat);
 				$("#btn-move").prop('disabled', false);
 
@@ -357,7 +358,9 @@
 	                      		</div>
                                 <div class="form-group">
 <!-- 	                      			<label for="bbs-title"><strong>내용</strong></label> -->
-                                	<textarea class="form-control init-class" name="cont" id="cont" rows="5" disabled="disabled"></textarea>
+<!--                                 	<textarea class="form-control init-class" name="cont" id="cont" rows="5" disabled="disabled"></textarea> -->
+                                	<div class="p-2 rounded editor-preview" id="cont">
+                                	</div>
                                 </div>
                                 <div class="form-group">
 		                        	<button type="button" class="btn btn-primary btn-lg init-class w-100" id="btn-move" onclick="btnControl('move');" disabled="disabled">상세페이지 이동</button>

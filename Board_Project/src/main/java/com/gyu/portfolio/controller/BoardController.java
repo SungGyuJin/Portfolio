@@ -266,6 +266,21 @@ public class BoardController {
 		return mav;
 	}
 	
+	/* 게시물 상태변경(복구, 삭제, 영구삭제)(Ajax) */
+	@PostMapping("/changeStat.do")
+	@ResponseBody
+	public int changeStat(ModelMap model,
+			@ModelAttribute("BoardVO") BoardVO boardVO,
+			HttpServletRequest request,
+			HttpServletResponse response,
+			HttpSession session) throws Exception{
+
+		boardVO.setUpdNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
+		int result = boardService.changeStat(boardVO);
+
+		return result;
+	}
+	
 	/* 파일 업로드 */
 	@PostMapping("/upload.do")
 	@ResponseBody

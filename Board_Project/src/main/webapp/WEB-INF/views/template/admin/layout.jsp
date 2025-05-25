@@ -15,6 +15,9 @@
     <script src="${pageContext.request.contextPath}/resources/admin/assets/js/sb-admin-2.min.js"></script>
 <%--     <script src="${pageContext.request.contextPath}/resources/admin/assets/vendor/jquery-easing/jquery.easing.min.js"></script> --%>
     
+    <!-- CKeditor -->
+    <script src="${pageContext.request.contextPath }/resources/lib/ckeditor/ckeditor.js"></script>
+    
     <!-- Drop zone -->
     <script src="${pageContext.request.contextPath }/resources/admin/assets/vendor/dropzone/dropzone-min.js"></script>
     
@@ -32,15 +35,30 @@
 
 <style>
 
-.custom-text{
-	color: white !important;
+
+.editor-preview {
+  background-color: #eaecf4;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  overflow: auto;
+  min-height: 200px;
+  overflow: auto;
+  height: 200px;
+
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  white-space: normal;
 }
 
-.fixed-size-box {
-   	width: 906px;
-   	height: 606px; 
-/*    	overflow: auto; */
+.editor-preview img {
+  max-width: 100%;
+  height: auto;
 }
+
+.cke_notification_warning {
+    display: none !important;
+}
+
 
 .cursor-pointer {
 	cursor: pointer;
@@ -157,6 +175,7 @@ table tbody tr:hover {
 .table-lg td {
   padding: 1.2rem;
 }
+
 
 </style>
     
