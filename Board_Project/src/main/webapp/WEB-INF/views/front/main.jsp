@@ -21,6 +21,36 @@
 
 $(function(){
 	
+	$("#brd-pwdYn").on('change', function(){
+		
+		
+		
+		if($("#brd-pwdYn:checked").val() == 'Y'){
+			$("#brd-pwd").prop("disabled", false);
+			$("#brd-pwd").focus();
+			$("#brd-pwd").prop("placeholder", "비밀번호를 설정하세요.");
+		}else{
+			$("#brd-pwd").prop("disabled", true);
+			$("#brd-pwd").val('');
+			$("#brd-pwd").removeAttr("placeholder");
+		}
+		
+	});
+	
+	CKEDITOR.replace("brd-cont", {
+		removePlugins: 'elementspath, exportpdf',
+		resize_enabled: false,
+	    height: 350
+	});
+	   
+	// CKEditor 경고 및 로그 비활성화
+    CKEDITOR.on('instanceReady', function(evt) {
+        // 로그 관련 모든 함수 덮어쓰기
+        console.warn = function () {};
+        console.error = function () {};
+        console.log = function () {};
+    });
+	
 	$('#frm-board').on('submit', function(e) {
         e.preventDefault();  // 기본 submit 막음
     });
@@ -80,7 +110,10 @@ function addBoard(){
 		return false;
 	}
 
-	if($("#brd-cont").val().trim() == ''){
+  	CKEDITOR.instances['brd-cont'].updateElement();
+	var brdCont = CKEDITOR.instances['brd-cont'].getData();
+	
+	if(cnChk(brdCont)){
 		alert('내용을 입력해 주세요.');
 		return false;
 	}
@@ -101,6 +134,8 @@ function addBoard(){
 				$("#brd-title").val('');
 				$("#brd-cont").val('');
 			}
+			
+		    CKEDITOR.instances['brd-cont'].setData('');
 		},
 		error : function(request, status, error){
 			Swal.fire({
@@ -109,6 +144,11 @@ function addBoard(){
 			})
 		}
 	});
+}
+
+function cnChk(content) {
+  var plainText = content.replace(/<[^>]*>/g, '').trim();
+  return plainText === '';
 }
 
 // 게시판 클릭
@@ -269,6 +309,7 @@ function getBoardList(num){
 			html += 		'</div>';
 			html += 	'</div>';
 			html += 		'<table class="table table-sm mb-5">';
+// 			html += 		'<table class="table mb-5">';
 			html +=				'<colgroup>';
 			html +=					'<col width="5%">';
 			html +=					'<col width="30%">';
@@ -313,7 +354,16 @@ function getBoardList(num){
 // 							html +=							'└\u00a0';
 			html +=							' └ <small><span class="border px-1 py-0 fw-bold small my-danger me-1"><strong>RE</strong></span></small>';
 										}
+										
+									if(boardList[i].pwdYn == 'Y'){
+			html += 						'<img class="mb-1 me-1" src="'+contextPath +'/resources/front/main/assets/img/lock.png" style="max-width: 18px;"/>';
+									}
+									
 			html +=							'<small><a href="javascript:getBoard('+boardList[i].boardSeq+');" class="my-a text-dark">'+boardList[i].title+'</a></small>';
+									}
+
+									if(boardList[i].atchCnt > 0){
+			html += 						'<img class="ms-1 mb-1" src="'+contextPath +'/resources/front/main/assets/img/front-atch.png" style="max-width: 20px;"/>';
 									}
 
 									if(boardList[i].cmntCnt > 0){
@@ -837,6 +887,11 @@ function btnAddCmntChange(str){
 					            <div class="mb-3">
 					            	<label for="brd-title" class="form-label fw-bold">제목</label>
 					              	<input type="text" class="form-control my-input" name="title" id="brd-title">
+					            </div>
+					            <div class="mb-3">
+					            	<label for="brd-pwdYn" class="form-label fw-bold">비밀 글</label>
+					              	<input type="checkbox" class="form-check-input cursor-pointer ms-1" name="pwdYn" id="brd-pwdYn" value="Y">
+					              	<input type="password" class="form-control my-input" name="pwd" id="brd-pwd" disabled>
 					            </div>
 					            <div class="mb-3">
 					            	<label for="brd-cont" class="form-label fw-bold">내용</label>

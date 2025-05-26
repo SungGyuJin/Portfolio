@@ -15,6 +15,7 @@ public class CmntVO extends DefalutVO {
 	private int    ref 		=  0;
 	private int    step 	=  0;
 	private int    lvl 		=  0;
+	private String pwdYn 	="N";
 	private String pwd 		= "";  // password
 	private int    regNo 	=  0;  // 등록자 번호
 	private String regDt 	= "";  // 등록일자
@@ -24,5 +25,12 @@ public class CmntVO extends DefalutVO {
 	
 	/* 그 외 필드 */
 	private String authYn	= "";  // 현재댓글의 게시글 작성자 여부
+
+	@Override
+	public String toString() {
+		return "CmntVO [cmntSeq=" + cmntSeq + ", boardSeq=" + boardSeq + ", cn=" + cn + ", ref=" + ref + ", step="
+				+ step + ", lvl=" + lvl + ", pwdYn=" + pwdYn + ", pwd=" + pwd + ", regNo=" + regNo + ", regDt=" + regDt
+				+ ", updNo=" + updNo + ", updDt=" + updDt + ", stat=" + stat + ", authYn=" + authYn + "]";
+	}
 	
 }

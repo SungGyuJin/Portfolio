@@ -12,7 +12,7 @@
 		CKEDITOR.replace("cont", {
 			removePlugins: 'elementspath, exportpdf',
 			resize_enabled: false,
-		    height: 400
+		    height: 350
 		});
 		   
 		// CKEditor 경고 및 로그 비활성화

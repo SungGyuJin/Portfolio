@@ -20,6 +20,9 @@
 <script src="${pageContext.request.contextPath }/resources/admin/assets/vendor/parsley.js/parsley.min.js"></script>
 <script src="${pageContext.request.contextPath }/resources/admin/assets/vendor/parsley.js/i18n/ko.js"></script>
 
+<!-- CKeditor -->
+<script src="${pageContext.request.contextPath }/resources/lib/ckeditor/ckeditor.js"></script>
+
 <!-- sweetalert2 -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/admin/assets/vendor/sweetalert2/sweetalert2.min.css"/>
 <script src="${pageContext.request.contextPath}/resources/admin/assets/vendor/sweetalert2/sweetalert2.all.min.js"></script>

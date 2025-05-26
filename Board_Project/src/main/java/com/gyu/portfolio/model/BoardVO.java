@@ -16,6 +16,7 @@ public class BoardVO extends DefalutVO {
 	private int    ref 		=  0;
 	private int    step 	=  0;
 	private int    lvl 		=  0;
+	private String pwdYn 	="N";
 	private String pwd 		= "";  // password
 	private int    readCnt 	=  0;  // 조회수
 	private int    regNo 	=  0;  // 등록자 번호
@@ -38,11 +39,10 @@ public class BoardVO extends DefalutVO {
 	@Override
 	public String toString() {
 		return "BoardVO [boardSeq=" + boardSeq + ", bbsSeq=" + bbsSeq + ", title=" + title + ", cont=" + cont + ", ref="
-				+ ref + ", step=" + step + ", lvl=" + lvl + ", pwd=" + pwd + ", readCnt=" + readCnt + ", regNo=" + regNo
-				+ ", regDt=" + regDt + ", updNo=" + updNo + ", updDt=" + updDt + ", stat=" + stat + ", replyYn="
-				+ replyYn + ", atchYn=" + atchYn + ", secrtYn=" + secrtYn + ", bbsStat=" + bbsStat + ", bbsNm=" + bbsNm
-				+ ", rowNum=" + rowNum + "]";
+				+ ref + ", step=" + step + ", lvl=" + lvl + ", pwdYn=" + pwdYn + ", pwd=" + pwd + ", readCnt=" + readCnt
+				+ ", regNo=" + regNo + ", regDt=" + regDt + ", updNo=" + updNo + ", updDt=" + updDt + ", stat=" + stat
+				+ ", replyYn=" + replyYn + ", atchYn=" + atchYn + ", secrtYn=" + secrtYn + ", bbsStat=" + bbsStat
+				+ ", bbsNm=" + bbsNm + ", rowNum=" + rowNum + ", cmntCnt=" + cmntCnt + ", atchCnt=" + atchCnt + "]";
 	}
-
 	
 }

@@ -10,6 +10,7 @@
 		<result property="ref"			column="REF" 		/>
 		<result property="step"			column="STEP" 		/>
 		<result property="lvl"			column="LVL" 		/>
+		<result property="pwdYn"		column="PWD_YN" 	/>
 		<result property="pwd"			column="PWD" 		/>
 		<result property="readCnt"		column="READ_CNT" 	/>
 		
@@ -47,6 +48,7 @@
 				, REF
 				, STEP
 				, LVL
+				, PWD_YN
 				, PWD
 				, READ_CNT
 				, REG_NO
@@ -128,6 +130,7 @@
 			, B.REF
 			, B.STEP
 			, B.LVL
+			, B.PWD_YN
 			, B.PWD
 			, B.READ_CNT
 			, B.REG_NO
@@ -154,6 +157,7 @@
 			, REF
 			, STEP
 			, LVL
+			, PWD_YN
 			, PWD
 			, READ_CNT
 			, REG_NO
@@ -168,7 +172,8 @@
 			, #{ref}
 			, #{step}
 			, #{lvl}
-			, #{pwd}
+			, #{pwdYn}
+			, SHA2(#{pwd}, 256)
 			, #{readCnt}
 			, #{regNo}
 			, NOW()
@@ -268,6 +273,7 @@
 				, REF
 				, STEP
 				, LVL
+				, PWD_YN
 				, PWD
 				, READ_CNT
 				, REG_NO
@@ -278,6 +284,7 @@
 				, (SELECT NM FROM TB_BBS WHERE BBS_SEQ = T1.BBS_SEQ) BBS_NM
 				, (SELECT USER_NM FROM TB_USER WHERE USER_SEQ = T1.REG_NO) USER_NM
 				, (SELECT COUNT(*) FROM TB_COMMENT WHERE STAT = 1 AND BOARD_SEQ = T1.BOARD_SEQ) CMNT_CNT
+				, (SELECT COUNT(*) FROM TB_ATTACH WHERE BOARD_SEQ = T1.BOARD_SEQ) ATCH_CNT
 			FROM TB_BOARD T1, (SELECT @rownum := 0) AS TMP
 			WHERE 1=1
 				<if test="listTyp.equals('list')">
@@ -359,6 +366,7 @@
 			, B.REF
 			, B.STEP
 			, B.LVL
+			, B.PWD_YN
 			, B.PWD
 			, B.READ_CNT
 			, B.REG_NO

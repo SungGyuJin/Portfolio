@@ -9,6 +9,7 @@
 		<result property="ref"			column="REF" 		/>
 		<result property="step"			column="STEP" 		/>
 		<result property="lvl"			column="LVL" 		/>
+		<result property="pwdYn"		column="PWD_YN" 	/>
 		<result property="pwd"			column="PWD" 		/>
 		
 		<result property="regNo"		column="REG_NO" 	/>
@@ -32,6 +33,7 @@
 			, REF
 			, STEP
 			, LVL
+			, PWD_YN
 			, PWD
 			, REG_NO
 			, DATE_FORMAT(REG_DT, '%Y. %m. %d.  %H:%i') REG_DT
@@ -61,6 +63,7 @@
 			, REF
 			, STEP
 			, LVL
+			, PWD_YN
 			, PWD
 			, REG_NO
 			, REG_DT
@@ -80,6 +83,7 @@
 			, REF
 			, STEP
 			, LVL
+			, PWD_YN
 			, PWD
 			, REG_NO
 			, REG_DT
@@ -92,6 +96,7 @@
 			, #{ref}
 			, #{step}
 			, #{lvl}
+			, #{pwdYn}
 			, #{pwd}
 			, #{regNo}
 			, NOW()
