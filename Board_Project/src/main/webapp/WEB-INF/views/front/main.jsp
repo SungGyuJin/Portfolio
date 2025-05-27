@@ -356,7 +356,7 @@ function getBoardList(num){
 										}
 										
 									if(boardList[i].pwdYn == 'Y'){
-			html += 						'<img class="mb-1 me-1" src="'+contextPath +'/resources/front/main/assets/img/lock.png" style="max-width: 18px;"/>';
+// 			html += 						'<img class="mb-1 me-1" src="'+contextPath +'/resources/front/main/assets/img/lock.png" style="max-width: 18px;"/>'; 보류
 									}
 									
 			html +=							'<small><a href="javascript:getBoard('+boardList[i].boardSeq+');" class="my-a text-dark">'+boardList[i].title+'</a></small>';
