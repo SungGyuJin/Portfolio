@@ -248,12 +248,15 @@
 																<img class="mb-1" src="${pageContext.request.contextPath}/resources/admin/assets/img/arrow-return-right.svg" />
 																<span class="border px-1 py-0 fw-bold small text-primary"><strong>RE</strong></span>
 															</c:if>
+															<c:if test="${list.pwdYn eq 'Y' }">
+																<img class="mb-1" src="${pageContext.request.contextPath}/resources/admin/assets/img/lock-fill.svg" />
+															</c:if>
 															${list.title }
 														</td>
 														<td class="text-center"><strong>${list.userNm }</strong></td>
 														<td class="text-center">${list.regDt }</td>
 														<td class="text-center">${list.updDt }</td>
-														<td class="text-center p-0"><c:if test="${list.atchCnt gt 0 }"><img src="${pageContext.request.contextPath}/resources/admin/assets/img/atch_icon.png" class="mt-2" style="max-width: 30px;" /></c:if></td>
+														<td class="text-center p-0"><c:if test="${list.atchCnt gt 0 }"><img src="${pageContext.request.contextPath}/resources/admin/assets/img/atch_icon.png" class="mt-2" style="max-width: 35px;" /></c:if></td>
 														<td class="text-center">
 															<c:choose>
 																<c:when test="${list.stat eq 1 }">

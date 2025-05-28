@@ -356,7 +356,7 @@ function getBoardList(num){
 										}
 										
 									if(boardList[i].pwdYn == 'Y'){
-// 			html += 						'<img class="mb-1 me-1" src="'+contextPath +'/resources/front/main/assets/img/lock.png" style="max-width: 18px;"/>'; 보류
+			html += 						'<img class="mb-1 me-1" src="'+contextPath +'/resources/front/main/assets/img/lock.png" style="max-width: 18px;"/>';
 									}
 									
 			html +=							'<small><a href="javascript:getBoard('+boardList[i].boardSeq+');" class="my-a text-dark">'+boardList[i].title+'</a></small>';
@@ -809,12 +809,12 @@ function btnAddCmntChange(str){
       				<div class="w-100 d-flex justify-content-between align-items-start mt-2 text-start">
         				<div>
           					<small class="text-success fw-bold ms-1"><span id="brd-bbsNm"></span>&gt;</small>
-          					<h4 class="fw-bold mt-1" id="brd-ttl">매트 교체 완료</h4>
+          					<h4 class="fw-bold mt-1" id="brd-ttl"></h4>
           					<div class="d-flex align-items-center mt-2 mb-4">
   								<img src="${pageContext.request.contextPath}/resources/front/main/assets/img/profile.png" class="me-2" alt="프로필 이미지" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">
             					<div>
-            						<span class="me-2 fw-bolder" id="brd-userNm">작성자</span><br>
-            						<span class="text-muted small"><span id="brd-regDt">2025.05.09. 19:25</span>&nbsp;&nbsp;조회 <span id="brd-readCnt">366</span></span>
+            						<span class="me-2 fw-bolder" id="brd-userNm"></span><br>
+            						<span class="text-muted small"><span id="brd-regDt"></span>&nbsp;&nbsp;조회 <span id="brd-readCnt">366</span></span>
             					</div>
           					</div>
         				</div>
