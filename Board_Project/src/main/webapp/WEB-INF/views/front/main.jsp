@@ -18,12 +18,8 @@
 	</c:when>
 </c:choose>
 
-
 $(function(){
-	
 	$("#brd-pwdYn").on('change', function(){
-		
-		
 		
 		if($("#brd-pwdYn:checked").val() == 'Y'){
 			$("#brd-pwd").prop("disabled", false);
@@ -34,16 +30,21 @@ $(function(){
 			$("#brd-pwd").val('');
 			$("#brd-pwd").removeAttr("placeholder");
 		}
-		
 	});
-	
+
+	const myModalEl = document.getElementById('getBoardListModal');
+	const myModal = new bootstrap.Modal(myModalEl, {
+		backdrop: 'static',
+	    keyboard: false,
+	    focus: false
+	});
+
 	CKEDITOR.replace("brd-cont", {
 		removePlugins: 'elementspath, exportpdf',
 		resize_enabled: false,
 	    height: 350
 	});
 	   
-	// CKEditor 경고 및 로그 비활성화
     CKEDITOR.on('instanceReady', function(evt) {
         // 로그 관련 모든 함수 덮어쓰기
         console.warn = function () {};
@@ -175,53 +176,94 @@ function getBoardPost(){
 // 	$(".parsley-required").remove();
 }
 
-function getBoard(no){
+function getBoard(no, pYn){
 	
-	// Bootstrap 모달 인스턴스 생성 및 표시
-	var getBoardModal = new bootstrap.Modal($('#getBoardModal')[0], {
-		backdrop: true,
-		keyboard: false
-	});
-	getBoardModal.show();
+	if(pYn == 'N'){
+		
+		// Bootstrap 모달 인스턴스 생성 및 표시
+		var getBoardModal = new bootstrap.Modal($('#getBoardModal')[0], {
+			backdrop: true,
+			keyboard: false
+		});
+		getBoardModal.show();
+	
+		// z-index 조정 (중첩 모달 문제 방지)
+		$('#getBoardModal').css('z-index', '1060');
+		$('.modal-backdrop').last().css('z-index', '1055');
+		
+		$("#cmnt-cn").val('');
+		
+		$.ajax({
+			url      : "/main/getBoard.do",
+			method   : "GET",
+			data     : {"no" : no},
+			dataType : "json",
+			success  : function(res){
+				
+				var data 	 = res.getBoard;
+				var cmntList = res.getCmntList;
+	
+				// 게시물 관련
+				$("#brd-bbsNm").html(data.bbsNm);
+				$("#brd-ttl").html(data.title);
+				$("#brd-userNm").html(data.userNm);
+				$("#brd-regDt").html(data.regDt);
+				$("#brd-readCnt").html(data.readCnt);
+				$("#brd-cn").html(data.cont);
+				$("#brdReadCnt-"+data.boardSeq).html(data.readCnt);
+				
+				// 댓글 관련
+				$("#cmnt-boardSeq").val(data.boardSeq);
+				
+				getCmntList(data.boardSeq);
+				
+			},
+			error : function(request, status, error){
+				Swal.fire({
+					icon: "error",
+					title: "통신불가"
+				})
+			}
+		});
+		
+	}else{
 
-	// z-index 조정 (중첩 모달 문제 방지)
-	$('#getBoardModal').css('z-index', '1060');
-	$('.modal-backdrop').last().css('z-index', '1055');
+		Swal.fire({
+			  title: '비밀번호를 입력하세요',
+			  input: 'password',
+			  inputPlaceholder: '비밀번호 입력',
+			  showCancelButton: true,
+			  confirmButtonText: '확인',
+			  cancelButtonText: '취소',
+// 			  didOpen: () => {
+// 			    const confirmBtn = Swal.getConfirmButton();
+// 			    confirmBtn.disabled = false;
+// 			  },
+			  preConfirm: (password) => {
+			    return $.ajax({
+			      url: "/main/pwChk.do",
+			      method: "POST",
+			      data: { "no" : no, "pw": password },
+			      dataType: "json"
+			    }).then(res => {
+			    	
+		    	if (res.result === 'S') {
+		    	      return password;
+		    	    } else {
+		    	      Swal.showValidationMessage('비밀번호가 틀렸습니다.');
+		    	      return false;
+		    	    }
+		    	  }).catch(() => {
+		    	    Swal.showValidationMessage('서버오류');
+		    	  });
+			  }
+			}).then((result) => {
+			  if (result.isConfirmed) {
+			    getBoard(no, 'N');
+			  }
+			});
+	}
 	
-	$("#cmnt-cn").val('');
-	
-	$.ajax({
-		url      : "/main/getBoard.do",
-		method   : "GET",
-		data     : {"no" : no},
-		dataType : "json",
-		success  : function(res){
-			
-			var data 	 = res.getBoard;
-			var cmntList = res.getCmntList;
-
-			// 게시물 관련
-			$("#brd-bbsNm").html(data.bbsNm);
-			$("#brd-ttl").html(data.title);
-			$("#brd-userNm").html(data.userNm);
-			$("#brd-regDt").html(data.regDt);
-			$("#brd-readCnt").html(data.readCnt);
-			$("#brd-cn").html(data.cont);
-			$("#brdReadCnt-"+data.boardSeq).html(data.readCnt);
-			
-			// 댓글 관련
-			$("#cmnt-boardSeq").val(data.boardSeq);
-			
-			getCmntList(data.boardSeq);
-			
-		},
-		error : function(request, status, error){
-			Swal.fire({
-				icon: "error",
-				title: "통신불가"
-			})
-		}
-	});
 }
 
 function changeList(num){
@@ -230,7 +272,6 @@ function changeList(num){
 
 // 게시판 이동
 function changeBbsSeq(no, info){
-	
 	$("#js-searchKeyword").val('');
 	
 	$("#bbsSeq").val(no);
@@ -355,20 +396,21 @@ function getBoardList(num){
 			html +=							' └ <small><span class="border px-1 py-0 fw-bold small my-danger me-1"><strong>RE</strong></span></small>';
 										}
 										
-									if(boardList[i].pwdYn == 'Y'){
+										if(boardList[i].pwdYn == 'Y'){
 			html += 						'<img class="mb-1 me-1" src="'+contextPath +'/resources/front/main/assets/img/lock.png" style="max-width: 18px;"/>';
-									}
-									
-			html +=							'<small><a href="javascript:getBoard('+boardList[i].boardSeq+');" class="my-a text-dark">'+boardList[i].title+'</a></small>';
+			html +=							'<small><a href="javascript:getBoard('+boardList[i].boardSeq+', \''+boardList[i].pwdYn+'\');" class="my-a text-dark">'+boardList[i].title+'</a></small>';
+										}else{
+			html +=							'<small><a href="javascript:getBoard('+boardList[i].boardSeq+', \''+boardList[i].pwdYn+'\');" class="my-a text-dark">'+boardList[i].title+'</a></small>';
+										}
 									}
 
-									if(boardList[i].atchCnt > 0){
+										if(boardList[i].atchCnt > 0){
 			html += 						'<img class="ms-1 mb-1" src="'+contextPath +'/resources/front/main/assets/img/front-atch.png" style="max-width: 20px;"/>';
-									}
+										}
 
-									if(boardList[i].cmntCnt > 0){
+										if(boardList[i].cmntCnt > 0){
 			html +=							'<span class="cmnt-cnt fw-bolder ms-1">['+boardList[i].cmntCnt+']</span>';
-									}
+										}
 			
 			html +=						'</td>';
 			

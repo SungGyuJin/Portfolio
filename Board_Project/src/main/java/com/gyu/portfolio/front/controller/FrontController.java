@@ -304,4 +304,36 @@ public class FrontController {
 	}
 	
 	
+	/* 비밀글 Pwd 체크 */
+	@PostMapping("/main/pwChk.do")
+	@ResponseBody
+	public Map<String, Object> aprvChk(ModelMap model,
+			@ModelAttribute("BoardVO") BoardVO boardVO,
+			HttpServletRequest request,
+			HttpServletResponse response) throws Exception{
+		
+//		/* request 정보확인 START */
+		System.out.println();
+		System.out.println("++++++++++++++++++++++++++++++");
+		System.out.println("============ /pwChk.do INFO  ===========");
+		Enumeration params = request.getParameterNames();
+		while(params.hasMoreElements()) {
+			String name= (String) params.nextElement();
+			System.out.println(name + ": " + request.getParameter(name));
+		}
+		System.out.println("++++++++++++++++++++++++++++++");
+		System.out.println();
+		/* request 정보확인 END */
+		
+	    Map<String, Object> resultMap = new HashMap<>();
+	    boardVO.setBoardSeq(Integer.parseInt(request.getParameter("no")));
+	    boardVO.setPwd(request.getParameter("pw"));
+	    resultMap = boardService.chkPwd(boardVO);
+	    
+		model.clear();
+		model.addAttribute("resultMap", resultMap);
+		
+		return resultMap;
+	}
+	
 }

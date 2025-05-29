@@ -31,6 +31,8 @@
 	// 버튼제어
 	function btnControl(e, num){
 		
+		console.log(num)
+		
 		if(e == 'move'){
 			location.href = 'updateBoard.do?boardSeq='+$("#boardSeq").val()+'&pageNum='+$("#pageNum").val()+'&listTyp='+$("#listTyp").val()+'&searchKeyword='+$("#searchKeyword").val()+'&gubun='+$("#gubun").val()+'&bbsSeq='+$("#bbsSeq").val();
 		}else if(e == 'reply'){

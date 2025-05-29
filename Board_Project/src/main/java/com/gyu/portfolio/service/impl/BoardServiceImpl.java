@@ -233,4 +233,17 @@ public class BoardServiceImpl implements BoardService {
 		return resultMap;
 	}
 
+	@Override
+	public Map<String, Object> chkPwd(BoardVO boardVO) throws Exception {
+
+	    Map<String, Object> resultMap = new HashMap<>();
+	    BoardVO getBoard = boardMapper.chkPwd(boardVO);
+
+	    String rsMatch = getBoard.getRsMatch();
+	    
+	    resultMap.put("result", rsMatch);
+		
+		return resultMap;
+	}
+
 }

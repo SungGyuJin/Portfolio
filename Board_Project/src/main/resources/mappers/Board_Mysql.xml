@@ -30,6 +30,7 @@
 		<result property="rowNum"		column="ROW_NUM" 	/>
 		<result property="cmntCnt"		column="CMNT_CNT" 	/>
 		<result property="atchCnt"	    column="ATCH_CNT"	/>
+		<result property="rsMatch"	    column="RS_MATCH"	/>
 	</resultMap>
 	
 	
@@ -393,5 +394,17 @@
 		WHERE 1=1
 			AND BOARD_SEQ = #{boardSeq}
 	</update>
+
+	<select id="chkPwd" resultMap="boardVO">
+		SELECT
+			CASE
+				WHEN PWD = SHA2(#{pwd}, 256)
+				THEN 'S'
+				ELSE 'F'
+			END RS_MATCH		
+		FROM TB_BOARD
+		WHERE 1=1
+			AND BOARD_SEQ = #{boardSeq}
+	</select>
 
 </mapper>

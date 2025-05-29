@@ -31,6 +31,7 @@ public class BoardVO extends DefalutVO {
 	private String secrtYn 	= "";
 	private String bbsStat 	= "";
 	private String bbsNm 	= "";
+	private String rsMatch 	= "";
 	
 	private int    rowNum 	=  0;
 	private int    cmntCnt 	=  0;

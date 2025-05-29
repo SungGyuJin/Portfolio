@@ -1,6 +1,7 @@
 package com.gyu.portfolio.service.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import com.gyu.portfolio.model.BoardVO;
 
@@ -57,5 +58,7 @@ public interface BoardMapper {
 	
 	// 조회수 카운트
 	int updateReadCnt(BoardVO boardVO) throws Exception;
+	
+	BoardVO chkPwd(BoardVO boardVO) throws Exception;
     
 }

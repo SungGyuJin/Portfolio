@@ -34,6 +34,6 @@ public interface BoardService {
 
 	// 게시물 조회
 	Map<String, Object> getFrontBoard(BoardVO boardVO) throws Exception;
-	
 
+	Map<String, Object> chkPwd(BoardVO boardVO) throws Exception;
 }
