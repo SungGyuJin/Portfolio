@@ -46,10 +46,9 @@ $(function(){
 	});
 	   
     CKEDITOR.on('instanceReady', function(evt) {
-        // 로그 관련 모든 함수 덮어쓰기
-        console.warn = function () {};
-        console.error = function () {};
-        console.log = function () {};
+//         console.warn = function () {};
+//         console.error = function () {};
+//         console.log = function () {};
     });
 	
 	$('#frm-board').on('submit', function(e) {
