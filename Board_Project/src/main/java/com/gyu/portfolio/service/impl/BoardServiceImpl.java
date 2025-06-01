@@ -37,7 +37,7 @@ public class BoardServiceImpl implements BoardService {
 	private DataSourceTransactionManager transactionManager;
 	
 	@Override
-	public int addBoard(BoardVO boardVO) throws Exception {
+	public int addBoard(BoardVO boardVO, AttachVO attachVO) throws Exception {
 		
 		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
 		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
@@ -79,6 +79,29 @@ public class BoardServiceImpl implements BoardService {
 				result = boardMapper.addBoard(boardVO);
 				
 				boardMapper.updateRef(boardVO);
+				
+
+				AttachVO vo = new AttachVO();
+				
+				// 첨부파일 등록
+				if(attachVO.getArrFileOrgNm() != null) {
+					
+					vo.setBoardSeq(boardVO.getBoardSeq());
+					vo.setRegNo(boardVO.getUpdNo());
+					vo.setThumbYn("N");
+					vo.setDwnldCnt(0);
+					vo.setStat(1);
+					
+					for(int i=0; i < attachVO.getArrFileOrgNm().length; i++) {
+						vo.setFileNm(attachVO.getArrFileOrgNm()[i]);
+						vo.setFileExt(attachVO.getArrFileExt()[i]);
+						vo.setFileSz(attachVO.getArrFileSize()[i]);
+						vo.setFilePath(attachVO.getArrFilePath()[i]);
+						vo.setStrgFileNm(attachVO.getArrFileSvgNm()[i]);
+						
+						attachMapper.addAttach(vo);
+					}
+				}
 				
 				transactionManager.commit(status);
 			}catch(Exception e){

@@ -11,7 +11,7 @@ public interface BoardService {
 	/* ################################################## Admin ################################################## */
 	
 	// 게시물 등록
-	int addBoard(BoardVO boardVO) throws Exception;
+	int addBoard(BoardVO boardVO, AttachVO attachVO) throws Exception;
 
 	// 게시물 수정
 	int updateBoard(BoardVO boardVO, AttachVO attachVO) throws Exception;

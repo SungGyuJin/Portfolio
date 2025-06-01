@@ -146,6 +146,7 @@ public class BoardController {
 	@PostMapping("/addBoard.do")
 	public String addBoardPOST(ModelMap model,
 			@ModelAttribute("BoardVO") BoardVO boardVO,
+			@ModelAttribute("AttachVO") AttachVO attachVO,
 			HttpServletRequest request,
 			HttpServletResponse response,
 			HttpSession session) throws Exception{
@@ -164,8 +165,8 @@ public class BoardController {
 		/* request 정보확인 END */
 		
 		boardVO.setRegNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
-		int result = 0;
-		result = boardService.addBoard(boardVO);
+		int result = boardService.addBoard(boardVO, attachVO);
+		
 		
 		
 //		for(int i=0; i < 80; i++) {

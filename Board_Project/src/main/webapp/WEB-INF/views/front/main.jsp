@@ -377,7 +377,7 @@ function getBoardList(num){
 			html +=							'<td class=""><span class="my-notice">공지</span></td>';
 			html +=							'<td class="text-start fw-bolder">';
 			html +=								'<img class="mb-1" src="'+contextPath +'/resources/front/main/assets/img/spk.png" style="max-width: 20px;"/>\u00a0\u00a0';
-			html +=								'<small><a href="javascript:getBoard('+boardList[i].boardSeq+');" class="my-a text-danger">'+boardList[i].title+'</a></small>';
+			html +=								'<small><a href="javascript:getBoard('+boardList[i].boardSeq+', \''+boardList[i].pwdYn+'\');" class="my-a text-danger">'+boardList[i].title+'</a></small>';
 									}else{
 			html +=						'<tr>';
 										boardList[i].rowNum > 0 ? html += '<td class="text-secondary"><small>'+boardList[i].rowNum+'</small></td>' : html += '<td></td>';

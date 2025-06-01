@@ -15,12 +15,10 @@
 		    height: 350
 		});
 		   
-		// CKEditor 경고 및 로그 비활성화
 	    CKEDITOR.on('instanceReady', function(evt) {
-	        // 로그 관련 모든 함수 덮어쓰기
-	        console.warn = function () {};
-	        console.error = function () {};
-	        console.log = function () {};
+// 	        console.warn = function () {};
+// 	        console.error = function () {};
+// 	        console.log = function () {};
 	    });
 		   
 		
@@ -34,18 +32,7 @@
 	// 버튼제어
 	function btnControl(e, num){
 		if(e == 'upd'){
-
-			if($("#title").val() == '' || $("#cont").val() == ''){
-				$("#frm-board").submit();
-				return false;
-			}
-
-			Swal.fire({
-				icon: "success",
-				title: "수정완료"
-			}).then(function(){
-			 	$("#frm-board").submit();
-			});
+			updateBbs();
 
 		// 답글페이지 이동
 		}else if(e == 'reply'){
@@ -122,6 +109,38 @@
 			}
 		});
 	}
+	
+	// 게시물 수정
+	function updateBbs(){
+
+		if($("#title").val().trim() == ''){
+			alert('제목을 입력해 주세요.');
+			$("#title").focus();
+			$("#title").val('');
+			return false;
+		}
+
+	  	CKEDITOR.instances['cont'].updateElement();
+		var brdCont = CKEDITOR.instances['cont'].getData();
+		
+		if(cnChk(brdCont)){
+			alert('내용을 입력해 주세요.');
+			return false;
+		}
+		
+		Swal.fire({
+			icon: "success",
+			title: "등록완료"
+		}).then(function(){
+		 	$("#frm-board").submit();
+		});
+		
+	}
+
+	function cnChk(content) {
+	  var plainText = content.replace(/<[^>]*>/g, '').trim();
+	  return plainText === '';
+	}
 
 	
 </script>
@@ -166,7 +185,7 @@
                             <!-- <div class="text-left">
                                 <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
                             </div> -->
-                            <form class="user" id="frm-board" method="post" enctype="multipart/form-data" data-parsley-validate>
+                            <form class="user" id="frm-board" method="post" enctype="multipart/form-data">
 <!--                             <form class="user" id="frm-board" method="post" data-parsley-validate> -->
                             	<input type="hidden" name="listTyp" id="listTyp" value="${boardVO.listTyp }" />
                             	<input type="hidden" name="boardSeq" id="boardSeq" value="${getBoard.boardSeq }" />
@@ -177,11 +196,11 @@
                                 </div>
                                 <div class="form-group font-weight-bold">
                                 	<label for="title">제목</label>
-                                	<input type="text" class="form-control" name="title" id="title" placeholder="제목을 입력하세요." value="${getBoard.title }" required="required">
+                                	<input type="text" class="form-control" name="title" id="title" placeholder="제목을 입력하세요." value="${getBoard.title }">
                                 </div>
                                 <div class="form-group font-weight-bold">
                                 	<label for="cont">내용</label>
-                                	<textarea class="form-control" name="cont" id="cont" rows="15" required="required">${getBoard.cont }</textarea>
+                                	<textarea class="form-control" name="cont" id="cont" rows="15">${getBoard.cont }</textarea>
                                 </div>
                                 
                                 <div class="row">
@@ -193,10 +212,8 @@
 									    	</div>
 									  	</div>
                                 	</div>
-                                	
-                                	
                                 	<div class="col-md-6">
-                                	<input type="hidden" id="fileTotalCnt" value="${fn:length(getAttachList) + 1}">
+                                		<input type="hidden" id="fileTotalCnt" value="${fn:length(getAttachList) + 1}">
 										<label>총&nbsp;&nbsp;<span class="font-weight-bold" id="addedCnt">${fn:length(getAttachList)}</span> 개</label>
 									   	<div id="file-list" class="dz-message added-file font-weight-bold <c:if test="${empty getAttachList }">added-zone</c:if>">
 		                                	<c:forEach var="list" varStatus="varStatus" items="${getAttachList }">
@@ -264,7 +281,7 @@
 								<div class="d-flex justify-content-between">
 									<div>
 										<div id="btn-divTag1">
-											<button class="btn btn-primary btn-icon-split init-class" id="btn-save" onclick="btnControl('upd');">
+											<button type="button" class="btn btn-primary btn-icon-split init-class" id="btn-save" onclick="btnControl('upd');">
 										    	<span class="text" id="btn-text-span">수정완료</span>
 											</button>
 											<button class="btn btn-secondary btn-icon-split init-class" onclick="history.back(-1);">
