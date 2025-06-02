@@ -198,11 +198,9 @@ function getBoard(no, pYn){
 			data     : {"no" : no},
 			dataType : "json",
 			success  : function(res){
+
+				var data = res.getBoard;
 				
-				var data 	 = res.getBoard;
-				var cmntList = res.getCmntList;
-	
-				// 게시물 관련
 				$("#brd-bbsNm").html(data.bbsNm);
 				$("#brd-ttl").html(data.title);
 				$("#brd-userNm").html(data.userNm);
@@ -210,6 +208,12 @@ function getBoard(no, pYn){
 				$("#brd-readCnt").html(data.readCnt);
 				$("#brd-cn").html(data.cont);
 				$("#brdReadCnt-"+data.boardSeq).html(data.readCnt);
+
+				var dataAtch = res.getAttachList;
+				
+				if(dataAtch.length > 0){
+// 					var html = '';
+				}
 				
 				// 댓글 관련
 				$("#cmnt-boardSeq").val(data.boardSeq);
@@ -864,14 +868,16 @@ function btnAddCmntChange(str){
     			</div>
 
 			    <!-- 본문 -->
-			    <div class="modal-body text-start">
+			    <div class="my-modal-body text-start">
 			    	
 					<div class="p-2 rounded editor-preview" id="brd-cn"></div>
 <!-- 			    	<pre id=""></pre> -->
+
+
 			    </div>
 
     			<!-- 댓글 -->
-			    <div class="comments-section m-4 text-start">
+			    <div class="comments-section text-start">
 			  		<h6 class="fw-bold mb-3">댓글 <span class="text-danger" id="cmnt-cmntCnt">0</span></h6>
 			    	<hr>
 			  		<ul class="list-unstyled mt-4" id="append-cmnt"></ul>

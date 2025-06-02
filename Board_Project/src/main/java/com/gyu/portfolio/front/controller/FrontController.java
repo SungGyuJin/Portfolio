@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.gyu.portfolio.model.AttachVO;
 import com.gyu.portfolio.model.BbsVO;
 import com.gyu.portfolio.model.BoardVO;
 import com.gyu.portfolio.model.CmntVO;
@@ -130,6 +131,7 @@ public class FrontController {
 	@ResponseBody
 	public int addBoard(ModelMap model,
 			@ModelAttribute("BoardVO") BoardVO boardVO,
+			@ModelAttribute("AttachVO") AttachVO attachVO,
 			HttpServletRequest request,
 			HttpServletResponse response,
 			HttpSession session) throws Exception{
@@ -148,7 +150,7 @@ public class FrontController {
 		/* request 정보확인 END */
 
 		boardVO.setRegNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
-		int result = boardService.addBoard(boardVO);
+		int result = boardService.addBoard(boardVO, attachVO);
 		
 		return result;
 	}

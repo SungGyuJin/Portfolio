@@ -196,11 +196,11 @@ public class BoardServiceImpl implements BoardService {
 
 	    Map<String, Object> resultMap = new HashMap<>();
 	    BoardVO getBoard = boardMapper.getBoard(boardVO);
-	    List<AttachVO> getAttachList = new ArrayList<>();
 	    
 	    AttachVO attachVO = new AttachVO();
 	    attachVO.setBoardSeq(boardVO.getBoardSeq());
 	    
+	    List<AttachVO> getAttachList = new ArrayList<>();
 	    getAttachList = attachMapper.getAttachList(attachVO);
 
 	    resultMap.put("getBoard", getBoard);
@@ -250,8 +250,15 @@ public class BoardServiceImpl implements BoardService {
 	    // 게시물 상세
 	    BoardVO getBoard = null;
 	    getBoard = boardMapper.getFrontBoard(boardVO);
-	    
+
+	    AttachVO attachVO = new AttachVO();
+	    attachVO.setBoardSeq(boardVO.getBoardSeq());
+
+	    List<AttachVO> getAttachList = new ArrayList<>();
+	    getAttachList = attachMapper.getAttachList(attachVO);
+
 	    resultMap.put("getBoard", getBoard);
+	    resultMap.put("getAttachList", getAttachList);
 	    
 		return resultMap;
 	}

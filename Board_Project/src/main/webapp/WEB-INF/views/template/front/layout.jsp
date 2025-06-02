@@ -49,6 +49,16 @@ var contextPath = '${pageContext.request.contextPath}';
 </script>
 
 <style>
+.comments-section{
+	margin: 0 1.5rem 1.5rem 1.5rem;
+}
+
+.my-modal-body {
+  position: relative;
+/*   flex: 1 1 auto; */
+  padding: var(--bs-modal-padding);
+  margin-bottom: 1rem;
+}
 
 .editor-preview {
   background-color: #ffffff;
