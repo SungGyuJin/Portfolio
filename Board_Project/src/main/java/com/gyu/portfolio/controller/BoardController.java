@@ -45,7 +45,6 @@ import com.gyu.portfolio.service.BoardService;
 @RequestMapping(value="/admin/board")
 public class BoardController {
 
-
 	@Value("${Root.Path}")
 	String ROOT_PATH;
 

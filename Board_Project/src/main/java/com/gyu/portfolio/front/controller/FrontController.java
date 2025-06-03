@@ -1,5 +1,11 @@
 package com.gyu.portfolio.front.controller;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -10,6 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,14 +31,25 @@ import com.gyu.portfolio.model.AttachVO;
 import com.gyu.portfolio.model.BbsVO;
 import com.gyu.portfolio.model.BoardVO;
 import com.gyu.portfolio.model.CmntVO;
+import com.gyu.portfolio.service.AttachService;
 import com.gyu.portfolio.service.BbsService;
 import com.gyu.portfolio.service.BoardService;
 import com.gyu.portfolio.service.CmntService;
 
 @Controller
+@PropertySource("classpath:/common.properties")
 @RequestMapping(value="/")
 public class FrontController {
 
+	@Value("${Root.Path}")
+	String ROOT_PATH;
+
+	@Value("${Upload.Path}")
+	String UPLOAD_PATH;
+	
+	@Autowired
+	private AttachService attachService;
+	
 	@Autowired
 	private BbsService bbsService;
 	
@@ -314,7 +333,7 @@ public class FrontController {
 			HttpServletRequest request,
 			HttpServletResponse response) throws Exception{
 		
-//		/* request 정보확인 START */
+		/* request 정보확인 START */
 		System.out.println();
 		System.out.println("++++++++++++++++++++++++++++++");
 		System.out.println("============ /pwChk.do INFO  ===========");
@@ -336,6 +355,64 @@ public class FrontController {
 		model.addAttribute("resultMap", resultMap);
 		
 		return resultMap;
+	}
+	
+	@GetMapping("/main/fileDownload")
+	public void fileDownload(ModelMap model,
+			@ModelAttribute("AttachVO") AttachVO attachVO,
+			HttpServletRequest request,
+			HttpServletResponse response
+			) throws Exception {
+		
+
+		/* request 정보확인 START */
+		System.out.println();
+		System.out.println("++++++++++++++++++++++++++++++");
+		System.out.println("============ /fileDownload.do INFO  ===========");
+		Enumeration params = request.getParameterNames();
+		while(params.hasMoreElements()) {
+			String name= (String) params.nextElement();
+			System.out.println(name + ": " + request.getParameter(name));
+		}
+		System.out.println("++++++++++++++++++++++++++++++");
+		System.out.println();
+		/* request 정보확인 END */
+		
+		AttachVO getAttach = null;
+		attachVO.setAttachSeq(Integer.parseInt(request.getParameter("no")));
+		getAttach = attachService.getAttach(attachVO);
+
+		String orgFileNm = getAttach.getFileNm();
+		String svgFileNm = getAttach.getStrgFileNm();
+
+        // upload되어 있는 파일 위치
+        File file = new File(ROOT_PATH+UPLOAD_PATH + File.separator + svgFileNm);
+
+        if (!file.exists()) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "파일이 존재하지 않습니다");
+            return;
+        }
+
+        String mimeType = URLConnection.guessContentTypeFromName(file.getName());
+        if (mimeType == null) {
+            mimeType = "application/octet-stream";
+        }
+
+        response.setContentType(mimeType);
+        response.setHeader("Content-Disposition",
+                "attachment; filename=\"" + URLEncoder.encode(orgFileNm, "UTF-8") + "\"");
+
+        try (BufferedInputStream in = new BufferedInputStream(new FileInputStream(file));
+             BufferedOutputStream out = new BufferedOutputStream(response.getOutputStream())) {
+
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            while ((bytesRead = in.read(buffer)) != -1) {
+                out.write(buffer, 0, bytesRead);
+            }
+
+            out.flush();
+        }
 	}
 	
 }

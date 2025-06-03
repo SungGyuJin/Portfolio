@@ -211,8 +211,24 @@ function getBoard(no, pYn){
 
 				var dataAtch = res.getAttachList;
 				
+				console.log(dataAtch)
+				
 				if(dataAtch.length > 0){
-// 					var html = '';
+					var html = '<ul class="list-unstyled">';
+					
+					for(var i=0; i < dataAtch.length; i++){
+						
+						html +=	'<li class="mb-2 d-flex align-items-center">';
+						html +=		'<img src="'+ contextPath +'/resources/front/main/assets/img/front-atch-icon.png" alt="file" style="width: 20px; height: 20px; object-fit: cover;" class="mb-1 me-2">';
+						html +=		'<a href="/main/fileDownload?no='+dataAtch[i].attachSeq+'" class="custom-link">'+dataAtch[i].fileNm+'</a>';
+						html +=	'</li>';
+					}
+					
+					html +=	'</ul>';
+					
+					$("#brd-atch").html(html);
+				}else{
+					$("#brd-atch").empty();
 				}
 				
 				// 댓글 관련
@@ -869,11 +885,8 @@ function btnAddCmntChange(str){
 
 			    <!-- 본문 -->
 			    <div class="my-modal-body text-start">
-			    	
 					<div class="p-2 rounded editor-preview" id="brd-cn"></div>
-<!-- 			    	<pre id=""></pre> -->
-
-
+					<div class="mt-5" id="brd-atch"></div>
 			    </div>
 
     			<!-- 댓글 -->

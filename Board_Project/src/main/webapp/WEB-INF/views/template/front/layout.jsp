@@ -49,6 +49,18 @@ var contextPath = '${pageContext.request.contextPath}';
 </script>
 
 <style>
+
+.custom-link {
+  color: #afaeb4;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.custom-link:hover {
+  color: #8b8992;
+  text-decoration: underline;
+}
+
 .comments-section{
 	margin: 0 1.5rem 1.5rem 1.5rem;
 }
