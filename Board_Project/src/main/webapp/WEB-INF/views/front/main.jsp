@@ -834,9 +834,7 @@ function btnAddCmntChange(str){
 		                        <div class="col-md-6 mt-4">
 		                            <div class="d-flex justify-content-between">
 		                            	<span class="mt-2" id="append-cnt"></span>
-		                            	<c:if test="${not empty sessionScope.USERSEQ }">
-											<button type="button" class="btn my-success" id="btn-addBoradModal" onclick="getBoardPost();"><img src="${pageContext.request.contextPath}/resources/front/main/assets/img/pencil.png" class="me-2" alt="pencil" style="width: 25px; height: 25px;" />글쓰기</button>
-		                            	</c:if>
+											<button type="button" class="btn my-success <c:if test="${empty sessionScope.USERSEQ }">invisible</c:if>" id="btn-addBoradModal" onclick="getBoardPost();"><img src="${pageContext.request.contextPath}/resources/front/main/assets/img/pencil.png" class="me-2" alt="pencil" style="width: 25px; height: 25px;" />글쓰기</button>
 		                            </div>
 									<input type="hidden" id="oldKeyword" value="">
 		                        	<hr>
