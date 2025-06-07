@@ -214,7 +214,6 @@ var contextPath = '${pageContext.request.contextPath}';
   text-decoration: none;
   cursor: pointer;
   transition: background-color 0.2s;
-  font-size: 18px;
 }
 
 .btn_register:hover {
@@ -321,7 +320,7 @@ img.blocking-hover {
   font-weight: 600;
   border-radius: 12px;
   text-decoration: none;
-  font-size: 20px;
+  font-size: 16px;
   text-align: center;
   border: none;
 }
