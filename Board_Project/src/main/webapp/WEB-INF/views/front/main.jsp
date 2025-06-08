@@ -624,7 +624,9 @@ function getCmntList(no){
 						html += 		'<span class="my-writer ms-2"><span>작성자</span></span>';
 					}
 					
+					if($("#uno").val().length > 0){
 						html += 		'<small class="text-muted ms-2 cursor-pointer cmnt-reply-btn" id="cmnt-replyBtn-'+i+'" onclick="replyCmntView(\''+cmntList[i].boardSeq+'\', \''+cmntList[i].ref+'\', \''+cmntList[i].step+'\', \''+cmntList[i].lvl+'\', \''+i+'\');">답글쓰기</small>';
+					}
 						
 					if(cmntList[i].regNo == $("#uno").val()){
 						html += 		'<small class="text-muted ms-2 cursor-pointer" onclick="updateCmnt('+cmntList[i].cmntSeq+', \'upd\', '+i+');">수정</small>';
