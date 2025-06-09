@@ -179,6 +179,8 @@ function getBoardPost(){
 
 function getBoard(no, pYn){
 	
+	$("#fn-area").empty();
+	
 	if(pYn == 'N'){
 		
 		// Bootstrap 모달 인스턴스 생성 및 표시
@@ -213,8 +215,6 @@ function getBoard(no, pYn){
 
 				var dataAtch = res.getAttachList;
 				
-				console.log(dataAtch)
-				
 				if(dataAtch.length > 0){
 					var html = '<ul class="list-unstyled">';
 					
@@ -231,6 +231,16 @@ function getBoard(no, pYn){
 					$("#brd-atch").html(html);
 				}else{
 					$("#brd-atch").empty();
+				}
+				
+				// 본인 여부
+				if($("#uno").val() != 1 && $("#uno").val() == data.regNo){
+					var html = '';
+					
+					html += '<small class="text-muted cursor-pointer ms-2" onclick="updateBoard(58, \'upd\', 0);">수정</small>';
+					html += '<small class="text-muted cursor-pointer ms-2" onclick="updateBoard(\''+data.boardSeq+'\', \'del\', 9);">삭제</small>';
+				
+					$("#fn-area").html(html);
 				}
 				
 				// 댓글 관련
@@ -527,6 +537,33 @@ function getBoardList(num){
 		}
 	});
 	
+}
+
+// 게시물 수정
+function updateBoard(no, gubun, num){
+	
+	if(gubun == 'upd'){
+		
+	}else{
+
+		if(confirm("삭제하시겠습니까?")){
+			
+			$.ajax({
+				url      : "/main/changeStat.do",
+				method   : "POST",
+				data     : {"no" : no, "num" : num},
+				dataType : "json",
+				success  : function(res){
+
+					if(res > 0){
+						$("#getBoardModal").modal('hide');
+						getBoardList($("#pageNum").val());
+					}
+					
+				}
+			});
+		}
+	}
 }
 
 
@@ -876,8 +913,10 @@ function btnAddCmntChange(str){
           					<div class="d-flex align-items-center mt-2 mb-4">
   								<img src="${pageContext.request.contextPath}/resources/front/main/assets/img/profile.png" class="me-2" alt="프로필 이미지" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">
             					<div>
-            						<span class="me-2 fw-bolder" id="brd-userNm"></span><br>
-            						<span class="text-muted small"><span id="brd-regDt"></span>&nbsp;&nbsp;조회 <span id="brd-readCnt">366</span></span>
+            						<span class="me-2 fw-bolder" id="brd-userNm"></span>
+            						<br>
+            						<span class="text-muted small"><span id="brd-regDt"></span>&nbsp;&nbsp;조회 <span id="brd-readCnt"></span></span>
+            						<span id="fn-area"></span>
             					</div>
           					</div>
         				</div>

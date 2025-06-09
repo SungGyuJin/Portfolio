@@ -174,6 +174,23 @@ public class FrontController {
 		return result;
 	}
 
+	/* 게시물 상태변경(복구, 삭제, 영구삭제)(Ajax) */
+	@PostMapping("/main/changeStat.do")
+	@ResponseBody
+	public int changeStat(ModelMap model,
+			@ModelAttribute("BoardVO") BoardVO boardVO,
+			HttpServletRequest request,
+			HttpServletResponse response,
+			HttpSession session) throws Exception{
+
+		boardVO.setUpdNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
+		boardVO.setBoardSeq(Integer.parseInt(request.getParameter("no")));
+		boardVO.setStat(Integer.parseInt(request.getParameter("num")));
+		int result = boardService.changeStat(boardVO);
+
+		return result;
+	}
+
 	// #############################################################################################################
 	// ################################################## Comment ##################################################
 	
