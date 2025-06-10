@@ -635,8 +635,6 @@ function getCmntList(no){
 		dataType : "json",
 		success  : function(res){
 			
-			console.log(res)
-			
 			var cmntList = res.getCmntList;			
 			var html = '';
 			
