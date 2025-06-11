@@ -22,7 +22,7 @@ import com.gyu.portfolio.model.LoginVO;
 import com.gyu.portfolio.service.LoginService;
 
 @Controller
-@RequestMapping(value="/admin")
+//@RequestMapping(value="/account")
 public class LoginController {
 
 	@Autowired
@@ -36,7 +36,7 @@ public class LoginController {
 			) throws Exception{
 		
 		ModelAndView mav = null;
-		mav = new ModelAndView("/admin/login");
+		mav = new ModelAndView("account/login");
 		
 		
 		return mav;
@@ -51,30 +51,43 @@ public class LoginController {
 			) throws Exception{
 		
 		ModelAndView mav = null;
-		mav = new ModelAndView("admin/main");
+		mav = new ModelAndView("/admin/main");
 		
 		LoginVO vo = null;
 		vo = loginService.getLogin(loginVO);
 		
 		if(vo == null) {
-			mav.setViewName("admin/login_error");
+			mav.setViewName("account/login_error");
 			mav.addObject("errorMsg", "아이디가 존재하지 않습니다.");
 			mav.addObject("errorMsgEng", "The ID does not exist.");
 		}else {
 			if(!vo.getUserPwd().toString().equals(vo.getInputPwd())) {
-				mav.setViewName("admin/login_error");
+				mav.setViewName("account/login_error");
 				mav.addObject("errorMsg", "비밀번호가 일치하지 않습니다.");
 				mav.addObject("errorMsgEng", "Password does not match.");
 			}else {
 
-				if(vo.getUserSe().equals("A") || vo.getUserSe().equals("U")) {
-					processLogin(request, vo);
-					response.sendRedirect("/main.do");
-				}else {
-					mav.addObject("loginChk", request.getParameter("loginChk"));
-					mav.addObject("errorCode", "0000");
-					processLogin(request, vo);
-				}
+				System.out.println("else");
+				
+//				if(vo.getUserSe().equals("A")) {
+//					System.out.println("AAA");
+//					processLogin(request, vo);
+//					response.sendRedirect("/main.do");
+//				}else {
+//					System.out.println("UUU");
+//					mav.addObject("loginChk", request.getParameter("loginChk"));
+//					mav.addObject("errorCode", "0000");
+//					processLogin(request, vo);
+//					response.sendRedirect("/main.do");
+//				}
+				
+
+//				mav.addObject("loginChk", request.getParameter("loginChk"));
+//				mav.addObject("errorCode", "0000");
+				processLogin(request, vo);
+				response.sendRedirect("/main.do");
+				
+				
 			}
 		}
 		
@@ -90,10 +103,10 @@ public class LoginController {
 		session.setAttribute("USERNM", rs.getUserNm());
 		session.setAttribute("USERSE", rs.getUserSe());
 		
-		if(rs.getUserSe().equals("U")) {
+//		if(rs.getUserSe().equals("U")) {
 			session.setAttribute("loginChk", request.getParameter("loginChk"));
 			session.setAttribute("errorCode", "0000");
-		}
+//		}
 		
 	}
 	
@@ -130,7 +143,7 @@ public class LoginController {
 			) throws Exception{
 		
 		ModelAndView mav = null;
-		mav = new ModelAndView("/admin/create");
+		mav = new ModelAndView("account/create");
 		
 		
 		return mav;

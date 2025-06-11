@@ -37,9 +37,17 @@
 			<!-- Path mapping for the interceptor -->
 			<mapping path="/**" />
 			<!-- Path exclusion for login -->
-			<exclude-mapping path="/admin/login.do"/>
-			<exclude-mapping path="/admin/create.do"/>
-			<exclude-mapping path="/admin/aprvChk.do"/>
+<!-- 			<exclude-mapping path="/admin/login.do"/> -->
+<!-- 			<exclude-mapping path="/admin/create.do"/> -->
+<!-- 			<exclude-mapping path="/admin/aprvChk.do"/> -->
+			
+<!-- 			<exclude-mapping path="/account/login.do"/> -->
+<!-- 			<exclude-mapping path="/account/create.do"/> -->
+<!-- 			<exclude-mapping path="/account/aprvChk.do"/> -->
+			
+			<exclude-mapping path="/login.do"/>
+			<exclude-mapping path="/create.do"/>
+			<exclude-mapping path="/aprvChk.do"/>
 			
 			<exclude-mapping path="/"/>
 			<exclude-mapping path="/main.do"/>

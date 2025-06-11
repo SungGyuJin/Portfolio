@@ -6,6 +6,8 @@
 	<decorator name="leftMenu" 	page="/WEB-INF/views/template/admin/left_menu.jsp"/>
 	<decorator name="footer" 	page="/WEB-INF/views/template/admin/footer.jsp"/>
 	<decorator name="layout" 	page="/WEB-INF/views/template/admin/layout.jsp">
+       <pattern>/login.do</pattern>
+       <pattern>/create.do</pattern>
        <pattern>/admin/**</pattern>
     </decorator>
     

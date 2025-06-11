@@ -16,6 +16,11 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0 fw-bolder">
+                    
+						<c:if test="${sessionScope.USERSE eq 'A' }">
+                        	<li class="nav-item"><a class="nav-link admin-page" href="${pageContext.request.contextPath}/admin/main.do">Admin</a></li>
+						</c:if>
+						
                         <li class="nav-item"><a class="nav-link" href="#techStack">Tech Stack</a></li>
                         <li class="nav-item"><a class="nav-link" href="#portfolio">Portfolio</a></li>
 <!--                         <li class="nav-item"><a class="nav-link" href="#about">About</a></li> -->
@@ -24,16 +29,12 @@
 
 						<c:choose>
 							<c:when test="${empty sessionScope.USERID }">
-		                        <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/admin/login.do">Login</a></li>
+		                        <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/login.do">Login</a></li>
 							</c:when>
 							<c:otherwise>
-		                        <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/admin/logout.do">Logout</a></li>
+		                        <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/logout.do">Logout</a></li>
 							</c:otherwise>
 						</c:choose>
-                        
-						<c:if test="${sessionScope.USERSE eq 'A' }">
-                        	<li class="nav-item"><a class="nav-link admin-page" href="${pageContext.request.contextPath}/admin/main.do">Admin</a></li>
-						</c:if>
                         
                     </ul>
                 </div>

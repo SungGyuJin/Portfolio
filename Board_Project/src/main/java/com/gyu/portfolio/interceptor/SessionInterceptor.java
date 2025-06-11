@@ -34,14 +34,14 @@ public class SessionInterceptor implements HandlerInterceptor {
 				System.out.println();
 				
 				// 그 외 로그인 페이지로 이동
-				response.sendRedirect("/admin/login.do");
+				response.sendRedirect("/login.do");
 //				response.sendRedirect("/main.do");
 				return false;
 
 			/* 세션 O */
 			}else{
 				
-				if (uri.matches("^/admin/logout\\.do$") || uri.matches("^/main.*")) {
+				if (uri.matches("^/logout\\.do$") || uri.matches("^/main.*")) {
 					return true;
 				}
 				
