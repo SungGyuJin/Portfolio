@@ -31,6 +31,9 @@
 							</c:otherwise>
 						</c:choose>
                         
+						<c:if test="${sessionScope.USERSE eq 'A' }">
+                        	<li class="nav-item"><a class="nav-link admin-page" href="${pageContext.request.contextPath}/admin/main.do">Admin</a></li>
+						</c:if>
                         
                     </ul>
                 </div>

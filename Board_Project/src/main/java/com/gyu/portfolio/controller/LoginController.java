@@ -67,7 +67,7 @@ public class LoginController {
 				mav.addObject("errorMsgEng", "Password does not match.");
 			}else {
 
-				if(vo.getUserSe().equals("U")) {
+				if(vo.getUserSe().equals("A") || vo.getUserSe().equals("U")) {
 					processLogin(request, vo);
 					response.sendRedirect("/main.do");
 				}else {
@@ -105,7 +105,7 @@ public class LoginController {
 		
 		String returnVal = "redirect:login.do";
 		
-		if(session.getAttribute("USERSE").equals("U")) {
+		if(session.getAttribute("USERSE").equals("A") || session.getAttribute("USERSE").equals("U")) {
 			returnVal = "redirect:/main.do";
 		}
 		

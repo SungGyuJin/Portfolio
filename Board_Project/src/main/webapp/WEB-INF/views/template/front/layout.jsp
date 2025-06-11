@@ -347,6 +347,15 @@ img.blocking-hover {
   z-index: 1; /* 필요하면 다른 요소랑 겹칠 때 */
 }
 
+.admin-page{
+	color: #8bc34a !important;
+/* 	color: #f4511e !important; */
+}
+
+.admin-page:hover{
+	color: #ffc800 !important;
+}
+
 </style>
         
         
