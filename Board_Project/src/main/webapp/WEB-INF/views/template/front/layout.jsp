@@ -162,6 +162,8 @@ var contextPath = '${pageContext.request.contextPath}';
   color: #fff;
   background-color: #e74a3b;
   border-color: #e74a3b;
+  border-radius: 0.25rem;
+  font-size: 12px;
 }
 
 .my-danger:hover {
