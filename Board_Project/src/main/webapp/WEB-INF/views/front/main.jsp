@@ -73,7 +73,7 @@ $(function(){
 	    keyboard: false       // ESC 눌러도 안 꺼짐
 	});
 
-	$('#getBoardPostModal').modal({
+	$('#addBoardModal').modal({
 	    backdrop: 'static',   // 바깥 클릭해도 안 꺼짐
 	    keyboard: false       // ESC 눌러도 안 꺼짐
 	});
@@ -164,14 +164,14 @@ function bbsClick(){
 
 function getBoardPost(){
 	  // Bootstrap 모달 인스턴스 생성 및 표시
-	  var getBoardPostModal = new bootstrap.Modal($('#getBoardPostModal')[0], {
+	  var addBoardModal = new bootstrap.Modal($('#addBoardModal')[0], {
 	    backdrop: true,
 	    keyboard: false
 	  });
-	  getBoardPostModal.show();
+	  addBoardModal.show();
 
 	  // z-index 조정 (중첩 모달 문제 방지)
-	  $('#getBoardPostModal').css('z-index', '1060');
+	  $('#addBoardModal').css('z-index', '1060');
 	  $('.modal-backdrop').last().css('z-index', '1055');
 	
 // 	$(".parsley-required").remove();
@@ -958,7 +958,7 @@ function btnAddCmntChange(str){
 	</div>
         
 	<!-- addBoard Modal -->
-	<div class="portfolio-modal modal fade" id="getBoardPostModal" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="portfolio-modal modal fade" id="addBoardModal" tabindex="-1" role="dialog" aria-hidden="true">
   		<div class="modal-dialog modal-half-left modal-lg">
     		<div class="modal-content modal-content-scrollable" id="modal-addBoard">
 				<div class="close-modal" data-bs-dismiss="modal" id="btn-addBoard-close">
@@ -1007,6 +1007,59 @@ function btnAddCmntChange(str){
 			</div>
 		</div>
 	</div>
+	
+	<!-- updateBoard Modal -->
+	<div class="portfolio-modal modal fade" id="updateBoardModal" tabindex="-1" role="dialog" aria-hidden="true">
+  		<div class="modal-dialog modal-half-left modal-lg">
+    		<div class="modal-content modal-content-scrollable" id="modal-addBoard">
+				<div class="close-modal" data-bs-dismiss="modal" id="btn-addBoard-close">
+					<img src="${pageContext.request.contextPath}/resources/front/main/assets/img/close-icon.svg" alt="Close modal" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">
+				</div>
+				<div class="modal-header border-0 pb-0 mt-4">
+					<div class="w-100 mt-2 text-start">
+			            <div class="d-flex justify-content-between mt-5">
+				        	<h1>수정</h1>
+				            <button type="button" class="naver-button" id="btn-addBoard">수정</button>
+			            </div>
+			         	<div style="border-top: 1px solid #000; margin-top: 20px;">
+				        	<form id="frm-updateBoard" enctype="multipart/form-data">
+					            <div class="mb-3 mt-3">
+					            	<label for="brd-select" class="form-label fw-bold">게시판</label>
+					              	<select class="form-select" name="bbsSeq" id="brd-select">
+					              		<option value="">게시판을 선택해 주세요.</option>
+										<c:forEach var="list" items="${getBbsList }">
+											<c:if test="${list.bbsSeq ne 1 }">
+												<option value="${list.bbsSeq }">${list.nm }</option>
+											</c:if>
+										</c:forEach>
+					              	</select>
+					            </div>
+					            <div class="mb-3">
+					            	<label for="brd-title" class="form-label fw-bold">제목</label>
+					              	<input type="text" class="form-control my-input" name="title" id="brd-title">
+					            </div>
+					            <div class="mb-3">
+					            	<label for="brd-pwdYn" class="form-label fw-bold">비밀 글</label>
+					              	<input type="checkbox" class="form-check-input cursor-pointer ms-1" name="pwdYn" id="brd-pwdYn" value="Y">
+					              	<input type="password" class="form-control my-input" name="pwd" id="brd-pwd" disabled>
+					            </div>
+					            <div class="mb-3">
+					            	<label for="brd-cont" class="form-label fw-bold">내용</label>
+					              	<textarea class="form-control my-input" name="cont" id="brd-cont" rows="20"></textarea>
+					            </div>
+					            <div class="mb-4">
+									<label for="brd-file" class="form-label fw-bold">첨부파일</label>
+					              	<input type="file" class="form-control my-input" name="uploadFile" id="brd-file" multiple>
+					            </div>
+				        	</form>
+			          	</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
 
         
         
