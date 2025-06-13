@@ -344,9 +344,9 @@ img.blocking-hover {
 }
 
 .sticky-sidebar {
-  position: sticky;
-  top: 100px; /* 원하는 위치로 조정 */
-  z-index: 1; /* 필요하면 다른 요소랑 겹칠 때 */
+	position: sticky;
+	top: 100px;
+	z-index: 1;
 }
 
 .admin-page{
@@ -356,6 +356,13 @@ img.blocking-hover {
 
 .admin-page:hover{
 	color: #ffc800 !important;
+}
+
+.fixed-image {
+  width: 100%;
+  height: 143px;
+  border-radius: 0.5rem;
+/*   object-fit: cover; */
 }
 
 </style>

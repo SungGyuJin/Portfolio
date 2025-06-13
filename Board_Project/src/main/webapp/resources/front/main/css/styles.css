@@ -11390,7 +11390,7 @@ section#contact form#contactForm :-ms-input-placeholder {
 .modal-half-left {
   position: fixed;
   top: 0;
-  left: 0;
+  left: 35%;
   margin: 1;
   height: 98%;
   max-width: 30%;

@@ -32,13 +32,11 @@ $(function(){
 		}
 	});
 
-	const myModalEl = document.getElementById('getBoardListModal');
-	const myModal = new bootstrap.Modal(myModalEl, {
+	const getBoardModal = new bootstrap.Modal($('#getBoardListModal')[0], {
 		backdrop: 'static',
-	    keyboard: false,
-	    focus: false
+		keyboard: false
 	});
-
+	
 	CKEDITOR.replace("brd-cont", {
 		removePlugins: 'elementspath, exportpdf',
 		resize_enabled: false,
@@ -60,22 +58,6 @@ $(function(){
             e.preventDefault();
     		changeList();
         }
-	});
- 	
-	
-	$('#getBoardListModal').modal({
-	    backdrop: 'static',   // 바깥 클릭해도 안 꺼짐
-	    keyboard: false       // ESC 눌러도 안 꺼짐
-	});
-
-	$('#getBoardModal').modal({
-	    backdrop: 'static',   // 바깥 클릭해도 안 꺼짐
-	    keyboard: false       // ESC 눌러도 안 꺼짐
-	});
-
-	$('#addBoardModal').modal({
-	    backdrop: 'static',   // 바깥 클릭해도 안 꺼짐
-	    keyboard: false       // ESC 눌러도 안 꺼짐
 	});
 	
 	$(document).on('input', '.autosize-textarea', function () {
@@ -162,10 +144,10 @@ function bbsClick(){
 	}
 }
 
-function getBoardPost(){
+function addBoardModalView(){
 	  // Bootstrap 모달 인스턴스 생성 및 표시
 	  var addBoardModal = new bootstrap.Modal($('#addBoardModal')[0], {
-	    backdrop: true,
+	    backdrop: 'static',
 	    keyboard: false
 	  });
 	  addBoardModal.show();
@@ -184,8 +166,8 @@ function getBoard(no, pYn){
 	if(pYn == 'N'){
 		
 		// Bootstrap 모달 인스턴스 생성 및 표시
-		var getBoardModal = new bootstrap.Modal($('#getBoardModal')[0], {
-			backdrop: true,
+		const getBoardModal = new bootstrap.Modal($('#getBoardModal')[0], {
+			backdrop: 'static',
 			keyboard: false
 		});
 		getBoardModal.show();
@@ -544,6 +526,23 @@ function updateBoard(no, gubun, num){
 	
 	if(gubun == 'upd'){
 		
+// 		$("#updateBoardModal").modal('show');
+		$("#getBoardModal").modal('hide');
+		
+		
+
+		  // Bootstrap 모달 인스턴스 생성 및 표시
+		  var updateBoardModal = new bootstrap.Modal($('#updateBoardModal')[0], {
+		    backdrop: true,
+		    keyboard: false
+		  });
+		  updateBoardModal.show();
+
+		  // z-index 조정 (중첩 모달 문제 방지)
+		  $('#updateBoardModal').css('z-index', '1060');
+		  $('.modal-backdrop').last().css('z-index', '1055');
+		
+		
 	}else{
 
 		if(confirm("삭제하시겠습니까?")){
@@ -862,7 +861,7 @@ function btnAddCmntChange(str){
             						
             						
             						<div class="image-wrapper mb-2">
-	            						<img class="img-fluid board-img" src="${pageContext.request.contextPath}/resources/front/main/assets/img/portfolio/1-board-img.jpg" alt="Board Image" />
+	            						<img class="img-fluid fixed-image" src="${pageContext.request.contextPath}/resources/front/main/assets/img/portfolio/1-board-img.jpg" alt="Board Image" />
             						</div>
 	                        		<table class="table table-sm mb-0 text-start">
 										<tbody class="text-muted my-thead" id="append-bbs"></tbody>
@@ -872,8 +871,14 @@ function btnAddCmntChange(str){
 	                        	
 		                        <div class="col-md-6 mt-4">
 		                            <div class="d-flex justify-content-between">
-		                            	<span class="mt-2" id="append-cnt"></span>
-											<button type="button" class="btn my-success <c:if test="${empty sessionScope.USERSEQ }">invisible</c:if>" id="btn-addBoradModal" onclick="getBoardPost();"><img src="${pageContext.request.contextPath}/resources/front/main/assets/img/pencil.png" class="me-2" alt="pencil" style="width: 25px; height: 25px;" />글쓰기</button>
+		                            	<span class="mt-3" id="append-cnt"></span>
+		                            	<c:choose>
+		                            		<c:when test="${empty sessionScope.USERSEQ }"><span class="mt-3">※ 로그인 후 글을 작성할 수 있습니다.</span></c:when>
+		                            		<c:otherwise>
+		                            			<c:if test="${sessionScope.USERSE eq 'A' }"><span class="mt-3">※ 관리자계정입니다.</span></c:if>
+		                            			<c:if test="${sessionScope.USERSE eq 'U' }"><button type="button" class="btn my-success" id="btn-addBoradModal" onclick="addBoardModalView();"><img src="${pageContext.request.contextPath}/resources/front/main/assets/img/pencil.png" class="me-2" alt="pencil" style="width: 25px; height: 25px;" />글쓰기</button></c:if>
+		                            		</c:otherwise>
+		                            	</c:choose>
 		                            </div>
 									<input type="hidden" id="oldKeyword" value="">
 		                        	<hr>
@@ -1010,7 +1015,7 @@ function btnAddCmntChange(str){
 	
 	<!-- updateBoard Modal -->
 	<div class="portfolio-modal modal fade" id="updateBoardModal" tabindex="-1" role="dialog" aria-hidden="true">
-  		<div class="modal-dialog modal-half-left modal-lg">
+  		<div class="modal-dialog modal-half-right modal-lg">
     		<div class="modal-content modal-content-scrollable" id="modal-addBoard">
 				<div class="close-modal" data-bs-dismiss="modal" id="btn-addBoard-close">
 					<img src="${pageContext.request.contextPath}/resources/front/main/assets/img/close-icon.svg" alt="Close modal" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">
