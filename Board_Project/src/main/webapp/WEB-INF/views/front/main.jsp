@@ -32,9 +32,10 @@ $(function(){
 		}
 	});
 
-	const getBoardModal = new bootstrap.Modal($('#getBoardListModal')[0], {
-		backdrop: 'static',
-		keyboard: false
+	
+	$('#getBoardListModal').modal({
+	    backdrop: 'static',
+	    keyboard: false
 	});
 	
 	CKEDITOR.replace("brd-cont", {
@@ -159,16 +160,25 @@ function addBoardModalView(){
 // 	$(".parsley-required").remove();
 }
 
+function btnUpdateBoardClose(no, pYn){
+	if(confirm("수정을 취소하시겠습니까?")){
+		$("#updateBoardModal").modal('hide');
+		getBoard(no, pYn);
+	}
+}
+
 function getBoard(no, pYn){
 	
 	$("#fn-area").empty();
+	
+	$("#btn-updateBoard-close").attr('onclick', 'btnUpdateBoardClose(\''+no+'\', \''+pYn+'\');');
 	
 	if(pYn == 'N'){
 		
 		// Bootstrap 모달 인스턴스 생성 및 표시
 		const getBoardModal = new bootstrap.Modal($('#getBoardModal')[0], {
 			backdrop: 'static',
-			keyboard: false
+			keyboard: true
 		});
 		getBoardModal.show();
 	
@@ -526,14 +536,11 @@ function updateBoard(no, gubun, num){
 	
 	if(gubun == 'upd'){
 		
-// 		$("#updateBoardModal").modal('show');
 		$("#getBoardModal").modal('hide');
 		
-		
-
 		  // Bootstrap 모달 인스턴스 생성 및 표시
 		  var updateBoardModal = new bootstrap.Modal($('#updateBoardModal')[0], {
-		    backdrop: true,
+		    backdrop: 'static',
 		    keyboard: false
 		  });
 		  updateBoardModal.show();
@@ -1017,7 +1024,8 @@ function btnAddCmntChange(str){
 	<div class="portfolio-modal modal fade" id="updateBoardModal" tabindex="-1" role="dialog" aria-hidden="true">
   		<div class="modal-dialog modal-half-right modal-lg">
     		<div class="modal-content modal-content-scrollable" id="modal-addBoard">
-				<div class="close-modal" data-bs-dismiss="modal" id="btn-addBoard-close">
+<!-- 				<div class="close-modal" data-bs-dismiss="modal" id="btn-updateBoard-close"> -->
+				<div class="close-modal" id="btn-updateBoard-close">
 					<img src="${pageContext.request.contextPath}/resources/front/main/assets/img/close-icon.svg" alt="Close modal" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">
 				</div>
 				<div class="modal-header border-0 pb-0 mt-4">
