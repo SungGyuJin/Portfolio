@@ -43,6 +43,12 @@ $(function(){
 		resize_enabled: false,
 	    height: 350
 	});
+
+	CKEDITOR.replace("brd-upd-cont", {
+		removePlugins: 'elementspath, exportpdf',
+		resize_enabled: false,
+	    height: 350
+	});
 	   
     CKEDITOR.on('instanceReady', function(evt) {
 //         console.warn = function () {};
@@ -229,7 +235,7 @@ function getBoard(no, pYn){
 				if($("#uno").val() != 1 && $("#uno").val() == data.regNo){
 					var html = '';
 					
-					html += '<small class="text-muted cursor-pointer ms-2" onclick="updateBoard(58, \'upd\', 0);">수정</small>';
+					html += '<small class="text-muted cursor-pointer ms-2" onclick="updateBoard(\''+data.boardSeq+'\', \'upd\', 0);">수정</small>';
 					html += '<small class="text-muted cursor-pointer ms-2" onclick="updateBoard(\''+data.boardSeq+'\', \'del\', 9);">삭제</small>';
 				
 					$("#fn-area").html(html);
@@ -535,20 +541,38 @@ function getBoardList(num){
 function updateBoard(no, gubun, num){
 	
 	if(gubun == 'upd'){
-		
-		$("#getBoardModal").modal('hide');
-		
-		  // Bootstrap 모달 인스턴스 생성 및 표시
-		  var updateBoardModal = new bootstrap.Modal($('#updateBoardModal')[0], {
-		    backdrop: 'static',
-		    keyboard: false
-		  });
-		  updateBoardModal.show();
+		$.ajax({
+			url      : "/main/getBoard.do",
+			method   : "GET",
+			data     : {"no" : no},
+			dataType : "json",
+			success  : function(res){
 
-		  // z-index 조정 (중첩 모달 문제 방지)
-		  $('#updateBoardModal').css('z-index', '1060');
-		  $('.modal-backdrop').last().css('z-index', '1055');
-		
+				console.log(res)
+				
+				$("#getBoardModal").modal('hide');
+				
+				  // Bootstrap 모달 인스턴스 생성 및 표시
+				  var updateBoardModal = new bootstrap.Modal($('#updateBoardModal')[0], {
+				    backdrop: 'static',
+				    keyboard: false
+				  });
+				  updateBoardModal.show();
+
+				  $('#updateBoardModal').css('z-index', '1060');
+				  $('.modal-backdrop').last().css('z-index', '1055');
+				  
+				  $("#brd-upd-title").val(res.getBoard.title);
+				  
+				
+			},
+			error : function(request, status, error){
+				Swal.fire({
+					icon: "error",
+					title: "통신불가"
+				})
+			}
+		});
 		
 	}else{
 
@@ -566,6 +590,12 @@ function updateBoard(no, gubun, num){
 						getBoardList($("#pageNum").val());
 					}
 					
+				},
+				error : function(request, status, error){
+					Swal.fire({
+						icon: "error",
+						title: "통신불가"
+					})
 				}
 			});
 		}
@@ -1032,13 +1062,13 @@ function btnAddCmntChange(str){
 					<div class="w-100 mt-2 text-start">
 			            <div class="d-flex justify-content-between mt-5">
 				        	<h1>수정</h1>
-				            <button type="button" class="naver-button" id="btn-addBoard">수정</button>
+				            <button type="button" class="naver-button" id="btn-updateBoard">수정</button>
 			            </div>
 			         	<div style="border-top: 1px solid #000; margin-top: 20px;">
 				        	<form id="frm-updateBoard" enctype="multipart/form-data">
 					            <div class="mb-3 mt-3">
-					            	<label for="brd-select" class="form-label fw-bold">게시판</label>
-					              	<select class="form-select" name="bbsSeq" id="brd-select">
+					            	<label for="brd-upd-select" class="form-label fw-bold">게시판</label>
+					              	<select class="form-select" name="bbsSeq" id="brd-upd-select">
 					              		<option value="">게시판을 선택해 주세요.</option>
 										<c:forEach var="list" items="${getBbsList }">
 											<c:if test="${list.bbsSeq ne 1 }">
@@ -1048,21 +1078,21 @@ function btnAddCmntChange(str){
 					              	</select>
 					            </div>
 					            <div class="mb-3">
-					            	<label for="brd-title" class="form-label fw-bold">제목</label>
-					              	<input type="text" class="form-control my-input" name="title" id="brd-title">
+					            	<label for="brd-upd-title" class="form-label fw-bold">제목</label>
+					              	<input type="text" class="form-control my-input" name="title" id="brd-upd-title"  spellcheck="false" >
 					            </div>
 					            <div class="mb-3">
-					            	<label for="brd-pwdYn" class="form-label fw-bold">비밀 글</label>
-					              	<input type="checkbox" class="form-check-input cursor-pointer ms-1" name="pwdYn" id="brd-pwdYn" value="Y">
-					              	<input type="password" class="form-control my-input" name="pwd" id="brd-pwd" disabled>
+					            	<label for="brd-upd-pwdYn" class="form-label fw-bold">비밀 글</label>
+					              	<input type="checkbox" class="form-check-input cursor-pointer ms-1" name="pwdYn" id="brd-upd-pwdYn" value="Y">
+					              	<input type="password" class="form-control my-input" name="pwd" id="brd-upd-pwd" disabled>
 					            </div>
 					            <div class="mb-3">
-					            	<label for="brd-cont" class="form-label fw-bold">내용</label>
-					              	<textarea class="form-control my-input" name="cont" id="brd-cont" rows="20"></textarea>
+					            	<label for="brd-upd-cont" class="form-label fw-bold">내용</label>
+					              	<textarea class="form-control my-input" name="cont" id="brd-upd-cont" rows="20"></textarea>
 					            </div>
 					            <div class="mb-4">
-									<label for="brd-file" class="form-label fw-bold">첨부파일</label>
-					              	<input type="file" class="form-control my-input" name="uploadFile" id="brd-file" multiple>
+									<label for="brd-upd-file" class="form-label fw-bold">첨부파일</label>
+					              	<input type="file" class="form-control my-input" name="uploadFile" id="brd-upd-file" multiple>
 					            </div>
 				        	</form>
 			          	</div>
