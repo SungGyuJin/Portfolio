@@ -204,7 +204,13 @@ function getBoard(no, pYn){
 				var data = res.getBoard;
 				
 				$("#brd-bbsNm").html(data.bbsNm);
-				$("#brd-ttl").html(data.title);
+				
+				if(data.pwdYn == 'Y'){
+					$("#brd-ttl").html('<img class="mb-2 me-1" src="'+contextPath+'/resources/front/main/assets/img/lock.png" style="max-width: 22px;">'+data.title);
+				}else{
+					$("#brd-ttl").html(data.title);
+				}
+				
 				$("#brd-userNm").html(data.userNm);
 				$("#brd-regDt").html(data.regDt);
 				$("#brd-readCnt").html(data.readCnt);
@@ -562,8 +568,9 @@ function updateBoard(no, gubun, num){
 				  $('#updateBoardModal').css('z-index', '1060');
 				  $('.modal-backdrop').last().css('z-index', '1055');
 				  
+				  $("#brd-upd-select").val(res.getBoard.bbsSeq);
 				  $("#brd-upd-title").val(res.getBoard.title);
-				  
+				  CKEDITOR.instances['brd-upd-cont'].setData(res.getBoard.cont);
 				
 			},
 			error : function(request, status, error){
@@ -1068,7 +1075,7 @@ function btnAddCmntChange(str){
 				        	<form id="frm-updateBoard" enctype="multipart/form-data">
 					            <div class="mb-3 mt-3">
 					            	<label for="brd-upd-select" class="form-label fw-bold">게시판</label>
-					              	<select class="form-select" name="bbsSeq" id="brd-upd-select">
+					              	<select class="form-select" id="brd-upd-select" disabled>
 					              		<option value="">게시판을 선택해 주세요.</option>
 										<c:forEach var="list" items="${getBbsList }">
 											<c:if test="${list.bbsSeq ne 1 }">

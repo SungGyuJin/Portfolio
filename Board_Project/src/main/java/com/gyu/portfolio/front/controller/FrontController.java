@@ -174,6 +174,35 @@ public class FrontController {
 		return result;
 	}
 
+	/* 게시물 수정처리 */
+	@PostMapping("/main/updateBoard.do")
+	@ResponseBody
+	public int updateBoard(ModelMap model,
+			@ModelAttribute("BoardVO") BoardVO boardVO,
+			@ModelAttribute("AttachVO") AttachVO attachVO,
+			HttpServletRequest request,
+			HttpServletResponse response,
+			HttpSession session) throws Exception{
+
+		/* request 정보확인 START */
+		System.out.println();
+		System.out.println("++++++++++++++++++++++++++++++");
+		System.out.println("============ /updateBoard.do INFO  ===========");
+		Enumeration params = request.getParameterNames();
+		while(params.hasMoreElements()) {
+			String name= (String) params.nextElement();
+			System.out.println(name + ": " + request.getParameter(name));
+		}
+		System.out.println("++++++++++++++++++++++++++++++");
+		System.out.println();
+		/* request 정보확인 END */
+
+		boardVO.setUpdNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
+		int result = boardService.updateBoard(boardVO, attachVO);
+		
+		return result;
+	}
+
 	/* 게시물 상태변경(복구, 삭제, 영구삭제)(Ajax) */
 	@PostMapping("/main/changeStat.do")
 	@ResponseBody
