@@ -270,10 +270,10 @@ function getBoard(no, pYn){
 			  showCancelButton: true,
 			  confirmButtonText: '확인',
 			  cancelButtonText: '취소',
-// 			  didOpen: () => {
-// 			    const confirmBtn = Swal.getConfirmButton();
-// 			    confirmBtn.disabled = false;
-// 			  },
+			  didOpen: () => {
+			    const confirmBtn = Swal.getConfirmButton();
+			    confirmBtn.disabled = false;
+			  },
 			  preConfirm: (password) => {
 			    return $.ajax({
 			      url: "/main/pwChk.do",
