@@ -300,7 +300,6 @@ function getBoard(no, pYn){
 	}
 	
 }
-
 function changeList(num){
 	getBoardList(num);
 }
