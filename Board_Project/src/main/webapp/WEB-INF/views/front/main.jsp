@@ -35,7 +35,8 @@ $(function(){
 	
 	$('#getBoardListModal').modal({
 	    backdrop: 'static',
-	    keyboard: false
+	    keyboard: false,
+	    focus: false
 	});
 	
 	CKEDITOR.replace("brd-cont", {
@@ -78,8 +79,12 @@ $(function(){
 	});
 	
 	$("#btn-addBoard").on('click', function(){
-		addBoard();
+		addBoardPost();
 	});
+	
+// 	$("#btn-updateBoard").on('click', function(){
+// 		updateBoardPost();
+// 	});
 	
 	getBoardList();
 	
@@ -88,16 +93,18 @@ $(function(){
 /* ################################################################################################# */
 /* ######################################## BOARD ################################################## */
 
-// 게시물 등록
-function addBoard(){
+// 게시물 등록처리
+function addBoardPost(){
 	
 	if($("#brd-select").val() == ''){
 		alert('게시판을 선택해 주세요.');
+		$("#brd-select").focus();
 		return false;
 	}
 
 	if($("#brd-title").val().trim() == ''){
 		alert('제목을 입력해 주세요.');
+		$("#brd-title").focus();
 		return false;
 	}
 
@@ -127,6 +134,48 @@ function addBoard(){
 			}
 			
 		    CKEDITOR.instances['brd-cont'].setData('');
+		},
+		error : function(request, status, error){
+			Swal.fire({
+				icon: "error",
+				title: "통신불가"
+			})
+		}
+	});
+}
+
+
+// 게시물 수정처리
+function updateBoardPost(no, pYn){
+	
+	if($("#brd-upd-title").val().trim() == ''){
+		alert('제목을 입력해 주세요.');
+		$("#brd-upd-title").focus();
+		return false;
+	}
+
+	CKEDITOR.instances['brd-upd-cont'].updateElement();
+	var brdCont = CKEDITOR.instances['brd-upd-cont'].getData();
+	
+	if(cnChk(brdCont)){
+		alert('내용을 입력해 주세요.');
+		return false;
+	}
+
+	$.ajax({
+		url      : "/main/updateBoard.do",
+		method   : "POST",
+		data     : $("#frm-updateBoard").serialize(),
+		dataType : "json",
+		success  : function(res){
+			
+			if(res > 0){
+				alert('수정되었습니다.');
+				$("#updateBoardModal").modal('hide');
+				getBoard(no, pYn);
+				getBoardList();
+			}
+			
 		},
 		error : function(request, status, error){
 			Swal.fire({
@@ -178,6 +227,7 @@ function getBoard(no, pYn){
 	$("#fn-area").empty();
 	
 	$("#btn-updateBoard-close").attr('onclick', 'btnUpdateBoardClose(\''+no+'\', \''+pYn+'\');');
+	$("#btn-updateBoard").attr('onclick', 'updateBoardPost(\''+no+'\', \''+pYn+'\');');
 	
 	if(pYn == 'N'){
 		
@@ -270,10 +320,10 @@ function getBoard(no, pYn){
 			  showCancelButton: true,
 			  confirmButtonText: '확인',
 			  cancelButtonText: '취소',
-			  didOpen: () => {
-			    const confirmBtn = Swal.getConfirmButton();
-			    confirmBtn.disabled = false;
-			  },
+// 			  didOpen: () => {
+// 			    const confirmBtn = Swal.getConfirmButton();
+// 			    confirmBtn.disabled = false;
+// 			  },
 			  preConfirm: (password) => {
 			    return $.ajax({
 			      url: "/main/pwChk.do",
@@ -539,13 +589,13 @@ function getBoardList(num){
 			})
 		}
 	});
-	
 }
 
-// 게시물 수정
+// 게시물 수정화면
 function updateBoard(no, gubun, num){
 	
 	if(gubun == 'upd'){
+
 		$.ajax({
 			url      : "/main/getBoard.do",
 			method   : "GET",
@@ -564,6 +614,7 @@ function updateBoard(no, gubun, num){
 				  });
 				  updateBoardModal.show();
 
+				  $("#brd-upd-boardSeq").val(res.getBoard.boardSeq);
 				  $('#updateBoardModal').css('z-index', '1060');
 				  $('.modal-backdrop').last().css('z-index', '1055');
 				  
@@ -1059,7 +1110,7 @@ function btnAddCmntChange(str){
 	<!-- updateBoard Modal -->
 	<div class="portfolio-modal modal fade" id="updateBoardModal" tabindex="-1" role="dialog" aria-hidden="true">
   		<div class="modal-dialog modal-half-right modal-lg">
-    		<div class="modal-content modal-content-scrollable" id="modal-addBoard">
+    		<div class="modal-content modal-content-scrollable" id="modal-updateBoard">
 <!-- 				<div class="close-modal" data-bs-dismiss="modal" id="btn-updateBoard-close"> -->
 				<div class="close-modal" id="btn-updateBoard-close">
 					<img src="${pageContext.request.contextPath}/resources/front/main/assets/img/close-icon.svg" alt="Close modal" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">
@@ -1072,6 +1123,7 @@ function btnAddCmntChange(str){
 			            </div>
 			         	<div style="border-top: 1px solid #000; margin-top: 20px;">
 				        	<form id="frm-updateBoard" enctype="multipart/form-data">
+				        		<input type="hidden" name="boardSeq" id="brd-upd-boardSeq">
 					            <div class="mb-3 mt-3">
 					            	<label for="brd-upd-select" class="form-label fw-bold">게시판</label>
 					              	<select class="form-select" id="brd-upd-select" disabled>
