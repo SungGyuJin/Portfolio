@@ -32,6 +32,27 @@ $(function(){
 		}
 	});
 
+	$("#brd-upd-pwdYn").on('change', function(){
+		if($("#brd-upd-pwdYn:checked").val() == 'Y'){
+			$("#brd-upd-pwd").prop("disabled", false);
+			$("#brd-upd-pwd").focus();
+			$("#brd-upd-pwd").prop("placeholder", "비밀번호를 설정하세요.");
+			$("#brd-upd-pwdYnCancel").prop("checked", false);
+		}else{
+			$("#brd-upd-pwd").prop("disabled", true);
+			$("#brd-upd-pwd").val('');
+			$("#brd-upd-pwd").removeAttr("placeholder");
+		}
+	});
+	
+	$("#brd-upd-pwdYnCancel").on('change', function(){
+		if($(this).val() == 'N'){
+			$("#brd-upd-pwd").prop("disabled", true);
+			$("#brd-upd-pwd").val('');
+			$("#brd-upd-pwd").removeAttr("placeholder");
+			$("#brd-upd-pwdYn").prop("checked", false);
+		}
+	});
 	
 	$('#getBoardListModal').modal({
 	    backdrop: 'static',
@@ -81,10 +102,6 @@ $(function(){
 	$("#btn-addBoard").on('click', function(){
 		addBoardPost();
 	});
-	
-// 	$("#btn-updateBoard").on('click', function(){
-// 		updateBoardPost();
-// 	});
 	
 	getBoardList();
 	
@@ -161,6 +178,12 @@ function updateBoardPost(no, pYn){
 		alert('내용을 입력해 주세요.');
 		return false;
 	}
+	
+	if ($("#brd-upd-pwdYn").prop("checked") && $("#brd-upd-pwd").val().trim() == '') {
+		alert('비밀번호를 설정하세요.');
+		$("#brd-upd-pwd").focus();
+		return false
+	}
 
 	$.ajax({
 		url      : "/main/updateBoard.do",
@@ -173,7 +196,12 @@ function updateBoardPost(no, pYn){
 				alert('수정되었습니다.');
 				$("#updateBoardModal").modal('hide');
 				getBoard(no, pYn);
-				getBoardList();
+				getBoardList($("#pageNum").val());
+				
+				$("#brd-upd-pwdYn").prop("checked", false);
+				$("#brd-upd-pwd").removeAttr("placeholder");
+				$("#brd-upd-pwd").prop("disabled", true);
+				$("#brd-upd-pwd").val('');
 			}
 			
 		},
@@ -234,7 +262,8 @@ function getBoard(no, pYn){
 		// Bootstrap 모달 인스턴스 생성 및 표시
 		const getBoardModal = new bootstrap.Modal($('#getBoardModal')[0], {
 			backdrop: 'static',
-			keyboard: true
+			keyboard: true,
+		    focus: false
 		});
 		getBoardModal.show();
 	
@@ -610,7 +639,8 @@ function updateBoard(no, gubun, num){
 				  // Bootstrap 모달 인스턴스 생성 및 표시
 				  var updateBoardModal = new bootstrap.Modal($('#updateBoardModal')[0], {
 				    backdrop: 'static',
-				    keyboard: false
+				    keyboard: false, 
+				    focus: false
 				  });
 				  updateBoardModal.show();
 
@@ -1142,6 +1172,10 @@ function btnAddCmntChange(str){
 					            <div class="mb-3">
 					            	<label for="brd-upd-pwdYn" class="form-label fw-bold">비밀 글</label>
 					              	<input type="checkbox" class="form-check-input cursor-pointer ms-1" name="pwdYn" id="brd-upd-pwdYn" value="Y">
+					              	<span class="ms-2" id="brd-pwd-cancel">
+						            	<label for="brd-upd-pwdYnCancel" class="form-label fw-bold">비밀 글 해제</label>
+						              	<input type="checkbox" class="form-check-input cursor-pointer ms-1" name="pwdYn" id="brd-upd-pwdYnCancel" value="N">
+					              	</span>
 					              	<input type="password" class="form-control my-input" name="pwd" id="brd-upd-pwd" disabled>
 					            </div>
 					            <div class="mb-3">

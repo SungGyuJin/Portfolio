@@ -238,6 +238,10 @@
 		SET
 			TITLE    = #{title}
 			, CONT 	 = #{cont}
+			<if test='pwdYn.equals("Y")'>
+				, PWD_YN = #{pwdYn}
+				, PWD	 = SHA2(#{pwd}, 256)
+			</if>
 			, UPD_NO = #{updNo}
 			, UPD_DT = NOW()
 		WHERE 1=1
