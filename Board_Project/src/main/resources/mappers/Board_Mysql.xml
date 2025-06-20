@@ -242,6 +242,10 @@
 				, PWD_YN = #{pwdYn}
 				, PWD	 = SHA2(#{pwd}, 256)
 			</if>
+			<if test='pwdYn.equals("N")'>
+				, PWD_YN = #{pwdYn}
+				, PWD	 = ''
+			</if>
 			, UPD_NO = #{updNo}
 			, UPD_DT = NOW()
 		WHERE 1=1

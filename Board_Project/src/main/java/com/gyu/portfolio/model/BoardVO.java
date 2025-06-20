@@ -16,7 +16,7 @@ public class BoardVO extends DefalutVO {
 	private int    ref 		=  0;
 	private int    step 	=  0;
 	private int    lvl 		=  0;
-	private String pwdYn 	="N";
+	private String pwdYn 	= "";
 	private String pwd 		= "";  // password
 	private int    readCnt 	=  0;  // 조회수
 	private int    regNo 	=  0;  // 등록자 번호

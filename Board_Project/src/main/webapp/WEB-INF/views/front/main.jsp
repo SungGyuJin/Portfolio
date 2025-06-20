@@ -202,6 +202,7 @@ function updateBoardPost(no, pYn){
 				$("#brd-upd-pwd").removeAttr("placeholder");
 				$("#brd-upd-pwd").prop("disabled", true);
 				$("#brd-upd-pwd").val('');
+				$("#brd-upd-pwdYnCancel").prop("checked", false);
 			}
 			
 		},
@@ -651,6 +652,12 @@ function updateBoard(no, gubun, num){
 				  $("#brd-upd-select").val(res.getBoard.bbsSeq);
 				  $("#brd-upd-title").val(res.getBoard.title);
 				  CKEDITOR.instances['brd-upd-cont'].setData(res.getBoard.cont);
+				  
+				  if(res.getBoard.pwdYn == 'N'){
+					 $("#brd-pwd-cancel").addClass('d-none');
+				  }else{
+					 $("#brd-pwd-cancel").removeClass('d-none');
+				  }
 				
 			},
 			error : function(request, status, error){
