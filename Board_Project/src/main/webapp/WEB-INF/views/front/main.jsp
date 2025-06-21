@@ -262,9 +262,9 @@ function getBoard(no, pYn){
 		
 		// Bootstrap 모달 인스턴스 생성 및 표시
 		const getBoardModal = new bootstrap.Modal($('#getBoardModal')[0], {
-			backdrop: 'static',
+			backdrop: true,
 			keyboard: true,
-		    focus: false
+		    focus: true
 		});
 		getBoardModal.show();
 	
