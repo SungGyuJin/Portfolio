@@ -264,7 +264,7 @@ function getBoard(no, pYn){
 		const getBoardModal = new bootstrap.Modal($('#getBoardModal')[0], {
 			backdrop: true,
 			keyboard: true,
-		    focus: true
+		    focus: false
 		});
 		getBoardModal.show();
 	
@@ -623,41 +623,111 @@ function getBoardList(num){
 
 // 게시물 수정화면
 function updateBoard(no, gubun, num){
+
+	$.ajax({
+		url      : "/main/getBoard.do",
+		method   : "GET",
+		data     : {"no" : no},
+		dataType : "json",
+		success  : function(res){
 	
-	if(gubun == 'upd'){
-
-		$.ajax({
-			url      : "/main/getBoard.do",
-			method   : "GET",
-			data     : {"no" : no},
-			dataType : "json",
-			success  : function(res){
-
-				console.log(res)
+			console.log(res)
+				  
+			if(gubun == 'upd'){
 				
 				$("#getBoardModal").modal('hide');
 				
-				  // Bootstrap 모달 인스턴스 생성 및 표시
-				  var updateBoardModal = new bootstrap.Modal($('#updateBoardModal')[0], {
-				    backdrop: 'static',
+			  // Bootstrap 모달 인스턴스 생성 및 표시
+				var updateBoardModal = new bootstrap.Modal($('#updateBoardModal')[0], {
+					backdrop: 'static',
 				    keyboard: false, 
 				    focus: false
-				  });
-				  updateBoardModal.show();
+				});
+			  
+				updateBoardModal.show();
+			
+				$("#brd-upd-boardSeq").val(res.getBoard.boardSeq);
+				$('#updateBoardModal').css('z-index', '1060');
+				$('.modal-backdrop').last().css('z-index', '1055');
+				  
+				$("#brd-upd-select").val(res.getBoard.bbsSeq);
+				$("#brd-upd-title").val(res.getBoard.title);
+				CKEDITOR.instances['brd-upd-cont'].setData(res.getBoard.cont);
+			  
+			    if(res.getBoard.pwdYn == 'N'){
+					$("#brd-pwd-cancel").addClass('d-none');
+			    }else{
+				    $("#brd-pwd-cancel").removeClass('d-none');
+			    }
+			  
+			}else{
+		
+				if(res.getBoard.pwdYn == 'Y'){
+					
+					Swal.fire({
+						  title: '비밀번호를 입력하세요',
+						  text: '(삭제후 복구가 불가능합니다)',
+						  input: 'password',
+						  inputPlaceholder: '비밀번호 입력',
+						  showCancelButton: true,
+						  confirmButtonText: '확인',
+						  cancelButtonText: '취소',
+						  preConfirm: (password) => {
+						    return $.ajax({
+						      url: "/main/pwChk.do",
+						      method: "POST",
+						      data: { "no" : no, "pw": password },
+						      dataType: "json"
+						    }).then(res => {
+						    	
+					    	if (res.result === 'S') {
+					    	      return password;
+					    	    } else {
+					    	      Swal.showValidationMessage('비밀번호가 틀렸습니다.');
+					    	      return false;
+					    	    }
+					    	  }).catch(() => {
+					    	    Swal.showValidationMessage('서버오류');
+					    	  });
+						  }
+						}).then((result) => {
+							if (result.isConfirmed) {
+								deleteBoard(no, num);
+// 						    	getBoard(no, 'N');
+							}
+						});
+					
+				}else{
+					deleteBoard(no, num);
+				}			
+			}
+			
+		},
+		error : function(request, status, error){
+			Swal.fire({
+				icon: "error",
+				title: "통신불가"
+			})
+		}
+	});
+		
+}
 
-				  $("#brd-upd-boardSeq").val(res.getBoard.boardSeq);
-				  $('#updateBoardModal').css('z-index', '1060');
-				  $('.modal-backdrop').last().css('z-index', '1055');
-				  
-				  $("#brd-upd-select").val(res.getBoard.bbsSeq);
-				  $("#brd-upd-title").val(res.getBoard.title);
-				  CKEDITOR.instances['brd-upd-cont'].setData(res.getBoard.cont);
-				  
-				  if(res.getBoard.pwdYn == 'N'){
-					 $("#brd-pwd-cancel").addClass('d-none');
-				  }else{
-					 $("#brd-pwd-cancel").removeClass('d-none');
-				  }
+function deleteBoard(no, num, pwdYn){
+
+	if(confirm("삭제하시겠습니까?")){
+		
+		$.ajax({
+			url      : "/main/changeStat.do",
+			method   : "POST",
+			data     : {"no" : no, "num" : num},
+			dataType : "json",
+			success  : function(res){
+	
+				if(res > 0){
+					$("#getBoardModal").modal('hide');
+					getBoardList($("#pageNum").val());
+				}
 				
 			},
 			error : function(request, status, error){
@@ -667,32 +737,6 @@ function updateBoard(no, gubun, num){
 				})
 			}
 		});
-		
-	}else{
-
-		if(confirm("삭제하시겠습니까?")){
-			
-			$.ajax({
-				url      : "/main/changeStat.do",
-				method   : "POST",
-				data     : {"no" : no, "num" : num},
-				dataType : "json",
-				success  : function(res){
-
-					if(res > 0){
-						$("#getBoardModal").modal('hide');
-						getBoardList($("#pageNum").val());
-					}
-					
-				},
-				error : function(request, status, error){
-					Swal.fire({
-						icon: "error",
-						title: "통신불가"
-					})
-				}
-			});
-		}
 	}
 }
 
