@@ -55,6 +55,9 @@ public interface BoardMapper {
 
 	// 게시물 조회
 	BoardVO getFrontBoard(BoardVO boardVO) throws Exception;
+
+	// 게시물 조회 답글포함(List)
+	List<BoardVO> getFrontBoardReply(BoardVO boardVO) throws Exception;
 	
 	// 조회수 카운트
 	int updateReadCnt(BoardVO boardVO) throws Exception;

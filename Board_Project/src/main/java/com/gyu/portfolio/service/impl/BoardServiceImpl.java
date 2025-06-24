@@ -251,6 +251,10 @@ public class BoardServiceImpl implements BoardService {
 	    BoardVO getBoard = null;
 	    getBoard = boardMapper.getFrontBoard(boardVO);
 
+	    // 게시물 상세(답글포함)
+	    List<BoardVO> getBoardReply = null;
+	    getBoardReply = boardMapper.getFrontBoardReply(boardVO);
+
 	    AttachVO attachVO = new AttachVO();
 	    attachVO.setBoardSeq(boardVO.getBoardSeq());
 
@@ -258,6 +262,7 @@ public class BoardServiceImpl implements BoardService {
 	    getAttachList = attachMapper.getAttachList(attachVO);
 
 	    resultMap.put("getBoard", getBoard);
+	    resultMap.put("getBoardReply", getBoardReply);
 	    resultMap.put("getAttachList", getAttachList);
 	    
 		return resultMap;

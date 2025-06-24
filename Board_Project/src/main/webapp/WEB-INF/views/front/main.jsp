@@ -281,6 +281,8 @@ function getBoard(no, pYn){
 			dataType : "json",
 			success  : function(res){
 
+				console.log(res)
+				
 				var data = res.getBoard;
 				
 				$("#brd-bbsNm").html(data.bbsNm);
@@ -492,7 +494,7 @@ function getBoardList(num){
 			html +=							'<td class=""><span class="my-notice">공지</span></td>';
 			html +=							'<td class="text-start fw-bolder">';
 			html +=								'<img class="mb-1" src="'+contextPath +'/resources/front/main/assets/img/spk.png" style="max-width: 20px;"/>\u00a0\u00a0';
-			html +=								'<small><a href="javascript:getBoard('+boardList[i].boardSeq+', \''+boardList[i].pwdYn+'\');" class="my-a text-danger">'+boardList[i].title+'</a></small>';
+			html +=								'<small><a href="javascript:getBoard('+boardList[i].ref+', \''+boardList[i].pwdYn+'\');" class="my-a text-danger">'+boardList[i].title+'</a></small>';
 									}else{
 			html +=						'<tr>';
 										boardList[i].rowNum > 0 ? html += '<td class="text-secondary"><small>'+boardList[i].rowNum+'</small></td>' : html += '<td></td>';
@@ -512,9 +514,9 @@ function getBoardList(num){
 										
 										if(boardList[i].pwdYn == 'Y'){
 			html += 						'<img class="mb-1 me-1" src="'+contextPath +'/resources/front/main/assets/img/lock.png" style="max-width: 18px;"/>';
-			html +=							'<small><a href="javascript:getBoard('+boardList[i].boardSeq+', \''+boardList[i].pwdYn+'\');" class="my-a text-dark">'+boardList[i].title+'</a></small>';
+			html +=							'<small><a href="javascript:getBoard('+boardList[i].ref+', \''+boardList[i].pwdYn+'\');" class="my-a text-dark">'+boardList[i].title+'</a></small>';
 										}else{
-			html +=							'<small><a href="javascript:getBoard('+boardList[i].boardSeq+', \''+boardList[i].pwdYn+'\');" class="my-a text-dark">'+boardList[i].title+'</a></small>';
+			html +=							'<small><a href="javascript:getBoard('+boardList[i].ref+', \''+boardList[i].pwdYn+'\');" class="my-a text-dark">'+boardList[i].title+'</a></small>';
 										}
 									}
 
