@@ -281,9 +281,7 @@ function getBoard(no, pYn){
 			dataType : "json",
 			success  : function(res){
 
-				console.log(res)
-				
-				var data = res.getBoard;
+				var data = res.getBoardReply[0];
 				
 				$("#brd-bbsNm").html(data.bbsNm);
 				
@@ -318,6 +316,24 @@ function getBoard(no, pYn){
 				}else{
 					$("#brd-atch").empty();
 				}
+				
+				// 답글
+				if(res.getBoardReply[1] != null){
+					$("#brd-reply-area").removeClass('d-none');
+					
+					var rData = res.getBoardReply[1];
+
+					$("#brd-ttl-reply").html(rData.title);
+					$("#brd-userNm-reply").html(rData.userNm);
+					$("#brd-cn-reply").html(rData.cont);
+
+					$("#brd-regDt-reply").html(rData.regDt);
+					$("#brd-readCnt").html(rData.readCnt);
+					
+				}else{
+					$("#brd-reply-area").addClass('d-none');
+				}
+				
 				
 				// 본인 여부
 				if($("#uno").val() != 1 && $("#uno").val() == data.regNo){
@@ -509,7 +525,7 @@ function getBoardList(num){
 
 
 // 							html +=							'└\u00a0';
-			html +=							' └ <small><span class="border px-1 py-0 fw-bold small my-danger me-1"><strong>RE</strong></span></small>';
+			html +=							' └ <small><span class="border px-1 py-0 fw-bold small my-danger me-1"><strong>RE:</strong></span></small>';
 										}
 										
 										if(boardList[i].pwdYn == 'Y'){
@@ -633,8 +649,6 @@ function updateBoard(no, gubun, num){
 		dataType : "json",
 		success  : function(res){
 	
-			console.log(res)
-				  
 			if(gubun == 'upd'){
 				
 				$("#getBoardModal").modal('hide');
@@ -1108,6 +1122,25 @@ function btnAddCmntChange(str){
 			    <div class="my-modal-body text-start">
 					<div class="p-2 rounded editor-preview" id="brd-cn"></div>
 					<div class="mt-5" id="brd-atch"></div>
+			    </div>
+			    
+			    <!-- 답글 -->
+			    <div class="my-modal-body text-start me-2" id="brd-reply-area">
+       				<div>
+      					<h5 class="fw-bold text-muted mt-1"><span class="border px-1 py-0 fw-bold small my-danger-reply me-1"><strong>RE:</strong></span><span id="brd-ttl-reply"></span></h5>
+        				<div class="d-flex align-items-center mt-2 mb-4">
+        					<img src="${pageContext.request.contextPath}/resources/front/main/assets/img/profile.png" class="me-2" alt="프로필 이미지" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">
+        					<div>
+        						<span class="me-2 fw-bolder" id="brd-userNm-reply"></span>
+        						<br>
+        						<span class="text-muted small"><span id="brd-regDt-reply"></span></span>
+        						<span id="fn-area-reply"></span>
+        					</div>
+      					</div>
+       				</div>
+<!-- 					<div class="p-2 rounded editor-preview" id="brd-title-reply"></div> -->
+					<div class="p-2 rounded editor-preview" id="brd-cn-reply"></div>
+					<div class="mt-5" id="brd-atch-reply"></div>
 			    </div>
 
     			<!-- 댓글 -->

@@ -172,6 +172,14 @@ var contextPath = '${pageContext.request.contextPath}';
   border-color: #d52a1a;
 }
 
+.my-danger-reply {
+  color: #fff;
+  background-color: #e74a3b;
+  border-color: #e74a3b;
+  border-radius: 0.25rem;
+  font-size: 20px;
+}
+
 .tr-hover:hover{
 /*   --bs-table-accent-bg: var(--bs-table-hover-bg); */
   --bs-table-accent-bg: #f8f9fa;
