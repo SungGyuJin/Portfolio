@@ -130,7 +130,7 @@
 		
 		Swal.fire({
 			icon: "success",
-			title: "등록완료"
+			title: "수정완료"
 		}).then(function(){
 		 	$("#frm-board").submit();
 		});

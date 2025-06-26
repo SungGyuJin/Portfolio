@@ -8,6 +8,12 @@
 
 	$(function(){
 		
+		CKEDITOR.replace("cont", {
+			removePlugins: 'elementspath, exportpdf',
+			resize_enabled: false,
+		    height: 350
+		});
+		
 		$('.custom-file-input').on('change', function (event) {
 			var inputFile = event.currentTarget;
 	   		$(inputFile).siblings('.custom-file-label').addClass("selected").html(inputFile.files[0].name);
@@ -16,8 +22,18 @@
 		// 게시물 등록처리
 		$("#btn-save").on('click', function(){
 			
-			if($("#title").val() == '' || $("#cont").val() == ''){
-				$("#frm-board").submit();
+			if($("#title").val().trim() == ''){
+				alert('제목을 입력해 주세요.');
+				$("#title").focus();
+				$("#title").val('');
+				return false;
+			}
+
+		  	CKEDITOR.instances['cont'].updateElement();
+			var brdCont = CKEDITOR.instances['cont'].getData();
+			
+			if(cnChk(brdCont)){
+				alert('내용을 입력해 주세요.');
 				return false;
 			}
 			
@@ -30,6 +46,11 @@
 		});
 		 
 	});
+	
+	function cnChk(content) {
+	  var plainText = content.replace(/<[^>]*>/g, '').trim();
+	  return plainText === '';
+	}
 	
 </script>
 
@@ -70,6 +91,7 @@
                                 <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
                             </div> -->
                             <form class="user" id="frm-board" method="post" action="addBoard.do" data-parsley-validate>
+                            	<input type="hidden" name="pwdYn" value="N">
                                	<input type="hidden" name="bbsSeq" value="${getBoard.bbsSeq }">
                                	<input type="hidden" name="ref" value="${getBoard.ref }">
                                	<input type="hidden" name="step" value="${getBoard.step }">

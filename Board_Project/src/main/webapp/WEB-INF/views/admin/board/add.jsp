@@ -128,6 +128,7 @@
                                 <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
                             </div> -->
                             <form class="user" id="frm-board" method="post" enctype="multipart/form-data">
+                            	<input type="hidden" name="pwdYn" value="N">
                                 <div class="form-group mb-4">
                                 	<label for="bbsSeq"><strong>게시판</strong></label>
                                 	<select class="form-control" name="bbsSeq" id="bbsSeq">

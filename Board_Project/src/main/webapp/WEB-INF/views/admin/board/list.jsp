@@ -298,17 +298,17 @@
 										 			
 									 			 	<!-- 이전페이지 버튼 -->
 									 			 	<c:if test="${pageMaker.prev}">
-														<li class="paginate_button page-item previous" id="dataTable_previous"><a href="/admin/board/list.do?pageNum=${pageMaker.startPage-1}&amp;searchKeyword=${boardVO.searchKeyword}&amp;bbsSeq=${boardVO.bbsSeq}" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">&lt;</a></li>
+														<li class="paginate_button page-item previous" id="dataTable_previous"><a href="/admin/board/list.do?pageNum=${pageMaker.startPage-1}&amp;searchKeyword=${boardVO.searchKeyword}&amp;bbsSeq=${boardVO.bbsSeq}&amp;listTyp=${boardVO.listTyp}" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">&lt;</a></li>
 									 				</c:if>
 									 				
 									 				<!-- 페이지 번호 -->
 													<c:forEach var="num" begin="${pageMaker.startPage }" end="${pageMaker.endPage }">
-										 				<li class="paginate_button page-item <c:if test="${pageMaker.cri.pageNum eq num }"> active</c:if>"><a href="/admin/board/list.do?pageNum=${num }&amp;searchKeyword=${boardVO.searchKeyword}&amp;bbsSeq=${boardVO.bbsSeq}" aria-controls="dataTable" data-dt-idx="${num }" tabindex="0" class="page-link">${num }</a></li>
+										 				<li class="paginate_button page-item <c:if test="${pageMaker.cri.pageNum eq num }"> active</c:if>"><a href="/admin/board/list.do?pageNum=${num }&amp;searchKeyword=${boardVO.searchKeyword}&amp;bbsSeq=${boardVO.bbsSeq}&amp;listTyp=${boardVO.listTyp}" aria-controls="dataTable" data-dt-idx="${num }" tabindex="0" class="page-link">${num }</a></li>
 													</c:forEach>
 													
 													<!-- 다음페이지 버튼 -->
 													<c:if test="${pageMaker.next}">
-											  			<li class="pageInfo_btn page-item next" id="dataTable_next"><a href="/admin/board/list.do?pageNum=${pageMaker.endPage + 1 }&amp;searchKeyword=${boardVO.searchKeyword}&amp;bbsSeq=${boardVO.bbsSeq}" aria-controls="dataTable" data-dt-idx="${pageMaker.endPage + 1 }" tabindex="0" class="page-link">&gt;</a></li>
+											  			<li class="pageInfo_btn page-item next" id="dataTable_next"><a href="/admin/board/list.do?pageNum=${pageMaker.endPage + 1 }&amp;searchKeyword=${boardVO.searchKeyword}&amp;bbsSeq=${boardVO.bbsSeq}&amp;listTyp=${boardVO.listTyp}" aria-controls="dataTable" data-dt-idx="${pageMaker.endPage + 1 }" tabindex="0" class="page-link">&gt;</a></li>
 													</c:if>
 													
 													<!-- 끝페이지 버튼 -->
