@@ -529,7 +529,9 @@ function getBoardList(num){
 										}
 										
 										if(boardList[i].pwdYn == 'Y'){
-			html += 						'<img class="mb-1 me-1" src="'+contextPath +'/resources/front/main/assets/img/lock.png" style="max-width: 18px;"/>';
+											if(boardList[i].lvl < 1){
+			html +=	 							'<img class="mb-1 me-1" src="'+contextPath +'/resources/front/main/assets/img/lock.png" style="max-width: 18px;"/>';
+											}
 			html +=							'<small><a href="javascript:getBoard('+boardList[i].ref+', \''+boardList[i].pwdYn+'\');" class="my-a text-dark">'+boardList[i].title+'</a></small>';
 										}else{
 			html +=							'<small><a href="javascript:getBoard('+boardList[i].ref+', \''+boardList[i].pwdYn+'\');" class="my-a text-dark">'+boardList[i].title+'</a></small>';
