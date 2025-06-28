@@ -1080,7 +1080,59 @@ function btnAddCmntChange(str){
 		                        		<input type="hidden" name="pageNum" id="pageNum" value="1">
 		                        		<input type="hidden" name="searchKeyword" id="searchKeyword" autocomplete="off">
 		                        		<input type="hidden" name="bbsNm" id="bbsNm" value="${vo.pageNum }">
-		                        		<div id="append-board"></div>
+		                        		<div id="append-boards">
+		                        		
+		                        		<div class="col-md-4 mb-4">
+										      <div class="card h-100 shadow-sm">
+										        <img src="/resources/front/main/assets/img/pencil.png" class="card-img-top" alt="thumbnail" style="object-fit: cover; height: 180px;">
+										        <div class="card-body">
+										          <h5 class="card-title">게시글 제목 1</h5>
+										          <p class="card-text text-truncate">카드형 내용 테스트</p>
+										        </div>
+										        <div class="card-footer d-flex justify-content-between">
+										          <small class="text-muted">작성자명</small>
+										          <small class="text-muted">2025.06.28</small>
+										        </div>
+										      </div>
+										      <div class="card h-100 shadow-sm">
+										        <img src="/resources/front/main/assets/img/pencil.png" class="card-img-top" alt="thumbnail" style="object-fit: cover; height: 180px;">
+										        <div class="card-body">
+										          <h5 class="card-title">게시글 제목 1</h5>
+										          <p class="card-text text-truncate">카드형 내용 테스트</p>
+										        </div>
+										        <div class="card-footer d-flex justify-content-between">
+										          <small class="text-muted">작성자명</small>
+										          <small class="text-muted">2025.06.28</small>
+										        </div>
+										      </div>
+										      <div class="card h-100 shadow-sm">
+										        <img src="/resources/front/main/assets/img/pencil.png" class="card-img-top" alt="thumbnail" style="object-fit: cover; height: 180px;">
+										        <div class="card-body">
+										          <h5 class="card-title">게시글 제목 1</h5>
+										          <p class="card-text text-truncate">카드형 내용 테스트</p>
+										        </div>
+										        <div class="card-footer d-flex justify-content-between">
+										          <small class="text-muted">작성자명</small>
+										          <small class="text-muted">2025.06.28</small>
+										        </div>
+										      </div>
+										      <div class="card h-100 shadow-sm">
+										        <img src="/resources/front/main/assets/img/pencil.png" class="card-img-top" alt="thumbnail" style="object-fit: cover; height: 180px;">
+										        <div class="card-body">
+										          <h5 class="card-title">게시글 제목 1</h5>
+										          <p class="card-text text-truncate">카드형 내용 테스트</p>
+										        </div>
+										        <div class="card-footer d-flex justify-content-between">
+										          <small class="text-muted">작성자명</small>
+										          <small class="text-muted">2025.06.28</small>
+										        </div>
+										      </div>
+										    </div>
+		                        		</div>
+		                        		
+		                        		
+		                        		
+		                        		
 		                        	</form>
 		                        </div>
 	                        </div>	<!-- .row end -->
