@@ -470,7 +470,9 @@ function getBoardList(num){
 			html += 	'<div class="mb-3">';
 			html += 		'<div class="d-flex justify-content-between">';
 			html += 			'<div><h4>'+bbsNm+'</h4></div>';
-			html += 			'<div>';
+			html += 			'<div class="d-flex">';
+			html +=					'<img class="cursor-pointer mb-1 me-2" src="'+contextPath +'/resources/front/main/assets/img/list.svg" style="width: 45px;"/>';
+			html +=					'<img class="cursor-pointer mb-1 me-3" src="'+contextPath +'/resources/front/main/assets/img/grid.svg" style="width: 35px;"/>';
 			html += 				'<select class="form-select cursor-pointer" name="amount" onchange="changeList('+vo.pageNum+');" id="sel-amount">';
 			html += 					'<option value="10">10개씩</option>';
 			html += 					'<option value="20">20개씩</option>';
@@ -1080,7 +1082,7 @@ function btnAddCmntChange(str){
 		                        		<input type="hidden" name="pageNum" id="pageNum" value="1">
 		                        		<input type="hidden" name="searchKeyword" id="searchKeyword" autocomplete="off">
 		                        		<input type="hidden" name="bbsNm" id="bbsNm" value="${vo.pageNum }">
-		                        		<div id="append-boards">
+		                        		<div id="append-board">
 		                        		<div class="row">
 		                        		<div class="col-md-3 mb-4">
 										      <div class="card h-100 shadow-sm">
