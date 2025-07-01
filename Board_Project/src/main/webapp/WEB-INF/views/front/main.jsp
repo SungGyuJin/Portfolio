@@ -103,8 +103,8 @@ $(function(){
 		addBoardPost();
 	});
 	
-	getBoardList();
-	
+	getBoardList(null, $("#listTyp").val());
+
 });
 
 /* ################################################################################################# */
@@ -399,7 +399,7 @@ function getBoard(no, pYn){
 	
 }
 function changeList(num){
-	getBoardList(num);
+	getBoardList(num, $("#listTyp").val());
 }
 
 // 게시판 이동
@@ -408,11 +408,11 @@ function changeBbsSeq(no, info){
 	
 	$("#bbsSeq").val(no);
 // 	$("#bbsNm").val($(info).text());
-	getBoardList();
+	getBoardList(null, $("#listTyp").val());
 }
 
 // 게시물 목록
-function getBoardList(num){
+function getBoardList(num, style){
 	
 	$("#searchKeyword").val($("#js-searchKeyword").val());
 	
@@ -466,13 +466,13 @@ function getBoardList(num){
 			if(bbsNm.length == 0){
 				bbsNm = '전체글보기';
 			}
-
+			
 			html += 	'<div class="mb-3">';
 			html += 		'<div class="d-flex justify-content-between">';
 			html += 			'<div><h4>'+bbsNm+'</h4></div>';
 			html += 			'<div class="d-flex">';
-			html +=					'<img class="cursor-pointer mb-1 me-2" src="'+contextPath +'/resources/front/main/assets/img/list.svg" style="width: 45px;"/>';
-			html +=					'<img class="cursor-pointer mb-1 me-3" src="'+contextPath +'/resources/front/main/assets/img/grid.svg" style="width: 35px;"/>';
+			html +=					'<img src="'+contextPath +'/resources/front/main/assets/img/list.svg" class="cursor-pointer mb-1 me-2" id="list-icon" onclick="getBoardList(null, \'L\');" style="width: 45px;"/>';
+			html +=					'<img src="'+contextPath +'/resources/front/main/assets/img/grid.svg" class="cursor-pointer mb-1 me-3" id="grid-icon" onclick="getBoardList(null, \'G\');" style="width: 35px;"/>';
 			html += 				'<select class="form-select cursor-pointer" name="amount" onchange="changeList('+vo.pageNum+');" id="sel-amount">';
 			html += 					'<option value="10">10개씩</option>';
 			html += 					'<option value="20">20개씩</option>';
@@ -483,145 +483,176 @@ function getBoardList(num){
 			html += 			'</div>';
 			html += 		'</div>';
 			html += 	'</div>';
-			html += 		'<table class="table table-sm mb-5">';
-// 			html += 		'<table class="table mb-5">';
-			html +=				'<colgroup>';
-			html +=					'<col width="5%">';
-			html +=					'<col width="30%">';
-			html +=					'<col width="10%">';
-			html +=					'<col width="10%">';
-			html +=					'<col width="10%">';
-			html +=				'</colgroup>';
-			html += 			'<thead class="my-thead text-muted">';
-			html += 				'<tr>';
-			html += 					'<th colspan="2">제목</th>';
-			html += 					'<th>작성자</th>';
-			html += 					'<th>작성일</th>';
-			html += 					'<th>조회수</th>';
-			html += 				'</tr>';
-			html += 			'</thead>';
-			html += 			'<tbody>';
+			$("#append-boardOption").html(html);
 			
-							// 데이터 출력부분
-							if(boardList.length > 0){
-									
-								for(let i=0; i < boardList.length; i++){
-									
-									if(boardList[i].bbsSeq == 1){
-			html +=						'<tr class="tr-notice">';
-			html +=							'<td class=""><span class="my-notice">공지</span></td>';
-			html +=							'<td class="text-start fw-bolder">';
-			html +=								'<img class="mb-1" src="'+contextPath +'/resources/front/main/assets/img/spk.png" style="max-width: 20px;"/>\u00a0\u00a0';
-			html +=								'<small><a href="javascript:getBoard('+boardList[i].ref+', \''+boardList[i].pwdYn+'\');" class="my-a text-danger">'+boardList[i].title+'</a></small>';
-									}else{
-			html +=						'<tr>';
-										boardList[i].rowNum > 0 ? html += '<td class="text-secondary"><small>'+boardList[i].rowNum+'</small></td>' : html += '<td></td>';
-			html +=							'<td class="text-start">';
-										if(boardList[i].lvl > 0){
-											for(let k=0; k < boardList[i].lvl; k++){
-												html += "\u00a0";
-											}
-// 											html +=							'<img class="mb-1" src="'+contextPath +'/resources/admin/assets/img/arrow-return-right.svg" />\u00a0';
-
-							
-
-
-// 							html +=							'└\u00a0';
-			html +=							' └ <small><span class="border px-1 py-0 fw-bold small my-danger me-1"><strong>RE:</strong></span></small>';
-										}
+			if(style == 'L'){
+				
+				$("#listTyp").val('L');
+				
+				html = 	'';
+				html += 		'<table class="table table-sm mb-5">';
+	// 			html += 		'<table class="table mb-5">';
+				html +=				'<colgroup>';
+				html +=					'<col width="5%">';
+				html +=					'<col width="30%">';
+				html +=					'<col width="10%">';
+				html +=					'<col width="10%">';
+				html +=					'<col width="10%">';
+				html +=				'</colgroup>';
+				html += 			'<thead class="my-thead text-muted">';
+				html += 				'<tr>';
+				html += 					'<th colspan="2">제목</th>';
+				html += 					'<th>작성자</th>';
+				html += 					'<th>작성일</th>';
+				html += 					'<th>조회수</th>';
+				html += 				'</tr>';
+				html += 			'</thead>';
+				html += 			'<tbody>';
+				
+								// 데이터 출력부분
+								if(boardList.length > 0){
 										
-										if(boardList[i].pwdYn == 'Y'){
-											if(boardList[i].lvl < 1){
-			html +=	 							'<img class="mb-1 me-1" src="'+contextPath +'/resources/front/main/assets/img/lock.png" style="max-width: 18px;"/>';
-											}
-			html +=							'<small><a href="javascript:getBoard('+boardList[i].ref+', \''+boardList[i].pwdYn+'\');" class="my-a text-dark">'+boardList[i].title+'</a></small>';
+									for(let i=0; i < boardList.length; i++){
+										
+										if(boardList[i].bbsSeq == 1){
+				html +=						'<tr class="tr-notice">';
+				html +=							'<td class=""><span class="my-notice">공지</span></td>';
+				html +=							'<td class="text-start fw-bolder">';
+				html +=								'<img class="mb-1" src="'+contextPath +'/resources/front/main/assets/img/spk.png" style="max-width: 20px;"/>\u00a0\u00a0';
+				html +=								'<small><a href="javascript:getBoard('+boardList[i].ref+', \''+boardList[i].pwdYn+'\');" class="my-a text-danger">'+boardList[i].title+'</a></small>';
 										}else{
-			html +=							'<small><a href="javascript:getBoard('+boardList[i].ref+', \''+boardList[i].pwdYn+'\');" class="my-a text-dark">'+boardList[i].title+'</a></small>';
+				html +=						'<tr>';
+											boardList[i].rowNum > 0 ? html += '<td class="text-secondary"><small>'+boardList[i].rowNum+'</small></td>' : html += '<td></td>';
+				html +=							'<td class="text-start">';
+											if(boardList[i].lvl > 0){
+												for(let k=0; k < boardList[i].lvl; k++){
+													html += "\u00a0";
+												}
+	// 											html +=							'<img class="mb-1" src="'+contextPath +'/resources/admin/assets/img/arrow-return-right.svg" />\u00a0';
+	
+								
+	
+	
+	// 							html +=							'└\u00a0';
+				html +=							' └ <small><span class="border px-1 py-0 fw-bold small my-danger me-1"><strong>RE:</strong></span></small>';
+											}
+											
+											if(boardList[i].pwdYn == 'Y'){
+												if(boardList[i].lvl < 1){
+				html +=	 							'<img class="mb-1 me-1" src="'+contextPath +'/resources/front/main/assets/img/lock.png" style="max-width: 18px;"/>';
+												}
+				html +=							'<small><a href="javascript:getBoard('+boardList[i].ref+', \''+boardList[i].pwdYn+'\');" class="my-a text-dark">'+boardList[i].title+'</a></small>';
+											}else{
+				html +=							'<small><a href="javascript:getBoard('+boardList[i].ref+', \''+boardList[i].pwdYn+'\');" class="my-a text-dark">'+boardList[i].title+'</a></small>';
+											}
+										}
+	
+											if(boardList[i].atchCnt > 0){
+				html += 						'<img class="ms-1 mb-1" src="'+contextPath +'/resources/front/main/assets/img/front-atch.png" style="max-width: 20px;"/>';
+											}
+	
+											if(boardList[i].cmntCnt > 0){
+				html +=							'<span class="cmnt-cnt fw-bolder ms-1">['+boardList[i].cmntCnt+']</span>';
+											}
+				
+				html +=						'</td>';
+				
+				html +=						'<td class="text-secondary"><small>'+boardList[i].userNm+'</small></td>';
+				html +=						'<td class="text-secondary"><small>'+boardList[i].regDt+'</small></td>';
+				html +=						'<td class="text-secondary"><small id="brdReadCnt-'+boardList[i].boardSeq+'">'+boardList[i].readCnt+'</small></td>';
+				html +=					'</tr>';
+									}
+								}else{
+				html +=					'<tr>';
+				html +=						'<td colspan="5">';
+	// 			html +=							'<img class="m-4 w-25" src="'+contextPath +'/resources/front/main/assets/img/nocontent.png" />';
+				html +=							'<img class="m-4" src="'+contextPath +'/resources/front/main/assets/img/nocontent.png" style="max-height: 230px;" />';
+	// 			html += 						'<br><strong>검색 결과가 존재하지 않습니다.</strong><br><br>';
+				html += 						'<br>검색 결과가 존재하지 않습니다.<br><br>';
+				html +=						'</td>';
+				html +=					'<tr>';
+								}
+									
+				
+				html += 			'</tbody>';
+				html += 		'</table>';
+				
+	// 			html += 	'<div class="d-flex justify-content-between">';
+				html += 	'<div style="background-color: #f9f9f8;">';
+				html +=			'<br>';
+				html += 		'<nav aria-label="Page navigation">';
+				html += 			'<ul class="pagination justify-content-center mb-4">';
+									
+								if(boardListCnt > 0){
+									if(page.prev){
+				html += 				'<li class="page-item"><a class="page-link" href="javascript:changeList('+(page.startPage -1)+');" tabindex="-1">＜</a></li>';
+									}
+	
+									for(let num=page.startPage; num <= page.endPage; num++){
+										if(vo.pageNum == num){
+				html += 					'<li class="page-item active"><a class="page-link" href="javascript:void(0);">'+num+'</a></li>';
+										}else{
+				html += 					'<li class="page-item"><a class="page-link" href="javascript:changeList('+num+');">'+num+'</a></li>';
 										}
 									}
-
-										if(boardList[i].atchCnt > 0){
-			html += 						'<img class="ms-1 mb-1" src="'+contextPath +'/resources/front/main/assets/img/front-atch.png" style="max-width: 20px;"/>';
-										}
-
-										if(boardList[i].cmntCnt > 0){
-			html +=							'<span class="cmnt-cnt fw-bolder ms-1">['+boardList[i].cmntCnt+']</span>';
-										}
-			
-			html +=						'</td>';
-			
-			html +=						'<td class="text-secondary"><small>'+boardList[i].userNm+'</small></td>';
-			html +=						'<td class="text-secondary"><small>'+boardList[i].regDt+'</small></td>';
-			html +=						'<td class="text-secondary"><small id="brdReadCnt-'+boardList[i].boardSeq+'">'+boardList[i].readCnt+'</small></td>';
-			html +=					'</tr>';
-								}
-							}else{
-			html +=					'<tr>';
-			html +=						'<td colspan="5">';
-// 			html +=							'<img class="m-4 w-25" src="'+contextPath +'/resources/front/main/assets/img/nocontent.png" />';
-			html +=							'<img class="m-4" src="'+contextPath +'/resources/front/main/assets/img/nocontent.png" style="max-height: 230px;" />';
-// 			html += 						'<br><strong>검색 결과가 존재하지 않습니다.</strong><br><br>';
-			html += 						'<br>검색 결과가 존재하지 않습니다.<br><br>';
-			html +=						'</td>';
-			html +=					'<tr>';
-							}
-								
-			
-			html += 			'</tbody>';
-			html += 		'</table>';
-			
-// 			html += 	'<div class="d-flex justify-content-between">';
-			html += 	'<div style="background-color: #f9f9f8;">';
-			html +=			'<br>';
-			html += 		'<nav aria-label="Page navigation">';
-			html += 			'<ul class="pagination justify-content-center mb-4">';
-								
-							if(boardListCnt > 0){
-								if(page.prev){
-			html += 				'<li class="page-item"><a class="page-link" href="javascript:changeList('+(page.startPage -1)+');" tabindex="-1">＜</a></li>';
-								}
-
-								for(let num=page.startPage; num <= page.endPage; num++){
-									if(vo.pageNum == num){
-			html += 					'<li class="page-item active"><a class="page-link" href="javascript:void(0);">'+num+'</a></li>';
-									}else{
-			html += 					'<li class="page-item"><a class="page-link" href="javascript:changeList('+num+');">'+num+'</a></li>';
+	
+									if(page.next){
+				html += 				'<li class="page-item"><a class="page-link" href="javascript:changeList('+(page.endPage +1)+');">＞</a></li>';
 									}
+								}else{
+				html += 				'<li class="page-item active"><a class="page-link" href="javascript:void(0);">1</a></li>';
 								}
+				
+				
+				html += 			'</ul>';
+				html += 		'</nav>';
+	
+	
+				html += 		'<div class="row g-3 mb-4 d-flex justify-content-end">';
+				html += 			'<div class="input-group justify-content-center mb-4">';
+				html += 				'<div class="me-1" style="width: 15%;">';
+				html += 					'<select class="form-select me-1 my-round" name="gubun" id="sel-gubun">';
+				html += 						'<option value="">제목 + 내용</option>';
+				html += 						'<option value="cn">내용</option>';
+				html += 						'<option value="writer">작성자</option>';
+				html += 						'<option value="cmnt">댓글내용</option>';
+				html += 					'</select>';
+				html += 				'</div>';
+				
+				
+				html += 				'<input type="text" class="form-control me-1 my-round" id="js-searchKeyword" placeholder="검색어를 입력해주세요" value="'+vo.searchKeyword+'" autocomplete="off" style="flex: 0 0 30%;" spellcheck=\"false\">';
+	// 			html += 				'<button type="button" class="btn btn-success my-primary my-round" onclick="changeList();" style="flex: 0 0 15%;"></button>';
+				html += 				'<button type="button" class="btn my-green my-round" onclick="changeList();"><i class="fas fa-search fa-lg"></i></button>';
+				html += 			'</div>';
+				html += 		'</div>';
+				html += 	'</div>';
+	
+				$("#append-board").html(html);
+				
+			}else{
 
-								if(page.next){
-			html += 				'<li class="page-item"><a class="page-link" href="javascript:changeList('+(page.endPage +1)+');">＞</a></li>';
-								}
-							}else{
-			html += 				'<li class="page-item active"><a class="page-link" href="javascript:void(0);">1</a></li>';
-							}
-			
-			
-			html += 			'</ul>';
-			html += 		'</nav>';
+				$("#listTyp").val('G');
 
-
-			html += 		'<div class="row g-3 mb-4 d-flex justify-content-end">';
-			html += 			'<div class="input-group justify-content-center mb-4">';
-			html += 				'<div class="me-1" style="width: 15%;">';
-			html += 					'<select class="form-select me-1 my-round" name="gubun" id="sel-gubun">';
-			html += 						'<option value="">제목 + 내용</option>';
-			html += 						'<option value="cn">내용</option>';
-			html += 						'<option value="writer">작성자</option>';
-			html += 						'<option value="cmnt">댓글내용</option>';
-			html += 					'</select>';
-			html += 				'</div>';
+				html = 	'<row>';
+				html +=		'<div class="col-md-3 mb-4">';
+				html +=			'<div class="card h-100 shadow-sm">';
+				html +=				'<img src="${pageContext.request.contextPath}/resources/front/main/assets/img/pencil.png" class="card-img-top" alt="thumbnail" style="object-fit: cover; height: 180px;">';
+				html +=				'<div class="card-body">';
+				html +=					'<h5 class="card-title">게시글 제목 1</h5>';
+				html +=					'<p class="card-text text-truncate">카드형 내용 테스트</p>';
+				html +=				'</div>';
+				html +=				'<div class="card-footer d-flex justify-content-between">';
+				html +=					'<small class="text-muted">작성자명</small>';
+				html +=					'<small class="text-muted">2025.06.28</small>';
+				html +=				'</div>';
+				html +=			' </div>';
+				html +=		'</div>';
+				html +=	'</row>';
+				
+				$("#append-board").html(html);
+			}
 			
 			
-			html += 				'<input type="text" class="form-control me-1 my-round" id="js-searchKeyword" placeholder="검색어를 입력해주세요" value="'+vo.searchKeyword+'" autocomplete="off" style="flex: 0 0 30%;" spellcheck=\"false\">';
-// 			html += 				'<button type="button" class="btn btn-success my-primary my-round" onclick="changeList();" style="flex: 0 0 15%;"></button>';
-			html += 				'<button type="button" class="btn my-green my-round" onclick="changeList();"><i class="fas fa-search fa-lg"></i></button>';
-			html += 			'</div>';
-			html += 		'</div>';
-			html += 	'</div>';
-			
-
-			$("#append-board").html(html);
 			$("#append-cnt").html(boardListCnt+' 개의 글');
 			$("#sel-amount").val(vo.amount);
 			$("#sel-bbs").val(vo.bbsSeq);
@@ -899,7 +930,6 @@ function btnCmntCancel(no, gubun){
 	}else if(gubun == 'reply'){
 		$("#frm-addReplyCmnt").remove();
 	}
-	
 }
 
 var liOld = null;
@@ -1078,131 +1108,27 @@ function btnAddCmntChange(str){
 									<input type="hidden" id="oldKeyword" value="">
 		                        	<hr>
 		                        	<form id="frm-board">
+		                        		<input type="hidden" name="listTyp" id="listTyp" value="L">
 		                        		<input type="hidden" name="bbsSeq" id="bbsSeq" value="0">
 		                        		<input type="hidden" name="pageNum" id="pageNum" value="1">
 		                        		<input type="hidden" name="searchKeyword" id="searchKeyword" autocomplete="off">
 		                        		<input type="hidden" name="bbsNm" id="bbsNm" value="${vo.pageNum }">
+		                        		<div id="append-boardOption"></div>
 		                        		<div id="append-board">
-		                        		<div class="row">
-		                        		<div class="col-md-3 mb-4">
-										      <div class="card h-100 shadow-sm">
-										        <img src="/resources/front/main/assets/img/pencil.png" class="card-img-top" alt="thumbnail" style="object-fit: cover; height: 180px;">
-										        <div class="card-body">
-										          <h5 class="card-title">게시글 제목 1</h5>
-										          <p class="card-text text-truncate">카드형 내용 테스트</p>
-										        </div>
-										        <div class="card-footer d-flex justify-content-between">
-										          <small class="text-muted">작성자명</small>
-										          <small class="text-muted">2025.06.28</small>
-										        </div>
-										      </div>
-										    </div>
-		                        		<div class="col-md-3 mb-4">
-										      <div class="card h-100 shadow-sm">
-										        <img src="/resources/front/main/assets/img/pencil.png" class="card-img-top" alt="thumbnail" style="object-fit: cover; height: 180px;">
-										        <div class="card-body">
-										          <h5 class="card-title">게시글 제목 1</h5>
-										          <p class="card-text text-truncate">카드형 내용 테스트</p>
-										        </div>
-										        <div class="card-footer d-flex justify-content-between">
-										          <small class="text-muted">작성자명</small>
-										          <small class="text-muted">2025.06.28</small>
-										        </div>
-										      </div>
-										    </div>
-		                        		<div class="col-md-3 mb-4">
-										      <div class="card h-100 shadow-sm">
-										        <img src="/resources/front/main/assets/img/pencil.png" class="card-img-top" alt="thumbnail" style="object-fit: cover; height: 180px;">
-										        <div class="card-body">
-										          <h5 class="card-title">게시글 제목 1</h5>
-										          <p class="card-text text-truncate">카드형 내용 테스트</p>
-										        </div>
-										        <div class="card-footer d-flex justify-content-between">
-										          <small class="text-muted">작성자명</small>
-										          <small class="text-muted">2025.06.28</small>
-										        </div>
-										      </div>
-										    </div>
-		                        		<div class="col-md-3 mb-4">
-										      <div class="card h-100 shadow-sm">
-										        <img src="/resources/front/main/assets/img/pencil.png" class="card-img-top" alt="thumbnail" style="object-fit: cover; height: 180px;">
-										        <div class="card-body">
-										          <h5 class="card-title">게시글 제목 1</h5>
-										          <p class="card-text text-truncate">카드형 내용 테스트</p>
-										        </div>
-										        <div class="card-footer d-flex justify-content-between">
-										          <small class="text-muted">작성자명</small>
-										          <small class="text-muted">2025.06.28</small>
-										        </div>
-										      </div>
-										    </div>
-		                        		<div class="col-md-3 mb-4">
-										      <div class="card h-100 shadow-sm">
-										        <img src="/resources/front/main/assets/img/pencil.png" class="card-img-top" alt="thumbnail" style="object-fit: cover; height: 180px;">
-										        <div class="card-body">
-										          <h5 class="card-title">게시글 제목 1</h5>
-										          <p class="card-text text-truncate">카드형 내용 테스트</p>
-										        </div>
-										        <div class="card-footer d-flex justify-content-between">
-										          <small class="text-muted">작성자명</small>
-										          <small class="text-muted">2025.06.28</small>
-										        </div>
-										      </div>
-										    </div>
-		                        		<div class="col-md-3 mb-4">
-										      <div class="card h-100 shadow-sm">
-										        <img src="/resources/front/main/assets/img/pencil.png" class="card-img-top" alt="thumbnail" style="object-fit: cover; height: 180px;">
-										        <div class="card-body">
-										          <h5 class="card-title">게시글 제목 1</h5>
-										          <p class="card-text text-truncate">카드형 내용 테스트</p>
-										        </div>
-										        <div class="card-footer d-flex justify-content-between">
-										          <small class="text-muted">작성자명</small>
-										          <small class="text-muted">2025.06.28</small>
-										        </div>
-										      </div>
-										    </div>
-		                        		<div class="col-md-3 mb-4">
-										      <div class="card h-100 shadow-sm">
-										        <img src="/resources/front/main/assets/img/pencil.png" class="card-img-top" alt="thumbnail" style="object-fit: cover; height: 180px;">
-										        <div class="card-body">
-										          <h5 class="card-title">게시글 제목 1</h5>
-										          <p class="card-text text-truncate">카드형 내용 테스트</p>
-										        </div>
-										        <div class="card-footer d-flex justify-content-between">
-										          <small class="text-muted">작성자명</small>
-										          <small class="text-muted">2025.06.28</small>
-										        </div>
-										      </div>
-										    </div>
-		                        		<div class="col-md-3 mb-4">
-										      <div class="card h-100 shadow-sm">
-										        <img src="/resources/front/main/assets/img/pencil.png" class="card-img-top" alt="thumbnail" style="object-fit: cover; height: 180px;">
-										        <div class="card-body">
-										          <h5 class="card-title">게시글 제목 1</h5>
-										          <p class="card-text text-truncate">카드형 내용 테스트</p>
-										        </div>
-										        <div class="card-footer d-flex justify-content-between">
-										          <small class="text-muted">작성자명</small>
-										          <small class="text-muted">2025.06.28</small>
-										        </div>
-										      </div>
-										    </div>
-		                        		<div class="col-md-3 mb-4">
-										      <div class="card h-100 shadow-sm">
-										        <img src="/resources/front/main/assets/img/pencil.png" class="card-img-top" alt="thumbnail" style="object-fit: cover; height: 180px;">
-										        <div class="card-body">
-										          <h5 class="card-title">게시글 제목 1</h5>
-										          <p class="card-text text-truncate">카드형 내용 테스트</p>
-										        </div>
-										        <div class="card-footer d-flex justify-content-between">
-										          <small class="text-muted">작성자명</small>
-										          <small class="text-muted">2025.06.28</small>
-										        </div>
-										      </div>
-										    </div>
+		                        			
+										      
+										        
+										        
+										          
+										          
+										        
+										        
+										          
+										          
+										        
+										     
+										    
 		                        		
-		                        		</div>
 		                        		
 		                        		
 		                        		
@@ -1540,7 +1466,8 @@ function btnAddCmntChange(str){
                         <div class="portfolio-item">
                             <a class="portfolio-link" data-bs-toggle="modal" href="#getBoardListModal">
 <!--                             <a class="portfolio-link" href="/main.do/1"> -->
-                                <div class="portfolio-hover" id="" onclick="getBoardList();">
+<!--                                 <div class="portfolio-hover" id="" onclick="getBoardList();"> -->
+                                <div class="portfolio-hover">
                                     <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
                                 </div>
                                 <img class="img-fluid my-round" src="${pageContext.request.contextPath}/resources/front/main/assets/img/portfolio/1-board-img.jpg" alt="..." />
