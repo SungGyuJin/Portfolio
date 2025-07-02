@@ -483,7 +483,8 @@ function getBoardList(num, style){
 			html += 			'</div>';
 			html += 		'</div>';
 			html += 	'</div>';
-			$("#append-boardOption").html(html);
+			
+			$("#board-header").html(html);
 			
 			if(style == 'L'){
 				
@@ -509,7 +510,6 @@ function getBoardList(num, style){
 				html += 			'</thead>';
 				html += 			'<tbody>';
 				
-								// 데이터 출력부분
 								if(boardList.length > 0){
 										
 									for(let i=0; i < boardList.length; i++){
@@ -528,12 +528,7 @@ function getBoardList(num, style){
 												for(let k=0; k < boardList[i].lvl; k++){
 													html += "\u00a0";
 												}
-	// 											html +=							'<img class="mb-1" src="'+contextPath +'/resources/admin/assets/img/arrow-return-right.svg" />\u00a0';
-	
-								
-	
-	
-	// 							html +=							'└\u00a0';
+												
 				html +=							' └ <small><span class="border px-1 py-0 fw-bold small my-danger me-1"><strong>RE:</strong></span></small>';
 											}
 											
@@ -565,93 +560,106 @@ function getBoardList(num, style){
 								}else{
 				html +=					'<tr>';
 				html +=						'<td colspan="5">';
-	// 			html +=							'<img class="m-4 w-25" src="'+contextPath +'/resources/front/main/assets/img/nocontent.png" />';
 				html +=							'<img class="m-4" src="'+contextPath +'/resources/front/main/assets/img/nocontent.png" style="max-height: 230px;" />';
-	// 			html += 						'<br><strong>검색 결과가 존재하지 않습니다.</strong><br><br>';
 				html += 						'<br>검색 결과가 존재하지 않습니다.<br><br>';
 				html +=						'</td>';
 				html +=					'<tr>';
 								}
-									
 				
 				html += 			'</tbody>';
 				html += 		'</table>';
 				
-	// 			html += 	'<div class="d-flex justify-content-between">';
-				html += 	'<div style="background-color: #f9f9f8;">';
-				html +=			'<br>';
-				html += 		'<nav aria-label="Page navigation">';
-				html += 			'<ul class="pagination justify-content-center mb-4">';
-									
-								if(boardListCnt > 0){
-									if(page.prev){
-				html += 				'<li class="page-item"><a class="page-link" href="javascript:changeList('+(page.startPage -1)+');" tabindex="-1">＜</a></li>';
-									}
-	
-									for(let num=page.startPage; num <= page.endPage; num++){
-										if(vo.pageNum == num){
-				html += 					'<li class="page-item active"><a class="page-link" href="javascript:void(0);">'+num+'</a></li>';
-										}else{
-				html += 					'<li class="page-item"><a class="page-link" href="javascript:changeList('+num+');">'+num+'</a></li>';
-										}
-									}
-	
-									if(page.next){
-				html += 				'<li class="page-item"><a class="page-link" href="javascript:changeList('+(page.endPage +1)+');">＞</a></li>';
-									}
-								}else{
-				html += 				'<li class="page-item active"><a class="page-link" href="javascript:void(0);">1</a></li>';
-								}
-				
-				
-				html += 			'</ul>';
-				html += 		'</nav>';
-	
-	
-				html += 		'<div class="row g-3 mb-4 d-flex justify-content-end">';
-				html += 			'<div class="input-group justify-content-center mb-4">';
-				html += 				'<div class="me-1" style="width: 15%;">';
-				html += 					'<select class="form-select me-1 my-round" name="gubun" id="sel-gubun">';
-				html += 						'<option value="">제목 + 내용</option>';
-				html += 						'<option value="cn">내용</option>';
-				html += 						'<option value="writer">작성자</option>';
-				html += 						'<option value="cmnt">댓글내용</option>';
-				html += 					'</select>';
-				html += 				'</div>';
-				
-				
-				html += 				'<input type="text" class="form-control me-1 my-round" id="js-searchKeyword" placeholder="검색어를 입력해주세요" value="'+vo.searchKeyword+'" autocomplete="off" style="flex: 0 0 30%;" spellcheck=\"false\">';
-	// 			html += 				'<button type="button" class="btn btn-success my-primary my-round" onclick="changeList();" style="flex: 0 0 15%;"></button>';
-				html += 				'<button type="button" class="btn my-green my-round" onclick="changeList();"><i class="fas fa-search fa-lg"></i></button>';
-				html += 			'</div>';
-				html += 		'</div>';
-				html += 	'</div>';
-	
-				$("#append-board").html(html);
 				
 			}else{
 
 				$("#listTyp").val('G');
 
-				html = 	'<row>';
-				html +=		'<div class="col-md-3 mb-4">';
-				html +=			'<div class="card h-100 shadow-sm">';
-				html +=				'<img src="${pageContext.request.contextPath}/resources/front/main/assets/img/pencil.png" class="card-img-top" alt="thumbnail" style="object-fit: cover; height: 180px;">';
-				html +=				'<div class="card-body">';
-				html +=					'<h5 class="card-title">게시글 제목 1</h5>';
-				html +=					'<p class="card-text text-truncate">카드형 내용 테스트</p>';
-				html +=				'</div>';
-				html +=				'<div class="card-footer d-flex justify-content-between">';
-				html +=					'<small class="text-muted">작성자명</small>';
-				html +=					'<small class="text-muted">2025.06.28</small>';
-				html +=				'</div>';
-				html +=			' </div>';
-				html +=		'</div>';
-				html +=	'</row>';
 				
-				$("#append-board").html(html);
+
+				if(boardList.length > 0){
+					
+					html = 	'<div class="row">';
+	
+					for(let i=0; i < boardList.length; i++){
+						
+						html +=		'<div class="col-md-3 mb-4">';
+						html +=			'<div class="card h-100 shadow-sm">';
+						html +=				'<img src="'+contextPath +'/resources/front/main/assets/img/pencil.png" class="card-img-top" alt="thumbnail" style="object-fit: cover; height: 180px;">';
+						html +=				'<div class="card-body">';
+						html +=					'<h5 class="card-title">'+boardList[i].title+'</h5>';
+	// 					html +=					'<p class="card-text text-truncate">카드형 내용 테스트</p>';
+						html +=				'</div>';
+						html +=				'<div class="card-footer d-flex justify-content-between">';
+						html +=					'<small class="text-muted">'+boardList[i].userNm+'</small>';
+						html +=					'<small class="text-muted">'+boardList[i].regDt+'</small>';
+						html +=				'</div>';
+						html +=			' </div>';
+						html +=		'</div>';
+					}
+					
+					html +=	'</div>';
+					
+				}else{
+					
+					
+					
+				}
+				
+				
 			}
+
+			$("#board-body").html(html);
 			
+// 			html += 	'<div class="d-flex justify-content-between">';
+			html = 		'<div style="background-color: #f9f9f8;">';
+			html +=			'<br>';
+			html += 		'<nav aria-label="Page navigation">';
+			html += 			'<ul class="pagination justify-content-center mb-4">';
+								
+							if(boardListCnt > 0){
+								if(page.prev){
+			html += 				'<li class="page-item"><a class="page-link" href="javascript:changeList('+(page.startPage -1)+');" tabindex="-1">＜</a></li>';
+								}
+
+								for(let num=page.startPage; num <= page.endPage; num++){
+									if(vo.pageNum == num){
+			html += 					'<li class="page-item active"><a class="page-link" href="javascript:void(0);">'+num+'</a></li>';
+									}else{
+			html += 					'<li class="page-item"><a class="page-link" href="javascript:changeList('+num+');">'+num+'</a></li>';
+									}
+								}
+
+								if(page.next){
+			html += 				'<li class="page-item"><a class="page-link" href="javascript:changeList('+(page.endPage +1)+');">＞</a></li>';
+								}
+							}else{
+			html += 				'<li class="page-item active"><a class="page-link" href="javascript:void(0);">1</a></li>';
+							}
+			
+			html += 			'</ul>';
+			html += 		'</nav>';
+
+			html += 		'<div class="row g-3 mb-4 d-flex justify-content-end">';
+			html += 			'<div class="input-group justify-content-center mb-4">';
+			html += 				'<div class="me-1" style="width: 15%;">';
+			html += 					'<select class="form-select me-1 my-round" name="gubun" id="sel-gubun">';
+			html += 						'<option value="">제목 + 내용</option>';
+			html += 						'<option value="cn">내용</option>';
+			html += 						'<option value="writer">작성자</option>';
+			html += 						'<option value="cmnt">댓글내용</option>';
+			html += 					'</select>';
+			html += 				'</div>';
+			
+			
+			html += 				'<input type="text" class="form-control me-1 my-round" id="js-searchKeyword" placeholder="검색어를 입력해주세요" value="'+vo.searchKeyword+'" autocomplete="off" style="flex: 0 0 30%;" spellcheck=\"false\">';
+// 			html += 				'<button type="button" class="btn btn-success my-primary my-round" onclick="changeList();" style="flex: 0 0 15%;"></button>';
+			html += 				'<button type="button" class="btn my-green my-round" onclick="changeList();"><i class="fas fa-search fa-lg"></i></button>';
+			html += 			'</div>';
+			html += 		'</div>';
+			html += 	'</div>';
+			
+
+			$("#board-footer").html(html);
 			
 			$("#append-cnt").html(boardListCnt+' 개의 글');
 			$("#sel-amount").val(vo.amount);
@@ -1113,26 +1121,9 @@ function btnAddCmntChange(str){
 		                        		<input type="hidden" name="pageNum" id="pageNum" value="1">
 		                        		<input type="hidden" name="searchKeyword" id="searchKeyword" autocomplete="off">
 		                        		<input type="hidden" name="bbsNm" id="bbsNm" value="${vo.pageNum }">
-		                        		<div id="append-boardOption"></div>
-		                        		<div id="append-board">
-		                        			
-										      
-										        
-										        
-										          
-										          
-										        
-										        
-										          
-										          
-										        
-										     
-										    
-		                        		
-		                        		
-		                        		
-		                        		
-		                        		</div>
+		                        		<div id="board-header"></div>
+		                        		<div id="board-body"></div>
+		                        		<div id="board-footer"></div>
 		                        	</form>
 		                        </div>
 	                        </div>	<!-- .row end -->
