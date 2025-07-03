@@ -536,9 +536,9 @@ function getBoardList(num, style){
 												if(boardList[i].lvl < 1){
 				html +=	 							'<img class="mb-1 me-1" src="'+contextPath +'/resources/front/main/assets/img/lock.png" style="max-width: 18px;"/>';
 												}
-				html +=							'<small><a href="javascript:getBoard('+boardList[i].ref+', \''+boardList[i].pwdYn+'\');" class="my-a text-dark">'+boardList[i].title+'</a></small>';
+				html +=							'<small><a href="javascript:getBoard('+boardList[i].ref+', \''+boardList[i].pwdYn+'\');" class="my-a text-dark"><span class="underline">'+boardList[i].title+'</span></a></small>';
 											}else{
-				html +=							'<small><a href="javascript:getBoard('+boardList[i].ref+', \''+boardList[i].pwdYn+'\');" class="my-a text-dark">'+boardList[i].title+'</a></small>';
+				html +=							'<small><a href="javascript:getBoard('+boardList[i].ref+', \''+boardList[i].pwdYn+'\');" class="my-a text-dark"><span class="underline">'+boardList[i].title+'</span></a></small>';
 											}
 										}
 	
@@ -574,27 +574,32 @@ function getBoardList(num, style){
 
 				$("#listTyp").val('G');
 
-				
-
 				if(boardList.length > 0){
 					
 					html = 	'<div class="row">';
 	
 					for(let i=0; i < boardList.length; i++){
 						
-						html +=		'<div class="col-md-3 mb-4">';
-						html +=			'<div class="card h-100 shadow-sm">';
-						html +=				'<img src="'+contextPath +'/resources/front/main/assets/img/pencil.png" class="card-img-top" alt="thumbnail" style="object-fit: cover; height: 180px;">';
-						html +=				'<div class="card-body">';
-						html +=					'<h5 class="card-title">'+boardList[i].title+'</h5>';
-	// 					html +=					'<p class="card-text text-truncate">카드형 내용 테스트</p>';
-						html +=				'</div>';
-						html +=				'<div class="card-footer d-flex justify-content-between">';
-						html +=					'<small class="text-muted">'+boardList[i].userNm+'</small>';
-						html +=					'<small class="text-muted">'+boardList[i].regDt+'</small>';
-						html +=				'</div>';
-						html +=			' </div>';
-						html +=		'</div>';
+						
+							html +=	'<div class="col-md-3 mb-4">';
+							html +=		'<a href="javascript:getBoard('+boardList[i].ref+', \''+boardList[i].pwdYn+'\');" class="my-a">';
+							html +=			'<div class="card h-100 shadow-sm">';
+							html +=				'<img src="'+contextPath +'/resources/front/main/assets/img/pencil.png" class="card-img-top" alt="thumbnail" style="object-fit: cover; height: 180px;">';
+							
+							if(boardList[i].pwdYn == 'Y'){
+								html +=				'<img class="lock-icon" src="'+contextPath +'/resources/front/main/assets/img/lock.png" style="max-width: 25px;"/>';
+							}
+							
+							html +=				'<div class="card-body">';
+							html +=					'<h5 class="card-title underline">'+boardList[i].title+'</h5>';
+							html +=				'</div>';
+							html +=				'<div class="card-footer d-flex justify-content-between">';
+							html +=					'<small class="text-muted">'+boardList[i].userNm+'</small>';
+							html +=					'<small class="text-muted">'+boardList[i].regDt+'</small>';
+							html +=				'</div>';
+							html +=			'</div>';
+							html +=		'</a>';
+							html +=	'</div>';
 					}
 					
 					html +=	'</div>';
