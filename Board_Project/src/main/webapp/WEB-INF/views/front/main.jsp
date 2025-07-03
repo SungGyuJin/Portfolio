@@ -578,6 +578,7 @@ function getBoardList(num, style){
 					
 					html = 	'<div class="row">';
 	
+					
 					for(let i=0; i < boardList.length; i++){
 						
 						
