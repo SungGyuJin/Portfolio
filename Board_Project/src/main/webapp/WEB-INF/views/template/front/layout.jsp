@@ -294,10 +294,23 @@ img.blocking-hover {
 
 .my-a{
 	text-decoration: none;
+  	color: black; /* 글자색 검정 */
 }
-.my-a:hover {
+.my-a:hover .underline {
  	text-decoration: underline;
 }
+
+.my-a:hover .no-underline {
+	text-decoration: none; /* 특정 부분만 밑줄 제거 */
+}
+
+.lock-icon {
+  position: absolute;
+  top: 10px;   /* 카드 위에서 10px 떨어짐 */
+  left: 10px;  /* 카드 왼쪽에서 10px 떨어짐 */
+  width: 18px; /* 필요시 크기 조절 */
+}
+
 
 .tr-notice{
 	background-color: #f9f9f8;
