@@ -104,7 +104,41 @@ $(function(){
 	});
 	
 	getBoardList(null, $("#listTyp").val());
+	
+	
+	$('#brd-upd-file').on('change', function() {
+		
+		var fileInput = $('#brd-upd-file')[0];
+		
+		if (fileInput.files.length === 0) {
+	        return;
+	    }
+		
+		var formData = new FormData();
 
+		formData.append("files", fileInput.files[0]);
+		
+		$.ajax({
+			url      : "/main/upload.do",
+			method   : "POST",
+			data     : formData,
+			processData: false,
+			contentType: false,
+			success  : function(res){
+				
+				console.log(res)
+				
+			},
+			error : function(request, status, error){
+				Swal.fire({
+					icon: "error",
+					title: "통신불가"
+				})
+			}
+		});
+		
+	});
+	
 });
 
 /* ################################################################################################# */
@@ -582,7 +616,7 @@ function getBoardList(num, style){
 					for(let i=0; i < boardList.length; i++){
 						
 						
-							html +=	'<div class="col-md-3 mb-4">';
+							html +=	'<div class="col-md-3 mb-4" style="width: 20%;">';
 							html +=		'<a href="javascript:getBoard('+boardList[i].ref+', \''+boardList[i].pwdYn+'\');" class="my-a">';
 							html +=			'<div class="card h-100 shadow-sm">';
 							html +=				'<img src="'+contextPath +'/resources/front/main/assets/img/pencil.png" class="card-img-top" alt="thumbnail" style="object-fit: cover; height: 180px;">';
@@ -1321,7 +1355,7 @@ function btnAddCmntChange(str){
 					            </div>
 					            <div class="mb-4">
 									<label for="brd-upd-file" class="form-label fw-bold">첨부파일</label>
-					              	<input type="file" class="form-control my-input" name="uploadFile" id="brd-upd-file" multiple>
+					              	<input type="file" class="form-control my-input" name="file" id="brd-upd-file" multiple>
 					            </div>
 				        	</form>
 			          	</div>

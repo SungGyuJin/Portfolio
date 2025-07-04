@@ -10,6 +10,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.gyu.portfolio.model.AttachVO;
@@ -399,6 +401,61 @@ public class FrontController {
 	    
 		model.clear();
 		model.addAttribute("resultMap", resultMap);
+		
+		return resultMap;
+	}
+	
+	/* 파일 업로드 */
+	@PostMapping("/main/upload.do")
+	@ResponseBody
+	public Map<String, Object> upload(ModelMap model,
+			@ModelAttribute("AttachVO") AttachVO attachVO,
+			HttpServletRequest request,
+			HttpServletResponse response
+			) throws Exception{
+
+		/* request 정보확인 START */
+		System.out.println();
+		System.out.println("++++++++++++++++++++++++++++++");
+		System.out.println("============ /main/upload.do INFO  ===========");
+		Enumeration params = request.getParameterNames();
+		while(params.hasMoreElements()) {
+			String name= (String) params.nextElement();
+			System.out.println(name + ": " + request.getParameter(name));
+		}
+		System.out.println("++++++++++++++++++++++++++++++");
+		System.out.println();
+		/* request 정보확인 END */
+
+		Map<String, Object> resultMap = new HashMap<>();
+		
+		
+		
+		for (MultipartFile file : attachVO.getFiles()) {
+
+	        String fileOrgNm = file.getOriginalFilename();	// 파일명(원본)
+	        String fileSvgNm = "";							// 파일명(저장명)
+	        String fileExt   = "";							// 확장자
+	        String filePath  = ROOT_PATH+UPLOAD_PATH;		// 경로
+	        long   fileSz    = file.getSize();				// 크기
+	        
+	        int dotIdx = fileOrgNm.lastIndexOf('.');
+	        if (dotIdx > 0) {
+	            fileExt = fileOrgNm.substring(dotIdx);
+	        }
+
+	        String uuid = UUID.randomUUID().toString();
+	        fileSvgNm = uuid + fileExt;
+	        
+	        File destFile = new File(filePath, fileSvgNm);
+	        file.transferTo(destFile);
+	        
+	        resultMap.put("fileOrgNm", fileOrgNm);
+	        resultMap.put("fileSvgNm", fileSvgNm);
+	        resultMap.put("fileExt",   fileExt);
+	        resultMap.put("filePath",  filePath);
+	        resultMap.put("fileSz",    fileSz);
+	    }
 		
 		return resultMap;
 	}
