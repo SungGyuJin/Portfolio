@@ -124,9 +124,20 @@ $(function(){
 			data     : formData,
 			processData: false,
 			contentType: false,
+			dataType : "json",
 			success  : function(res){
-				
-				console.log(res)
+
+	        	var hiddenFile_html = '';
+
+	        	hiddenFile_html += '<div class="d-flex fileData-area fileData">';
+	        	hiddenFile_html +=     '<input type="hidden" name="arrFileOrgNm" value="'+res.fileOrgNm+'">';
+	        	hiddenFile_html += 	   '<input type="hidden" name="arrFileSvgNm" value="'+res.fileSvgNm+'">';
+	        	hiddenFile_html += 	   '<input type="hidden" name="arrFileExt" value="'+res.fileExt+'">';
+	        	hiddenFile_html += 	   '<input type="hidden" name="arrFilePath" value="'+res.filePath+'">';
+	        	hiddenFile_html += 	   '<input type="hidden" name="arrFileSize" value="'+res.fileSz+'">';
+	        	hiddenFile_html +='</div>';
+	        	
+	        	$("#file-data").append(hiddenFile_html);
 				
 			},
 			error : function(request, status, error){
@@ -168,7 +179,7 @@ function addBoardPost(){
 	}
 
 	$.ajax({
-		url      : "/main/addBoard.do",
+		url      : contextPath+"/main/addBoard.do",
 		method   : "POST",
 		data     : $("#frm-addBoard").serialize(),
 		dataType : "json",
@@ -220,7 +231,7 @@ function updateBoardPost(no, pYn){
 	}
 
 	$.ajax({
-		url      : "/main/updateBoard.do",
+		url      : contextPath+"/main/updateBoard.do",
 		method   : "POST",
 		data     : $("#frm-updateBoard").serialize(),
 		dataType : "json",
@@ -230,7 +241,7 @@ function updateBoardPost(no, pYn){
 				alert('수정되었습니다.');
 				$("#updateBoardModal").modal('hide');
 				getBoard(no, pYn);
-				getBoardList($("#pageNum").val());
+				getBoardList($("#pageNum").val(), $("#listTyp").val());
 				
 				$("#brd-upd-pwdYn").prop("checked", false);
 				$("#brd-upd-pwd").removeAttr("placeholder");
@@ -314,7 +325,7 @@ function getBoard(no, pYn){
 			data     : {"no" : no},
 			dataType : "json",
 			success  : function(res){
-
+				
 				var data = res.getBoardReply[0];
 				
 				$("#brd-bbsNm").html(data.bbsNm);
@@ -408,7 +419,7 @@ function getBoard(no, pYn){
 // 			  },
 			  preConfirm: (password) => {
 			    return $.ajax({
-			      url: "/main/pwChk.do",
+			      url: contextPath+"/main/pwChk.do",
 			      method: "POST",
 			      data: { "no" : no, "pw": password },
 			      dataType: "json"
@@ -460,7 +471,7 @@ function getBoardList(num, style){
 	}
 	
 	$.ajax({
-		url      : "/main/getBoardList.do",
+		url      : contextPath+"/main/getBoardList.do",
 		method   : "get",
 		data     : $("#frm-board").serialize(),
 		dataType : "json",
@@ -722,11 +733,17 @@ function getBoardList(num, style){
 	});
 }
 
+function removeFile(no, num){
+	
+}
+
 // 게시물 수정화면
 function updateBoard(no, gubun, num){
 
+	$("#brd-upd-file").val('');
+	
 	$.ajax({
-		url      : "/main/getBoard.do",
+		url      : contextPath+"/main/getBoard.do",
 		method   : "GET",
 		data     : {"no" : no},
 		dataType : "json",
@@ -753,6 +770,21 @@ function updateBoard(no, gubun, num){
 				$("#brd-upd-title").val(res.getBoard.title);
 				CKEDITOR.instances['brd-upd-cont'].setData(res.getBoard.cont);
 			  
+				if(res.getAttachList.length > 0){
+					var html = '';
+					
+					for(var i=0; i < res.getAttachList.length; i++){
+						html += '<div class="d-flex justify-content-between mt-1 file-area" id="added-file-'+i+'">';
+						html += 	res.getAttachList[i].fileNm;
+						html += 	'<div>'+(res.getAttachList[i].fileSz / 1024).toFixed(2)+' KB';
+						html += 		'<button type="button" class="btn btn-secondary btn-sm ms-2" onclick="removeFile('+res.getAttachList[i].attachSeq+', \''+i+'\');">삭제</button>';
+						html += 	'</div>';
+						html += '</div>';
+					}
+					
+					$("#added-file").html(html);
+				}
+				
 			    if(res.getBoard.pwdYn == 'N'){
 					$("#brd-pwd-cancel").addClass('d-none');
 			    }else{
@@ -773,7 +805,7 @@ function updateBoard(no, gubun, num){
 						  cancelButtonText: '취소',
 						  preConfirm: (password) => {
 						    return $.ajax({
-						      url: "/main/pwChk.do",
+						      url: contextPath+"/main/pwChk.do",
 						      method: "POST",
 						      data: { "no" : no, "pw": password },
 						      dataType: "json"
@@ -1034,7 +1066,7 @@ function updateCmnt(cmntSeq, gubun, no){
 		if(confirm("삭제하시겠습니까?")){
 			
 			$.ajax({
-				url      : "/main/deleteCmnt.do",
+				url      : contextPath+"/main/deleteCmnt.do",
 				method   : "POST",
 				data     : {"no" : cmntSeq},
 				dataType : "json",
@@ -1355,7 +1387,11 @@ function btnAddCmntChange(str){
 					            </div>
 					            <div class="mb-4">
 									<label for="brd-upd-file" class="form-label fw-bold">첨부파일</label>
-					              	<input type="file" class="form-control my-input" name="file" id="brd-upd-file" multiple>
+					              	<input type="file" class="form-control my-input" name="file" id="brd-upd-file">
+					            </div>
+					            <div id="file-data"></div>
+					            <div class="mb-4">
+									<div id="added-file"></div>
 					            </div>
 				        	</form>
 			          	</div>
