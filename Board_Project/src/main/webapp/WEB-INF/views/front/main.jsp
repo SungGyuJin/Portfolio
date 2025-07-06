@@ -733,12 +733,20 @@ function getBoardList(num, style){
 	});
 }
 
-function removeFile(no, num){
-	
+// 첨부파일 삭제
+function removeFile(no, gubun, num){
+	$("#added-file-"+num).remove();
+	$("#removed-file").append('<input type="hidden" class="brd-upd-delFile" name="delSeqArr" value="'+no+'">');
+}
+
+// 첨부파일(원복)
+function refreshFile(no, gubun, num, option){
+	$(".brd-upd-delFile").remove();
+	updateBoard(no, gubun, num, option);
 }
 
 // 게시물 수정화면
-function updateBoard(no, gubun, num){
+function updateBoard(no, gubun, num, option){
 
 	$("#brd-upd-file").val('');
 	
@@ -753,14 +761,16 @@ function updateBoard(no, gubun, num){
 				
 				$("#getBoardModal").modal('hide');
 				
-			  // Bootstrap 모달 인스턴스 생성 및 표시
-				var updateBoardModal = new bootstrap.Modal($('#updateBoardModal')[0], {
-					backdrop: 'static',
-				    keyboard: false, 
-				    focus: false
-				});
+				if(option != 're'){
+				  // Bootstrap 모달 인스턴스 생성 및 표시
+					var updateBoardModal = new bootstrap.Modal($('#updateBoardModal')[0], {
+						backdrop: 'static',
+					    keyboard: false, 
+					    focus: false
+					});
+					updateBoardModal.show();
+				}
 			  
-				updateBoardModal.show();
 			
 				$("#brd-upd-boardSeq").val(res.getBoard.boardSeq);
 				$('#updateBoardModal').css('z-index', '1060');
@@ -771,18 +781,27 @@ function updateBoard(no, gubun, num){
 				CKEDITOR.instances['brd-upd-cont'].setData(res.getBoard.cont);
 			  
 				if(res.getAttachList.length > 0){
+
+					$("#brd-updFile-area").removeClass('d-none');
+					
 					var html = '';
+					
+					html += '<a href="javascript:refreshFile('+no+', \''+gubun+'\', '+num+', \'re\');">';
+					html +=		'<img src='+contextPath+'"/resources/front/main/assets/img/refresh.png" alt="새로고침" title="새로고침" width="34" height="34" class="mb-2">';
+					html +=	'</a>';
 					
 					for(var i=0; i < res.getAttachList.length; i++){
 						html += '<div class="d-flex justify-content-between mt-1 file-area" id="added-file-'+i+'">';
 						html += 	res.getAttachList[i].fileNm;
 						html += 	'<div>'+(res.getAttachList[i].fileSz / 1024).toFixed(2)+' KB';
-						html += 		'<button type="button" class="btn btn-secondary btn-sm ms-2" onclick="removeFile('+res.getAttachList[i].attachSeq+', \''+i+'\');">삭제</button>';
+						html += 		'<button type="button" class="btn btn-secondary btn-sm ms-2" onclick="removeFile('+res.getAttachList[i].attachSeq+', \''+gubun+'\' , \''+i+'\');">삭제</button>';
 						html += 	'</div>';
 						html += '</div>';
 					}
 					
 					$("#added-file").html(html);
+				}else{
+					$("#brd-updFile-area").addClass('d-none');
 				}
 				
 			    if(res.getBoard.pwdYn == 'N'){
@@ -1390,8 +1409,9 @@ function btnAddCmntChange(str){
 					              	<input type="file" class="form-control my-input" name="file" id="brd-upd-file">
 					            </div>
 					            <div id="file-data"></div>
-					            <div class="mb-4">
+					            <div class="text-end mb-4" id="brd-updFile-area">
 									<div id="added-file"></div>
+									<div id="removed-file"></div>
 					            </div>
 				        	</form>
 			          	</div>
