@@ -115,8 +115,10 @@ $(function(){
 	    }
 		
 		var formData = new FormData();
-
-		formData.append("files", fileInput.files[0]);
+		
+		for (var i=0; i < fileInput.files.length; i++) {
+		    formData.append("files", fileInput.files[i]);
+		}
 		
 		$.ajax({
 			url      : "/main/upload.do",
@@ -127,18 +129,35 @@ $(function(){
 			dataType : "json",
 			success  : function(res){
 
-	        	var hiddenFile_html = '';
+	        	var addFile 	  = '';
+	        	var addFileHidden = '';
 
-	        	hiddenFile_html += '<div class="d-flex fileData-area fileData">';
-	        	hiddenFile_html +=     '<input type="hidden" name="arrFileOrgNm" value="'+res.fileOrgNm+'">';
-	        	hiddenFile_html += 	   '<input type="hidden" name="arrFileSvgNm" value="'+res.fileSvgNm+'">';
-	        	hiddenFile_html += 	   '<input type="hidden" name="arrFileExt" value="'+res.fileExt+'">';
-	        	hiddenFile_html += 	   '<input type="hidden" name="arrFilePath" value="'+res.filePath+'">';
-	        	hiddenFile_html += 	   '<input type="hidden" name="arrFileSize" value="'+res.fileSz+'">';
-	        	hiddenFile_html +='</div>';
+				for(var i=0; i < res.fileList.length; i++) {
+					addFile += 	'<div class="d-flex fileData-area" id="new-file-'+i+'">';
+					addFile += 		'<input type="hidden" name="arrFileOrgNm" value="'+res.fileList[i].fileOrgNm+'">';
+					addFile += 		'<input type="hidden" name="arrFileSvgNm" value="'+res.fileList[i].fileSvgNm+'">';
+					addFile += 		'<input type="hidden" name="arrFileExt" value="'+res.fileList[i].fileExt+'">';
+					addFile += 		'<input type="hidden" name="arrFilePath" value="'+res.fileList[i].filePath+'">';
+					addFile += 		'<input type="hidden" name="arrFileSize" value="'+res.fileList[i].fileSz+'">';
+					addFile +=	'</div>';
+					
+					addFileHidden += '<div class="d-flex justify-content-between mt-1 file-area" id="new-file-hidden-'+i+'">';
+					addFileHidden += 	'<div>';
+					addFileHidden += 		'<small class="text-danger fw-bolder me-1">New</small>';
+					addFileHidden += 		res.fileList[i].fileOrgNm;
+					addFileHidden += 	'</div>';
+					addFileHidden += 	'<div>';
+					addFileHidden += 		(res.fileList[i].fileSz / 1024).toFixed(2)+' KB';
+					addFileHidden += 		'<button type="button" class="btn btn-secondary btn-sm ms-2" onclick="removeFile(\'new\', \'del\' , \''+i+'\');">삭제</button>';
+					addFileHidden += 	'</div>';
+					addFileHidden += '</div>';
+				}
 	        	
-	        	$("#file-data").append(hiddenFile_html);
+	        	$("#file-data").append(addFile);
+	        	$("#added-file").append(addFileHidden);
 				
+	        	$("#brd-upd-file").text('2');
+	        	
 			},
 			error : function(request, status, error){
 				Swal.fire({
@@ -735,8 +754,14 @@ function getBoardList(num, style){
 
 // 첨부파일 삭제
 function removeFile(no, gubun, num){
-	$("#added-file-"+num).remove();
-	$("#removed-file").append('<input type="hidden" class="brd-upd-delFile" name="delSeqArr" value="'+no+'">');
+	if(no == 'new'){
+		$("#new-file-"+num).remove();
+		$("#new-file-hidden-"+num).remove();
+	}else{
+		$("#added-file-"+num).remove();
+// 		$("#added-file-hidden-"+num).remove();
+		$("#removed-file").append('<input type="hidden" class="brd-upd-delFile" name="delSeqArr" value="'+no+'">');
+	}
 }
 
 // 첨부파일(원복)
@@ -749,6 +774,8 @@ function refreshFile(no, gubun, num, option){
 function updateBoard(no, gubun, num, option){
 
 	$("#brd-upd-file").val('');
+	$("#removed-file").empty();
+	$("#file-data").empty();
 	
 	$.ajax({
 		url      : contextPath+"/main/getBoard.do",
@@ -800,8 +827,6 @@ function updateBoard(no, gubun, num, option){
 					}
 					
 					$("#added-file").html(html);
-				}else{
-					$("#brd-updFile-area").addClass('d-none');
 				}
 				
 			    if(res.getBoard.pwdYn == 'N'){
@@ -1406,7 +1431,7 @@ function btnAddCmntChange(str){
 					            </div>
 					            <div class="mb-4">
 									<label for="brd-upd-file" class="form-label fw-bold">첨부파일</label>
-					              	<input type="file" class="form-control my-input" name="file" id="brd-upd-file">
+					              	<input type="file" class="form-control my-input" name="file" id="brd-upd-file" multiple="multiple">
 					            </div>
 					            <div id="file-data"></div>
 					            <div class="text-end mb-4" id="brd-updFile-area">

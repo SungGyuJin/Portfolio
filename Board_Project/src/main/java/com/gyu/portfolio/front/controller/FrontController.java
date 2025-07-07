@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -428,11 +429,12 @@ public class FrontController {
 		/* request 정보확인 END */
 
 		Map<String, Object> resultMap = new HashMap<>();
-		
-		
+		List<Object> resultList = new ArrayList<>();
 		
 		for (MultipartFile file : attachVO.getFiles()) {
 
+			System.out.println(file.getOriginalFilename());
+			
 	        String fileOrgNm = file.getOriginalFilename();	// 파일명(원본)
 	        String fileSvgNm = "";							// 파일명(저장명)
 	        String fileExt   = "";							// 확장자
@@ -449,13 +451,21 @@ public class FrontController {
 	        
 	        File destFile = new File(filePath, fileSvgNm);
 	        file.transferTo(destFile);
+
+			Map<String, Object> tempMap = new HashMap<>();
 	        
-	        resultMap.put("fileOrgNm", fileOrgNm);
-	        resultMap.put("fileSvgNm", fileSvgNm);
-	        resultMap.put("fileExt",   fileExt);
-	        resultMap.put("filePath",  filePath);
-	        resultMap.put("fileSz",    fileSz);
+			tempMap.put("fileOrgNm", fileOrgNm);
+			tempMap.put("fileSvgNm", fileSvgNm);
+			tempMap.put("fileExt",   fileExt);
+			tempMap.put("filePath",  filePath);
+			tempMap.put("fileSz",    fileSz);
+	        
+	        resultList.add(tempMap);
 	    }
+
+		resultMap.put("fileList", resultList);
+
+		System.out.println(resultMap);
 		
 		return resultMap;
 	}
