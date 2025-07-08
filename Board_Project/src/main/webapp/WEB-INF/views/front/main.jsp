@@ -106,9 +106,9 @@ $(function(){
 	getBoardList(null, $("#listTyp").val());
 	
 	
-	$('#brd-upd-file').on('change', function() {
+	$('#brd-add-file').on('change', function() {
 		
-		var fileInput = $('#brd-upd-file')[0];
+		var fileInput = $('#brd-add-file')[0];
 		
 		if (fileInput.files.length === 0) {
 	        return;
@@ -121,7 +121,7 @@ $(function(){
 		}
 		
 		$.ajax({
-			url      : "/main/upload.do",
+			url      : contextPath+"/main/upload.do",
 			method   : "POST",
 			data     : formData,
 			processData: false,
@@ -153,11 +153,70 @@ $(function(){
 					addFileHidden += '</div>';
 				}
 	        	
-	        	$("#file-data").append(addFile);
-	        	$("#added-file").append(addFileHidden);
+	        	$("#add-file-data").append(addFile);
+	        	$("#add-added-file").append(addFileHidden);
 				
-	        	$("#brd-upd-file").text('2');
+			},
+			error : function(request, status, error){
+				Swal.fire({
+					icon: "error",
+					title: "통신불가"
+				})
+			}
+		});
+		
+	});
+	
+	$('#brd-upd-file').on('change', function() {
+		
+		var fileInput = $('#brd-upd-file')[0];
+		
+		if (fileInput.files.length === 0) {
+	        return;
+	    }
+		
+		var formData = new FormData();
+		
+		for (var i=0; i < fileInput.files.length; i++) {
+		    formData.append("files", fileInput.files[i]);
+		}
+		
+		$.ajax({
+			url      : contextPath+"/main/upload.do",
+			method   : "POST",
+			data     : formData,
+			processData: false,
+			contentType: false,
+			dataType : "json",
+			success  : function(res){
+
+	        	var addFile 	  = '';
+	        	var addFileHidden = '';
+
+				for(var i=0; i < res.fileList.length; i++) {
+					addFile += 	'<div class="d-flex fileData-area" id="new-file-'+i+'">';
+					addFile += 		'<input type="hidden" name="arrFileOrgNm" value="'+res.fileList[i].fileOrgNm+'">';
+					addFile += 		'<input type="hidden" name="arrFileSvgNm" value="'+res.fileList[i].fileSvgNm+'">';
+					addFile += 		'<input type="hidden" name="arrFileExt" value="'+res.fileList[i].fileExt+'">';
+					addFile += 		'<input type="hidden" name="arrFilePath" value="'+res.fileList[i].filePath+'">';
+					addFile += 		'<input type="hidden" name="arrFileSize" value="'+res.fileList[i].fileSz+'">';
+					addFile +=	'</div>';
+					
+					addFileHidden += '<div class="d-flex justify-content-between mt-1 file-area" id="new-file-hidden-'+i+'">';
+					addFileHidden += 	'<div>';
+					addFileHidden += 		'<small class="text-danger fw-bolder me-1">New</small>';
+					addFileHidden += 		res.fileList[i].fileOrgNm;
+					addFileHidden += 	'</div>';
+					addFileHidden += 	'<div>';
+					addFileHidden += 		(res.fileList[i].fileSz / 1024).toFixed(2)+' KB';
+					addFileHidden += 		'<button type="button" class="btn btn-secondary btn-sm ms-2" onclick="removeFile(\'new\', \'del\' , \''+i+'\');">삭제</button>';
+					addFileHidden += 	'</div>';
+					addFileHidden += '</div>';
+				}
 	        	
+	        	$("#upd-file-data").append(addFile);
+	        	$("#upd-added-file").append(addFileHidden);
+				
 			},
 			error : function(request, status, error){
 				Swal.fire({
@@ -294,18 +353,19 @@ function bbsClick(){
 }
 
 function addBoardModalView(){
-	  // Bootstrap 모달 인스턴스 생성 및 표시
-	  var addBoardModal = new bootstrap.Modal($('#addBoardModal')[0], {
-	    backdrop: 'static',
-	    keyboard: false
-	  });
-	  addBoardModal.show();
-
-	  // z-index 조정 (중첩 모달 문제 방지)
-	  $('#addBoardModal').css('z-index', '1060');
-	  $('.modal-backdrop').last().css('z-index', '1055');
+	var addBoardModal = new bootstrap.Modal($('#addBoardModal')[0], {
+		backdrop: 'static',
+		keyboard: false
+	});
 	
-// 	$(".parsley-required").remove();
+	addBoardModal.show();
+	
+	$('#addBoardModal').css('z-index', '1060');
+	$('.modal-backdrop').last().css('z-index', '1055');
+	
+	$("#brd-add-file").val('');
+	$("#add-file-data").empty();
+	$("#add-added-file").empty();
 }
 
 function btnUpdateBoardClose(no, pYn){
@@ -758,9 +818,8 @@ function removeFile(no, gubun, num){
 		$("#new-file-"+num).remove();
 		$("#new-file-hidden-"+num).remove();
 	}else{
-		$("#added-file-"+num).remove();
-// 		$("#added-file-hidden-"+num).remove();
-		$("#removed-file").append('<input type="hidden" class="brd-upd-delFile" name="delSeqArr" value="'+no+'">');
+		$("#upd-added-file-"+num).remove();
+		$("#upd-removed-file").append('<input type="hidden" class="brd-upd-delFile" name="delSeqArr" value="'+no+'">');
 	}
 }
 
@@ -774,8 +833,8 @@ function refreshFile(no, gubun, num, option){
 function updateBoard(no, gubun, num, option){
 
 	$("#brd-upd-file").val('');
-	$("#removed-file").empty();
-	$("#file-data").empty();
+	$("#upd-removed-file").empty();
+	$("#upd-file-data").empty();
 	
 	$.ajax({
 		url      : contextPath+"/main/getBoard.do",
@@ -809,7 +868,7 @@ function updateBoard(no, gubun, num, option){
 			  
 				if(res.getAttachList.length > 0){
 
-					$("#brd-updFile-area").removeClass('d-none');
+					$("#upd-file-area").removeClass('d-none');
 					
 					var html = '';
 					
@@ -818,7 +877,7 @@ function updateBoard(no, gubun, num, option){
 					html +=	'</a>';
 					
 					for(var i=0; i < res.getAttachList.length; i++){
-						html += '<div class="d-flex justify-content-between mt-1 file-area" id="added-file-'+i+'">';
+						html += '<div class="d-flex justify-content-between mt-1 file-area" id="upd-added-file-'+i+'">';
 						html += 	res.getAttachList[i].fileNm;
 						html += 	'<div>'+(res.getAttachList[i].fileSz / 1024).toFixed(2)+' KB';
 						html += 		'<button type="button" class="btn btn-secondary btn-sm ms-2" onclick="removeFile('+res.getAttachList[i].attachSeq+', \''+gubun+'\' , \''+i+'\');">삭제</button>';
@@ -826,7 +885,7 @@ function updateBoard(no, gubun, num, option){
 						html += '</div>';
 					}
 					
-					$("#added-file").html(html);
+					$("#upd-added-file").html(html);
 				}
 				
 			    if(res.getBoard.pwdYn == 'N'){
@@ -1373,8 +1432,12 @@ function btnAddCmntChange(str){
 					              	<textarea class="form-control my-input" name="cont" id="brd-cont" rows="20"></textarea>
 					            </div>
 					            <div class="mb-4">
-									<label for="brd-file" class="form-label fw-bold">첨부파일</label>
-					              	<input type="file" class="form-control my-input" name="uploadFile" id="brd-file" multiple>
+									<label for="brd-add-file" class="form-label fw-bold">첨부파일</label>
+					              	<input type="file" class="form-control my-input" name="uploadFile" id="brd-add-file" multiple="multiple">
+					            </div>
+					            <div id="add-file-data"></div>
+					            <div class="text-end mb-4" id="add-file-area">
+									<div id="add-added-file"></div>
 					            </div>
 				        	</form>
 			          	</div>
@@ -1433,10 +1496,10 @@ function btnAddCmntChange(str){
 									<label for="brd-upd-file" class="form-label fw-bold">첨부파일</label>
 					              	<input type="file" class="form-control my-input" name="file" id="brd-upd-file" multiple="multiple">
 					            </div>
-					            <div id="file-data"></div>
-					            <div class="text-end mb-4" id="brd-updFile-area">
-									<div id="added-file"></div>
-									<div id="removed-file"></div>
+					            <div id="upd-file-data"></div>
+					            <div class="text-end mb-4" id="upd-file-area">
+									<div id="upd-added-file"></div>
+									<div id="upd-removed-file"></div>
 					            </div>
 				        	</form>
 			          	</div>
