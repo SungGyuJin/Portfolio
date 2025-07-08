@@ -835,6 +835,7 @@ function updateBoard(no, gubun, num, option){
 	$("#brd-upd-file").val('');
 	$("#upd-removed-file").empty();
 	$("#upd-file-data").empty();
+	$("#upd-added-file").empty();
 	
 	$.ajax({
 		url      : contextPath+"/main/getBoard.do",
@@ -872,9 +873,16 @@ function updateBoard(no, gubun, num, option){
 					
 					var html = '';
 					
-					html += '<a href="javascript:refreshFile('+no+', \''+gubun+'\', '+num+', \'re\');">';
-					html +=		'<img src='+contextPath+'"/resources/front/main/assets/img/refresh.png" alt="새로고침" title="새로고침" width="34" height="34" class="mb-2">';
-					html +=	'</a>';
+					html += '<div class="d-flex justify-content-between mt-1">';
+					html += 	'<div>';
+					html +=			'<label class="form-label fw-bold">첨부된 파일('+res.getAttachList.length+')</label>';
+					html += 	'</div>';
+					html += 	'<div>';
+					html += 		'<a href="javascript:refreshFile('+no+', \''+gubun+'\', '+num+', \'re\');">';
+					html +=				'<img src='+contextPath+'"/resources/front/main/assets/img/refresh.png" alt="새로고침" title="새로고침" width="34" height="34" class="mb-2">';
+					html +=			'</a>';
+					html += 	'</div>';
+					html += '</div>';
 					
 					for(var i=0; i < res.getAttachList.length; i++){
 						html += '<div class="d-flex justify-content-between mt-1 file-area" id="upd-added-file-'+i+'">';
