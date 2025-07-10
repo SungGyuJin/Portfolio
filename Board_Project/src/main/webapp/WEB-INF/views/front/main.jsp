@@ -709,7 +709,7 @@ function getBoardList(num, style){
 							html +=	'<div class="col-md-3 mb-4" style="width: 20%;">';
 							html +=		'<a href="javascript:getBoard('+boardList[i].ref+', \''+boardList[i].pwdYn+'\');" class="my-a">';
 							html +=			'<div class="card h-100 shadow-sm">';
-							html +=				'<img src="'+contextPath +'/resources/front/main/assets/img/pencil.png" class="card-img-top" alt="thumbnail" style="object-fit: cover; height: 180px;">';
+							html +=				'<img src="'+contextPath +'/resources/front/main/assets/img/default-img.png" class="card-img-top" alt="thumbnail" style="object-fit: cover; height: 180px;">';
 							
 							if(boardList[i].pwdYn == 'Y'){
 								html +=				'<img class="lock-icon" src="'+contextPath +'/resources/front/main/assets/img/lock.png" style="max-width: 25px;"/>';
