@@ -31,7 +31,8 @@ public class AttachVO extends DefalutVO {
 	
 	
 	/* 그 외 필드 */
-	private MultipartFile files[]  = null;
+	private MultipartFile files[]	= null;
+	private MultipartFile thumb		= null;
 	
 	private String[] arrFileOrgNm  = null;	// 파일이름(원본명)
 	private String[] arrFileSvgNm  = null;	// 파일이름(저장명)

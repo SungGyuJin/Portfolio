@@ -6,6 +6,8 @@
 <body>
 <script>
 
+
+
 <c:choose>
 	<c:when test="${errorCode eq '0000' }">
 		<c:if test="${loginChk eq 'Y'}">
@@ -18,7 +20,37 @@
 	</c:when>
 </c:choose>
 
+
+// 썸네일 업로드 조건 및 표시
+function thumbChk(e, event){
+	
+	var file = e.files;
+	var imgChk = "";
+	var	imgChk = file[0].type.substr(0,5);
+	
+	if(imgChk != "image"){
+		alert("이미지파일만 첨부 가능합니다");
+		$("#brd-upd-file-thumb").val('');
+		return false;
+	}
+	
+	var reader = new FileReader();
+	
+	reader.onload = function(event) {
+		$("#thumb-view").children().remove();
+		var img = document.createElement("img");
+		img.setAttribute("src", event.target.result);
+		img.setAttribute("style", "height: auto; width: 100%;");
+		document.querySelector("#thumb-view").appendChild(img);
+		var html = '';	
+		$("#thumb-view").append(html);
+	};
+	reader.readAsDataURL(event.target.files[0]);
+	
+}
+
 $(function(){
+	
 	$("#brd-pwdYn").on('change', function(){
 		
 		if($("#brd-pwdYn:checked").val() == 'Y'){
@@ -1499,6 +1531,11 @@ function btnAddCmntChange(str){
 					            <div class="mb-3">
 					            	<label for="brd-upd-cont" class="form-label fw-bold">내용</label>
 					              	<textarea class="form-control my-input" name="cont" id="brd-upd-cont" rows="20"></textarea>
+					            </div>
+					            <div class="mb-4">
+									<label for="brd-upd-file" class="form-label fw-bold">썸네일</label>
+					              	<input type="file" class="form-control my-input mb-2" name="thumb" id="brd-upd-file-thumb" onchange="thumbChk(this, event);">
+					              	<div id="thumb-view"></div>
 					            </div>
 					            <div class="mb-4">
 									<label for="brd-upd-file" class="form-label fw-bold">첨부파일</label>
