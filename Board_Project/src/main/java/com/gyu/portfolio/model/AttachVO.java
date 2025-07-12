@@ -41,17 +41,19 @@ public class AttachVO extends DefalutVO {
 	private long[]   arrFileSize   = null;	// 파일크기(Byte)
 	
 	private String[] delSeqArr 	   = null;
-	
+
 	@Override
 	public String toString() {
 		return "AttachVO [attachSeq=" + attachSeq + ", boardSeq=" + boardSeq + ", fileNm=" + fileNm + ", fileExt="
 				+ fileExt + ", fileSz=" + fileSz + ", filePath=" + filePath + ", strgFileNm=" + strgFileNm
 				+ ", thumbYn=" + thumbYn + ", dwnldCnt=" + dwnldCnt + ", regNo=" + regNo + ", regDt=" + regDt
 				+ ", updNo=" + updNo + ", updDt=" + updDt + ", stat=" + stat + ", files=" + Arrays.toString(files)
-				+ ", arrFileOrgNm=" + Arrays.toString(arrFileOrgNm) + ", arrFileSvgNm=" + Arrays.toString(arrFileSvgNm)
-				+ ", arrFileExt=" + Arrays.toString(arrFileExt) + ", arrFilePath=" + Arrays.toString(arrFilePath)
-				+ ", arrFileSize=" + Arrays.toString(arrFileSize) + "]";
+				+ ", thumb=" + thumb + ", arrFileOrgNm=" + Arrays.toString(arrFileOrgNm) + ", arrFileSvgNm="
+				+ Arrays.toString(arrFileSvgNm) + ", arrFileExt=" + Arrays.toString(arrFileExt) + ", arrFilePath="
+				+ Arrays.toString(arrFilePath) + ", arrFileSize=" + Arrays.toString(arrFileSize) + ", delSeqArr="
+				+ Arrays.toString(delSeqArr) + "]";
 	}
+	
 	
 	
 	

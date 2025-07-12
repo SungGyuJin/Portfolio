@@ -150,6 +150,31 @@ public class BoardServiceImpl implements BoardService {
 				}
 			}
 			
+			// 썸네일 등록 및 수정
+			if(attachVO.getThumbYn().equals("Y")){
+
+				System.out.println();
+				System.out.println("1");
+				System.out.println(attachVO.getThumb().getOriginalFilename());
+				System.out.println();
+			// 삭제
+			}else if(attachVO.getThumbYn().equals("N")) {
+
+				System.out.println();
+				System.out.println("2");
+				System.out.println(attachVO.getThumb().getOriginalFilename());
+				System.out.println();
+			// 유지
+			}else {
+				
+				attachVO.getThumb().getOriginalFilename();
+
+				System.out.println();
+				System.out.println("3");
+				System.out.println(attachVO.getThumb().getOriginalFilename());
+				System.out.println();
+			}
+			
 			// 첨부파일 삭제
 			if(attachVO.getDelSeqArr() != null) {
 				attachMapper.deleteAttach(attachVO);

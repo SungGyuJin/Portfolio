@@ -20,33 +20,39 @@
 	</c:when>
 </c:choose>
 
-
 // 썸네일 업로드 조건 및 표시
 function thumbChk(e, event){
-	
 	var file = e.files;
-	var imgChk = "";
-	var	imgChk = file[0].type.substr(0,5);
-	
-	if(imgChk != "image"){
-		alert("이미지파일만 첨부 가능합니다");
-		$("#brd-upd-file-thumb").val('');
-		return false;
-	}
-	
-	var reader = new FileReader();
-	
-	reader.onload = function(event) {
+
+	if(file.length > 0){
+		var imgChk = file[0].type.substr(0,5);
+
+		if(imgChk != "image"){
+			alert("이미지파일만 첨부 가능합니다");
+			$("#brd-upd-file-thumb").val('');
+			$("#thumb-view").children().remove();
+			$("#brd-upd-file-thumbYn").val('N');
+			return false;
+		}
+
+		var reader = new FileReader();
+
+		reader.onload = function(event) {
+			$("#thumb-view").children().remove();
+			var img = document.createElement("img");
+			img.setAttribute("src", event.target.result);
+			img.setAttribute("style", "height: auto; width: 100%;");
+			document.querySelector("#thumb-view").appendChild(img);
+		};
+		reader.readAsDataURL(file[0]);
+
+		$("#brd-upd-file-thumbYn").val('Y');
+	}else{
+		
 		$("#thumb-view").children().remove();
-		var img = document.createElement("img");
-		img.setAttribute("src", event.target.result);
-		img.setAttribute("style", "height: auto; width: 100%;");
-		document.querySelector("#thumb-view").appendChild(img);
-		var html = '';	
-		$("#thumb-view").append(html);
-	};
-	reader.readAsDataURL(event.target.files[0]);
-	
+		$("#brd-upd-file-thumbYn").val('N');
+		$("#brd-upd-file-thumb").val('');
+	}
 }
 
 $(function(){
@@ -340,10 +346,14 @@ function updateBoardPost(no, pYn){
 		return false
 	}
 
+	var formData = new FormData($('#frm-updateBoard')[0]);
+	
 	$.ajax({
 		url      : contextPath+"/main/updateBoard.do",
 		method   : "POST",
-		data     : $("#frm-updateBoard").serialize(),
+	    data: formData,
+	    contentType: false,
+	    processData: false,
 		dataType : "json",
 		success  : function(res){
 			
@@ -1535,6 +1545,7 @@ function btnAddCmntChange(str){
 					            <div class="mb-4">
 									<label for="brd-upd-file" class="form-label fw-bold">썸네일</label>
 					              	<input type="file" class="form-control my-input mb-2" name="thumb" id="brd-upd-file-thumb" onchange="thumbChk(this, event);">
+					              	<input type="text" class="form-control my-input mb-2" name="thumbYn" id="brd-upd-file-thumbYn" value="D">
 					              	<div id="thumb-view"></div>
 					            </div>
 					            <div class="mb-4">
