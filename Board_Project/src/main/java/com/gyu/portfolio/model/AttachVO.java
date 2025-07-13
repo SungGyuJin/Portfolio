@@ -32,13 +32,18 @@ public class AttachVO extends DefalutVO {
 	
 	/* 그 외 필드 */
 	private MultipartFile files[]	= null;
-	private MultipartFile thumb[]		= null;
 	
 	private String[] arrFileOrgNm  = null;	// 파일이름(원본명)
 	private String[] arrFileSvgNm  = null;	// 파일이름(저장명)
 	private String[] arrFileExt    = null;	// 파일확장자
 	private String[] arrFilePath   = null;	// 파일경로
 	private long[]   arrFileSize   = null;	// 파일크기(Byte)
+
+	private String thumbFileOrgNm  	  = "";	
+	private String thumbarrFileSvgNm  = "";	
+	private String thumbarrFileExt    = "";	
+	private String thumbarrFilePath   = "";
+	private long   thumbarrFileSize   =  0;
 	
 	private String[] delSeqArr 	   = null;
 
@@ -48,13 +53,12 @@ public class AttachVO extends DefalutVO {
 				+ fileExt + ", fileSz=" + fileSz + ", filePath=" + filePath + ", strgFileNm=" + strgFileNm
 				+ ", thumbYn=" + thumbYn + ", dwnldCnt=" + dwnldCnt + ", regNo=" + regNo + ", regDt=" + regDt
 				+ ", updNo=" + updNo + ", updDt=" + updDt + ", stat=" + stat + ", files=" + Arrays.toString(files)
-				+ ", thumb=" + thumb + ", arrFileOrgNm=" + Arrays.toString(arrFileOrgNm) + ", arrFileSvgNm="
-				+ Arrays.toString(arrFileSvgNm) + ", arrFileExt=" + Arrays.toString(arrFileExt) + ", arrFilePath="
-				+ Arrays.toString(arrFilePath) + ", arrFileSize=" + Arrays.toString(arrFileSize) + ", delSeqArr="
+				+ ", arrFileOrgNm=" + Arrays.toString(arrFileOrgNm) + ", arrFileSvgNm=" + Arrays.toString(arrFileSvgNm)
+				+ ", arrFileExt=" + Arrays.toString(arrFileExt) + ", arrFilePath=" + Arrays.toString(arrFilePath)
+				+ ", arrFileSize=" + Arrays.toString(arrFileSize) + ", thumbFileOrgNm=" + thumbFileOrgNm
+				+ ", thumbarrFileSvgNm=" + thumbarrFileSvgNm + ", thumbarrFileExt=" + thumbarrFileExt
+				+ ", thumbarrFilePath=" + thumbarrFilePath + ", thumbarrFileSize=" + thumbarrFileSize + ", delSeqArr="
 				+ Arrays.toString(delSeqArr) + "]";
 	}
-	
-	
-	
 	
 }

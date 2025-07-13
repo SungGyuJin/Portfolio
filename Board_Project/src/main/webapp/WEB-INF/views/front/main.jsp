@@ -60,6 +60,9 @@ function thumbChk(e, event){
 				reader.readAsDataURL(file[0]);
 
 				$("#brd-upd-file-thumbYn").val('Y');
+
+	        	var html = '';
+				
 				
 			},
 			error : function(request, status, error){
@@ -1567,9 +1570,10 @@ function btnAddCmntChange(str){
 					            </div>
 					            <div class="mb-4">
 									<label for="brd-upd-file" class="form-label fw-bold">썸네일</label>
-					              	<input type="file" class="form-control my-input mb-2" name="thumb" id="brd-upd-file-thumb" onchange="thumbChk(this, event);">
+					              	<input type="file" class="form-control my-input mb-2" id="brd-upd-file-thumb" onchange="thumbChk(this, event);">
 					              	<input type="text" class="form-control my-input mb-2" name="thumbYn" id="brd-upd-file-thumbYn" value="D">
 					              	<div id="thumb-view"></div>
+					              	<div id="thumb-data"></div>
 					            </div>
 					            <div class="mb-4">
 									<label for="brd-upd-file" class="form-label fw-bold">첨부파일</label>
