@@ -431,7 +431,7 @@ public class FrontController {
 		Map<String, Object> resultMap = new HashMap<>();
 		List<Object> resultList = new ArrayList<>();
 		
-		for (MultipartFile file : attachVO.getFiles()) {
+		for(MultipartFile file : attachVO.getFiles()) {
 
 			System.out.println(file.getOriginalFilename());
 			
@@ -462,6 +462,7 @@ public class FrontController {
 	        
 	        resultList.add(tempMap);
 	    }
+		
 
 		resultMap.put("fileList", resultList);
 

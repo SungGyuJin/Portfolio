@@ -34,19 +34,42 @@ function thumbChk(e, event){
 			$("#brd-upd-file-thumbYn").val('N');
 			return false;
 		}
+		
+		var formData = new FormData();
+		
+	    formData.append("files", file[0]);
+		
+		$.ajax({
+			url      : contextPath+"/main/upload.do",
+			method   : "POST",
+			data     : formData,
+			processData: false,
+			contentType: false,
+			dataType : "json",
+			success  : function(res){
 
-		var reader = new FileReader();
+				var reader = new FileReader();
 
-		reader.onload = function(event) {
-			$("#thumb-view").children().remove();
-			var img = document.createElement("img");
-			img.setAttribute("src", event.target.result);
-			img.setAttribute("style", "height: auto; width: 100%;");
-			document.querySelector("#thumb-view").appendChild(img);
-		};
-		reader.readAsDataURL(file[0]);
+				reader.onload = function(event) {
+					$("#thumb-view").children().remove();
+					var img = document.createElement("img");
+					img.setAttribute("src", event.target.result);
+					img.setAttribute("style", "height: auto; width: 100%;");
+					document.querySelector("#thumb-view").appendChild(img);
+				};
+				reader.readAsDataURL(file[0]);
 
-		$("#brd-upd-file-thumbYn").val('Y');
+				$("#brd-upd-file-thumbYn").val('Y');
+				
+			},
+			error : function(request, status, error){
+				Swal.fire({
+					icon: "error",
+					title: "통신불가"
+				})
+			}
+		});
+		
 	}else{
 		
 		$("#thumb-view").children().remove();
