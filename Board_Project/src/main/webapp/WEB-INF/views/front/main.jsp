@@ -63,6 +63,17 @@ function thumbChk(e, event){
 
 	        	var html = '';
 				
+				for(var i=0; i < res.fileList.length; i++) {
+					html += '<div class="d-flex fileData-area">';
+					html += 	'<input type="hidden" name="thumbArrFileOrgNm" value="'+res.fileList[i].fileOrgNm+'">';
+					html += 	'<input type="hidden" name="thumbArrFileSvgNm" value="'+res.fileList[i].fileSvgNm+'">';
+					html += 	'<input type="hidden" name="thumbArrFileExt" value="'+res.fileList[i].fileExt+'">';
+					html += 	'<input type="hidden" name="thumbArrFilePath" value="'+res.fileList[i].filePath+'">';
+					html += 	'<input type="hidden" name="thumbArrFileSize" value="'+res.fileList[i].fileSz+'">';
+					html +=	'</div>';
+				}
+				
+				$("#thumb-data").html(html);
 				
 			},
 			error : function(request, status, error){
