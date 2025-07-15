@@ -110,4 +110,105 @@
 			)
 	</delete>
 	
+	
+	<!-- #################################################################################################### -->
+	<!-- ############################################# Front SQL ############################################ -->
+	
+	<select id="getFrontAttachList" resultMap="attachVO">
+	
+	(
+	  SELECT
+	    ATTACH_SEQ,
+	    BOARD_SEQ,
+	    FILE_NM,
+	    FILE_EXT,
+	    FILE_SZ,
+	    FILE_PATH,
+	    STRG_FILE_NM,
+	    THUMB_YN,
+	    DWNLD_CNT,
+	    REG_NO,
+	    REG_DT,
+	    UPD_NO,
+	    UPD_DT,
+	    STAT
+	  FROM TB_ATTACH
+	  WHERE BOARD_SEQ = #{boardSeq}
+	    AND STAT = 1
+	    AND THUMB_YN = 'Y'
+	)
+	UNION ALL
+	(
+	  SELECT
+	    ATTACH_SEQ,
+	    BOARD_SEQ,
+	    FILE_NM,
+	    FILE_EXT,
+	    FILE_SZ,
+	    FILE_PATH,
+	    STRG_FILE_NM,
+	    THUMB_YN,
+	    DWNLD_CNT,
+	    REG_NO,
+	    REG_DT,
+	    UPD_NO,
+	    UPD_DT,
+	    STAT
+	  FROM TB_ATTACH
+	  WHERE BOARD_SEQ = #{boardSeq}
+	    AND STAT = 1
+	    AND THUMB_YN = 'N'
+	)
+	
+	
+		<!-- SELECT
+			A.ATTACH_SEQ,
+		  	A.BOARD_SEQ,
+		  	A.FILE_NM,
+		  	A.FILE_EXT,
+		  	A.FILE_SZ,
+		  	A.FILE_PATH,
+		  	A.STRG_FILE_NM,
+		  	A.THUMB_YN,
+		  	A.DWNLD_CNT,
+		  	A.REG_NO,
+		  	A.REG_DT,
+		  	A.UPD_NO,
+		  	A.UPD_DT,
+		  	A.STAT,
+		  	T.FILE_NM AS THUMB_FILE_NM,
+		  	T.FILE_EXT AS THUMB_FILE_EXT,
+		  	T.FILE_SZ AS THUMB_FILE_SZ,
+		  	T.FILE_PATH AS THUMB_FILE_PATH
+		FROM TB_ATTACH A
+		LEFT JOIN (
+			SELECT
+				BOARD_SEQ
+				, FILE_NM
+				, FILE_EXT
+				, FILE_SZ
+				, FILE_PATH
+		  	FROM TB_ATTACH
+		  	WHERE 1=1
+		  		AND STAT = 1
+		    	AND THUMB_YN = 'Y'
+		) T ON A.BOARD_SEQ = T.BOARD_SEQ
+		WHERE 1=1
+			AND A.BOARD_SEQ = #{boardSeq}
+		  	AND A.STAT = 1
+		  	AND A.THUMB_YN = 'N'; -->
+	</select>
+	
+	<update id="thumbInit">
+		UPDATE
+			TB_ATTACH
+		SET
+			THUMB_YN = 'N'
+			, STAT = 0
+		WHERE 1=1
+			AND BOARD_SEQ = #{boardSeq}
+			AND THUMB_YN = 'Y'
+	</update>
+	
+	
 </mapper>

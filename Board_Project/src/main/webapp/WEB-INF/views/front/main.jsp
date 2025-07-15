@@ -65,11 +65,11 @@ function thumbChk(e, event){
 				
 				for(var i=0; i < res.fileList.length; i++) {
 					html += '<div class="d-flex fileData-area">';
-					html += 	'<input type="hidden" name="thumbArrFileOrgNm" value="'+res.fileList[i].fileOrgNm+'">';
-					html += 	'<input type="hidden" name="thumbArrFileSvgNm" value="'+res.fileList[i].fileSvgNm+'">';
-					html += 	'<input type="hidden" name="thumbArrFileExt" value="'+res.fileList[i].fileExt+'">';
-					html += 	'<input type="hidden" name="thumbArrFilePath" value="'+res.fileList[i].filePath+'">';
-					html += 	'<input type="hidden" name="thumbArrFileSize" value="'+res.fileList[i].fileSz+'">';
+					html += 	'<input type="hidden" name="thumbFileOrgNm" value="'+res.fileList[i].fileOrgNm+'">';
+					html += 	'<input type="hidden" name="thumbFileSvgNm" value="'+res.fileList[i].fileSvgNm+'">';
+					html += 	'<input type="hidden" name="thumbFileExt" value="'+res.fileList[i].fileExt+'">';
+					html += 	'<input type="hidden" name="thumbFilePath" value="'+res.fileList[i].filePath+'">';
+					html += 	'<input type="hidden" name="thumbFileSize" value="'+res.fileList[i].fileSz+'">';
 					html +=	'</div>';
 				}
 				
@@ -484,6 +484,8 @@ function getBoard(no, pYn){
 			dataType : "json",
 			success  : function(res){
 				
+				console.log(res)
+				
 				var data = res.getBoardReply[0];
 				
 				$("#brd-bbsNm").html(data.bbsNm);
@@ -507,10 +509,12 @@ function getBoard(no, pYn){
 					
 					for(var i=0; i < dataAtch.length; i++){
 						
-						html +=	'<li class="mb-2 d-flex align-items-center">';
-						html +=		'<img src="'+ contextPath +'/resources/front/main/assets/img/front-atch-icon.png" alt="file" style="width: 20px; height: 20px; object-fit: cover;" class="mb-1 me-2">';
-						html +=		'<a href="/main/fileDownload?no='+dataAtch[i].attachSeq+'" class="custom-link">'+dataAtch[i].fileNm+'</a>';
-						html +=	'</li>';
+						if(dataAtch[i].thumbYn == 'N'){
+							html +=	'<li class="mb-2 d-flex align-items-center">';
+							html +=		'<img src="'+ contextPath +'/resources/front/main/assets/img/front-atch-icon.png" alt="file" style="width: 20px; height: 20px; object-fit: cover;" class="mb-1 me-2">';
+							html +=		'<a href="/main/fileDownload?no='+dataAtch[i].attachSeq+'" class="custom-link">'+dataAtch[i].fileNm+'</a>';
+							html +=	'</li>';
+						}
 					}
 					
 					html +=	'</ul>';
@@ -915,6 +919,8 @@ function updateBoard(no, gubun, num, option){
 	$("#upd-removed-file").empty();
 	$("#upd-file-data").empty();
 	$("#upd-added-file").empty();
+	$("#brd-upd-file-thumbYn").val('D');
+	$("#thumb-data").empty();
 	
 	$.ajax({
 		url      : contextPath+"/main/getBoard.do",
@@ -936,7 +942,6 @@ function updateBoard(no, gubun, num, option){
 					});
 					updateBoardModal.show();
 				}
-			  
 			
 				$("#brd-upd-boardSeq").val(res.getBoard.boardSeq);
 				$('#updateBoardModal').css('z-index', '1060');
@@ -945,34 +950,47 @@ function updateBoard(no, gubun, num, option){
 				$("#brd-upd-select").val(res.getBoard.bbsSeq);
 				$("#brd-upd-title").val(res.getBoard.title);
 				CKEDITOR.instances['brd-upd-cont'].setData(res.getBoard.cont);
-			  
+				
+				var fileCnt = 0;
+				
 				if(res.getAttachList.length > 0){
-
+					
 					$("#upd-file-area").removeClass('d-none');
-					
-					var html = '';
-					
-					html += '<div class="d-flex justify-content-between mt-1">';
-					html += 	'<div>';
-					html +=			'<label class="form-label fw-bold">첨부된 파일('+res.getAttachList.length+')</label>';
-					html += 	'</div>';
-					html += 	'<div>';
-					html += 		'<a href="javascript:refreshFile('+no+', \''+gubun+'\', '+num+', \'re\');">';
-					html +=				'<img src='+contextPath+'"/resources/front/main/assets/img/refresh.png" alt="새로고침" title="새로고침" width="34" height="34" class="mb-2">';
-					html +=			'</a>';
-					html += 	'</div>';
-					html += '</div>';
+
+					var header_html = '';
+					var body_html = '';
 					
 					for(var i=0; i < res.getAttachList.length; i++){
-						html += '<div class="d-flex justify-content-between mt-1 file-area" id="upd-added-file-'+i+'">';
-						html += 	res.getAttachList[i].fileNm;
-						html += 	'<div>'+(res.getAttachList[i].fileSz / 1024).toFixed(2)+' KB';
-						html += 		'<button type="button" class="btn btn-secondary btn-sm ms-2" onclick="removeFile('+res.getAttachList[i].attachSeq+', \''+gubun+'\' , \''+i+'\');">삭제</button>';
-						html += 	'</div>';
-						html += '</div>';
+						
+						console.log(res.getAttachList[i])
+						
+						if(res.getAttachList[i].thumbYn == 'N'){
+							body_html += '<div class="d-flex justify-content-between mt-1 file-area" id="upd-added-file-'+i+'">';
+							body_html += 	res.getAttachList[i].fileNm;
+							body_html += 	'<div>'+(res.getAttachList[i].fileSz / 1024).toFixed(2)+' KB';
+							body_html += 		'<button type="button" class="btn btn-secondary btn-sm ms-2" onclick="removeFile('+res.getAttachList[i].attachSeq+', \''+gubun+'\' , \''+i+'\');">삭제</button>';
+							body_html += 	'</div>';
+							body_html += '</div>';
+							
+							fileCnt++;
+						}else{
+							var img_html = '<img src='+contextPath+res.getAttachList[i].filePath+res.getAttachList[i].strgFileNm+' alt="썸네일" title="썸네일" width="100%" height="100%" class="mb-2">';
+							$("#thumb-view").html(img_html);
+						}
 					}
+
+					header_html +=	'<div class="d-flex justify-content-between mt-1">';
+					header_html += 		'<div>';
+					header_html +=			'<label class="form-label fw-bold">첨부된 파일('+fileCnt+')</label>';
+					header_html += 		'</div>';
+					header_html += 		'<div>';
+					header_html += 			'<a href="javascript:refreshFile('+no+', \''+gubun+'\', '+num+', \'re\');">';
+					header_html +=				'<img src='+contextPath+'"/resources/front/main/assets/img/refresh.png" alt="새로고침" title="새로고침" width="34" height="34" class="mb-2">';
+					header_html +=			'</a>';
+					header_html += 		'</div>';
+					header_html += '</div>';
 					
-					$("#upd-added-file").html(html);
+					$("#upd-added-file").html(header_html+body_html);
 				}
 				
 			    if(res.getBoard.pwdYn == 'N'){

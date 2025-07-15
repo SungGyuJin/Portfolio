@@ -128,10 +128,11 @@ public class BoardServiceImpl implements BoardService {
 			
 			result = boardMapper.updateBoard(boardVO);
 
-			AttachVO vo = new AttachVO();
 			
 			// 첨부파일 등록
 			if(attachVO.getArrFileOrgNm() != null) {
+
+				AttachVO vo = new AttachVO();
 				
 				vo.setBoardSeq(boardVO.getBoardSeq());
 				vo.setRegNo(boardVO.getUpdNo());
@@ -149,27 +150,32 @@ public class BoardServiceImpl implements BoardService {
 					attachMapper.addAttach(vo);
 				}
 			}
-			
+
 			// 썸네일 등록 및 수정
-			if(attachVO.getThumbYn().equals("Y")){
+			if(attachVO.getThumbYn().equals("Y") || attachVO.getThumbYn().equals("N")){
 
-				System.out.println();
-				System.out.println("진입~~~~~ YYY");
-				System.out.println();
+				AttachVO vo = new AttachVO();
 				
-			// 삭제
-			}else if(attachVO.getThumbYn().equals("N")) {
+				vo.setBoardSeq(boardVO.getBoardSeq());
+				vo.setRegNo(boardVO.getUpdNo());
+				vo.setThumbYn(attachVO.getThumbYn());
 
-				System.out.println();
-				System.out.println("진입~~~~~ NNN 썸 삭제");
-				System.out.println();
-			// 유지
-			}else {
-				
-
-				System.out.println();
-				System.out.println("else 유지");
-				System.out.println();
+				if(attachVO.getThumbYn().equals("Y")){
+					attachMapper.thumbInit(attachVO);
+					
+					vo.setStat(1);
+					vo.setFileNm(attachVO.getThumbFileOrgNm());
+					vo.setFileExt(attachVO.getThumbFileExt());
+					vo.setFileSz(attachVO.getThumbFileSize());
+					vo.setFilePath(attachVO.getThumbFilePath());
+					vo.setStrgFileNm(attachVO.getThumbFileSvgNm());
+					
+					attachMapper.addAttach(vo);
+					
+				}else {
+					vo.setStat(0);
+					
+				}
 			}
 			
 			// 첨부파일 삭제
@@ -281,7 +287,7 @@ public class BoardServiceImpl implements BoardService {
 	    attachVO.setBoardSeq(boardVO.getBoardSeq());
 
 	    List<AttachVO> getAttachList = new ArrayList<>();
-	    getAttachList = attachMapper.getAttachList(attachVO);
+	    getAttachList = attachMapper.getFrontAttachList(attachVO);
 
 	    resultMap.put("getBoard", getBoard);
 	    resultMap.put("getBoardReply", getBoardReply);

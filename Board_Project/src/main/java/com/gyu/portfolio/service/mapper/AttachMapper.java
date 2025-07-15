@@ -17,8 +17,17 @@ public interface AttachMapper {
 
 	/* 첨부파일 목록 */
 	List<AttachVO> getAttachList(AttachVO attachVO) throws Exception;
-
+	
 	/* 첨부파일 조회 */
 	AttachVO getAttach(AttachVO attachVO) throws Exception;
+
+	
+	
+	// Front
+
+	List<AttachVO> getFrontAttachList(AttachVO attachVO) throws Exception;
+	
+	/* 썸네일 초기화(All N) */
+	int thumbInit(AttachVO attachVO) throws Exception;
 
 }
