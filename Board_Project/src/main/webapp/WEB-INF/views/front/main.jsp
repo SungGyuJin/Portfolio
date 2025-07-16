@@ -962,8 +962,6 @@ function updateBoard(no, gubun, num, option){
 					
 					for(var i=0; i < res.getAttachList.length; i++){
 						
-						console.log(res.getAttachList[i])
-						
 						if(res.getAttachList[i].thumbYn == 'N'){
 							body_html += '<div class="d-flex justify-content-between mt-1 file-area" id="upd-added-file-'+i+'">';
 							body_html += 	res.getAttachList[i].fileNm;
@@ -974,7 +972,7 @@ function updateBoard(no, gubun, num, option){
 							
 							fileCnt++;
 						}else{
-							var img_html = '<img src='+contextPath+res.getAttachList[i].filePath+res.getAttachList[i].strgFileNm+' alt="썸네일" title="썸네일" width="100%" height="100%" class="mb-2">';
+							var img_html = '<img src="'+contextPath+res.getAttachList[i].filePath+'/'+res.getAttachList[i].strgFileNm+'" alt="썸네일" title="썸네일" width="100%" height="100%" class="mb-2">';
 							$("#thumb-view").html(img_html);
 						}
 					}
