@@ -32,6 +32,9 @@ public class BoardVO extends DefalutVO {
 	private String bbsStat 	= "";
 	private String bbsNm 	= "";
 	private String rsMatch 	= "";
+
+	private String filePath		= "";
+	private String strgFileNm	= "";
 	
 	private int    rowNum 	=  0;
 	private int    cmntCnt 	=  0;
@@ -43,7 +46,8 @@ public class BoardVO extends DefalutVO {
 				+ ref + ", step=" + step + ", lvl=" + lvl + ", pwdYn=" + pwdYn + ", pwd=" + pwd + ", readCnt=" + readCnt
 				+ ", regNo=" + regNo + ", regDt=" + regDt + ", updNo=" + updNo + ", updDt=" + updDt + ", stat=" + stat
 				+ ", replyYn=" + replyYn + ", atchYn=" + atchYn + ", secrtYn=" + secrtYn + ", bbsStat=" + bbsStat
-				+ ", bbsNm=" + bbsNm + ", rowNum=" + rowNum + ", cmntCnt=" + cmntCnt + ", atchCnt=" + atchCnt + "]";
+				+ ", bbsNm=" + bbsNm + ", rsMatch=" + rsMatch + ", filePath=" + filePath + ", strgFileNm=" + strgFileNm
+				+ ", rowNum=" + rowNum + ", cmntCnt=" + cmntCnt + ", atchCnt=" + atchCnt + "]";
 	}
 	
 }

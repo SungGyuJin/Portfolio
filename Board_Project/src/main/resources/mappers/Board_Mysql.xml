@@ -31,6 +31,9 @@
 		<result property="cmntCnt"		column="CMNT_CNT" 	/>
 		<result property="atchCnt"	    column="ATCH_CNT"	/>
 		<result property="rsMatch"	    column="RS_MATCH"	/>
+		
+		<result property="filePath"	    column="FILE_PATH"		/>
+		<result property="strgFileNm"	column="STRG_FILE_NM"	/>
 	</resultMap>
 	
 	
@@ -290,7 +293,6 @@
 				, REF
 				, STEP
 				, LVL
-<!-- 				, PWD_YN -->
 				, PWD
 				, READ_CNT
 				, REG_NO
@@ -302,6 +304,8 @@
 				, (SELECT USER_NM FROM TB_USER WHERE USER_SEQ = T1.REG_NO) USER_NM
 				, (SELECT COUNT(*) FROM TB_COMMENT WHERE STAT = 1 AND BOARD_SEQ = T1.BOARD_SEQ) CMNT_CNT
 				, (SELECT COUNT(*) FROM TB_ATTACH WHERE BOARD_SEQ = T1.BOARD_SEQ AND STAT = 1 AND THUMB_YN = 'N') ATCH_CNT
+				, (SELECT FILE_PATH FROM TB_ATTACH WHERE BOARD_SEQ = T1.BOARD_SEQ AND STAT = 1 AND THUMB_YN = 'Y') FILE_PATH
+				, (SELECT STRG_FILE_NM FROM TB_ATTACH WHERE BOARD_SEQ = T1.BOARD_SEQ AND STAT = 1 AND THUMB_YN = 'Y') STRG_FILE_NM
 				, (SELECT PWD_YN FROM TB_BOARD WHERE BOARD_SEQ = (SELECT REF FROM TB_BOARD WHERE BOARD_SEQ = T1.BOARD_SEQ)) PWD_YN
 			FROM TB_BOARD T1, (SELECT @rownum := 0) AS TMP
 			WHERE 1=1
@@ -400,7 +404,7 @@
 			, BBS.STAT AS BBS_STAT
 		FROM TB_BOARD B LEFT JOIN TB_BBS BBS ON B.BBS_SEQ = BBS.BBS_SEQ
 		WHERE 1=1
-			AND BOARD_SEQ = #{boardSeq}
+			AND B.BOARD_SEQ = #{boardSeq}
 	</select>
 	
 	
