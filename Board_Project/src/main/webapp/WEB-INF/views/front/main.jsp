@@ -976,16 +976,19 @@ function updateBoard(no, gubun, num, option){
 						}
 					}
 
-					header_html +=	'<div class="d-flex justify-content-between mt-1">';
-					header_html += 		'<div>';
-					header_html +=			'<label class="form-label fw-bold">첨부된 파일('+fileCnt+')</label>';
-					header_html += 		'</div>';
-					header_html += 		'<div>';
-					header_html += 			'<a href="javascript:refreshFile('+no+', \''+gubun+'\', '+num+', \'re\');">';
-					header_html +=				'<img src='+contextPath+'"/resources/front/main/assets/img/refresh.png" alt="새로고침" title="새로고침" width="34" height="34" class="mb-2">';
-					header_html +=			'</a>';
-					header_html += 		'</div>';
-					header_html += '</div>';
+					if(fileCnt > 0){
+						header_html +=	'<div class="d-flex justify-content-between mt-1">';
+						header_html += 		'<div>';
+						header_html +=			'<label class="form-label fw-bold">첨부된 파일('+fileCnt+')</label>';
+						header_html += 		'</div>';
+						header_html += 		'<div>';
+						header_html += 			'<a href="javascript:refreshFile('+no+', \''+gubun+'\', '+num+', \'re\');">';
+						header_html +=				'<img src='+contextPath+'"/resources/front/main/assets/img/refresh.png" alt="새로고침" title="새로고침" width="34" height="34" class="mb-2">';
+						header_html +=			'</a>';
+						header_html += 		'</div>';
+						header_html += '</div>';
+						
+					}
 					
 					$("#upd-added-file").html(header_html+body_html);
 				}
