@@ -160,8 +160,9 @@ public class BoardServiceImpl implements BoardService {
 				vo.setRegNo(boardVO.getUpdNo());
 				vo.setThumbYn(attachVO.getThumbYn());
 
+				attachMapper.thumbInit(attachVO);
+				
 				if(attachVO.getThumbYn().equals("Y")){
-					attachMapper.thumbInit(attachVO);
 					
 					vo.setStat(1);
 					vo.setFileNm(attachVO.getThumbFileOrgNm());
@@ -173,8 +174,7 @@ public class BoardServiceImpl implements BoardService {
 					attachMapper.addAttach(vo);
 					
 				}else {
-					vo.setStat(0);
-					
+//					attachMapper.thumbInit(attachVO);
 				}
 			}
 			

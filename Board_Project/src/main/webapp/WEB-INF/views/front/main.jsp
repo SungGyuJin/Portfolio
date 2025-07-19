@@ -21,7 +21,7 @@
 </c:choose>
 
 // 썸네일 업로드 조건 및 표시
-function thumbChk(e, event){
+function thumbChk(e, event, gubun){
 	var file = e.files;
 
 	if(file.length > 0){
@@ -29,9 +29,9 @@ function thumbChk(e, event){
 
 		if(imgChk != "image"){
 			alert("이미지파일만 첨부 가능합니다");
-			$("#brd-upd-file-thumb").val('');
-			$("#thumb-view").children().remove();
-			$("#brd-upd-file-thumbYn").val('N');
+			$("#"+gubun+"-file-thumb").val('');
+			$("#"+gubun+"-thumb-view").children().remove();
+			$("#"+gubun+"-file-thumbYn").val('N');
 			return false;
 		}
 		
@@ -51,15 +51,16 @@ function thumbChk(e, event){
 				var reader = new FileReader();
 
 				reader.onload = function(event) {
-					$("#thumb-view").children().remove();
-					var img = document.createElement("img");
-					img.setAttribute("src", event.target.result);
-					img.setAttribute("style", "height: auto; width: 100%;");
-					document.querySelector("#thumb-view").appendChild(img);
+					$("#"+gubun+"-thumb-view").children().remove(); // 기존 내용 제거
+					var img_html = '';
+					img_html += '<img src="'+ event.target.result +'" style="height: auto; width: 100%;">';
+					img_html += '<span class="thumb-close" onclick="removeThumb();">&times;</span>';
+					$("#"+gubun+"-thumb-view").append(img_html);
 				};
+				
 				reader.readAsDataURL(file[0]);
 
-				$("#brd-upd-file-thumbYn").val('Y');
+				$("#upd-file-thumbYn").val('Y');
 
 	        	var html = '';
 				
@@ -73,7 +74,7 @@ function thumbChk(e, event){
 					html +=	'</div>';
 				}
 				
-				$("#thumb-data").html(html);
+				$("#"+gubun+"-thumb-data").html(html);
 				
 			},
 			error : function(request, status, error){
@@ -86,9 +87,9 @@ function thumbChk(e, event){
 		
 	}else{
 		
-		$("#thumb-view").children().remove();
-		$("#brd-upd-file-thumbYn").val('N');
-		$("#brd-upd-file-thumb").val('');
+		$("#upd-thumb-view").children().remove();
+		$("#upd-file-thumbYn").val('N');
+		$("#upd-file-thumb").val('');
 	}
 }
 
@@ -307,6 +308,12 @@ $(function(){
 
 /* ################################################################################################# */
 /* ######################################## BOARD ################################################## */
+
+function removeThumb(){
+	$("#upd-thumb-view").empty();
+	$("#upd-file-thumbYn").val('N');
+	$("#upd-file-thumb").val('');
+}
 
 // 게시물 등록처리
 function addBoardPost(){
@@ -918,8 +925,10 @@ function updateBoard(no, gubun, num, option){
 	$("#upd-removed-file").empty();
 	$("#upd-file-data").empty();
 	$("#upd-added-file").empty();
-	$("#brd-upd-file-thumbYn").val('D');
-	$("#thumb-data").empty();
+	$("#upd-file-thumbYn").val('D');
+	$("#upd-file-thumb").val('');
+	$("#upd-thumb-view").empty();
+	$("#upd-thumb-data").empty();
 	
 	$.ajax({
 		url      : contextPath+"/main/getBoard.do",
@@ -971,12 +980,17 @@ function updateBoard(no, gubun, num, option){
 							
 							fileCnt++;
 						}else{
-							var img_html = '<img src="'+ contextPath + res.getAttachList[i].filePath+'/'+res.getAttachList[i].strgFileNm+'" alt="썸네일" title="썸네일" width="100%" height="100%" class="mb-2">';
-							$("#thumb-view").html(img_html);
+							var img_html = '';
+							
+							img_html += '<img src="'+ contextPath + res.getAttachList[i].filePath+'/'+res.getAttachList[i].strgFileNm+'" alt="썸네일" title="썸네일" width="100%" height="100%" class="mb-2">';
+							img_html += '<span class="thumb-close" onclick="removeThumb();">&times;</span>';
+							
+							$("#upd-thumb-view").html(img_html);
 						}
 					}
 
 					if(fileCnt > 0){
+						
 						header_html +=	'<div class="d-flex justify-content-between mt-1">';
 						header_html += 		'<div>';
 						header_html +=			'<label class="form-label fw-bold">첨부된 파일('+fileCnt+')</label>';
@@ -987,7 +1001,6 @@ function updateBoard(no, gubun, num, option){
 						header_html +=			'</a>';
 						header_html += 		'</div>';
 						header_html += '</div>';
-						
 					}
 					
 					$("#upd-added-file").html(header_html+body_html);
@@ -1537,6 +1550,13 @@ function btnAddCmntChange(str){
 					              	<textarea class="form-control my-input" name="cont" id="brd-cont" rows="20"></textarea>
 					            </div>
 					            <div class="mb-4">
+									<label for="brd-upd-file" class="form-label fw-bold">썸네일</label>
+					              	<input type="file" class="form-control my-input mb-2" id="upd-file-thumb" onchange="thumbChk(this, event, 'add');">
+					              	<input type="hidden" class="form-control my-input mb-2" name="thumbYn" id="add-file-thumbYn" value="D" readonly="readonly">
+					              	<div id="add-thumb-view"></div>
+					              	<div id="add-thumb-data"></div>
+					            </div>
+					            <div class="mb-4">
 									<label for="brd-add-file" class="form-label fw-bold">첨부파일</label>
 					              	<input type="file" class="form-control my-input" name="uploadFile" id="brd-add-file" multiple="multiple">
 					            </div>
@@ -1599,10 +1619,10 @@ function btnAddCmntChange(str){
 					            </div>
 					            <div class="mb-4">
 									<label for="brd-upd-file" class="form-label fw-bold">썸네일</label>
-					              	<input type="file" class="form-control my-input mb-2" id="brd-upd-file-thumb" onchange="thumbChk(this, event);">
-					              	<input type="text" class="form-control my-input mb-2" name="thumbYn" id="brd-upd-file-thumbYn" value="D">
-					              	<div id="thumb-view"></div>
-					              	<div id="thumb-data"></div>
+					              	<input type="file" class="form-control my-input mb-2" id="upd-file-thumb" onchange="thumbChk(this, event, 'upd');">
+					              	<input type="hidden" class="form-control my-input mb-2" name="thumbYn" id="upd-file-thumbYn" value="D" readonly="readonly">
+					              	<div id="upd-thumb-view"></div>
+					              	<div id="upd-thumb-data"></div>
 					            </div>
 					            <div class="mb-4">
 									<label for="brd-upd-file" class="form-label fw-bold">첨부파일</label>

@@ -386,6 +386,39 @@ img.blocking-hover {
 /*   object-fit: cover; */
 }
 
+#upd-thumb-view {
+  position: relative;
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+}
+
+#upd-thumb-view img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#upd-thumb-view .thumb-close {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  color: white;
+  background-color: rgba(0,0,0,0.5);
+  border-radius: 50%;
+  padding: 2px 7px;
+  cursor: pointer;
+  font-size: 23px;
+  line-height: 1;
+  z-index: 10;
+}
+
+#upd-thumb-view .thumb-close:hover {
+  background-color: rgba(0,0,0,0.8);
+}
+
+
 </style>
         
         
