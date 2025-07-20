@@ -80,11 +80,10 @@ public class BoardServiceImpl implements BoardService {
 				
 				boardMapper.updateRef(boardVO);
 				
-
-				AttachVO vo = new AttachVO();
-				
 				// 첨부파일 등록
 				if(attachVO.getArrFileOrgNm() != null) {
+					
+					AttachVO vo = new AttachVO();
 					
 					vo.setBoardSeq(boardVO.getBoardSeq());
 					vo.setRegNo(boardVO.getUpdNo());
@@ -98,6 +97,30 @@ public class BoardServiceImpl implements BoardService {
 						vo.setFileSz(attachVO.getArrFileSize()[i]);
 						vo.setFilePath(attachVO.getArrFilePath()[i]);
 						vo.setStrgFileNm(attachVO.getArrFileSvgNm()[i]);
+						
+						attachMapper.addAttach(vo);
+					}
+				}
+				
+				// 썸네일 등록 및 수정
+				if(attachVO.getThumbYn().equals("Y") || attachVO.getThumbYn().equals("N")){
+
+					AttachVO vo = new AttachVO();
+					
+					vo.setBoardSeq(boardVO.getBoardSeq());
+					vo.setRegNo(boardVO.getUpdNo());
+					vo.setThumbYn(attachVO.getThumbYn());
+
+					attachMapper.thumbInit(attachVO);
+					
+					if(attachVO.getThumbYn().equals("Y")){
+						
+						vo.setStat(1);
+						vo.setFileNm(attachVO.getThumbFileOrgNm());
+						vo.setFileExt(attachVO.getThumbFileExt());
+						vo.setFileSz(attachVO.getThumbFileSize());
+						vo.setFilePath(attachVO.getThumbFilePath());
+						vo.setStrgFileNm(attachVO.getThumbFileSvgNm());
 						
 						attachMapper.addAttach(vo);
 					}
@@ -172,9 +195,6 @@ public class BoardServiceImpl implements BoardService {
 					vo.setStrgFileNm(attachVO.getThumbFileSvgNm());
 					
 					attachMapper.addAttach(vo);
-					
-				}else {
-//					attachMapper.thumbInit(attachVO);
 				}
 			}
 			

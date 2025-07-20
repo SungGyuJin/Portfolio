@@ -161,10 +161,8 @@
 			, REF
 			, STEP
 			, LVL
-			<if test='pwdYn.equals("Y") || pwdYn.equals("N")'>
-				, PWD_YN
-				, PWD
-			</if>
+			, PWD_YN
+			, PWD
 			, READ_CNT
 			, REG_NO
 			, REG_DT
@@ -178,14 +176,16 @@
 			, #{ref}
 			, #{step}
 			, #{lvl}
-			<if test='pwdYn.equals("Y")'>
-				, #{pwdYn}
-				, SHA2(#{pwd}, 256)
-			</if>
-			<if test='pwdYn.equals("N")'>
-				, #{pwdYn}
-				, ''
-			</if>
+			<choose>
+				<when test='pwdYn.equals("Y")'>
+					, #{pwdYn}
+					, SHA2(#{pwd}, 256)
+				</when>
+				<otherwise>
+					, 'N'
+					, #{pwd}
+				</otherwise>
+			</choose>
 			, #{readCnt}
 			, #{regNo}
 			, NOW()

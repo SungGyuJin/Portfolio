@@ -54,13 +54,13 @@ function thumbChk(e, event, gubun){
 					$("#"+gubun+"-thumb-view").children().remove(); // 기존 내용 제거
 					var img_html = '';
 					img_html += '<img src="'+ event.target.result +'" style="height: auto; width: 100%;">';
-					img_html += '<span class="thumb-close" onclick="removeThumb();">&times;</span>';
+					img_html += '<span class="thumb-close" onclick="removeThumb(\''+gubun+'\');">&times;</span>';
 					$("#"+gubun+"-thumb-view").append(img_html);
 				};
 				
 				reader.readAsDataURL(file[0]);
 
-				$("#upd-file-thumbYn").val('Y');
+				$("#"+gubun+"-file-thumbYn").val('Y');
 
 	        	var html = '';
 				
@@ -87,9 +87,9 @@ function thumbChk(e, event, gubun){
 		
 	}else{
 		
-		$("#upd-thumb-view").children().remove();
-		$("#upd-file-thumbYn").val('N');
-		$("#upd-file-thumb").val('');
+		$("#"+gubun+"-thumb-view").children().remove();
+		$("#"+gubun+"-file-thumbYn").val('N');
+		$("#"+gubun+"-file-thumb").val('');
 	}
 }
 
@@ -309,10 +309,10 @@ $(function(){
 /* ################################################################################################# */
 /* ######################################## BOARD ################################################## */
 
-function removeThumb(){
-	$("#upd-thumb-view").empty();
-	$("#upd-file-thumbYn").val('N');
-	$("#upd-file-thumb").val('');
+function removeThumb(gubun){
+	$("#"+gubun+"-thumb-view").empty();
+	$("#"+gubun+"-file-thumbYn").val('N');
+	$("#"+gubun+"-file-thumb").val('');
 }
 
 // 게시물 등록처리
@@ -349,7 +349,7 @@ function addBoardPost(){
 				alert('등록되었습니다.');
 				$("#btn-addBoard-close").trigger('click');
 				$("#bbsSeq").val($("#brd-select").val());
-				getBoardList('1');
+				getBoardList('1', $("#listTyp").val());
 				$("#brd-select").val('');
 				$("#brd-title").val('');
 				$("#brd-cont").val('');
@@ -627,6 +627,8 @@ function changeBbsSeq(no, info){
 
 // 게시물 목록
 function getBoardList(num, style){
+	
+	
 	
 	$("#searchKeyword").val($("#js-searchKeyword").val());
 	
@@ -983,7 +985,7 @@ function updateBoard(no, gubun, num, option){
 							var img_html = '';
 							
 							img_html += '<img src="'+ contextPath + res.getAttachList[i].filePath+'/'+res.getAttachList[i].strgFileNm+'" alt="썸네일" title="썸네일" width="100%" height="100%" class="mb-2">';
-							img_html += '<span class="thumb-close" onclick="removeThumb();">&times;</span>';
+							img_html += '<span class="thumb-close" onclick="removeThumb(\''+gubun+'\');">&times;</span>';
 							
 							$("#upd-thumb-view").html(img_html);
 						}
@@ -1078,7 +1080,7 @@ function deleteBoard(no, num, pwdYn){
 	
 				if(res > 0){
 					$("#getBoardModal").modal('hide');
-					getBoardList($("#pageNum").val());
+					getBoardList($("#pageNum").val(), $("#listTyp").val());
 				}
 				
 			},
@@ -1110,7 +1112,7 @@ function addCmnt(frm, gubun){
 				
 				if(res > 0){
 					getCmntList($("#cmnt-boardSeq").val());
-					getBoardList($("#pageNum").val());
+					getBoardList($("#pageNum").val(), $("#listTyp").val());
 				}
 			},
 			error : function(request, status, error){
@@ -1132,7 +1134,7 @@ function addCmnt(frm, gubun){
 				
 				if(res > 0){
 					getCmntList($("#cmnt-boardSeq").val());
-					getBoardList($("#pageNum").val());
+					getBoardList($("#pageNum").val(), $("#listTyp").val());
 					
 					if(gubun == 'add'){
 						$("#btn-addCmnt").addClass('disabled');
@@ -1295,7 +1297,7 @@ function updateCmnt(cmntSeq, gubun, no){
 					
 					if(res > 0){
 						getCmntList($("#cmnt-boardSeq").val());
-						getBoardList($("#pageNum").val());
+						getBoardList($("#pageNum").val(), $("#listTyp").val());
 					}
 				},
 				error : function(request, status, error){
@@ -1550,8 +1552,8 @@ function btnAddCmntChange(str){
 					              	<textarea class="form-control my-input" name="cont" id="brd-cont" rows="20"></textarea>
 					            </div>
 					            <div class="mb-4">
-									<label for="brd-upd-file" class="form-label fw-bold">썸네일</label>
-					              	<input type="file" class="form-control my-input mb-2" id="upd-file-thumb" onchange="thumbChk(this, event, 'add');">
+									<label for="brd-add-file" class="form-label fw-bold">썸네일</label>
+					              	<input type="file" class="form-control my-input mb-2" id="add-file-thumb" onchange="thumbChk(this, event, 'add');">
 					              	<input type="hidden" class="form-control my-input mb-2" name="thumbYn" id="add-file-thumbYn" value="D" readonly="readonly">
 					              	<div id="add-thumb-view"></div>
 					              	<div id="add-thumb-data"></div>
@@ -1618,7 +1620,7 @@ function btnAddCmntChange(str){
 					              	<textarea class="form-control my-input" name="cont" id="brd-upd-cont" rows="20"></textarea>
 					            </div>
 					            <div class="mb-4">
-									<label for="brd-upd-file" class="form-label fw-bold">썸네일</label>
+									<label for="upd-file-thumb" class="form-label fw-bold">썸네일</label>
 					              	<input type="file" class="form-control my-input mb-2" id="upd-file-thumb" onchange="thumbChk(this, event, 'upd');">
 					              	<input type="hidden" class="form-control my-input mb-2" name="thumbYn" id="upd-file-thumbYn" value="D" readonly="readonly">
 					              	<div id="upd-thumb-view"></div>
