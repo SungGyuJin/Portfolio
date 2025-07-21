@@ -33,6 +33,11 @@
     <link href="${pageContext.request.contextPath}/resources/admin/assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="${pageContext.request.contextPath}/resources/admin/assets/css/sb-admin-2.min.css" rel="stylesheet">
 
+
+<script type="text/javascript">
+var contextPath = '${pageContext.request.contextPath}';
+</script>
+
 <style>
 
 

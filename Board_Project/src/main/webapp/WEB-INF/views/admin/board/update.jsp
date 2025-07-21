@@ -203,12 +203,41 @@
                                 	<textarea class="form-control" name="cont" id="cont" rows="15">${getBoard.cont }</textarea>
                                 </div>
                                 
-                                <div class="row">
+                                <div class="row mt-4">
+                                	<div class="col-md-6">
+										<label><strong>썸네일</strong></label>
+									  	<div id="myDropzoneImg" class="dropzone dz-zone cursor-pointer">
+									    	<div class="dz-message font-weight-bold">
+									      		여기에 이미지 파일을 드래그하거나 클릭해주세요.
+									    	</div>
+									  	</div>
+                                	</div>
+                                	<div class="col-md-6">
+                                		<input type="hidden" id="fileTotalCnt" value="${fn:length(getAttachList) + 1}">
+										<label class="font-weight-bold">미리보기</label>
+									   	<div id="thumb-view" class="dz-message added-file font-weight-bold <c:if test="${empty getAttachList }">added-zone</c:if>">
+		                                	<c:forEach var="list" varStatus="varStatus" items="${getAttachList }">
+		                                		<div class="d-flex justify-content-between mt-1 file-area" id="fileDiv-${varStatus.count }">
+									            	${list.fileNm }
+										           	<div><fmt:formatNumber value="${list.fileSz/1024.0}" type="number" maxFractionDigits="2" minFractionDigits="2" /> KB
+										           		<button type="button" class="btn btn-success btn-sm ml-2" onclick="location.href='fileDownload.do?no=${list.attachSeq}';">다운로드</button>
+										           		<button type="button" class="btn btn-secondary btn-sm" onclick="removeFile(${varStatus.count }, ${list.attachSeq });">삭제</button>
+										            </div>
+									            </div>
+											</c:forEach>
+											<c:if test="${empty getAttachList }">
+												<span id="text-added">썸네일이 없습니다.</span>
+											</c:if>
+									    </div>
+                                	</div>
+                                </div>
+                                
+                                <div class="row mt-4">
                                 	<div class="col-md-6">
 										<label><strong>첨부파일</strong></label>
 									  	<div id="myDropzone" class="dropzone dz-zone cursor-pointer">
 									    	<div class="dz-message font-weight-bold">
-									      		여기에 파일을 드래그하거나 클릭해주세요.
+									      		여기에 이미지 파일을 드래그하거나 클릭해주세요.
 									    	</div>
 									  	</div>
                                 	</div>
@@ -324,6 +353,68 @@
 <script>
 	
 Dropzone.autoDiscover = false;
+
+
+var myDropzone = new Dropzone("#myDropzoneImg", {
+    url: "./upload.do",
+    paramName: "files", // 서버에 보낼 Param
+    maxFilesize: 1, // 5MB
+    acceptedFiles: "image/*",
+    uploadMultiple: true, // ← 이걸 false 또는 제거하면 기본값이라 각 파일 따로 업로드됨
+    parallelUploads: 1,
+    autoProcessQueue: true,
+//     autoProcessQueue: false,
+    createImageThumbnails: false,
+    addRemoveLinks: true,
+//     previewTemplate: "",
+    dictRemoveFile: "삭제",
+//     dictDefaultMessage: "여기에 파일을 드래그하거나 클릭하여 업로드하세요.",
+
+    init: function () {
+        var dropZoneIns = this;
+
+        this.on("drop", function (file) {
+            // 기존 파일 제거 후 새로운 파일 처리
+//             this.removeAllFiles(true); // true = 서버 업로드 여부와 관계없이 클라이언트 파일 제거
+//             $("#file-list").empty();   // 리스트도 비우기
+        });
+
+        var fileCnt = $("#fileTotalCnt").val();
+        this.on("addedfile", function (file) {
+
+        	if(file.previewElement){
+                file.previewElement.remove();
+            }
+        	
+       	});
+        
+        // 마지막 파일까지 드래그 및 첨부 후
+        this.on("queuecomplete", function() {
+        	$("#addedCnt").text($(".file-area").length);
+        });
+        
+        // After controller
+        var fileHiddenCnt = $("#fileTotalCnt").val();
+        this.on("success", function (file, response) {
+
+			$("#thumb-view").children().remove(); // 기존 내용 제거
+			
+			var img_html = '';
+			img_html += '<img src="'+ contextPath + response.filePath + '/' + response.fileSvgNm +'" style="height: auto; width: 100%;">';
+			img_html += '<span class="thumb-close" onclick="removeThumb();">&times;</span>';
+			$("#thumb-view").append(img_html);
+        	
+        });
+
+        this.on("error", function (file, errMessage) {
+//             console.error("업로드 실패", errMessage);
+            console.log("업로드 실패");
+            console.log(file)
+        });
+
+    }
+});
+
 
 var myDropzone = new Dropzone("#myDropzone", {
     url: "./upload.do",
