@@ -212,23 +212,12 @@
 									    	</div>
 									  	</div>
                                 	</div>
-                                	<div class="col-md-6">
-                                		<input type="hidden" id="fileTotalCnt" value="${fn:length(getAttachList) + 1}">
-										<label class="font-weight-bold">미리보기</label>
-									   	<div id="thumb-view" class="dz-message added-file font-weight-bold <c:if test="${empty getAttachList }">added-zone</c:if>">
-		                                	<c:forEach var="list" varStatus="varStatus" items="${getAttachList }">
-		                                		<div class="d-flex justify-content-between mt-1 file-area" id="fileDiv-${varStatus.count }">
-									            	${list.fileNm }
-										           	<div><fmt:formatNumber value="${list.fileSz/1024.0}" type="number" maxFractionDigits="2" minFractionDigits="2" /> KB
-										           		<button type="button" class="btn btn-success btn-sm ml-2" onclick="location.href='fileDownload.do?no=${list.attachSeq}';">다운로드</button>
-										           		<button type="button" class="btn btn-secondary btn-sm" onclick="removeFile(${varStatus.count }, ${list.attachSeq });">삭제</button>
-										            </div>
-									            </div>
-											</c:forEach>
+                                	<div class="col-md-6" id="thumb-view">
+									  	<div class="dz-message added-file font-weight-bold added-zone">
 											<c:if test="${empty getAttachList }">
 												<span id="text-added">썸네일이 없습니다.</span>
 											</c:if>
-									    </div>
+										</div>
                                 	</div>
                                 </div>
                                 
@@ -400,8 +389,11 @@ var myDropzone = new Dropzone("#myDropzoneImg", {
 			$("#thumb-view").children().remove(); // 기존 내용 제거
 			
 			var img_html = '';
-			img_html += '<img src="'+ contextPath + response.filePath + '/' + response.fileSvgNm +'" style="height: auto; width: 100%;">';
+			
+			img_html +=	'<label class="font-weight-bold">미리보기</label>';
+			img_html += '<img src="'+ contextPath + response.filePath + '/' + response.fileSvgNm +'" style="height: auto; width: 99%;">';
 			img_html += '<span class="thumb-close" onclick="removeThumb();">&times;</span>';
+			
 			$("#thumb-view").append(img_html);
         	
         });

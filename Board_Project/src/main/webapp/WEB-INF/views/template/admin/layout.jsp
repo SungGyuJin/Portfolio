@@ -152,7 +152,8 @@ table tbody tr:hover {
 /*     margin-top: 20px; */
     border: 2px dotted #007bff;
 	padding: 20px;
-    height: 250px;
+/*     height: 250px; */
+    height: 310px;
     justify-content: center;
     align-items: center;
 	display: flex;
@@ -180,6 +181,34 @@ table tbody tr:hover {
 .table-lg td {
   padding: 1.2rem;
 }
+
+#thumb-view {
+  position: relative;
+  overflow: hidden;
+}
+
+.thumb-close {
+    position: absolute;
+    top: 40px;
+    right: 25px;
+    font-size: 24px;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 24px;
+    cursor: pointer;
+}
+.thumb-close:hover{
+	background-color: black;
+}
+
+.myDropzoneImg{
+	height: 310px;
+}
+
 
 
 </style>
