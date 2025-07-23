@@ -174,7 +174,8 @@ table tbody tr:hover {
 
 .added-file {
 	overflow: auto;
-	height: 250px;
+/* 	height: 250px; */
+	height: 310px;
 }
 
 .table-lg th,

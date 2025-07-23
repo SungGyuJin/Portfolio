@@ -31,7 +31,9 @@
 		<result property="cmntCnt"		column="CMNT_CNT" 	/>
 		<result property="atchCnt"	    column="ATCH_CNT"	/>
 		<result property="rsMatch"	    column="RS_MATCH"	/>
-		
+		<result property="thumbYn"	    column="THUMB_YN"	/>
+		<result property="thumbInfo"	column="THUMB_INFO"	/>
+
 		<result property="filePath"	    column="FILE_PATH"		/>
 		<result property="strgFileNm"	column="STRG_FILE_NM"	/>
 	</resultMap>
@@ -147,9 +149,10 @@
 			, BBS.ATCH_YN
 			, BBS.SECRT_YN
 			, BBS.STAT AS BBS_STAT
+			, IFNULL((SELECT CONCAT(THUMB_YN,',',FILE_PATH,',',STRG_FILE_NM)FROM TB_ATTACH WHERE BOARD_SEQ = B.BOARD_SEQ AND STAT = 1), 'none') THUMB_INFO
 		FROM TB_BOARD B LEFT JOIN TB_BBS BBS ON B.BBS_SEQ = BBS.BBS_SEQ
 		WHERE 1=1
-			AND BOARD_SEQ = #{boardSeq}
+			AND B.BOARD_SEQ = #{boardSeq}
 	</select>
 	
 	<!-- 게시물 등록 -->

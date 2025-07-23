@@ -26,12 +26,13 @@ public class BoardVO extends DefalutVO {
 	private int    stat 	=  0;  // 상태 ex) 미사용(삭제)[0] / 사용[1] / 영구삭제[9]
 	
 	/* 그 외 필드 */
-	private String replyYn 	= "";
-	private String atchYn 	= "";
-	private String secrtYn 	= "";
-	private String bbsStat 	= "";
-	private String bbsNm 	= "";
-	private String rsMatch 	= "";
+	private String replyYn 	 = "";
+	private String atchYn 	 = "";
+	private String secrtYn 	 = "";
+	private String bbsStat 	 = "";
+	private String bbsNm 	 = "";
+	private String rsMatch 	 = "";
+	private String thumbInfo = "";
 
 	private String filePath		= "";
 	private String strgFileNm	= "";
@@ -46,8 +47,9 @@ public class BoardVO extends DefalutVO {
 				+ ref + ", step=" + step + ", lvl=" + lvl + ", pwdYn=" + pwdYn + ", pwd=" + pwd + ", readCnt=" + readCnt
 				+ ", regNo=" + regNo + ", regDt=" + regDt + ", updNo=" + updNo + ", updDt=" + updDt + ", stat=" + stat
 				+ ", replyYn=" + replyYn + ", atchYn=" + atchYn + ", secrtYn=" + secrtYn + ", bbsStat=" + bbsStat
-				+ ", bbsNm=" + bbsNm + ", rsMatch=" + rsMatch + ", filePath=" + filePath + ", strgFileNm=" + strgFileNm
-				+ ", rowNum=" + rowNum + ", cmntCnt=" + cmntCnt + ", atchCnt=" + atchCnt + "]";
+				+ ", bbsNm=" + bbsNm + ", rsMatch=" + rsMatch + ", thumbInfo=" + thumbInfo + ", filePath=" + filePath
+				+ ", strgFileNm=" + strgFileNm + ", rowNum=" + rowNum + ", cmntCnt=" + cmntCnt + ", atchCnt=" + atchCnt
+				+ "]";
 	}
 	
 }

@@ -142,6 +142,21 @@
 	  return plainText === '';
 	}
 
+	function removeThumb(){
+		$("#thumb-view").empty();
+		$("#file-thumb").val('');
+		$("#file-thumbYn").val('N');
+		
+		var html = '';
+
+		html +=	'<label class="font-weight-bold">미리보기</label>';
+		html +=		'<div class="dz-message added-file font-weight-bold added-zone">';
+		html +=		'<span id="text-added">썸네일이 없습니다.</span>';
+		html +=	'</div>';
+		
+		$("#thumb-view").html(html);
+	}
+	
 	
 </script>
 
@@ -206,18 +221,41 @@
                                 <div class="row mt-4">
                                 	<div class="col-md-6">
 										<label><strong>썸네일</strong></label>
-									  	<div id="myDropzoneImg" class="dropzone dz-zone cursor-pointer">
+									  	<div id="myDropzoneThumb" class="dropzone dz-zone cursor-pointer">
 									    	<div class="dz-message font-weight-bold">
 									      		여기에 이미지 파일을 드래그하거나 클릭해주세요.
 									    	</div>
 									  	</div>
                                 	</div>
                                 	<div class="col-md-6" id="thumb-view">
-									  	<div class="dz-message added-file font-weight-bold added-zone">
-											<c:if test="${empty getAttachList }">
+                                		<label class="font-weight-bold">미리보기</label>
+											
+	                                	<c:choose>
+	                                		<c:when test="${getBoard.thumbInfo ne 'none' }">
+	                                			<c:set var="info" value="${getBoard.thumbInfo }" />
+	                                			<c:set var="infoArr" value="${fn:split(info, ',')}" />
+												<img src="${pageContext.request.contextPath}${infoArr[1]}/${infoArr[2]}" style="height: auto; width: 99%;">
+												<span class="thumb-close" onclick="removeThumb();">&times;</span>
+	                                		</c:when>
+	                                		<c:otherwise>
+										  	<div class="dz-message added-file font-weight-bold added-zone">
 												<span id="text-added">썸네일이 없습니다.</span>
-											</c:if>
-										</div>
+											</div>
+											</c:otherwise>
+	                                	</c:choose>
+											
+                                	</div>
+                                	<div id="thumb-data">
+	                                	<c:choose>
+	                                		<c:when test="${getBoard.thumbInfo ne 'none' }">
+	                                			<c:set var="info" value="${getBoard.thumbInfo }" />
+	                                			<c:set var="infoArr" value="${fn:split(info, ',')}" />
+	                                			<input type="hidden" class="form-control my-input mb-2" name="thumbYn" id="file-thumbYn" value="${infoArr[0]}" readonly="readonly">
+	                                		</c:when>
+	                                		<c:otherwise>
+			                                	<input type="hidden" class="form-control my-input mb-2" name="thumbYn" id="file-thumbYn" value="D" readonly="readonly">
+	                                		</c:otherwise>
+	                                	</c:choose>
                                 	</div>
                                 </div>
                                 
@@ -344,7 +382,7 @@
 Dropzone.autoDiscover = false;
 
 
-var myDropzone = new Dropzone("#myDropzoneImg", {
+var myDropzone = new Dropzone("#myDropzoneThumb", {
     url: "./upload.do",
     paramName: "files", // 서버에 보낼 Param
     maxFilesize: 1, // 5MB
@@ -395,6 +433,19 @@ var myDropzone = new Dropzone("#myDropzoneImg", {
 			img_html += '<span class="thumb-close" onclick="removeThumb();">&times;</span>';
 			
 			$("#thumb-view").append(img_html);
+
+        	var hiddenFile_html = '';
+
+        	hiddenFile_html +=	'<div class="d-flex fileData-area">';
+        	hiddenFile_html += 		'<input type="hidden" name="thumbFileOrgNm" value="'+response.fileOrgNm+'">';
+        	hiddenFile_html += 		'<input type="hidden" name="thumbFileSvgNm" value="'+response.fileSvgNm+'">';
+        	hiddenFile_html += 		'<input type="hidden" name="thumbFileExt" value="'+response.fileExt+'">';
+        	hiddenFile_html += 		'<input type="hidden" name="thumbFilePath" value="'+response.filePath+'">';
+        	hiddenFile_html += 		'<input type="hidden" name="thumbFileSize" value="'+response.fileSz+'">';
+        	hiddenFile_html +=	'</div>';
+        	
+        	$("#thumb-data").append(hiddenFile_html);
+			$("#file-thumbYn").val('Y');
         	
         });
 
