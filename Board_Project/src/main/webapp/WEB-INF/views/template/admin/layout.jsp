@@ -210,6 +210,12 @@ table tbody tr:hover {
 	height: 310px;
 }
 
+#myDropzoneThumb {
+  min-height: 200px; /* 최소 높이 */
+  max-height: 400px; /* 필요시 최대 높이 */
+  overflow-y: auto;
+}
+
 
 
 </style>

@@ -143,6 +143,7 @@
 	}
 
 	function removeThumb(){
+    	$("#thumb-data").empty();
 		$("#thumb-view").empty();
 		$("#file-thumb").val('');
 		$("#file-thumbYn").val('N');
@@ -245,7 +246,6 @@
 	                                	</c:choose>
 											
                                 	</div>
-                                	<div id="thumb-data">
 	                                	<c:choose>
 	                                		<c:when test="${getBoard.thumbInfo ne 'none' }">
 	                                			<c:set var="info" value="${getBoard.thumbInfo }" />
@@ -256,7 +256,7 @@
 			                                	<input type="hidden" class="form-control my-input mb-2" name="thumbYn" id="file-thumbYn" value="D" readonly="readonly">
 	                                		</c:otherwise>
 	                                	</c:choose>
-                                	</div>
+                                	<div id="thumb-data"></div>
                                 </div>
                                 
                                 <div class="row mt-4">
@@ -287,23 +287,8 @@
 									    </div>
                                 	</div>
                                 </div>
-                                
-                                <div id="file-data">
-<%--                                 	<c:forEach var="list" varStatus="varStatus" items="${getAttachList }"> --%>
-<%--                                 		<div class="d-flex fileData-area fileData-${varStatus.count }"> --%>
-<%--                                 			<input type="text" name="arrFileOrgNm" value="${list.fileNm }"> --%>
-<%--                                 			<input type="text" name="arrFileSvgNm" value="${list.strgFileNm }"> --%>
-<%--                                 			<input type="text" name="arrFileExt" value="${list.fileExt }"> --%>
-<%--                                 			<input type="text" name="arrFilePath" value="${list.filePath }"> --%>
-<%--                                 			<input type="text" name="arrFileSize" value="${list.fileSz }"> --%>
-<!--                                 		</div> -->
-<%--                                 	</c:forEach> --%>
-                                </div>
-                                
-                                <div id="file-delete">
-                                	
-                                </div>
-                                
+                                <div id="file-data"></div>
+                                <div id="file-delete"></div>
                             </form>
                         </div>
    					</div>
@@ -381,7 +366,6 @@
 	
 Dropzone.autoDiscover = false;
 
-
 var myDropzone = new Dropzone("#myDropzoneThumb", {
     url: "./upload.do",
     paramName: "files", // 서버에 보낼 Param
@@ -443,7 +427,8 @@ var myDropzone = new Dropzone("#myDropzoneThumb", {
         	hiddenFile_html += 		'<input type="hidden" name="thumbFilePath" value="'+response.filePath+'">';
         	hiddenFile_html += 		'<input type="hidden" name="thumbFileSize" value="'+response.fileSz+'">';
         	hiddenFile_html +=	'</div>';
-        	
+
+        	$("#thumb-data").empty();
         	$("#thumb-data").append(hiddenFile_html);
 			$("#file-thumbYn").val('Y');
         	

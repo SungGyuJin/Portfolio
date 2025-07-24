@@ -86,6 +86,22 @@
 	  var plainText = content.replace(/<[^>]*>/g, '').trim();
 	  return plainText === '';
 	}
+
+	function removeThumb(){
+    	$("#thumb-data").empty();
+		$("#thumb-view").empty();
+		$("#file-thumb").val('');
+		$("#file-thumbYn").val('N');
+		
+		var html = '';
+
+		html +=	'<label class="font-weight-bold">미리보기</label>';
+		html +=		'<div class="dz-message added-file font-weight-bold added-zone">';
+		html +=		'<span id="text-added">썸네일이 없습니다.</span>';
+		html +=	'</div>';
+		
+		$("#thumb-view").html(html);
+	}
 	
 </script>
 
@@ -147,14 +163,26 @@
                                 	<textarea class="form-control" name="cont" id="cont" rows="15"></textarea>
                                 </div>
 
+								<div class="row mt-4">
+                                	<div class="col-md-6">
+										<label><strong>썸네일</strong></label>
+									  	<div id="myDropzoneThumb" class="dropzone dz-zone cursor-pointer">
+									    	<div class="dz-message font-weight-bold">
+									      		여기에 이미지 파일을 드래그하거나 클릭해주세요.
+									    	</div>
+									  	</div>
+                                	</div>
+                                	<div class="col-md-6" id="thumb-view">
+                                		<label class="font-weight-bold">미리보기</label>
+									  	<div class="dz-message added-file font-weight-bold added-zone">
+											<span id="text-added">썸네일이 없습니다.</span>
+										</div>
+                                	</div>
+                                	<input type="hidden" class="form-control my-input mb-2" name="thumbYn" id="file-thumbYn" value="D" readonly="readonly">
+                                	<div id="thumb-data"></div>
+                                </div>
 
-<!--                                 <div class="custom-file"> -->
-<!-- 								    <input type="file" class="custom-file-input" id="customFile" multiple="multiple"> -->
-<!-- 									<label class="custom-file-label" for="customFile">파일을 선택하세요</label> -->
-<!-- 								</div> -->
-<!-- 								<button type="submit" class="d-none" id="btn-hiddenSave"></button> -->
-
-								<div class="row">
+								<div class="row mt-4">
                                 	<div class="col-md-6">
 										<label><strong>첨부파일</strong></label>
 									  	<div id="myDropzone" class="dropzone dz-zone cursor-pointer">
@@ -182,23 +210,8 @@
 									    </div>
                                 	</div>
                                 </div>
-                                
-                                <div id="file-data">
-<%--                                 	<c:forEach var="list" varStatus="varStatus" items="${getAttachList }"> --%>
-<%--                                 		<div class="d-flex fileData-area fileData-${varStatus.count }"> --%>
-<%--                                 			<input type="text" name="arrFileOrgNm" value="${list.fileNm }"> --%>
-<%--                                 			<input type="text" name="arrFileSvgNm" value="${list.strgFileNm }"> --%>
-<%--                                 			<input type="text" name="arrFileExt" value="${list.fileExt }"> --%>
-<%--                                 			<input type="text" name="arrFilePath" value="${list.filePath }"> --%>
-<%--                                 			<input type="text" name="arrFileSize" value="${list.fileSz }"> --%>
-<!--                                 		</div> -->
-<%--                                 	</c:forEach> --%>
-                                </div>
-
-                                <div id="file-delete">
-                                	
-                                </div>
-								
+                                <div id="file-data"></div>
+                                <div id="file-delete"></div>
                             </form>
                         </div>
    					</div>
@@ -273,6 +286,83 @@
 <script>
 	
 Dropzone.autoDiscover = false;
+
+var myDropzone = new Dropzone("#myDropzoneThumb", {
+    url: "./upload.do",
+    paramName: "files", // 서버에 보낼 Param
+    maxFilesize: 1, // 5MB
+    acceptedFiles: "image/*",
+    uploadMultiple: true, // ← 이걸 false 또는 제거하면 기본값이라 각 파일 따로 업로드됨
+    parallelUploads: 1,
+    autoProcessQueue: true,
+//     autoProcessQueue: false,
+    createImageThumbnails: false,
+    addRemoveLinks: true,
+//     previewTemplate: "",
+    dictRemoveFile: "삭제",
+//     dictDefaultMessage: "여기에 파일을 드래그하거나 클릭하여 업로드하세요.",
+
+    init: function () {
+        var dropZoneIns = this;
+
+        this.on("drop", function (file) {
+            // 기존 파일 제거 후 새로운 파일 처리
+//             this.removeAllFiles(true); // true = 서버 업로드 여부와 관계없이 클라이언트 파일 제거
+//             $("#file-list").empty();   // 리스트도 비우기
+        });
+
+        var fileCnt = $("#fileTotalCnt").val();
+        this.on("addedfile", function (file) {
+
+        	if(file.previewElement){
+                file.previewElement.remove();
+            }
+        	
+       	});
+        
+        // 마지막 파일까지 드래그 및 첨부 후
+        this.on("queuecomplete", function() {
+        	$("#addedCnt").text($(".file-area").length);
+        });
+        
+        // After controller
+        var fileHiddenCnt = $("#fileTotalCnt").val();
+        this.on("success", function (file, response) {
+
+			$("#thumb-view").children().remove(); // 기존 내용 제거
+			
+			var img_html = '';
+			
+			img_html +=	'<label class="font-weight-bold">미리보기</label>';
+			img_html += '<img src="'+ contextPath + response.filePath + '/' + response.fileSvgNm +'" style="height: auto; width: 99%;">';
+			img_html += '<span class="thumb-close" onclick="removeThumb();">&times;</span>';
+			
+			$("#thumb-view").append(img_html);
+
+        	var hiddenFile_html = '';
+
+        	hiddenFile_html +=	'<div class="d-flex fileData-area">';
+        	hiddenFile_html += 		'<input type="hidden" name="thumbFileOrgNm" value="'+response.fileOrgNm+'">';
+        	hiddenFile_html += 		'<input type="hidden" name="thumbFileSvgNm" value="'+response.fileSvgNm+'">';
+        	hiddenFile_html += 		'<input type="hidden" name="thumbFileExt" value="'+response.fileExt+'">';
+        	hiddenFile_html += 		'<input type="hidden" name="thumbFilePath" value="'+response.filePath+'">';
+        	hiddenFile_html += 		'<input type="hidden" name="thumbFileSize" value="'+response.fileSz+'">';
+        	hiddenFile_html +=	'</div>';
+
+        	$("#thumb-data").empty();
+        	$("#thumb-data").append(hiddenFile_html);
+			$("#file-thumbYn").val('Y');
+        	
+        });
+
+        this.on("error", function (file, errMessage) {
+//             console.error("업로드 실패", errMessage);
+            console.log("업로드 실패");
+            console.log(file)
+        });
+
+    }
+});
 
 var myDropzone = new Dropzone("#myDropzone", {
     url: "./upload.do",
