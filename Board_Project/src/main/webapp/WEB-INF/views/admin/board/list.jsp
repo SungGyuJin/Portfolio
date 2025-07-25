@@ -212,6 +212,7 @@
 										<div class="col-sm-12">
 											<table class="table table-bordered dataTable" id="dataTable" cellspacing="0" role="grid" aria-describedby="dataTable_info">
 												<colgroup>
+													<col width="5%">	<!-- checkbox -->
 													<col width="5%">	<!-- No. -->
 													<col width="25%">	<!-- 제목 -->
 													<col width="5%"> 	<!-- 작성자 -->
@@ -222,6 +223,7 @@
 												</colgroup>
 												<thead>
 												    <tr role="row">
+														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending"><input type="checkbox" class="cursor-pointer"></th>
 												    	<th class="sorting sorting_asc text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending">No.</th>
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending">제목</th>
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">작성자</th>
@@ -234,6 +236,9 @@
 												<tbody>
 													<c:forEach var="list" varStatus="varStatus" items="${getBoardList }">
 													<tr onclick="getBoard('${list.boardSeq}');" id="tr-${list.boardSeq }">
+														<td class="sorting_1 text-center">
+															<input type="checkbox" class="cursor-pointer" value="${list.boardSeq }">
+														</td>
 														<td class="sorting_1 text-center">
 															<c:if test="${list.lvl eq 0 }">
 																${list.rowNum }
