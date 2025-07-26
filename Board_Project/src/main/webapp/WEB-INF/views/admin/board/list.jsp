@@ -8,6 +8,15 @@
 
 	$(function(){
 		
+		$("#all-chk").on('click', function(){
+			if($('#all-chk').is(':checked')){
+				$(".list-chk").prop('checked', true);
+			}else{
+				$(".list-chk").prop('checked', false);
+			}
+		});
+		
+		
 		$(".btn-list").on('click', function(){
 			location.href = 'list.do?listTyp='+$(this).val();
 		});
@@ -119,11 +128,8 @@
 				
 				var getBoard = res.getBoard;
 				
-				console.log(getBoard)
-				
 				$("#boardSeq").val(getBoard.boardSeq);
 				$("#title").val(getBoard.title);
-// 				$("#cont").val(getBoard.cont);
 				$("#cont").html(getBoard.cont);
 				$("#stat").val(getBoard.stat);
 				$("#btn-move").prop('disabled', false);
@@ -138,13 +144,6 @@
 					$("#btn-restore").removeClass('d-none');
 					$("#btn-delPermnt").removeClass('d-none');
 				}
-				
-				
-// 				getBoard.replyYn 	== 'Y' ? $("#replyYn").prop('checked',  true) : $("#replyYn").prop('checked',  false);
-// 				getBoard.comentYn == 'Y' ? $("#comentYn").prop('checked', true) : $("#comentYn").prop('checked', false);
-// 				getBoard.atchYn 	== 'Y' ? $("#atchYn").prop('checked',   true) : $("#atchYn").prop('checked',   false);
-// 				getBoard.secrtYn 	== 'Y' ? $("#secrtYn").prop('checked',  true) : $("#secrtYn").prop('checked',  false);
-					
 				
 			},
 			error : function(request, status, error){
@@ -223,7 +222,7 @@
 												</colgroup>
 												<thead>
 												    <tr role="row">
-														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending"><input type="checkbox" class="cursor-pointer"></th>
+														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending"><input type="checkbox" id="all-chk" class="cursor-pointer" value="Y"></th>
 												    	<th class="sorting sorting_asc text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending">No.</th>
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending">제목</th>
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">작성자</th>
@@ -235,16 +234,16 @@
 												</thead>
 												<tbody>
 													<c:forEach var="list" varStatus="varStatus" items="${getBoardList }">
-													<tr onclick="getBoard('${list.boardSeq}');" id="tr-${list.boardSeq }">
+													<tr id="tr-${list.boardSeq }">
 														<td class="sorting_1 text-center">
-															<input type="checkbox" class="cursor-pointer" value="${list.boardSeq }">
+															<input type="checkbox" class="list-chk cursor-pointer" value="${list.boardSeq }">
 														</td>
-														<td class="sorting_1 text-center">
+														<td class="sorting_1 text-center" onclick="getBoard('${list.boardSeq}');">
 															<c:if test="${list.lvl eq 0 }">
 																${list.rowNum }
 															</c:if>
 														</td>
-														<td>
+														<td onclick="getBoard('${list.boardSeq}');">
 															<c:if test="${list.lvl eq 1 }">
 																<c:forEach begin="0" end="${list.lvl }">&nbsp;</c:forEach>
 																<img class="mb-1" src="${pageContext.request.contextPath}/resources/admin/assets/img/arrow-return-right.svg" />
@@ -260,11 +259,11 @@
 															</c:if>
 															${list.title }
 														</td>
-														<td class="text-center"><strong>${list.userNm }</strong></td>
-														<td class="text-center">${list.regDt }</td>
-														<td class="text-center">${list.updDt }</td>
-														<td class="text-center p-0"><c:if test="${list.atchCnt gt 0 }"><img src="${pageContext.request.contextPath}/resources/admin/assets/img/atch_icon.png" class="mt-2" style="max-width: 35px;" /></c:if></td>
-														<td class="text-center">
+														<td class="text-center" onclick="getBoard('${list.boardSeq}');"><strong>${list.userNm }</strong></td>
+														<td class="text-center" onclick="getBoard('${list.boardSeq}');">${list.regDt }</td>
+														<td class="text-center" onclick="getBoard('${list.boardSeq}');">${list.updDt }</td>
+														<td class="text-center p-0" onclick="getBoard('${list.boardSeq}');"><c:if test="${list.atchCnt gt 0 }"><img src="${pageContext.request.contextPath}/resources/admin/assets/img/atch_icon.png" class="mt-2" style="max-width: 35px;" /></c:if></td>
+														<td class="text-center" onclick="getBoard('${list.boardSeq}');">
 															<c:choose>
 																<c:when test="${list.stat eq 1 }">
 																	<strong class="ms-3"><span class="text-primary">게시중</span></strong>
