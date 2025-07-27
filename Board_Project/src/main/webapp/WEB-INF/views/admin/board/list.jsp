@@ -7,13 +7,47 @@
 <script>
 
 	$(function(){
+
+		var delArr = [];
 		
 		$("#all-chk").on('click', function(){
+			
 			if($('#all-chk').is(':checked')){
 				$(".list-chk").prop('checked', true);
+				
+				var html = '';
+				
+				$(".list-chk").each(function(){
+					html += '<input type="text" id="del-'+$(this).val()+'" value="'+$(this).val()+'">';
+					delArr.push($(this).val());
+				});
+				
+				$("#frm-delete").append(html);
 			}else{
 				$(".list-chk").prop('checked', false);
+				$("#frm-delete").empty();
+				delArr.splice(0, delArr.length);
 			}
+		});
+		
+		// 개별체크 작업
+		$(".list-chk").on('click', function(){
+			
+			if($(".list-chk").length == $(".list-chk:checked").length){
+				$("#all-chk").prop('checked', true);
+			}else{
+				$("#all-chk").prop('checked', false);
+			}
+			
+			if(delArr.indexOf($(this).val()) == -1){
+				var html = '<input type="text" id="del-'+$(this).val()+'" value="'+$(this).val()+'">';
+				delArr.push($(this).val());
+				$("#frm-delete").append(html);
+			}else{
+				delArr.splice(delArr.indexOf($(this).val()), 1);
+				$("#del-"+$(this).val()).remove();
+			}
+			
 		});
 		
 		
@@ -39,9 +73,6 @@
 	
 	// 버튼제어
 	function btnControl(e, num){
-		
-		console.log(num)
-		
 		if(e == 'move'){
 			location.href = 'updateBoard.do?boardSeq='+$("#boardSeq").val()+'&pageNum='+$("#pageNum").val()+'&listTyp='+$("#listTyp").val()+'&searchKeyword='+$("#searchKeyword").val()+'&gubun='+$("#gubun").val()+'&bbsSeq='+$("#bbsSeq").val();
 		}else if(e == 'reply'){
@@ -55,29 +86,38 @@
 	// 복구, 삭제, 영구삭제 버튼(상태변경)
 	function changeStat_1(num){
 		
-		if(num == '9'){
-			Swal.fire({
-				title: '영구삭제 하시겠습니까?',
-				html: "※삭제된 데이터는 복구가 불가합니다.",
-				icon: 'warning',
-				showCancelButton: true,
-				confirmButtonColor: '#3085d6',
-				cancelButtonColor: '#d33',
-				confirmButtonText: '확인',
-				cancelButtonText: '취소'
-			}).then(function(result){
+		if($(".list-chk:checked").length > 0){
 
-		        if (result.isConfirmed) {
-		        	$("#stat").val(num);
-		        	changeStat_2(num, '영구삭제완료');
-		        }
-			})
-		}else if(num == '1'){
-        	$("#stat").val(num);
-			changeStat_2(num, '복구완료');
+			$("#btn-del").removeClass('d-none');
+			
+			
+			
 		}else{
-        	$("#stat").val(num);
-			changeStat_2(num, '삭제완료');
+			
+			if(num == '9'){
+				Swal.fire({
+					title: '영구삭제 하시겠습니까?',
+					html: "※삭제된 데이터는 복구가 불가합니다.",
+					icon: 'warning',
+					showCancelButton: true,
+					confirmButtonColor: '#3085d6',
+					cancelButtonColor: '#d33',
+					confirmButtonText: '확인',
+					cancelButtonText: '취소'
+				}).then(function(result){
+	
+			        if (result.isConfirmed) {
+			        	$("#stat").val(num);
+			        	changeStat_2(num, '영구삭제완료');
+			        }
+				})
+			}else if(num == '1'){
+	        	$("#stat").val(num);
+				changeStat_2(num, '복구완료');
+			}else{
+	        	$("#stat").val(num);
+				changeStat_2(num, '삭제완료');
+			}
 		}
 	}
 	
@@ -195,6 +235,7 @@
 					</div>
 					<!-- Card Body -->
 					<div class="card-body">
+						<form id="frm-delete" method="post"></form>
 						<form id="frm-search" method="get">
 							<input type="hidden" name="listTyp" id="listTyp" value="${boardVO.listTyp }" readonly="readonly">
 							<div class="form-group mb-3">
