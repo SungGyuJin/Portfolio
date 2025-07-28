@@ -13,6 +13,7 @@
 		$("#all-chk").on('click', function(){
 			
 			if($('#all-chk').is(':checked')){
+				$("#btn-del").prop('disabled', false);
 				$(".list-chk").prop('checked', true);
 				
 				var html = '';
@@ -24,6 +25,7 @@
 				
 				$("#frm-delete").append(html);
 			}else{
+				$("#btn-del").prop('disabled', true);
 				$(".list-chk").prop('checked', false);
 				$("#frm-delete").empty();
 				delArr.splice(0, delArr.length);
@@ -46,6 +48,12 @@
 			}else{
 				delArr.splice(delArr.indexOf($(this).val()), 1);
 				$("#del-"+$(this).val()).remove();
+			}
+			
+			if($(".list-chk:checked").length > 0){
+				$("#btn-del").prop('disabled', false);
+			}else{
+				$("#btn-del").prop('disabled', true);
 			}
 			
 		});
@@ -176,11 +184,11 @@
 
 				// 버튼변화
 				if(getBoard.stat == '1'){
-					$("#btn-del").removeClass('d-none');
+// 					$("#btn-del").removeClass('d-none');
 					$("#btn-restore").addClass('d-none');
 					$("#btn-delPermnt").addClass('d-none');
 				}else{
-					$("#btn-del").addClass('d-none');
+// 					$("#btn-del").addClass('d-none');
 					$("#btn-restore").removeClass('d-none');
 					$("#btn-delPermnt").removeClass('d-none');
 				}
@@ -263,7 +271,7 @@
 												</colgroup>
 												<thead>
 												    <tr role="row">
-														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending"><input type="checkbox" id="all-chk" class="cursor-pointer" value="Y"></th>
+														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending"><input type="checkbox" id="all-chk" class="cursor-pointer" value="Y" <c:if test="${empty getBoardList }">disabled</c:if>></th>
 												    	<th class="sorting sorting_asc text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending">No.</th>
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending">제목</th>
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">작성자</th>
@@ -318,7 +326,7 @@
 													</c:forEach>
 													<c:if test="${empty getBoardList }">
 													<tr class="text-center">
-														<td colspan="7">
+														<td colspan="8">
 															<c:if test="${boardVO.listTyp eq 'list' }"><strong class="text-lg"><br>등록된 게시물이 없습니다.<br><br></strong></c:if>
 															<c:if test="${boardVO.listTyp eq 'trash' }"><strong class="text-lg"><br>삭제된 게시물이 없습니다.<br><br></strong></c:if>
 														</td>
@@ -473,7 +481,7 @@
 									<button class="btn btn-success btn-icon-split init-class d-none" id="btn-restore" onclick="btnControl('stat', '1');">
 					         			<span class="text">복구</span>
 					    			</button>
-									<button class="btn btn-danger btn-icon-split init-class d-none" id="btn-del" onclick="btnControl('stat', '0');">
+									<button class="btn btn-danger btn-icon-split init-class" id="btn-del" onclick="btnControl('stat', '0');" disabled>
 					         			<span class="text">삭제</span>
 					    			</button>
 									<button class="btn btn-danger btn-icon-split init-class d-none" id="btn-delPermnt" onclick="btnControl('stat', '9');">
