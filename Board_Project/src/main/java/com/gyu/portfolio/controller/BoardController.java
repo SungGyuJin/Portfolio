@@ -274,7 +274,7 @@ public class BoardController {
 			HttpServletRequest request,
 			HttpServletResponse response,
 			HttpSession session) throws Exception{
-
+		
 		boardVO.setUpdNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
 		int result = boardService.changeStat(boardVO);
 

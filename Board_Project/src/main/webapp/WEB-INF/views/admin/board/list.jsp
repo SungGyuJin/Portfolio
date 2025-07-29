@@ -10,6 +10,7 @@
 
 		var delArr = [];
 		
+		// 전체체크
 		$("#all-chk").on('click', function(){
 			
 			if($('#all-chk').is(':checked')){
@@ -19,20 +20,24 @@
 				var html = '';
 				
 				$(".list-chk").each(function(){
-					html += '<input type="text" id="del-'+$(this).val()+'" value="'+$(this).val()+'">';
-					delArr.push($(this).val());
+					if($("#del-"+$(this).val()).length == 0){
+						html += '<input type="hidden" name="delSeqArr" id="del-'+$(this).val()+'" value="'+$(this).val()+'">';
+						delArr.push($(this).val());
+					}
 				});
 				
-				$("#frm-delete").append(html);
+				$("#delSeqArr").append(html);
 			}else{
 				$("#btn-del").prop('disabled', true);
 				$(".list-chk").prop('checked', false);
-				$("#frm-delete").empty();
+				$("#delSeqArr").empty();
 				delArr.splice(0, delArr.length);
 			}
+			
+			chkboxOption();
 		});
 		
-		// 개별체크 작업
+		// 개별체크
 		$(".list-chk").on('click', function(){
 			
 			if($(".list-chk").length == $(".list-chk:checked").length){
@@ -42,22 +47,28 @@
 			}
 			
 			if(delArr.indexOf($(this).val()) == -1){
-				var html = '<input type="text" id="del-'+$(this).val()+'" value="'+$(this).val()+'">';
+				var html = '<input type="hidden" name="delSeqArr" id="del-'+$(this).val()+'" value="'+$(this).val()+'">';
 				delArr.push($(this).val());
-				$("#frm-delete").append(html);
+				$("#delSeqArr").append(html);
 			}else{
 				delArr.splice(delArr.indexOf($(this).val()), 1);
 				$("#del-"+$(this).val()).remove();
 			}
 			
-			if($(".list-chk:checked").length > 0){
-				$("#btn-del").prop('disabled', false);
-			}else{
-				$("#btn-del").prop('disabled', true);
-			}
-			
+			chkboxOption();
 		});
 		
+		function chkboxOption(){
+			if($(".list-chk:checked").length > 0){
+				$("#btn-del").prop('disabled', false);
+				$("#btn-restore").prop('disabled', false);
+				$("#btn-delPermnt").prop('disabled', false);
+			}else{
+				$("#btn-del").prop('disabled', true);
+				$("#btn-restore").prop('disabled', true);
+				$("#btn-delPermnt").prop('disabled', true);
+			}
+		}
 		
 		$(".btn-list").on('click', function(){
 			location.href = 'list.do?listTyp='+$(this).val();
@@ -77,6 +88,17 @@
 			$("#frm-search").submit();
 		});
 		
+		
+		if($("#listTyp").val() == 'list'){
+			$("#btn-del").removeClass('d-none');
+			$("#btn-restore").addClass('d-none');
+			$("#btn-delPermnt").addClass('d-none');
+		}else{
+			$("#btn-del").addClass('d-none');
+			$("#btn-restore").removeClass('d-none');
+			$("#btn-delPermnt").removeClass('d-none');
+		}
+		
 	});
 	
 	// 버튼제어
@@ -94,42 +116,35 @@
 	// 복구, 삭제, 영구삭제 버튼(상태변경)
 	function changeStat_1(num){
 		
-		if($(".list-chk:checked").length > 0){
+		if(num == '9'){
+			Swal.fire({
+				title: '영구삭제 하시겠습니까?',
+				html: "※삭제된 데이터는 복구가 불가합니다.",
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				confirmButtonText: '확인',
+				cancelButtonText: '취소'
+			}).then(function(result){
 
-			$("#btn-del").removeClass('d-none');
-			
-			
-			
+		        if (result.isConfirmed) {
+		        	$("#stat").val(num);
+		        	changeStat_2(num, '영구삭제완료');
+		        }
+			})
+		}else if(num == '1'){
+        	$("#stat").val(num);
+			changeStat_2(num, '복구완료');
 		}else{
-			
-			if(num == '9'){
-				Swal.fire({
-					title: '영구삭제 하시겠습니까?',
-					html: "※삭제된 데이터는 복구가 불가합니다.",
-					icon: 'warning',
-					showCancelButton: true,
-					confirmButtonColor: '#3085d6',
-					cancelButtonColor: '#d33',
-					confirmButtonText: '확인',
-					cancelButtonText: '취소'
-				}).then(function(result){
-	
-			        if (result.isConfirmed) {
-			        	$("#stat").val(num);
-			        	changeStat_2(num, '영구삭제완료');
-			        }
-				})
-			}else if(num == '1'){
-	        	$("#stat").val(num);
-				changeStat_2(num, '복구완료');
-			}else{
-	        	$("#stat").val(num);
-				changeStat_2(num, '삭제완료');
-			}
+        	$("#stat").val(num);
+			changeStat_2(num, '삭제완료');
 		}
+			
 	}
 	
 	function changeStat_2(num, cmnt){
+		
 		$.ajax({
 			url      : "changeStat.do",
 			method   : "POST",
@@ -185,12 +200,12 @@
 				// 버튼변화
 				if(getBoard.stat == '1'){
 // 					$("#btn-del").removeClass('d-none');
-					$("#btn-restore").addClass('d-none');
-					$("#btn-delPermnt").addClass('d-none');
+// 					$("#btn-restore").ADDCLASS('D-NONE');
+// 					$("#BTN-DELPERMNT").ADdClass('d-none');
 				}else{
 // 					$("#btn-del").addClass('d-none');
-					$("#btn-restore").removeClass('d-none');
-					$("#btn-delPermnt").removeClass('d-none');
+// 					$("#btn-restore").removeClass('d-none');
+// 					$("#btn-delPermnt").removeClass('d-none');
 				}
 				
 			},
@@ -243,7 +258,6 @@
 					</div>
 					<!-- Card Body -->
 					<div class="card-body">
-						<form id="frm-delete" method="post"></form>
 						<form id="frm-search" method="get">
 							<input type="hidden" name="listTyp" id="listTyp" value="${boardVO.listTyp }" readonly="readonly">
 							<div class="form-group mb-3">
@@ -408,6 +422,7 @@
 						<!-- .card-body START -->
 	                    <div class="card-body">
 	                   		<form class="user" id="frm-board">
+								<div id="delSeqArr"></div>
 	                   			<input type="hidden" name="stat" id="stat" value="1" readonly="readonly" />
 	                    		<input type="hidden" name="boardSeq" id="boardSeq" value="0" readonly="readonly" />
 	                      		<div class="form-group">
@@ -424,67 +439,25 @@
 		                        	<button type="button" class="btn btn-primary btn-lg init-class w-100" id="btn-move" onclick="btnControl('move');" disabled="disabled">상세페이지 이동</button>
                                 </div>
 	                      		<hr>
-	                      		<!-- <small class="text-danger">* 게시물 정보</small>
-				             	<div class="form-group row mt-2">
-									<div class="col-sm-6 mb-3 mb-sm-0">
-										<label class="toggle-wrapper">
-											<strong>답글</strong>
-										  	<input type="checkbox" class="tiny-toggle init-class" id="replyYn" name="replyYn" value="Y" />
-									  		<span class="tiny-slider"></span>
-										</label>
-									</div>
-		                      	 	<div class="col-sm-6 mb-3 mb-sm-0">
-										<label class="toggle-wrapper">
-										  <strong>첨부파일</strong>
-										  <input type="checkbox" class="tiny-toggle init-class" id="atchYn" name="atchYn" value="Y" />
-										  <span class="tiny-slider"></span>
-										</label>
-									</div>
-								</div>
-		                      	<div class="form-group row">
-									<div class="col-sm-6 mb-3 mb-sm-0">
-										<label class="toggle-wrapper">
-										  	<strong>댓글</strong>
-										  	<input type="checkbox" class="tiny-toggle init-class" id="comentYn" name="comentYn" value="Y" />
-										  	<span class="tiny-slider"></span>
-										</label>
-									</div>
-									<div class="col-sm-6 mb-3 mb-sm-0">
-										<label class="toggle-wrapper">
-											<strong>비밀&nbsp;글</strong>
-											<input type="checkbox" class="tiny-toggle init-class" id="secrtYn" name="secrtYn" value="Y" />
-											<span class="tiny-slider"></span>
-										</label>
-			                        </div>
-		                      	</div> -->
 							</form>
-			  
-							<!-- <div class="mt-4 text-center small mb-2">
-							    <span class="mr-2">
-							        <i class="fas fa-circle text-primary"></i> Direct
-							    </span>
-							    <span class="mr-2">
-							        <i class="fas fa-circle text-success"></i> Social
-							    </span>
-							    <span class="mr-2">
-							        <i class="fas fa-circle text-info"></i> Referral
-							    </span>
-							</div> -->
 			
 						<div class="text-center">
 							<div class="d-flex justify-content-between">
-								<div id="btn-divTag1"></div>
+								<div class="mt-1" id="btn-divTag1">
+									<c:if test="${boardVO.listTyp eq 'list' }"><small class="text-danger">* 삭제를 원하시면 게시글을 체크하세요.</small></c:if>
+									<c:if test="${boardVO.listTyp eq 'trash' }"><small class="text-danger">* 복구 및 영구삭제를 원하시면 게시글을 체크하세요.</small></c:if>
+								</div>
 								<div id="btn-divTag2">
 									<button class="btn btn-info btn-icon-split init-class d-none" onclick="btnControl('reply');">
 					         			<span class="text">답글쓰기</span>
 					    			</button>
-									<button class="btn btn-success btn-icon-split init-class d-none" id="btn-restore" onclick="btnControl('stat', '1');">
+									<button class="btn btn-success btn-icon-split init-class d-none" id="btn-restore" onclick="btnControl('stat', '1');" disabled>
 					         			<span class="text">복구</span>
 					    			</button>
-									<button class="btn btn-danger btn-icon-split init-class" id="btn-del" onclick="btnControl('stat', '0');" disabled>
+									<button class="btn btn-danger btn-icon-split init-class d-none" id="btn-del" onclick="btnControl('stat', '0');" disabled>
 					         			<span class="text">삭제</span>
 					    			</button>
-									<button class="btn btn-danger btn-icon-split init-class d-none" id="btn-delPermnt" onclick="btnControl('stat', '9');">
+									<button class="btn btn-danger btn-icon-split init-class d-none" id="btn-delPermnt" onclick="btnControl('stat', '9');" disabled>
 				         				<span class="text">영구삭제</span>
 				    				</button>
 			    				</div>

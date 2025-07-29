@@ -275,7 +275,11 @@
 			, UPD_NO = #{updNo}
 			, UPD_DT = NOW()
 		WHERE 1=1
-			AND BOARD_SEQ = #{boardSeq}
+			AND BOARD_SEQ IN(
+		 	<foreach collection="delSeqArr" item="seq" separator=",">
+		 		#{seq}
+		 	</foreach>
+			)
 	</update>
 
 	<!-- #################################################################################################### -->

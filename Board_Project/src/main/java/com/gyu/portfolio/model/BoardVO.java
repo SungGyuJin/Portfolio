@@ -1,5 +1,7 @@
 package com.gyu.portfolio.model;
 
+import java.util.Arrays;
+
 import com.gyu.portfolio.common.DefalutVO;
 
 import lombok.Getter;
@@ -33,6 +35,7 @@ public class BoardVO extends DefalutVO {
 	private String bbsNm 	 = "";
 	private String rsMatch 	 = "";
 	private String thumbInfo = "";
+	private String[] delSeqArr  = null;
 
 	private String filePath		= "";
 	private String strgFileNm	= "";
@@ -47,9 +50,9 @@ public class BoardVO extends DefalutVO {
 				+ ref + ", step=" + step + ", lvl=" + lvl + ", pwdYn=" + pwdYn + ", pwd=" + pwd + ", readCnt=" + readCnt
 				+ ", regNo=" + regNo + ", regDt=" + regDt + ", updNo=" + updNo + ", updDt=" + updDt + ", stat=" + stat
 				+ ", replyYn=" + replyYn + ", atchYn=" + atchYn + ", secrtYn=" + secrtYn + ", bbsStat=" + bbsStat
-				+ ", bbsNm=" + bbsNm + ", rsMatch=" + rsMatch + ", thumbInfo=" + thumbInfo + ", filePath=" + filePath
-				+ ", strgFileNm=" + strgFileNm + ", rowNum=" + rowNum + ", cmntCnt=" + cmntCnt + ", atchCnt=" + atchCnt
-				+ "]";
+				+ ", bbsNm=" + bbsNm + ", rsMatch=" + rsMatch + ", thumbInfo=" + thumbInfo + ", delSeqArr="
+				+ Arrays.toString(delSeqArr) + ", filePath=" + filePath + ", strgFileNm=" + strgFileNm + ", rowNum="
+				+ rowNum + ", cmntCnt=" + cmntCnt + ", atchCnt=" + atchCnt + "]";
 	}
 	
 }
