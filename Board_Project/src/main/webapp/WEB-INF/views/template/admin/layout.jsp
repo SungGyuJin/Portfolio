@@ -216,6 +216,11 @@ table tbody tr:hover {
   overflow-y: auto;
 }
 
+.custom-checkbox-lg {
+    transform: scale(1.5);
+    width: 12px;
+    height: 12px;
+  }
 
 
 </style>
