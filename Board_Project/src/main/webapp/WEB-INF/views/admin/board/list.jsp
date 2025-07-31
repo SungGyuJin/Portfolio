@@ -8,6 +8,13 @@
 
 	$(function(){
 
+		$(".td-chk").on('click', function(e){
+			if(!$(e.target).is("input[type='checkbox']")) {
+				const $checkbox = $(this).find("input[type='checkbox']");
+				$checkbox.prop("checked", !$checkbox.prop("checked")).trigger("change");
+			}
+		});
+		
 		var delArr = [];
 		
 		// 전체체크
@@ -39,35 +46,41 @@
 		
 		// 개별체크
 		$(".list-chk").on('click', function(){
-			
-			if($(".list-chk").length == $(".list-chk:checked").length){
-				$("#all-chk").prop('checked', true);
-			}else{
-				$("#all-chk").prop('checked', false);
-			}
-			
-			if(delArr.indexOf($(this).val()) == -1){
-				var html = '<input type="hidden" name="delSeqArr" id="del-'+$(this).val()+'" value="'+$(this).val()+'">';
-				delArr.push($(this).val());
-				$("#delSeqArr").append(html);
-			}else{
-				delArr.splice(delArr.indexOf($(this).val()), 1);
-				$("#del-"+$(this).val()).remove();
-			}
-			
-			chkboxOption();
+
+			chkboxOption($(this));
 		});
 		
-		function chkboxOption(){
-			if($(".list-chk:checked").length > 0){
-				$("#btn-del").prop('disabled', false);
-				$("#btn-restore").prop('disabled', false);
-				$("#btn-delPermnt").prop('disabled', false);
-			}else{
-				$("#btn-del").prop('disabled', true);
-				$("#btn-restore").prop('disabled', true);
-				$("#btn-delPermnt").prop('disabled', true);
-			}
+		function chkboxOption(p){
+		    console.log("delArr:", delArr);
+		    console.log("p.val():", p.val());
+		    console.log("indexOf:", delArr.indexOf(p.val()));
+
+		    if($(".list-chk").length == $(".list-chk:checked").length){
+		        $("#all-chk").prop('checked', true);
+		    }else{
+		        $("#all-chk").prop('checked', false);
+		    }
+
+		    if(delArr.indexOf(p.val()) == -1){
+		        console.log("delArr에 값이 없어서 추가합니다.");
+		        var html = '<input type="text" name="delSeqArr" id="del-'+p.val()+'" value="'+p.val()+'">';
+		        delArr.push(p.val());
+		        $("#delSeqArr").append(html);
+		    }else{
+		        console.log("delArr에 이미 값이 있습니다. 제거합니다.");
+		        delArr.splice(delArr.indexOf(p.val()), 1);
+		        $("#del-"+p.val()).remove();
+		    }
+
+		    if($(".list-chk:checked").length > 0){
+		        $("#btn-del").prop('disabled', false);
+		        $("#btn-restore").prop('disabled', false);
+		        $("#btn-delPermnt").prop('disabled', false);
+		    }else{
+		        $("#btn-del").prop('disabled', true);
+		        $("#btn-restore").prop('disabled', true);
+		        $("#btn-delPermnt").prop('disabled', true);
+		    }
 		}
 		
 		$(".btn-list").on('click', function(){
@@ -285,7 +298,7 @@
 												</colgroup>
 												<thead>
 												    <tr role="row">
-														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending"><input type="checkbox" id="all-chk" class="cursor-pointer custom-checkbox-lg" value="Y" <c:if test="${empty getBoardList }">disabled</c:if>></th>
+														<th class="sorting text-center cursor-pointer" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending"><input type="checkbox" id="all-chk" class="cursor-pointer custom-checkbox-lg" value="Y" <c:if test="${empty getBoardList }">disabled</c:if>></th>
 												    	<th class="sorting sorting_asc text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending">No.</th>
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending">제목</th>
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">작성자</th>
@@ -297,9 +310,9 @@
 												</thead>
 												<tbody>
 													<c:forEach var="list" varStatus="varStatus" items="${getBoardList }">
-													<tr id="tr-${list.boardSeq }">
-														<td class="sorting_1 text-center">
-															<input type="checkbox" class="list-chk cursor-pointer custom-checkbox-lg" value="${list.boardSeq }">
+													<tr class="cursor-pointer" id="tr-${list.boardSeq }">
+														<td class="sorting_1 text-center td-chk" id="td-${list.boardSeq }">
+															<input type="checkbox" class="custom-checkbox-lg list-chk cursor-pointer" id="chk-${list.boardSeq }" value="${list.boardSeq }">
 														</td>
 														<td class="sorting_1 text-center" onclick="getBoard('${list.boardSeq}');">
 															<c:if test="${list.lvl eq 0 }">
