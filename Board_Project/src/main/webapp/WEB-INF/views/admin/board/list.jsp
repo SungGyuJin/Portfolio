@@ -14,7 +14,18 @@
 			if(!$(e.target).is("input[type='checkbox']")) {
 			    const chkBox = $(this).find("input[type='checkbox']");
 			    chkBox.prop("checked", !chkBox.prop("checked")).trigger("change");
+			    
+				if(delArr.indexOf($("#"+chkBox.attr("id")).val()) == -1){
+					var html = '<input type="text" name="delSeqArr" id="del-'+$("#"+chkBox.attr("id")).val()+'" value="'+$("#"+chkBox.attr("id")).val()+'">';
+					delArr.push($("#"+chkBox.attr("id")).val());
+					$("#delSeqArr").append(html);
+				}else{
+					delArr.splice(delArr.indexOf($("#"+chkBox.attr("id")).val()), 1);
+					$("#del-"+$("#"+chkBox.attr("id")).val()).remove();
+				}
 			}
+			
+			chkboxOption();
 		});
 		
 		// 전체체크
@@ -28,7 +39,7 @@
 				
 				$(".list-chk").each(function(){
 					if($("#del-"+$(this).val()).length == 0){
-						html += '<input type="hidden" name="delSeqArr" id="del-'+$(this).val()+'" value="'+$(this).val()+'">';
+						html += '<input type="text" name="delSeqArr" id="del-'+$(this).val()+'" value="'+$(this).val()+'">';
 						delArr.push($(this).val());
 					}
 				});
@@ -46,15 +57,14 @@
 		
 		// 개별체크
 		$(".list-chk").on('click', function(){
-			
 			if($(".list-chk").length == $(".list-chk:checked").length){
 				$("#all-chk").prop('checked', true);
 			}else{
-				$("#all-chk").prop('checked', false);A
+				$("#all-chk").prop('checked', false);
 			}
 			
 			if(delArr.indexOf($(this).val()) == -1){
-				var html = '<input type="hidden" name="delSeqArr" id="del-'+$(this).val()+'" value="'+$(this).val()+'">';
+				var html = '<input type="text" name="delSeqArr" id="del-'+$(this).val()+'" value="'+$(this).val()+'">';
 				delArr.push($(this).val());
 				$("#delSeqArr").append(html);
 			}else{
@@ -306,7 +316,7 @@
 													<c:forEach var="list" varStatus="varStatus" items="${getBoardList }">
 													<tr id="tr-${list.boardSeq }">
 														<td class="sorting_1 text-center cursor-pointer check-cell">
-															<input type="checkbox" class="list-chk cursor-pointer custom-checkbox-lg" value="${list.boardSeq }">
+															<input type="checkbox" id="check-box-${list.boardSeq }" class="list-chk cursor-pointer custom-checkbox-lg" value="${list.boardSeq }">
 														</td>
 														<td class="sorting_1 text-center" onclick="getBoard('${list.boardSeq}');">
 															<c:if test="${list.lvl eq 0 }">
