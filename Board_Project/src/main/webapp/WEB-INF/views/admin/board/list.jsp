@@ -12,13 +12,39 @@
 		
 		$(".check-cell").on("click", function(e) {
 			if(!$(e.target).is("input[type='checkbox']")) {
+				
 			    const chkBox = $(this).find("input[type='checkbox']");
 			    chkBox.prop("checked", !chkBox.prop("checked")).trigger("change");
 			    
 				if(delArr.indexOf($("#"+chkBox.attr("id")).val()) == -1){
-					var html = '<input type="text" name="delSeqArr" id="del-'+$("#"+chkBox.attr("id")).val()+'" value="'+$("#"+chkBox.attr("id")).val()+'">';
-					delArr.push($("#"+chkBox.attr("id")).val());
-					$("#delSeqArr").append(html);
+					if(chkBox.attr('id') == 'all-chk'){
+						
+						if(chkBox.prop("checked")){
+							
+							var html = '';
+							
+							$(".list-chk").each(function(){
+								if($("#del-"+$(this).val()).length == 0){
+									html += '<input type="text" name="delSeqArr" id="del-'+$(this).val()+'" value="'+$(this).val()+'">';
+									delArr.push($(this).val());
+								}
+							});
+							
+							$("#delSeqArr").append(html);
+							
+						}else{
+
+							$("#delSeqArr").empty();
+							delArr.splice(0, delArr.length);
+						}
+						
+						
+					}else{
+						var html = '<input type="text" name="delSeqArr" id="del-'+$("#"+chkBox.attr("id")).val()+'" value="'+$("#"+chkBox.attr("id")).val()+'">';
+						delArr.push($("#"+chkBox.attr("id")).val());
+						$("#delSeqArr").append(html);
+					}
+
 				}else{
 					delArr.splice(delArr.indexOf($("#"+chkBox.attr("id")).val()), 1);
 					$("#del-"+$("#"+chkBox.attr("id")).val()).remove();
@@ -302,7 +328,7 @@
 												</colgroup>
 												<thead>
 												    <tr role="row">
-														<th class="sorting text-center cursor-pointer" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending"><input type="checkbox" id="all-chk" class="cursor-pointer custom-checkbox-lg" value="Y" <c:if test="${empty getBoardList }">disabled</c:if>></th>
+														<th class="sorting text-center cursor-pointer check-cell" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending"><input type="checkbox" id="all-chk" class="cursor-pointer custom-checkbox-lg" value="Y" <c:if test="${empty getBoardList }">disabled</c:if>></th>
 												    	<th class="sorting sorting_asc text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending">No.</th>
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending">제목</th>
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">작성자</th>
