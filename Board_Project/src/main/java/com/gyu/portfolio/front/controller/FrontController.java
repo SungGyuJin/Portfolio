@@ -529,4 +529,37 @@ public class FrontController {
         }
 	}
 	
+	/* 게시판 조회 */
+	@GetMapping("/main/getBbs.do")
+	@ResponseBody
+	public Map<String, Object> getBbs(ModelMap model,
+			@ModelAttribute("BbsVO") BbsVO bbsVO,
+			HttpServletRequest request,
+			HttpServletResponse response) throws Exception{
+		
+
+		/* request 정보확인 START */
+		System.out.println();
+		System.out.println("++++++++++++++++++++++++++++++");
+		System.out.println("============ /getBbs.do INFO  ===========");
+		Enumeration params = request.getParameterNames();
+		while(params.hasMoreElements()) {
+			String name= (String) params.nextElement();
+			System.out.println(name + ": " + request.getParameter(name));
+		}
+		System.out.println("++++++++++++++++++++++++++++++");
+		System.out.println();
+		/* request 정보확인 END */
+		
+	    Map<String, Object> resultMap = new HashMap<>();
+	    
+	    bbsVO.setBbsSeq(Integer.parseInt(request.getParameter("no")));
+	    resultMap = bbsService.getBbs(bbsVO);
+	    
+		model.clear();
+		model.addAttribute("getBbs", resultMap);
+		
+		return resultMap;
+	}
+	
 }

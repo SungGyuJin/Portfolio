@@ -95,6 +95,40 @@ function thumbChk(e, event, gubun){
 
 $(function(){
 	
+	$("#brd-select").on('change', function(){
+		
+		
+		if($(this).val() != ''){
+			
+	// 		$(this).val() != '' ? no = $(this).val() : no;
+			
+			$.ajax({
+				url      : contextPath+"/main/getBbs.do",
+				method   : "GET",
+				data     : {"no" : $(this).val() },
+				dataType : "json",
+				success  : function(res){
+					
+					console.log(res.getBbs)
+					
+					if(res != null){
+	
+						res.getBbs.secrtYn == 'Y' ? $("#div-secrt").removeClass('d-none') : $("#div-secrt").addClass('d-none');
+						res.getBbs.atchYn == 'Y' ? $("#div-atchYn").removeClass('d-none') : $("#div-atchYn").addClass('d-none');
+					}
+					
+				},
+				error : function(request, status, error){
+					Swal.fire({
+						icon: "error",
+						title: "통신불가"
+					})
+				}
+			});
+		}
+		
+	});
+	
 	$("#brd-pwdYn").on('change', function(){
 		
 		if($("#brd-pwdYn:checked").val() == 'Y'){
@@ -1542,7 +1576,7 @@ function btnAddCmntChange(str){
 					            	<label for="brd-title" class="form-label fw-bold">제목</label>
 					              	<input type="text" class="form-control my-input" name="title" id="brd-title">
 					            </div>
-					            <div class="mb-3">
+					            <div class="mb-3" id="div-secrt">
 					            	<label for="brd-pwdYn" class="form-label fw-bold">비밀 글</label>
 					              	<input type="checkbox" class="form-check-input cursor-pointer ms-1" name="pwdYn" id="brd-pwdYn" value="Y">
 					              	<input type="password" class="form-control my-input" name="pwd" id="brd-pwd" disabled>
@@ -1558,7 +1592,7 @@ function btnAddCmntChange(str){
 					              	<div id="add-thumb-view"></div>
 					              	<div id="add-thumb-data"></div>
 					            </div>
-					            <div class="mb-4">
+					            <div class="mb-4" id="div-atchYn">
 									<label for="brd-add-file" class="form-label fw-bold">첨부파일</label>
 					              	<input type="file" class="form-control my-input" name="uploadFile" id="brd-add-file" multiple="multiple">
 					            </div>
