@@ -73,6 +73,19 @@ public class FrontController {
 			HttpServletRequest request,
 			HttpServletResponse response) throws Exception{
 
+		/* request 정보확인 START */
+		System.out.println();
+		System.out.println("++++++++++++++++++++++++++++++");
+		System.out.println("============ /main.do INFO  ===========");
+		Enumeration params = request.getParameterNames();
+		while(params.hasMoreElements()) {
+			String name= (String) params.nextElement();
+			System.out.println(name + ": " + request.getParameter(name));
+		}
+		System.out.println("++++++++++++++++++++++++++++++");
+		System.out.println();
+		/* request 정보확인 END */
+		
 		ModelAndView mav = null;
 		mav = new ModelAndView("front/main");
 		
@@ -93,19 +106,6 @@ public class FrontController {
 			HttpServletRequest request,
 			HttpServletResponse response) throws Exception{
 
-		/* request 정보확인 START */
-		System.out.println();
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println("============ /getBoardList.do INFO  ===========");
-		Enumeration params = request.getParameterNames();
-		while(params.hasMoreElements()) {
-			String name= (String) params.nextElement();
-			System.out.println(name + ": " + request.getParameter(name));
-		}
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println();
-		/* request 정보확인 END */
-
 		// 게시물 목록
 	    Map<String, Object> resultMap = new HashMap<>();
 
@@ -123,19 +123,6 @@ public class FrontController {
 			@ModelAttribute("BoardVO") BoardVO boardVO,
 			HttpServletRequest request,
 			HttpServletResponse response) throws Exception{
-
-		/* request 정보확인 START */
-		System.out.println();
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println("============ /getBoard.do INFO  ===========");
-		Enumeration params = request.getParameterNames();
-		while(params.hasMoreElements()) {
-			String name= (String) params.nextElement();
-			System.out.println(name + ": " + request.getParameter(name));
-		}
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println();
-		/* request 정보확인 END */
 		
 	    Map<String, Object> resultMap = new HashMap<>();
 	    
@@ -158,19 +145,6 @@ public class FrontController {
 			HttpServletResponse response,
 			HttpSession session) throws Exception{
 
-		/* request 정보확인 START */
-		System.out.println();
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println("============ /addBoard.do INFO  ===========");
-		Enumeration params = request.getParameterNames();
-		while(params.hasMoreElements()) {
-			String name= (String) params.nextElement();
-			System.out.println(name + ": " + request.getParameter(name));
-		}
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println();
-		/* request 정보확인 END */
-
 		boardVO.setRegNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
 		int result = boardService.addBoard(boardVO, attachVO);
 		
@@ -186,19 +160,6 @@ public class FrontController {
 			HttpServletRequest request,
 			HttpServletResponse response,
 			HttpSession session) throws Exception{
-
-		/* request 정보확인 START */
-		System.out.println();
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println("============ /updateBoard.do INFO  ===========");
-		Enumeration params = request.getParameterNames();
-		while(params.hasMoreElements()) {
-			String name= (String) params.nextElement();
-			System.out.println(name + ": " + request.getParameter(name));
-		}
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println();
-		/* request 정보확인 END */
 
 		boardVO.setUpdNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
 		int result = boardService.updateBoard(boardVO, attachVO);
@@ -235,19 +196,6 @@ public class FrontController {
 			HttpServletResponse response,
 			HttpSession session) throws Exception{
 
-		/* request 정보확인 START */
-		System.out.println();
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println("============ /addCmnt.do INFO  ===========");
-		Enumeration params = request.getParameterNames();
-		while(params.hasMoreElements()) {
-			String name= (String) params.nextElement();
-			System.out.println(name + ": " + request.getParameter(name));
-		}
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println();
-		/* request 정보확인 END */
-
 		cmntVO.setRegNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
 		int result = cmntService.addCmnt(cmntVO);
 		
@@ -262,19 +210,6 @@ public class FrontController {
 			HttpServletRequest request,
 			HttpServletResponse response,
 			HttpSession session) throws Exception{
-
-		/* request 정보확인 START */
-		System.out.println();
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println("============ /addCmnt.do INFO  ===========");
-		Enumeration params = request.getParameterNames();
-		while(params.hasMoreElements()) {
-			String name= (String) params.nextElement();
-			System.out.println(name + ": " + request.getParameter(name));
-		}
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println();
-		/* request 정보확인 END */
 
 		cmntVO.setRegNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
 		int result = cmntService.updateCmnt(cmntVO);
@@ -292,19 +227,6 @@ public class FrontController {
 			HttpServletResponse response,
 			HttpSession session) throws Exception{
 
-		/* request 정보확인 START */
-		System.out.println();
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println("============ /getCmntList.do INFO  ===========");
-		Enumeration params = request.getParameterNames();
-		while(params.hasMoreElements()) {
-			String name= (String) params.nextElement();
-			System.out.println(name + ": " + request.getParameter(name));
-		}
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println();
-		/* request 정보확인 END */
-
 	    Map<String, Object> resultMap = new HashMap<>();
 	    
 	    cmntVO.setBoardSeq(Integer.parseInt(request.getParameter("no")));
@@ -321,19 +243,6 @@ public class FrontController {
 			HttpServletRequest request,
 			HttpServletResponse response,
 			HttpSession session) throws Exception{
-
-		/* request 정보확인 START */
-		System.out.println();
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println("============ /getCmnt.do INFO  ===========");
-		Enumeration params = request.getParameterNames();
-		while(params.hasMoreElements()) {
-			String name= (String) params.nextElement();
-			System.out.println(name + ": " + request.getParameter(name));
-		}
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println();
-		/* request 정보확인 END */
 
 	    Map<String, Object> resultMap = new HashMap<>();
 	    
@@ -353,19 +262,6 @@ public class FrontController {
 			HttpServletResponse response,
 			HttpSession session) throws Exception{
 
-		/* request 정보확인 START */
-		System.out.println();
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println("============ /deleteCmnt.do INFO  ===========");
-		Enumeration params = request.getParameterNames();
-		while(params.hasMoreElements()) {
-			String name= (String) params.nextElement();
-			System.out.println(name + ": " + request.getParameter(name));
-		}
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println();
-		/* request 정보확인 END */
-
 		cmntVO.setCmntSeq(Integer.parseInt(request.getParameter("no")));
 		cmntVO.setUpdNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
 		int result = cmntService.deleteCmnt(cmntVO);
@@ -381,19 +277,6 @@ public class FrontController {
 			@ModelAttribute("BoardVO") BoardVO boardVO,
 			HttpServletRequest request,
 			HttpServletResponse response) throws Exception{
-		
-		/* request 정보확인 START */
-		System.out.println();
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println("============ /pwChk.do INFO  ===========");
-		Enumeration params = request.getParameterNames();
-		while(params.hasMoreElements()) {
-			String name= (String) params.nextElement();
-			System.out.println(name + ": " + request.getParameter(name));
-		}
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println();
-		/* request 정보확인 END */
 		
 	    Map<String, Object> resultMap = new HashMap<>();
 	    boardVO.setBoardSeq(Integer.parseInt(request.getParameter("no")));
@@ -414,19 +297,6 @@ public class FrontController {
 			HttpServletRequest request,
 			HttpServletResponse response
 			) throws Exception{
-
-		/* request 정보확인 START */
-		System.out.println();
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println("============ /main/upload.do INFO  ===========");
-		Enumeration params = request.getParameterNames();
-		while(params.hasMoreElements()) {
-			String name= (String) params.nextElement();
-			System.out.println(name + ": " + request.getParameter(name));
-		}
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println();
-		/* request 정보확인 END */
 
 		Map<String, Object> resultMap = new HashMap<>();
 		List<Object> resultList = new ArrayList<>();
@@ -478,20 +348,6 @@ public class FrontController {
 			HttpServletResponse response
 			) throws Exception {
 		
-
-		/* request 정보확인 START */
-		System.out.println();
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println("============ /fileDownload.do INFO  ===========");
-		Enumeration params = request.getParameterNames();
-		while(params.hasMoreElements()) {
-			String name= (String) params.nextElement();
-			System.out.println(name + ": " + request.getParameter(name));
-		}
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println();
-		/* request 정보확인 END */
-		
 		AttachVO getAttach = null;
 		attachVO.setAttachSeq(Integer.parseInt(request.getParameter("no")));
 		getAttach = attachService.getAttach(attachVO);
@@ -536,20 +392,6 @@ public class FrontController {
 			@ModelAttribute("BbsVO") BbsVO bbsVO,
 			HttpServletRequest request,
 			HttpServletResponse response) throws Exception{
-		
-
-		/* request 정보확인 START */
-		System.out.println();
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println("============ /getBbs.do INFO  ===========");
-		Enumeration params = request.getParameterNames();
-		while(params.hasMoreElements()) {
-			String name= (String) params.nextElement();
-			System.out.println(name + ": " + request.getParameter(name));
-		}
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println();
-		/* request 정보확인 END */
 		
 	    Map<String, Object> resultMap = new HashMap<>();
 	    

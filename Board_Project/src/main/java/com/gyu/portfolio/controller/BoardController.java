@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.net.URLConnection;
 import java.net.URLEncoder;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -137,28 +136,8 @@ public class BoardController {
 			HttpServletResponse response,
 			HttpSession session) throws Exception{
 		
-		/* request 정보확인 START */
-		System.out.println();
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println("============ /admin/board/updateBoard.do INFO  ===========");
-		Enumeration params = request.getParameterNames();
-		while(params.hasMoreElements()) {
-			String name= (String) params.nextElement();
-			System.out.println(name + ": " + request.getParameter(name));
-		}
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println();
-		/* request 정보확인 END */
-		
 		boardVO.setRegNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
 		int result = boardService.addBoard(boardVO, attachVO);
-		
-		
-		
-//		for(int i=0; i < 80; i++) {
-			
-//		}
-		
 		
 		if(result > 0) {
 			if(boardVO.getRef() > 0) {
@@ -263,19 +242,6 @@ public class BoardController {
 			HttpServletRequest request,
 			HttpServletResponse response
 			) throws Exception{
-
-		/* request 정보확인 START */
-		System.out.println();
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println("============ /admin/board/upload.do INFO  ===========");
-		Enumeration params = request.getParameterNames();
-		while(params.hasMoreElements()) {
-			String name= (String) params.nextElement();
-			System.out.println(name + ": " + request.getParameter(name));
-		}
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println();
-		/* request 정보확인 END */
 
 		Map<String, Object> resultMap = new HashMap<>();
 		
