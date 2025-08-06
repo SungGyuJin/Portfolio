@@ -97,7 +97,6 @@ $(function(){
 	
 	$("#brd-select").on('change', function(){
 		
-		
 		if($(this).val() != ''){
 			
 	// 		$(this).val() != '' ? no = $(this).val() : no;
@@ -113,8 +112,8 @@ $(function(){
 					
 					if(res != null){
 	
-						res.getBbs.secrtYn == 'Y' ? $("#div-secrt").removeClass('d-none') : $("#div-secrt").addClass('d-none');
-						res.getBbs.atchYn == 'Y' ? $("#div-atchYn").removeClass('d-none') : $("#div-atchYn").addClass('d-none');
+						res.getBbs.secrtYn == 'Y' ? $("#div-add-secrt").removeClass('d-none') : $("#div-add-secrt").addClass('d-none');
+						res.getBbs.atchYn == 'Y' ? $("#div-add-atchYn").removeClass('d-none') : $("#div-add-atchYn").addClass('d-none');
 					}
 					
 				},
@@ -524,8 +523,6 @@ function getBoard(no, pYn){
 			data     : {"no" : no},
 			dataType : "json",
 			success  : function(res){
-				
-				console.log(res)
 				
 				var data = res.getBoardReply[0];
 				
@@ -973,6 +970,8 @@ function updateBoard(no, gubun, num, option){
 		dataType : "json",
 		success  : function(res){
 	
+			console.log(res)
+			
 			if(gubun == 'upd'){
 				
 				$("#getBoardModal").modal('hide');
@@ -986,12 +985,16 @@ function updateBoard(no, gubun, num, option){
 					});
 					updateBoardModal.show();
 				}
+					
+				res.getBoard.secrtYn == 'Y' ? $("#div-upd-secrt").removeClass('d-none') : $("#div-upd-secrt").addClass('d-none');
+				res.getBoard.atchYn == 'Y' ? $("#div-upd-atchYn").removeClass('d-none') : $("#div-upd-atchYn").addClass('d-none');
 			
 				$("#brd-upd-boardSeq").val(res.getBoard.boardSeq);
 				$('#updateBoardModal').css('z-index', '1060');
 				$('.modal-backdrop').last().css('z-index', '1055');
-				  
-				$("#brd-upd-select").val(res.getBoard.bbsSeq);
+
+// 				$("#brd-upd-select").val(res.getBoard.bbsSeq);
+				$("#upd-bbs").val(res.getBoard.bbsNm);
 				$("#brd-upd-title").val(res.getBoard.title);
 				CKEDITOR.instances['brd-upd-cont'].setData(res.getBoard.cont);
 				
@@ -1576,7 +1579,7 @@ function btnAddCmntChange(str){
 					            	<label for="brd-title" class="form-label fw-bold">제목</label>
 					              	<input type="text" class="form-control my-input" name="title" id="brd-title">
 					            </div>
-					            <div class="mb-3" id="div-secrt">
+					            <div class="mb-3" id="div-add-secrt">
 					            	<label for="brd-pwdYn" class="form-label fw-bold">비밀 글</label>
 					              	<input type="checkbox" class="form-check-input cursor-pointer ms-1" name="pwdYn" id="brd-pwdYn" value="Y">
 					              	<input type="password" class="form-control my-input" name="pwd" id="brd-pwd" disabled>
@@ -1592,7 +1595,7 @@ function btnAddCmntChange(str){
 					              	<div id="add-thumb-view"></div>
 					              	<div id="add-thumb-data"></div>
 					            </div>
-					            <div class="mb-4" id="div-atchYn">
+					            <div class="mb-4" id="div-add-atchYn">
 									<label for="brd-add-file" class="form-label fw-bold">첨부파일</label>
 					              	<input type="file" class="form-control my-input" name="uploadFile" id="brd-add-file" multiple="multiple">
 					            </div>
@@ -1627,20 +1630,21 @@ function btnAddCmntChange(str){
 				        		<input type="hidden" name="boardSeq" id="brd-upd-boardSeq">
 					            <div class="mb-3 mt-3">
 					            	<label for="brd-upd-select" class="form-label fw-bold">게시판</label>
-					              	<select class="form-select" id="brd-upd-select" disabled>
+					              	<input type="text" class="form-control my-input" id="upd-bbs" disabled>
+					              	<%-- <select class="form-select" id="brd-upd-select" disabled>
 					              		<option value="">게시판을 선택해 주세요.</option>
 										<c:forEach var="list" items="${getBbsList }">
 											<c:if test="${list.bbsSeq ne 1 }">
 												<option value="${list.bbsSeq }">${list.nm }</option>
 											</c:if>
 										</c:forEach>
-					              	</select>
+					              	</select> --%>
 					            </div>
 					            <div class="mb-3">
 					            	<label for="brd-upd-title" class="form-label fw-bold">제목</label>
 					              	<input type="text" class="form-control my-input" name="title" id="brd-upd-title"  spellcheck="false" >
 					            </div>
-					            <div class="mb-3">
+					            <div class="mb-3" id="div-upd-secrt">
 					            	<label for="brd-upd-pwdYn" class="form-label fw-bold">비밀 글</label>
 					              	<input type="checkbox" class="form-check-input cursor-pointer ms-1" name="pwdYn" id="brd-upd-pwdYn" value="Y">
 					              	<span class="ms-2" id="brd-pwd-cancel">
@@ -1660,7 +1664,7 @@ function btnAddCmntChange(str){
 					              	<div id="upd-thumb-view"></div>
 					              	<div id="upd-thumb-data"></div>
 					            </div>
-					            <div class="mb-4">
+					            <div class="mb-4" id="div-upd-atchYn">
 									<label for="brd-upd-file" class="form-label fw-bold">첨부파일</label>
 					              	<input type="file" class="form-control my-input" name="file" id="brd-upd-file" multiple="multiple">
 					            </div>
@@ -1676,9 +1680,6 @@ function btnAddCmntChange(str){
 			</div>
 		</div>
 	</div>
-	
-	
-
         
         
         <!-- Modal Sample -->
