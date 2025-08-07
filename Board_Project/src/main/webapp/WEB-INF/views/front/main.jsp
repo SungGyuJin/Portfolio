@@ -1421,16 +1421,30 @@ function btnAddCmntChange(str){
 	                        	<div class="col-md-2"></div>
 	                        	<div class="col-md-1">
             						<div class="sticky-sidebar">
-									<div class="col-md-1 me-2 d-flex align-items-center justify-content-center"></div>
-            						
-            						
-            						
-            						<div class="image-wrapper mb-2">
-	            						<img class="img-fluid fixed-image" src="${pageContext.request.contextPath}/resources/front/main/assets/img/portfolio/1-board-img.jpg" alt="Board Image" />
-            						</div>
-	                        		<table class="table table-sm mb-0 text-start">
-										<tbody class="text-muted my-thead" id="append-bbs"></tbody>
-									</table>
+										<div class="col-md-1 me-2 d-flex align-items-center justify-content-center"></div>
+	            						<div class="image-wrapper mb-2">
+									        
+									        <c:choose>
+									        	<c:when test="${sessionScope.USERSEQ ne null }">
+			            							<div class="user-info-box bg-light border rounded p-2 mb-1 text-center fixed-image">
+											            <div class="fw-bold mb-2">👤 <span id="user-nickname">사용자닉네임</span> 님</div>
+											            <div class="small text-muted">내가 쓴 글: <span id="my-post-count">12</span></div>
+											            <div class="small text-muted">내 댓글 수: <span id="my-comment-count">34</span></div>
+											            <div class="small text-muted">내 포인트: <span id="my-point">1234</span>P</div>
+											        </div>
+									        	</c:when>
+									        	<c:otherwise>
+			            							<div class="user-info-box bg-light border rounded p-2 mb-1 text-center fixed-image">
+											            <div class="mt-5">※ 로그인이 필요합니다.</div>
+											        </div>
+									        	</c:otherwise>
+									        </c:choose>
+									        
+<%-- 		            						<img class="img-fluid fixed-image" src="${pageContext.request.contextPath}/resources/front/main/assets/img/portfolio/1-board-img.jpg" alt="Board Image" /> --%>
+	            						</div>
+		                        		<table class="table table-sm mb-0 text-start">
+											<tbody class="text-muted my-thead" id="append-bbs"></tbody>
+										</table>
             						</div>
 	                        	</div>
 	                        	
