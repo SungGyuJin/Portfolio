@@ -1426,11 +1426,23 @@ function btnAddCmntChange(str){
 									        
 									        <c:choose>
 									        	<c:when test="${sessionScope.USERSEQ ne null }">
-			            							<div class="user-info-box bg-light border rounded p-2 mb-1 text-center fixed-image">
-											            <div class="fw-bold mb-2">👤 <span id="user-nickname">사용자닉네임</span> 님</div>
-											            <div class="small text-muted">내가 쓴 글: <span id="my-post-count">12</span></div>
-											            <div class="small text-muted">내 댓글 수: <span id="my-comment-count">34</span></div>
-											            <div class="small text-muted">내 포인트: <span id="my-point">1234</span>P</div>
+			            							<div class="user-info-box bg-light border rounded pt-2 mb-1 text-center fixed-image">
+											            <div class="fw-bold mb-2">👤 <span id="user-nickname">${sessionScope.USERNM }</span> 님</div>
+											            
+											            <div class="small text-muted d-flex justify-content-between ms-1 me-1">
+														    <div><img class="mb-1 me-1" src="${pageContext.request.contextPath}/resources/front/main/assets/img/pencil-black.png" style="max-width: 16px;">내가 쓴 게시글:</div>
+														    <div><span id="my-post-count">12</span> 개</div>
+														</div>
+														
+											            <div class="small text-muted d-flex justify-content-between ms-1 me-1">
+														    <div><img class="mb-1 me-1" src="${pageContext.request.contextPath}/resources/front/main/assets/img/cmnt.png" style="max-width: 16px;">내가 쓴 댓글:</div>
+														    <div><span id="my-post-count">12</span> 개</div>
+														</div>
+														
+<!-- 											            <div class="small text-muted">내가 쓴 댓글: <span id="my-comment-count">34</span></div> -->
+			       										<button type="button" class="btn my-success w-100 mt-4" id="btn-addBoradModal" onclick="addBoardModalView();">
+			       											글쓰기
+			       										</button>
 											        </div>
 									        	</c:when>
 									        	<c:otherwise>
@@ -1441,6 +1453,8 @@ function btnAddCmntChange(str){
 									        </c:choose>
 									        
 <%-- 		            						<img class="img-fluid fixed-image" src="${pageContext.request.contextPath}/resources/front/main/assets/img/portfolio/1-board-img.jpg" alt="Board Image" /> --%>
+	            						
+	            							
 	            						</div>
 		                        		<table class="table table-sm mb-0 text-start">
 											<tbody class="text-muted my-thead" id="append-bbs"></tbody>
@@ -1451,13 +1465,13 @@ function btnAddCmntChange(str){
 		                        <div class="col-md-6 mt-4">
 		                            <div class="d-flex justify-content-between">
 		                            	<span class="mt-3" id="append-cnt"></span>
-		                            	<c:choose>
-		                            		<c:when test="${empty sessionScope.USERSEQ }"><span class="mt-3">※ 로그인 후 글을 작성할 수 있습니다.</span></c:when>
-		                            		<c:otherwise>
-		                            			<c:if test="${sessionScope.USERSE eq 'A' }"><span class="mt-3">※ 관리자계정입니다.</span></c:if>
-		                            			<c:if test="${sessionScope.USERSE eq 'U' }"><button type="button" class="btn my-success" id="btn-addBoradModal" onclick="addBoardModalView();"><img src="${pageContext.request.contextPath}/resources/front/main/assets/img/pencil.png" class="me-2" alt="pencil" style="width: 25px; height: 25px;" />글쓰기</button></c:if>
-		                            		</c:otherwise>
-		                            	</c:choose>
+<%-- 		                            	<c:choose> --%>
+<%-- 		                            		<c:when test="${empty sessionScope.USERSEQ }"><span class="mt-3">※ 로그인 후 글을 작성할 수 있습니다.</span></c:when> --%>
+<%-- 		                            		<c:otherwise> --%>
+<%-- 		                            			<c:if test="${sessionScope.USERSE eq 'A' }"><span class="mt-3">※ 관리자계정입니다.</span></c:if> --%>
+<%-- 		                            			<c:if test="${sessionScope.USERSE eq 'U' }"><button type="button" class="btn my-success" id="btn-addBoradModal" onclick="addBoardModalView();"><img src="${pageContext.request.contextPath}/resources/front/main/assets/img/pencil.png" class="me-2" alt="pencil" style="width: 25px; height: 25px;" />글쓰기</button></c:if> --%>
+<%-- 		                            		</c:otherwise> --%>
+<%-- 		                            	</c:choose> --%>
 		                            </div>
 									<input type="hidden" id="oldKeyword" value="">
 		                        	<hr>
