@@ -277,6 +277,13 @@ public class BoardServiceImpl implements BoardService {
 		// 페이징 처리
 		int totalCnt = boardMapper.getFrontBoardListCnt(boardVO);
 		PageMakerDTO pageMaker = new PageMakerDTO(boardVO, totalCnt);
+		
+		if(boardVO.getRegNo() > 0) {
+			// 게시글 수, 댓글 수
+			List<BoardVO> getWriterCnt = new ArrayList<>();
+			getWriterCnt = boardMapper.getWriterCnt(boardVO);
+			resultMap.put("getWriterCnt", getWriterCnt);
+		}
 
 		resultMap.put("getBoardList", getBoardList);
 		resultMap.put("getBbsList", getBbsList);

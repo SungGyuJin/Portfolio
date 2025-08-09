@@ -1,5 +1,6 @@
 package com.gyu.portfolio.service;
 
+import java.util.List;
 import java.util.Map;
 
 import com.gyu.portfolio.model.AttachVO;
@@ -36,4 +37,5 @@ public interface BoardService {
 	Map<String, Object> getFrontBoard(BoardVO boardVO) throws Exception;
 
 	Map<String, Object> chkPwd(BoardVO boardVO) throws Exception;
+
 }

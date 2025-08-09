@@ -678,9 +678,7 @@ function getBoardList(num, style){
 		data     : $("#frm-board").serialize(),
 		dataType : "json",
 		success  : function(res){
-			
-			console.log(res)
-			
+
 			var bbsList 		= res.getBbsList;
 			var boardList 		= res.getBoardList;
 			var boardListCnt 	= res.total;
@@ -691,6 +689,11 @@ function getBoardList(num, style){
 			
 			var bbsNm = '';
 			var bbsSeq = 0;
+			
+			if(res.getWriterCnt != null){
+				$("#boardCnt").html(res.getWriterCnt[0].boardCnt);
+				$("#cmntCnt").html(res.getWriterCnt[0].cmntCnt);
+			}
 			
 			// 게시판 목록
 			for(let i=0; i < bbsList.length; i++){
@@ -1431,12 +1434,12 @@ function btnAddCmntChange(str){
 											            
 											            <div class="small text-muted d-flex justify-content-between ms-1 me-1">
 														    <div><img class="mb-1 me-1" src="${pageContext.request.contextPath}/resources/front/main/assets/img/pencil-black.png" style="max-width: 16px;">내가 쓴 게시글:</div>
-														    <div><span id="my-post-count">12</span> 개</div>
+														    <div><span id="boardCnt"></span> 개</div>
 														</div>
 														
 											            <div class="small text-muted d-flex justify-content-between ms-1 me-1">
 														    <div><img class="mb-1 me-1" src="${pageContext.request.contextPath}/resources/front/main/assets/img/cmnt.png" style="max-width: 16px;">내가 쓴 댓글:</div>
-														    <div><span id="my-post-count">12</span> 개</div>
+														    <div><span id="cmntCnt"></span> 개</div>
 														</div>
 														
 <!-- 											            <div class="small text-muted">내가 쓴 댓글: <span id="my-comment-count">34</span></div> -->

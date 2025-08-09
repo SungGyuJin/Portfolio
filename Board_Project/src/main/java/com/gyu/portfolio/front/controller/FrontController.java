@@ -104,10 +104,19 @@ public class FrontController {
 	public Map<String, Object> getBoardList(ModelMap model,
 			@ModelAttribute("BoardVO") BoardVO boardVO,
 			HttpServletRequest request,
+			HttpSession session,
 			HttpServletResponse response) throws Exception{
 
 		// 게시물 목록
 	    Map<String, Object> resultMap = new HashMap<>();
+
+	    System.out.println();
+	    System.out.println("sNo:: "+session.getAttribute("USERSEQ"));
+	    System.out.println();
+	    
+	    if(session.getAttribute("USERSEQ") != null) {
+	    	boardVO.setRegNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
+	    }
 
 //		boardVO.setAmount(10);	// 페이지당 데이터 갯수
 	    boardVO.setListTyp("list");

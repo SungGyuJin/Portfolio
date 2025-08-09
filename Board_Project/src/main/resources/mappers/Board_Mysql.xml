@@ -29,6 +29,7 @@
 		<result property="userNm"		column="USER_NM" 	/>
 		<result property="rowNum"		column="ROW_NUM" 	/>
 		<result property="cmntCnt"		column="CMNT_CNT" 	/>
+		<result property="boardCnt"		column="BOARD_CNT" 	/>
 		<result property="atchCnt"	    column="ATCH_CNT"	/>
 		<result property="rsMatch"	    column="RS_MATCH"	/>
 		<result property="thumbYn"	    column="THUMB_YN"	/>
@@ -465,6 +466,12 @@
 		FROM TB_BOARD
 		WHERE 1=1
 			AND BOARD_SEQ = #{boardSeq}
+	</select>
+	
+	<select id="getWriterCnt" resultMap="boardVO">
+		SELECT
+		    (SELECT COUNT(*) FROM TB_BOARD WHERE 1=1 AND STAT = 1 AND REG_NO = #{regNo}) AS BOARD_CNT,
+		    (SELECT COUNT(*) FROM TB_COMMENT WHERE 1=1 AND STAT = 1 AND REG_NO = #{regNo}) AS CMNT_CNT
 	</select>
 
 </mapper>

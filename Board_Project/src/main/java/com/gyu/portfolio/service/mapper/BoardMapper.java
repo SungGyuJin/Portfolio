@@ -63,5 +63,7 @@ public interface BoardMapper {
 	int updateReadCnt(BoardVO boardVO) throws Exception;
 	
 	BoardVO chkPwd(BoardVO boardVO) throws Exception;
+
+	List<BoardVO> getWriterCnt(BoardVO boardVO) throws Exception;
     
 }
