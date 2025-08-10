@@ -657,9 +657,7 @@ function changeBbsSeq(no, info){
 }
 
 // 게시물 목록
-function getBoardList(num, style){
-	
-	
+function getBoardList(num, style, no){
 	
 	$("#searchKeyword").val($("#js-searchKeyword").val());
 	
@@ -1434,12 +1432,12 @@ function btnAddCmntChange(str){
 											            
 											            <div class="small text-muted d-flex justify-content-between ms-1 me-1">
 														    <div><img class="mb-1 me-1" src="${pageContext.request.contextPath}/resources/front/main/assets/img/pencil-black.png" style="max-width: 16px;">내가 쓴 게시글:</div>
-														    <div><span id="boardCnt"></span> 개</div>
+														    <div><a href="javascript:getBoardList(1, 'L', ${sessionScope.USERSEQ });" class="my-a"><span id="boardCnt"></span> 개</a></div>
 														</div>
 														
 											            <div class="small text-muted d-flex justify-content-between ms-1 me-1">
 														    <div><img class="mb-1 me-1" src="${pageContext.request.contextPath}/resources/front/main/assets/img/cmnt.png" style="max-width: 16px;">내가 쓴 댓글:</div>
-														    <div><span id="cmntCnt"></span> 개</div>
+														    <div><a href="javascript:getBoardList(1, 'L', ${sessionScope.USERSEQ });" class="my-a"><span id="cmntCnt"></span> 개</a></div>
 														</div>
 														
 <!-- 											            <div class="small text-muted">내가 쓴 댓글: <span id="my-comment-count">34</span></div> -->
