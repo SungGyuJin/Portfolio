@@ -39,6 +39,7 @@ public class BoardVO extends DefalutVO {
 
 	private String filePath		= "";
 	private String strgFileNm	= "";
+	private String myPageYn		= "";
 	
 	private int    rowNum 	=  0;
 	private int    cmntCnt 	=  0;

@@ -34,6 +34,7 @@
 		<result property="rsMatch"	    column="RS_MATCH"	/>
 		<result property="thumbYn"	    column="THUMB_YN"	/>
 		<result property="thumbInfo"	column="THUMB_INFO"	/>
+<!-- 		<result property="myPageYn"		column="MY_PAGE_YN"	/> -->
 
 		<result property="filePath"	    column="FILE_PATH"		/>
 		<result property="strgFileNm"	column="STRG_FILE_NM"	/>
@@ -323,6 +324,20 @@
 				<if test="listTyp.equals('trash')">
 					AND STAT = 0
 				</if>
+				<if test='!myPageYn.equals("N")'>
+					<choose>
+						<when test='myPageYn.equals("B")'>AND REG_NO = #{regNo}</when>
+						<otherwise>
+						AND EXISTS (
+					        SELECT 1
+					        FROM TB_COMMENT C
+					        WHERE C.STAT = 1
+					          AND C.REG_NO = #{regNo}
+         	 				AND C.BOARD_SEQ = T1.BOARD_SEQ
+					    )
+						</otherwise>
+					</choose>
+				</if>
 				<choose>
 					<when test="bbsSeq > 0">AND (BBS_SEQ = 1 OR BBS_SEQ = #{bbsSeq})</when>
 					<otherwise>AND BBS_SEQ IN(SELECT BBS_SEQ FROM TB_BBS WHERE STAT = 1)</otherwise>
@@ -361,6 +376,20 @@
 			</if>
 			<if test="listTyp.equals('trash')">
 				AND STAT = 0
+			</if>
+			<if test='!myPageYn.equals("N")'>
+				<choose>
+					<when test='myPageYn.equals("B")'>AND REG_NO = #{regNo}</when>
+					<otherwise>
+						AND EXISTS (
+					        SELECT 1
+					        FROM TB_COMMENT C
+					        WHERE C.STAT = 1
+					          AND C.REG_NO = #{regNo}
+          					AND C.BOARD_SEQ = T1.BOARD_SEQ
+					    )
+					</otherwise>
+				</choose>
 			</if>
 			<choose>
 				<when test="bbsSeq > 0">AND (BBS_SEQ = 1 OR BBS_SEQ = #{bbsSeq})</when>

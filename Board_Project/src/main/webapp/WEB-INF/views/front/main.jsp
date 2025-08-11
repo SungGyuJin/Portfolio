@@ -657,7 +657,7 @@ function changeBbsSeq(no, info){
 }
 
 // 게시물 목록
-function getBoardList(num, style, no){
+function getBoardList(num, style, no, myPg){
 	
 	$("#searchKeyword").val($("#js-searchKeyword").val());
 	
@@ -668,6 +668,14 @@ function getBoardList(num, style, no){
 		}else{
 			$("#pageNum").val('1');
 		}
+	}
+	
+	if(myPg != null){
+		$("#myPageYn").val(myPg);
+// 		$("#regNo").val(no);
+	}else{
+		$("#myPageYn").val('N');
+// 		$("#regNo").val('0');
 	}
 	
 	$.ajax({
@@ -1432,12 +1440,12 @@ function btnAddCmntChange(str){
 											            
 											            <div class="small text-muted d-flex justify-content-between ms-1 me-1">
 														    <div><img class="mb-1 me-1" src="${pageContext.request.contextPath}/resources/front/main/assets/img/pencil-black.png" style="max-width: 16px;">내가 쓴 게시글:</div>
-														    <div><a href="javascript:getBoardList(1, 'L', ${sessionScope.USERSEQ });" class="my-a"><span id="boardCnt"></span> 개</a></div>
+														    <div><a href="javascript:getBoardList(1, 'L', ${sessionScope.USERSEQ }, 'B');" class="my-a"><span id="boardCnt"></span> 개</a></div>
 														</div>
 														
 											            <div class="small text-muted d-flex justify-content-between ms-1 me-1">
 														    <div><img class="mb-1 me-1" src="${pageContext.request.contextPath}/resources/front/main/assets/img/cmnt.png" style="max-width: 16px;">내가 쓴 댓글:</div>
-														    <div><a href="javascript:getBoardList(1, 'L', ${sessionScope.USERSEQ });" class="my-a"><span id="cmntCnt"></span> 개</a></div>
+														    <div><a href="javascript:getBoardList(1, 'L', ${sessionScope.USERSEQ }, 'C');" class="my-a"><span id="cmntCnt"></span> 개</a></div>
 														</div>
 														
 <!-- 											            <div class="small text-muted">내가 쓴 댓글: <span id="my-comment-count">34</span></div> -->
@@ -1477,6 +1485,8 @@ function btnAddCmntChange(str){
 									<input type="hidden" id="oldKeyword" value="">
 		                        	<hr>
 		                        	<form id="frm-board">
+		                        		<input type="text" name="myPageYn" id="myPageYn" value="N">
+		                        		<input type="text" name="regNo" id="regNo" value="0">
 		                        		<input type="hidden" name="listTyp" id="listTyp" value="L">
 		                        		<input type="hidden" name="bbsSeq" id="bbsSeq" value="0">
 		                        		<input type="hidden" name="pageNum" id="pageNum" value="1">
