@@ -644,7 +644,7 @@ function getBoard(no, pYn){
 	
 }
 function changeList(num){
-	getBoardList(num, $("#listTyp").val());
+	getBoardList(num, $("#listTyp").val(), $("#myPageYn").val());
 }
 
 // 게시판 이동
@@ -657,7 +657,7 @@ function changeBbsSeq(no, info){
 }
 
 // 게시물 목록
-function getBoardList(num, style, no, myPg){
+function getBoardList(num, style, myPg){
 	
 	$("#searchKeyword").val($("#js-searchKeyword").val());
 	
@@ -672,10 +672,8 @@ function getBoardList(num, style, no, myPg){
 	
 	if(myPg != null){
 		$("#myPageYn").val(myPg);
-// 		$("#regNo").val(no);
 	}else{
 		$("#myPageYn").val('N');
-// 		$("#regNo").val('0');
 	}
 	
 	$.ajax({
@@ -721,8 +719,12 @@ function getBoardList(num, style, no, myPg){
 			$("#append-bbs").html(html_bbs);
 			$("#bbsSeq-"+bbsSeq).addClass('fw-bolder');
 			
-			if(bbsNm.length == 0){
+			if(bbsNm.length == 0 && res.boardVO.myPageYn == 'N'){
 				bbsNm = '전체글보기';
+			}else if(res.boardVO.myPageYn == 'B'){
+				bbsNm = '내가 쓴 게시글';
+			}else if(res.boardVO.myPageYn == 'C'){
+				bbsNm = '내가 쓴 댓글';
 			}
 			
 			html += 	'<div class="mb-3">';
@@ -1440,12 +1442,12 @@ function btnAddCmntChange(str){
 											            
 											            <div class="small text-muted d-flex justify-content-between ms-1 me-1">
 														    <div><img class="mb-1 me-1" src="${pageContext.request.contextPath}/resources/front/main/assets/img/pencil-black.png" style="max-width: 16px;">내가 쓴 게시글:</div>
-														    <div><a href="javascript:getBoardList(1, 'L', ${sessionScope.USERSEQ }, 'B');" class="my-a"><span id="boardCnt"></span> 개</a></div>
+														    <div><a href="javascript:getBoardList(1, 'L', 'B');" class="my-a"><span id="boardCnt"></span> 개</a></div>
 														</div>
 														
 											            <div class="small text-muted d-flex justify-content-between ms-1 me-1">
 														    <div><img class="mb-1 me-1" src="${pageContext.request.contextPath}/resources/front/main/assets/img/cmnt.png" style="max-width: 16px;">내가 쓴 댓글:</div>
-														    <div><a href="javascript:getBoardList(1, 'L', ${sessionScope.USERSEQ }, 'C');" class="my-a"><span id="cmntCnt"></span> 개</a></div>
+														    <div><a href="javascript:getBoardList(1, 'L', 'C');" class="my-a"><span id="cmntCnt"></span> 개</a></div>
 														</div>
 														
 <!-- 											            <div class="small text-muted">내가 쓴 댓글: <span id="my-comment-count">34</span></div> -->
@@ -1485,8 +1487,8 @@ function btnAddCmntChange(str){
 									<input type="hidden" id="oldKeyword" value="">
 		                        	<hr>
 		                        	<form id="frm-board">
-		                        		<input type="text" name="myPageYn" id="myPageYn" value="N">
-		                        		<input type="text" name="regNo" id="regNo" value="0">
+		                        		<input type="hidden" name="myPageYn" id="myPageYn" value="N">
+<!-- 		                        		<input type="text" name="regNo" id="regNo" value="0"> -->
 		                        		<input type="hidden" name="listTyp" id="listTyp" value="L">
 		                        		<input type="hidden" name="bbsSeq" id="bbsSeq" value="0">
 		                        		<input type="hidden" name="pageNum" id="pageNum" value="1">
