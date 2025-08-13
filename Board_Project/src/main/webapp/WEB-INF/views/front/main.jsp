@@ -703,10 +703,10 @@ function getBoardList(num, style, myPg){
 			for(let i=0; i < bbsList.length; i++){
 				html_bbs += '<tr>';
 				if(i == 0){
-					html_bbs += '<td class="my-td"> └ <a href="javascript:bbsClick(0)" id="bbsSeq-0" class="my-a text-dark" onclick="changeBbsSeq(0, this);"><img class="mb-1 me-1" src="'+contextPath +'/resources/front/main/assets/img/bbs_icon.png" style="max-width: 16px;"/>전체글보기</td>';
+					html_bbs += '<td class="my-td"> └ <a href="javascript:bbsClick(0)" id="bbsSeq-0" class="my-a text-dark" onclick="changeBbsSeq(0, this);"><img class="mb-1 me-1" src="'+contextPath +'/resources/front/main/assets/img/bbs_icon.png" style="max-width: 16px;"/><span class="underline">전체글보기</span></td>';
 				}
 				if(bbsList[i].bbsSeq != 1){
-					html_bbs += '<td class="my-td"> └ <a href="javascript:bbsClick('+bbsList[i].bbsSeq+')" id="bbsSeq-'+bbsList[i].bbsSeq+'" class="my-a text-dark" onclick="changeBbsSeq('+bbsList[i].bbsSeq+', this);"><img class="mb-1 me-1" src="'+contextPath +'/resources/front/main/assets/img/bbs_icon.png" style="max-width: 16px;"/>'+bbsList[i].nm+'</a></td>';
+					html_bbs += '<td class="my-td"> └ <a href="javascript:bbsClick('+bbsList[i].bbsSeq+')" id="bbsSeq-'+bbsList[i].bbsSeq+'" class="my-a text-dark" onclick="changeBbsSeq('+bbsList[i].bbsSeq+', this);"><img class="mb-1 me-1" src="'+contextPath +'/resources/front/main/assets/img/bbs_icon.png" style="max-width: 16px;"/><span class="underline">'+bbsList[i].nm+'</span></a></td>';
 				}
 				html_bbs += '</tr>';
 				
@@ -715,6 +715,9 @@ function getBoardList(num, style, myPg){
 					bbsNm = bbsList[i].nm;
 				}
 			}
+
+			$("#my-board").removeClass('fw-bolder');
+			$("#my-cmnt").removeClass('fw-bolder');
 			
 			$("#append-bbs").html(html_bbs);
 			$("#bbsSeq-"+bbsSeq).addClass('fw-bolder');
@@ -723,8 +726,12 @@ function getBoardList(num, style, myPg){
 				bbsNm = '전체글보기';
 			}else if(res.boardVO.myPageYn == 'B'){
 				bbsNm = '내가 쓴 게시글';
+				$("#bbsSeq-"+bbsSeq).removeClass('fw-bolder');
+				$("#my-board").addClass('fw-bolder');
 			}else if(res.boardVO.myPageYn == 'C'){
 				bbsNm = '내가 쓴 댓글';
+				$("#bbsSeq-"+bbsSeq).removeClass('fw-bolder');
+				$("#my-cmnt").addClass('fw-bolder');
 			}
 			
 			html += 	'<div class="mb-3">';
@@ -779,7 +786,7 @@ function getBoardList(num, style, myPg){
 				html +=							'<td class=""><span class="my-notice">공지</span></td>';
 				html +=							'<td class="text-start fw-bolder">';
 				html +=								'<img class="mb-1" src="'+contextPath +'/resources/front/main/assets/img/spk.png" style="max-width: 20px;"/>\u00a0\u00a0';
-				html +=								'<small><a href="javascript:getBoard('+boardList[i].ref+', \''+boardList[i].pwdYn+'\');" class="my-a text-danger">'+boardList[i].title+'</a></small>';
+				html +=								'<small><a href="javascript:getBoard('+boardList[i].ref+', \''+boardList[i].pwdYn+'\');" class="my-a text-danger"><span class="underline">'+boardList[i].title+'</span></a></small>';
 										}else{
 				html +=						'<tr>';
 											boardList[i].rowNum > 0 ? html += '<td class="text-secondary"><small>'+boardList[i].rowNum+'</small></td>' : html += '<td></td>';
@@ -1440,12 +1447,12 @@ function btnAddCmntChange(str){
 			            							<div class="user-info-box bg-light border rounded pt-2 mb-1 text-center fixed-image">
 											            <div class="fw-bold mb-2">👤 <span id="user-nickname">${sessionScope.USERNM }</span> 님</div>
 											            
-											            <div class="small text-muted d-flex justify-content-between ms-1 me-1">
+											            <div class="small text-muted d-flex justify-content-between ms-1 me-1" id="my-board">
 														    <div><img class="mb-1 me-1" src="${pageContext.request.contextPath}/resources/front/main/assets/img/pencil-black.png" style="max-width: 16px;">내가 쓴 게시글:</div>
 														    <div><a href="javascript:getBoardList(1, 'L', 'B');" class="my-a"><span id="boardCnt"></span> 개</a></div>
 														</div>
 														
-											            <div class="small text-muted d-flex justify-content-between ms-1 me-1">
+											            <div class="small text-muted d-flex justify-content-between ms-1 me-1" id="my-cmnt">
 														    <div><img class="mb-1 me-1" src="${pageContext.request.contextPath}/resources/front/main/assets/img/cmnt.png" style="max-width: 16px;">내가 쓴 댓글:</div>
 														    <div><a href="javascript:getBoardList(1, 'L', 'C');" class="my-a"><span id="cmntCnt"></span> 개</a></div>
 														</div>

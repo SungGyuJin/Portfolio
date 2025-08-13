@@ -338,10 +338,12 @@
 						</otherwise>
 					</choose>
 				</if>
-				<choose>
-					<when test="bbsSeq > 0">AND (BBS_SEQ = 1 OR BBS_SEQ = #{bbsSeq})</when>
-					<otherwise>AND BBS_SEQ IN(SELECT BBS_SEQ FROM TB_BBS WHERE STAT = 1)</otherwise>
-				</choose>
+				<if test='myPageYn.equals("N")'>
+					<choose>
+						<when test="bbsSeq > 0">AND (BBS_SEQ = 1 OR BBS_SEQ = #{bbsSeq})</when>
+						<otherwise>AND BBS_SEQ IN(SELECT BBS_SEQ FROM TB_BBS WHERE STAT = 1)</otherwise>
+					</choose>
+				</if>
 				<if test="searchKeyword != null and !searchKeyword.equals('')">
 					<choose>
 						<when test="gubun.equals('cn')">AND CONT LIKE CONCAT('%', #{searchKeyword}, '%')</when>
@@ -391,10 +393,12 @@
 					</otherwise>
 				</choose>
 			</if>
-			<choose>
-				<when test="bbsSeq > 0">AND (BBS_SEQ = 1 OR BBS_SEQ = #{bbsSeq})</when>
-				<otherwise>AND BBS_SEQ IN(SELECT BBS_SEQ FROM TB_BBS WHERE STAT = 1)</otherwise>
-			</choose>
+			<if test='myPageYn.equals("N")'>
+				<choose>
+					<when test="bbsSeq > 0">AND (BBS_SEQ = 1 OR BBS_SEQ = #{bbsSeq})</when>
+					<otherwise>AND BBS_SEQ IN(SELECT BBS_SEQ FROM TB_BBS WHERE STAT = 1)</otherwise>
+				</choose>
+			</if>
 			<if test="searchKeyword != null and !searchKeyword.equals('')">
 				<choose>
 					<when test="gubun.equals('cn')">AND CONT LIKE CONCAT('%', #{searchKeyword}, '%')</when>
