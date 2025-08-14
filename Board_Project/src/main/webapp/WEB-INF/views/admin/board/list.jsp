@@ -19,36 +19,49 @@
 				if(delArr.indexOf($("#"+chkBox.attr("id")).val()) == -1){
 					if(chkBox.attr('id') == 'all-chk'){
 						
+						// 전체체크 설정
 						if(chkBox.prop("checked")){
 							
 							var html = '';
 							
 							$(".list-chk").each(function(){
 								if($("#del-"+$(this).val()).length == 0){
-									html += '<input type="text" name="delSeqArr" id="del-'+$(this).val()+'" value="'+$(this).val()+'">';
+									html += '<input type="hidden" name="delSeqArr" id="del-'+$(this).val()+'" value="'+$(this).val()+'">';
 									delArr.push($(this).val());
 								}
 							});
 							
 							$("#delSeqArr").append(html);
-							
+							$(".list-chk").prop('checked', true);
+
+						// 전체체크 해제
 						}else{
 
 							$("#delSeqArr").empty();
 							delArr.splice(0, delArr.length);
+							$(".list-chk").prop('checked', false);
 						}
 						
-						
 					}else{
-						var html = '<input type="text" name="delSeqArr" id="del-'+$("#"+chkBox.attr("id")).val()+'" value="'+$("#"+chkBox.attr("id")).val()+'">';
+						var html = '<input type="hidden" name="delSeqArr" id="del-'+$("#"+chkBox.attr("id")).val()+'" value="'+$("#"+chkBox.attr("id")).val()+'">';
 						delArr.push($("#"+chkBox.attr("id")).val());
 						$("#delSeqArr").append(html);
 					}
 
 				}else{
+					
 					delArr.splice(delArr.indexOf($("#"+chkBox.attr("id")).val()), 1);
 					$("#del-"+$("#"+chkBox.attr("id")).val()).remove();
 				}
+				
+				
+
+				if($(".list-chk").length == $(".list-chk:checked").length){
+					$("#all-chk").prop('checked', true);
+				}else{
+					$("#all-chk").prop('checked', false);
+				}
+				
 			}
 			
 			chkboxOption();
@@ -65,7 +78,7 @@
 				
 				$(".list-chk").each(function(){
 					if($("#del-"+$(this).val()).length == 0){
-						html += '<input type="text" name="delSeqArr" id="del-'+$(this).val()+'" value="'+$(this).val()+'">';
+						html += '<input type="hidden" name="delSeqArr" id="del-'+$(this).val()+'" value="'+$(this).val()+'">';
 						delArr.push($(this).val());
 					}
 				});
@@ -90,7 +103,7 @@
 			}
 			
 			if(delArr.indexOf($(this).val()) == -1){
-				var html = '<input type="text" name="delSeqArr" id="del-'+$(this).val()+'" value="'+$(this).val()+'">';
+				var html = '<input type="hidden" name="delSeqArr" id="del-'+$(this).val()+'" value="'+$(this).val()+'">';
 				delArr.push($(this).val());
 				$("#delSeqArr").append(html);
 			}else{
