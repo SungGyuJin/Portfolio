@@ -63,12 +63,6 @@ public class BoardServiceImpl implements BoardService {
 					// 답글에 대한 답글인 경우 모든 케이스	
 					}else {
 						
-						/* 보류 */
-//						boardVO.setStep(boardVO.getStep() + 1);
-//						boardMapper.updateStep(boardVO);
-//						boardMapper.updateOldStep(boardVO);
-//						boardVO.setLvl(boardVO.getLvl() + 1);
-						
 						/* 원본 */
 						boardVO.setStep(boardVO.getStep() + 1);
 						boardVO.setLvl(boardVO.getLvl() + 1);
@@ -259,7 +253,44 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public int changeStat(BoardVO boardVO) throws Exception {
-		return boardMapper.changeStat(boardVO);
+
+		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+		
+		TransactionStatus status = transactionManager.getTransaction(def);
+		
+			int result = 0;
+					
+			try{
+				
+				for(int i=0; i < boardVO.getDelSeqArr().length; i++) {
+
+					boardVO.setBoardSeq(Integer.parseInt(boardVO.getDelSeqArr()[i]));
+					
+					int cnt = boardMapper.getRefCnt(boardVO);
+					
+					if(cnt > 1) {
+						System.out.println();
+						System.out.println("if");
+						System.out.println();
+						result = boardMapper.changeStatRef(boardVO);
+					}else {
+						System.out.println();
+						System.out.println("else");
+						System.out.println();
+						result = boardMapper.changeStat(boardVO);
+					}
+				}
+				
+				transactionManager.commit(status);
+			}catch(Exception e){
+				transactionManager.rollback(status);
+				System.out.println();
+				System.out.println(e.getMessage());
+				System.out.println();
+			}
+
+		return result;
 	}
 
 	@Override

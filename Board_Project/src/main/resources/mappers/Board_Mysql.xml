@@ -268,9 +268,22 @@
 			AND BOARD_SEQ = #{boardSeq}
 	</update>
 	
+	<select id="getRefCnt" resultType="int">
+		SELECT COUNT(*) FROM TB_BOARD WHERE REF = #{boardSeq}
+	</select>
+	
 	<!-- 게시물 상태변경(복구, 삭제, 영구삭제)(Ajax) -->
 	<update id="changeStat">
 		UPDATE
+			TB_BOARD
+		SET
+			STAT = #{stat}
+			, UPD_NO = #{updNo}
+			, UPD_DT = NOW()
+		WHERE 1=1
+			AND BOARD_SEQ = #{boardSeq}
+			
+		<!-- UPDATE
 			TB_BOARD
 		SET
 			STAT = #{stat}
@@ -281,7 +294,33 @@
 		 	<foreach collection="delSeqArr" item="seq" separator=",">
 		 		#{seq}
 		 	</foreach>
-			)
+			) -->
+	</update>
+	
+	<!-- 게시물 상태변경(복구, 삭제, 영구삭제)(Ajax) -->
+	<update id="changeStatRef">
+		UPDATE
+			TB_BOARD
+		SET
+			STAT = #{stat}
+			, UPD_NO = #{updNo}
+			, UPD_DT = NOW()
+		WHERE 1=1
+			AND REF = #{boardSeq}
+			
+			
+		<!-- UPDATE
+			TB_BOARD
+		SET
+			STAT = #{stat}
+			, UPD_NO = #{updNo}
+			, UPD_DT = NOW()
+		WHERE 1=1
+			AND REF IN(
+		 	<foreach collection="delSeqArr" item="seq" separator=",">
+		 		#{seq}
+		 	</foreach>
+			) -->
 	</update>
 
 	<!-- #################################################################################################### -->

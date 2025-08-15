@@ -22,8 +22,13 @@ public interface BoardMapper {
 	// 게시물 수정
 	int updateBoard(BoardVO boardVO) throws Exception;
 
+	int getRefCnt(BoardVO boardVO) throws Exception;
+
 	/* 게시물 상태변경(복구, 삭제, 영구삭제)(Ajax) */
 	int changeStat(BoardVO boardVO) throws Exception;
+
+	/* 게시물 상태변경(복구, 삭제, 영구삭제)(Ajax) */
+	int changeStatRef(BoardVO boardVO) throws Exception;
     
     /* 게시물 총 갯수 */
     int getBoardListCnt(BoardVO boardVO) throws Exception;

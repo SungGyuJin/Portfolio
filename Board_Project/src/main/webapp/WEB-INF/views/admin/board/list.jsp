@@ -53,8 +53,6 @@
 					delArr.splice(delArr.indexOf($("#"+chkBox.attr("id")).val()), 1);
 					$("#del-"+$("#"+chkBox.attr("id")).val()).remove();
 				}
-				
-				
 
 				if($(".list-chk").length == $(".list-chk:checked").length){
 					$("#all-chk").prop('checked', true);
