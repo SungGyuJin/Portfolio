@@ -1004,7 +1004,7 @@ function updateBoard(no, gubun, num, option){
 					updateBoardModal.show();
 				}
 					
-				res.getBoard.secrtYn == 'Y' ? $("#div-upd-secrt").removeClass('d-none') : $("#div-upd-secrt").addClass('d-none');
+// 				res.getBoard.secrtYn == 'Y' ? $("#div-upd-secrt").removeClass('d-none') : $("#div-upd-secrt").addClass('d-none');
 				res.getBoard.atchYn == 'Y' ? $("#div-upd-atchYn").removeClass('d-none') : $("#div-upd-atchYn").addClass('d-none');
 			
 				$("#brd-upd-boardSeq").val(res.getBoard.boardSeq);
@@ -1129,7 +1129,7 @@ function deleteBoard(no, num, pwdYn){
 		$.ajax({
 			url      : "/main/changeStat.do",
 			method   : "POST",
-			data     : {"no" : no, "num" : num},
+			data     : {"delSeqArr" : no, "num" : num},
 			dataType : "json",
 			success  : function(res){
 	

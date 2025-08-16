@@ -206,7 +206,7 @@ public class FrontController {
 			HttpSession session) throws Exception{
 
 		boardVO.setUpdNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
-		boardVO.setBoardSeq(Integer.parseInt(request.getParameter("no")));
+//		boardVO.setBoardSeq(Integer.parseInt(request.getParameter("no")));
 		boardVO.setStat(Integer.parseInt(request.getParameter("num")));
 		int result = boardService.changeStat(boardVO);
 

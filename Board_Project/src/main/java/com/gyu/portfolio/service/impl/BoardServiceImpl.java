@@ -262,9 +262,19 @@ public class BoardServiceImpl implements BoardService {
 			int result = 0;
 					
 			try{
+
+				System.out.println();
+				
+//				if(boardVO.getDelSeqArr() == null) {
+//					System.out.println("진입~~~ Null");
+//					System.out.println("if: "+boardVO.getDelSeqArr());
+//
+//					result = boardMapper.changeStatRef(boardVO);
+//				}	
 				
 				for(int i=0; i < boardVO.getDelSeqArr().length; i++) {
 
+					System.out.println("i: "+i);
 					boardVO.setBoardSeq(Integer.parseInt(boardVO.getDelSeqArr()[i]));
 					
 					int cnt = boardMapper.getRefCnt(boardVO);
