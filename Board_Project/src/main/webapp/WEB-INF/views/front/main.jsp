@@ -108,8 +108,6 @@ $(function(){
 				dataType : "json",
 				success  : function(res){
 					
-					console.log(res.getBbs)
-					
 					if(res != null){
 	
 						res.getBbs.secrtYn == 'Y' ? $("#div-add-secrt").removeClass('d-none') : $("#div-add-secrt").addClass('d-none');
@@ -988,8 +986,6 @@ function updateBoard(no, gubun, num, option){
 		dataType : "json",
 		success  : function(res){
 	
-			console.log(res)
-			
 			if(gubun == 'upd'){
 				
 				$("#getBoardModal").modal('hide');
@@ -1444,7 +1440,12 @@ function btnAddCmntChange(str){
 									        
 									        <c:choose>
 									        	<c:when test="${sessionScope.USERSEQ ne null }">
+			            								
+			            								
+									        <c:choose>
+									        	<c:when test="${sessionScope.USERSEQ ne 1 }">
 			            							<div class="user-info-box bg-light border rounded pt-2 mb-1 text-center fixed-image">
+									        		
 											            <div class="fw-bold mb-2">👤 <span id="user-nickname">${sessionScope.USERNM }</span> 님</div>
 											            
 											            <div class="small text-muted d-flex justify-content-between ms-1 me-1" id="my-board">
@@ -1462,6 +1463,16 @@ function btnAddCmntChange(str){
 			       											글쓰기
 			       										</button>
 											        </div>
+									        	</c:when>
+									        	<c:otherwise>
+			            							<div class="user-info-box bg-light border rounded pt-2 mb-1 text-center fixed-image">
+			            								<br>
+			            								<br>
+											            <div class="fw-bold mb-2">👤 <span id="user-nickname">관리자 계정입니다</span></div>
+											        </div>
+									        	</c:otherwise>
+									        </c:choose>
+			            							
 									        	</c:when>
 									        	<c:otherwise>
 			            							<div class="user-info-box bg-light border rounded p-2 mb-1 text-center fixed-image">
