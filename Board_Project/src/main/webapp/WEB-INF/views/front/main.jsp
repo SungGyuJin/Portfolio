@@ -1480,10 +1480,6 @@ function btnAddCmntChange(str){
 											        </div>
 									        	</c:otherwise>
 									        </c:choose>
-									        
-<%-- 		            						<img class="img-fluid fixed-image" src="${pageContext.request.contextPath}/resources/front/main/assets/img/portfolio/1-board-img.jpg" alt="Board Image" /> --%>
-	            						
-	            							
 	            						</div>
 		                        		<table class="table table-sm mb-0 text-start">
 											<tbody class="text-muted my-thead" id="append-bbs"></tbody>
@@ -1494,19 +1490,11 @@ function btnAddCmntChange(str){
 		                        <div class="col-md-6 mt-4">
 		                            <div class="d-flex justify-content-between">
 		                            	<span class="mt-3" id="append-cnt"></span>
-<%-- 		                            	<c:choose> --%>
-<%-- 		                            		<c:when test="${empty sessionScope.USERSEQ }"><span class="mt-3">※ 로그인 후 글을 작성할 수 있습니다.</span></c:when> --%>
-<%-- 		                            		<c:otherwise> --%>
-<%-- 		                            			<c:if test="${sessionScope.USERSE eq 'A' }"><span class="mt-3">※ 관리자계정입니다.</span></c:if> --%>
-<%-- 		                            			<c:if test="${sessionScope.USERSE eq 'U' }"><button type="button" class="btn my-success" id="btn-addBoradModal" onclick="addBoardModalView();"><img src="${pageContext.request.contextPath}/resources/front/main/assets/img/pencil.png" class="me-2" alt="pencil" style="width: 25px; height: 25px;" />글쓰기</button></c:if> --%>
-<%-- 		                            		</c:otherwise> --%>
-<%-- 		                            	</c:choose> --%>
 		                            </div>
 									<input type="hidden" id="oldKeyword" value="">
 		                        	<hr>
 		                        	<form id="frm-board">
 		                        		<input type="hidden" name="myPageYn" id="myPageYn" value="N">
-<!-- 		                        		<input type="text" name="regNo" id="regNo" value="0"> -->
 		                        		<input type="hidden" name="listTyp" id="listTyp" value="L">
 		                        		<input type="hidden" name="bbsSeq" id="bbsSeq" value="0">
 		                        		<input type="hidden" name="pageNum" id="pageNum" value="1">

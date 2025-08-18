@@ -282,19 +282,6 @@
 			, UPD_DT = NOW()
 		WHERE 1=1
 			AND BOARD_SEQ = #{boardSeq}
-			
-		<!-- UPDATE
-			TB_BOARD
-		SET
-			STAT = #{stat}
-			, UPD_NO = #{updNo}
-			, UPD_DT = NOW()
-		WHERE 1=1
-			AND BOARD_SEQ IN(
-		 	<foreach collection="delSeqArr" item="seq" separator=",">
-		 		#{seq}
-		 	</foreach>
-			) -->
 	</update>
 	
 	<!-- 게시물 상태변경(복구, 삭제, 영구삭제)(Ajax) -->
@@ -307,20 +294,6 @@
 			, UPD_DT = NOW()
 		WHERE 1=1
 			AND REF = #{boardSeq}
-			
-			
-		<!-- UPDATE
-			TB_BOARD
-		SET
-			STAT = #{stat}
-			, UPD_NO = #{updNo}
-			, UPD_DT = NOW()
-		WHERE 1=1
-			AND REF IN(
-		 	<foreach collection="delSeqArr" item="seq" separator=",">
-		 		#{seq}
-		 	</foreach>
-			) -->
 	</update>
 
 	<!-- #################################################################################################### -->
