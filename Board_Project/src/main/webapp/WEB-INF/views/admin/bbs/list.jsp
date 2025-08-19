@@ -8,6 +8,11 @@
 
 	$(function(){
 		
+		$( "#dataTable" ).sortable({
+            items:$('.sorting')
+        });
+
+		
 		initBbs('init');
 		
 		// 신규등록 버튼
@@ -345,7 +350,7 @@
 												</thead>
 												<tbody>
 													<c:forEach var="list" varStatus="varStatus" items="${getBbsList }">
-													<tr class="text-center" onclick="getBbs(${list.bbsSeq});" id="tr-${list.bbsSeq }">
+													<tr class="text-center sorting" onclick="getBbs(${list.bbsSeq});" id="tr-${list.bbsSeq }">
 														<td class="sorting_1" id="nm-${list.bbsSeq }">${list.nm }</td>
 														<td>${list.regDt }</td>
 														<td>${list.updDt }</td>

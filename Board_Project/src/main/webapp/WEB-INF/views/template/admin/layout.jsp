@@ -33,7 +33,10 @@
     <link href="${pageContext.request.contextPath}/resources/admin/assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="${pageContext.request.contextPath}/resources/admin/assets/css/sb-admin-2.min.css" rel="stylesheet">
 
-
+	<!-- jQuery UI -->
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/admin/assets/vendor/jqueryUI/jquery-ui.css">
+	<script src="${pageContext.request.contextPath}/resources/admin/assets/vendor/jqueryUI/jquery-ui.js"></script>
+	
 <script type="text/javascript">
 var contextPath = '${pageContext.request.contextPath}';
 </script>
