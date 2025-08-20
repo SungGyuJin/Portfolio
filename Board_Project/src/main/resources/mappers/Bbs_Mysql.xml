@@ -10,6 +10,7 @@
 		<result property="comentYn"		column="COMENT_YN" 	/>
 		<result property="atchYn"		column="ATCH_YN" 	/>
 		<result property="secrtYn"		column="SECRT_YN" 	/>
+		<result property="srtOrd"		column="SRT_ORD" 	/>
 		
 		<result property="regNo"		column="REG_NO" 	/>
 		<result property="regDt"		column="REG_DT" 	/>
@@ -49,6 +50,7 @@
 				, COMENT_YN
 				, ATCH_YN
 				, SECRT_YN
+				, SRT_ORD
 				, REG_NO
 				, REG_DT
 				, UPD_NO
@@ -66,7 +68,8 @@
 					AND NM LIKE CONCAT('%', #{searchKeyword}, '%')
 				</if>
 		) AS T1
-		ORDER BY STAT DESC, BBS_SEQ DESC
+<!-- 		ORDER BY STAT DESC, BBS_SEQ DESC -->
+		ORDER BY SRT_ORD ASC
 		LIMIT #{skip}, #{amount}
 	</select>
 	
@@ -80,6 +83,7 @@
 			, COMENT_YN
 			, ATCH_YN
 			, SECRT_YN
+			, SRT_ORD
 			, REG_NO
 			, REG_DT
 			, UPD_NO
@@ -99,6 +103,7 @@
 			, COMENT_YN
 			, ATCH_YN
 			, SECRT_YN
+			, SRT_ORD
 			, REG_NO
 			, REG_DT
 			, UPD_NO
@@ -111,6 +116,7 @@
 			, #{comentYn}
 			, #{atchYn}
 			, #{secrtYn}
+			, (SELECT MAX(SRT_ORD) FROM TB_BBS)
 			, #{regNo}
 			, NOW()
 			, #{regNo}

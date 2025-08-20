@@ -9,7 +9,15 @@
 	$(function(){
 		
 		$( "#dataTable" ).sortable({
-            items:$('.sorting')
+            items:$('.sorting'),
+            start:function(event, ui){
+//                 	console.log("드래그");
+                },
+
+                stop:function(event, ui){
+                	console.log("드랍");
+                }
+            
         });
 
 		
