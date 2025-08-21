@@ -148,6 +148,9 @@
 			TB_BBS
 		SET
 			STAT = #{stat}
+			<if test='srtOrd == 0'>
+				, SRT_ORD = 0
+			</if>
 			, UPD_NO = #{updNo}
 			, UPD_DT = NOW()
 		WHERE 1=1

@@ -11,13 +11,37 @@
 		$( "#dataTable" ).sortable({
             items:$('.sorting'),
             start:function(event, ui){
-//                 	console.log("드래그");
-                },
+				
+            },
+            /* stop:function(event, ui){
+            	console.log("드랍");
+				
+				$(".bbsSorting").each(function(){
 
-                stop:function(event, ui){
-                	console.log("드랍");
-                }
+					console.log($(this).val().split(',')[0]+', '+$(this).val().split(',')[1])
+					
+				});
+				
+				
+				
+				console.log($("#sorting-area").childreen())
+
+            	
+			} */
             
+            stop: function(event, ui) {
+                $("#dataTable .sorting12").each(function(index){
+                    console.log(index + " → " + $(this).text().trim());
+                });
+                
+//                 $("#bbsSortingHidden .bbsSorting").each(function(index){
+//                     console.log(index + " → " + $(this).val());
+                    
+//                 });
+                
+            }
+            
+			
         });
 
 		
@@ -358,7 +382,15 @@
 												</thead>
 												<tbody>
 													<c:forEach var="list" varStatus="varStatus" items="${getBbsList }">
+													
+													<div id="bbsSortingHidden">
+<%-- 													  <input type="text" class="bbsSorting" value="${list.srtOrd },${list.bbsSeq }"> --%>
+<%-- 													  <span class="bbsSorting">${list.srtOrd },${list.bbsSeq }</span> --%>
+													</div>
+													
+<%-- 													<input type="text" class="bbsSorting" value="${list.srtOrd },${list.bbsSeq }"> --%>
 													<tr class="text-center sorting" onclick="getBbs(${list.bbsSeq});" id="tr-${list.bbsSeq }">
+														<td class="sorting12">${list.srtOrd },${list.bbsSeq }</td>
 														<td class="sorting_1" id="nm-${list.bbsSeq }">${list.nm }</td>
 														<td>${list.regDt }</td>
 														<td>${list.updDt }</td>

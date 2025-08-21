@@ -120,5 +120,21 @@ public class BbsController {
 
 		return result;
 	}
+
+	/* 게시판 순서변경 */
+	@PostMapping("/changeBbsReorder.do")
+	@ResponseBody
+	public int changeSorting(ModelMap model,
+			@ModelAttribute("BbsVO") BbsVO bbsVO,
+			HttpServletRequest request,
+			HttpServletResponse response,
+			HttpSession session) throws Exception{
+
+		
+		bbsVO.setUpdNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
+		int result = bbsService.changeStat(bbsVO);
+
+		return result;
+	}
 	
 }
