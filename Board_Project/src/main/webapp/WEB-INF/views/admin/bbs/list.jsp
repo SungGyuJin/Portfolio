@@ -13,34 +13,39 @@
             start:function(event, ui){
 				
             },
-            /* stop:function(event, ui){
-            	console.log("드랍");
-				
-				$(".bbsSorting").each(function(){
-
-					console.log($(this).val().split(',')[0]+', '+$(this).val().split(',')[1])
-					
-				});
-				
-				
-				
-				console.log($("#sorting-area").childreen())
-
-            	
-			} */
-            
             stop: function(event, ui) {
-                $("#dataTable .sorting12").each(function(index){
-                    console.log(index + " → " + $(this).text().trim());
+            	
+            	var html = '';
+            	
+                $("#dataTable .sorting_1").each(function(index){
+//                     console.log(index + " → " + $(this).text().trim());
+                    console.log('NewOrd: '+(index+1)+', Seq: '+$(this).attr('aria-label'))
+
+					html += '<input type="text" name="bbsSeq" value="'+$(this).attr('aria-label')+'">';
+					html += '<input type="text" name="newOrd" value="'+(index+1)+'"><br>';
+
                 });
                 
-//                 $("#bbsSortingHidden .bbsSorting").each(function(index){
-//                     console.log(index + " → " + $(this).val());
-                    
-//                 });
+                $("#frm_sorting").html(html);
                 
+                $.ajax({
+        			url      : "changeBbsReorder.do",
+        			method   : "GET",
+        			data     : $("#frm_sorting").serialize(),
+        			dataType : "json",
+        			success  : function(res){
+        				
+        				alert('통신완료')
+        				
+        			},
+        			error : function(request, status, error){
+        				Swal.fire({
+        					icon: "error",
+        					title: "통신불가"
+        				})
+        			}
+        		});
             }
-            
 			
         });
 
@@ -320,6 +325,8 @@
 
 <input type="hidden" id="frm-typ" value="add" />
 
+<form id="frm_sorting"></form>
+
 <div id="content">
 	<!-- Begin Page Content -->
 	<div class="container-fluid">
@@ -382,16 +389,8 @@
 												</thead>
 												<tbody>
 													<c:forEach var="list" varStatus="varStatus" items="${getBbsList }">
-													
-													<div id="bbsSortingHidden">
-<%-- 													  <input type="text" class="bbsSorting" value="${list.srtOrd },${list.bbsSeq }"> --%>
-<%-- 													  <span class="bbsSorting">${list.srtOrd },${list.bbsSeq }</span> --%>
-													</div>
-													
-<%-- 													<input type="text" class="bbsSorting" value="${list.srtOrd },${list.bbsSeq }"> --%>
 													<tr class="text-center sorting" onclick="getBbs(${list.bbsSeq});" id="tr-${list.bbsSeq }">
-														<td class="sorting12">${list.srtOrd },${list.bbsSeq }</td>
-														<td class="sorting_1" id="nm-${list.bbsSeq }">${list.nm }</td>
+														<td class="sorting_1" id="nm-${list.bbsSeq }" aria-label="${list.bbsSeq }">${list.nm }</td>
 														<td>${list.regDt }</td>
 														<td>${list.updDt }</td>
 														<td>

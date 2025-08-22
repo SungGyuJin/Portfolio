@@ -1,5 +1,7 @@
 package com.gyu.portfolio.model;
 
+import java.util.Arrays;
+
 import com.gyu.portfolio.common.DefalutVO;
 
 import lombok.Getter;
@@ -23,11 +25,16 @@ public class BbsVO extends DefalutVO {
 	private String updDt 	=  "";	// 수정일자
 	private int    stat 	=   0;	// 상태 ex) 미사용(삭제)[0] / 사용[1] / 영구삭제[9]
 	
+
+	private String[] bbsSeqArr  = null;
+	private String[] srtOrdArr  = null;	// 새로운 번호(기존X)
+	
 	@Override
 	public String toString() {
 		return "BbsVO [bbsSeq=" + bbsSeq + ", nm=" + nm + ", expln=" + expln + ", replyYn=" + replyYn + ", comentYn="
 				+ comentYn + ", atchYn=" + atchYn + ", secrtYn=" + secrtYn + ", srtOrd=" + srtOrd + ", regNo=" + regNo
-				+ ", regDt=" + regDt + ", updNo=" + updNo + ", updDt=" + updDt + ", stat=" + stat + "]";
+				+ ", regDt=" + regDt + ", updNo=" + updNo + ", updDt=" + updDt + ", stat=" + stat + ", bbsSeqArr="
+				+ Arrays.toString(bbsSeqArr) + ", srtOrdArr=" + Arrays.toString(srtOrdArr) + "]";
 	}
 	
 }

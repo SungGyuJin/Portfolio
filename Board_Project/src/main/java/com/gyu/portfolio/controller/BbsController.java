@@ -122,7 +122,7 @@ public class BbsController {
 	}
 
 	/* 게시판 순서변경 */
-	@PostMapping("/changeBbsReorder.do")
+	@GetMapping("/changeBbsReorder.do")
 	@ResponseBody
 	public int changeSorting(ModelMap model,
 			@ModelAttribute("BbsVO") BbsVO bbsVO,
@@ -131,9 +131,14 @@ public class BbsController {
 			HttpSession session) throws Exception{
 
 		
-		bbsVO.setUpdNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
-		int result = bbsService.changeStat(bbsVO);
+//		bbsVO.setUpdNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
+//		int result = bbsService.changeStat(bbsVO);
+		int result = 1;
 
+		System.out.println("진입~~~~~~~~~");
+		System.out.println("진입~~~~~~~~~");
+		System.out.println("진입~~~~~~~~~");
+		
 		return result;
 	}
 	
