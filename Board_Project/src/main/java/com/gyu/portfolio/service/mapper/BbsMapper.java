@@ -30,4 +30,7 @@ public interface BbsMapper {
 	// 게시물 Select Option
 	List<BbsVO> getSelectBbsList() throws Exception;
 	
+	// 정렬순서 변경
+	int updateBbsSrtOrd(BbsVO bbsVO) throws Exception;
+	
 }

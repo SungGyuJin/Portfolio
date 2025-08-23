@@ -19,23 +19,21 @@
             	
                 $("#dataTable .sorting_1").each(function(index){
 //                     console.log(index + " → " + $(this).text().trim());
-                    console.log('NewOrd: '+(index+1)+', Seq: '+$(this).attr('aria-label'))
+//                     console.log('NewOrd: '+(index+1)+', Seq: '+$(this).attr('aria-label'))
 
-					html += '<input type="text" name="bbsSeq" value="'+$(this).attr('aria-label')+'">';
-					html += '<input type="text" name="newOrd" value="'+(index+1)+'"><br>';
-
+					html += '<input type="hidden" name="bbsSeqArr" value="'+$(this).attr('aria-label')+'">';
+					html += '<input type="hidden" name="srtOrdArr" value="'+(index+1)+'">';
                 });
                 
                 $("#frm_sorting").html(html);
                 
                 $.ajax({
-        			url      : "changeBbsReorder.do",
+        			url      : "updateBbsSrtOrd.do",
         			method   : "GET",
         			data     : $("#frm_sorting").serialize(),
         			dataType : "json",
         			success  : function(res){
-        				
-        				alert('통신완료')
+						
         				
         			},
         			error : function(request, status, error){

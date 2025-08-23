@@ -24,7 +24,6 @@ public class BbsVO extends DefalutVO {
 	private int    updNo 	=   0;	// 수정자 번호
 	private String updDt 	=  "";	// 수정일자
 	private int    stat 	=   0;	// 상태 ex) 미사용(삭제)[0] / 사용[1] / 영구삭제[9]
-	
 
 	private String[] bbsSeqArr  = null;
 	private String[] srtOrdArr  = null;	// 새로운 번호(기존X)

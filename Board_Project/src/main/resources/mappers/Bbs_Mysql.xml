@@ -167,7 +167,19 @@
 			, ATCH_YN
 			, SECRT_YN
 		FROM TB_BBS WHERE STAT = 1
+		ORDER BY SRT_ORD
 	</select>
+	
+	<update id="updateBbsSrtOrd">
+		UPDATE
+			TB_BBS
+		SET
+			SRT_ORD		= #{srtOrd}
+			, UPD_NO = #{updNo}
+			, UPD_DT 	= NOW()
+		WHERE 1=1
+			AND BBS_SEQ = #{bbsSeq}
+	</update>
 	
 	<!-- #################################################################################################### -->
 	<!-- ############################################# Front SQL ############################################ -->

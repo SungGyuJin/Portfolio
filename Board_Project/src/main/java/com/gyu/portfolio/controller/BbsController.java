@@ -122,23 +122,17 @@ public class BbsController {
 	}
 
 	/* 게시판 순서변경 */
-	@GetMapping("/changeBbsReorder.do")
+	@GetMapping("/updateBbsSrtOrd.do")
 	@ResponseBody
-	public int changeSorting(ModelMap model,
+	public int updateBbsSrtOrd(ModelMap model,
 			@ModelAttribute("BbsVO") BbsVO bbsVO,
 			HttpServletRequest request,
 			HttpServletResponse response,
 			HttpSession session) throws Exception{
-
 		
-//		bbsVO.setUpdNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
-//		int result = bbsService.changeStat(bbsVO);
-		int result = 1;
+		bbsVO.setUpdNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
+		int result = bbsService.updateBbsSrtOrd(bbsVO);
 
-		System.out.println("진입~~~~~~~~~");
-		System.out.println("진입~~~~~~~~~");
-		System.out.println("진입~~~~~~~~~");
-		
 		return result;
 	}
 	

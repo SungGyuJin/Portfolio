@@ -655,7 +655,16 @@ function changeBbsSeq(no, info){
 }
 
 // 게시물 목록
-function getBoardList(num, style, myPg){
+function getBoardList(num, style, myPg, card){
+	
+	if(card == 'click'){
+		var getBoardListModal = new bootstrap.Modal($('#getBoardListModal')[0], {
+			backdrop: 'static',
+			keyboard: false
+		});
+
+		getBoardListModal.show();
+	}
 	
 	$("#searchKeyword").val($("#js-searchKeyword").val());
 	
@@ -1855,7 +1864,8 @@ function btnAddCmntChange(str){
                     <div class="col-lg-12 col-sm-6 mb-4">
                         <!-- Portfolio item 1-->
                         <div class="portfolio-item">
-                            <a class="portfolio-link" data-bs-toggle="modal" href="#getBoardListModal">
+<!--                             <a href="#getBoardListModal" class="portfolio-link" data-bs-toggle="modal"> -->
+                            <a href="javascript:getBoardList(1, 'L', null, 'click');" class="portfolio-link">
 <!--                             <a class="portfolio-link" href="/main.do/1"> -->
 <!--                                 <div class="portfolio-hover" id="" onclick="getBoardList();"> -->
                                 <div class="portfolio-hover">
