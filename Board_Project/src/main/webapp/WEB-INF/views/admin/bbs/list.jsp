@@ -18,9 +18,6 @@
             	var html = '';
             	
                 $("#dataTable .sorting_1").each(function(index){
-//                     console.log(index + " → " + $(this).text().trim());
-//                     console.log('NewOrd: '+(index+1)+', Seq: '+$(this).attr('aria-label'))
-
 					html += '<input type="hidden" name="bbsSeqArr" value="'+$(this).attr('aria-label')+'">';
 					html += '<input type="hidden" name="srtOrdArr" value="'+(index+1)+'">';
                 });
@@ -46,7 +43,6 @@
             }
 			
         });
-
 		
 		initBbs('init');
 		
@@ -517,18 +513,6 @@
 		                      	</div>
 							</form>
 			  
-							<!-- <div class="mt-4 text-center small mb-2">
-							    <span class="mr-2">
-							        <i class="fas fa-circle text-primary"></i> Direct
-							    </span>
-							    <span class="mr-2">
-							        <i class="fas fa-circle text-success"></i> Social
-							    </span>
-							    <span class="mr-2">
-							        <i class="fas fa-circle text-info"></i> Referral
-							    </span>
-							</div> -->
-			
 						<div class="text-center">
 							<div class="d-flex justify-content-between">
 								<div>
