@@ -25,7 +25,7 @@
                 $("#frm_sorting").html(html);
                 
                 $.ajax({
-        			url      : "updateBbsSrtOrd.do",
+        			url      : contextPath+"updateBbsSrtOrd.do",
         			method   : "GET",
         			data     : $("#frm_sorting").serialize(),
         			dataType : "json",
@@ -138,7 +138,7 @@
 	
 	function changeStat_2(num, cmnt){
 		$.ajax({
-			url      : "changeStat.do",
+			url      : contextPath+"changeStat.do",
 			method   : "POST",
 			data     : $("#frm-addBbs").serialize(),
 			dataType : "json",
@@ -192,7 +192,7 @@
 	function addBbs(){
 		
 		$.ajax({
-			url      : "addBbs.do",
+			url      : contextPath+"addBbs.do",
 			method   : "POST",
 			data     : $("#frm-addBbs").serialize(),
 			dataType : "json",
@@ -225,7 +225,7 @@
 	function updateBbs(){
 		
 		$.ajax({
-			url      : "updateBbs.do",
+			url      : contextPath+"updateBbs.do",
 			method   : "POST",
 			data     : $("#frm-addBbs").serialize(),
 			dataType : "json",
@@ -268,7 +268,7 @@
 		$("#btn-text-span").html('수정완료');
 		
 		$.ajax({
-			url      : "getBbs.do",
+			url      : contextPath+"getBbs.do",
 			method   : "GET",
 			data     : {"no" : no},
 			dataType : "json",
