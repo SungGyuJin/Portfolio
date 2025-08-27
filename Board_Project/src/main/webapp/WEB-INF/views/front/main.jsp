@@ -1615,8 +1615,13 @@ function btnAddCmntChange(str){
 				<div class="modal-header border-0 pb-0 mt-4">
 					<div class="w-100 mt-2 text-start">
 			            <div class="d-flex justify-content-between mt-5">
-				        	<h1>글쓰기</h1>
-				            <button type="button" class="naver-button" id="btn-addBoard">등록</button>
+			            	<div>
+					        	<h1>글쓰기</h1>
+			            	</div>
+			            	<div>
+					            <button type="button" class="naver-button-temp" id="btn-addBoardTemp">임시저장</button>
+					            <button type="button" class="naver-button" id="btn-addBoard">등록</button>
+			            	</div>
 			            </div>
 			         	<div style="border-top: 1px solid #000; margin-top: 20px;">
 				        	<form id="frm-addBoard" enctype="multipart/form-data">

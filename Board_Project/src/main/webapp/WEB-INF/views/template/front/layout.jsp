@@ -338,8 +338,8 @@ img.blocking-hover {
 .naver-button {
   display: inline-block;
   padding: 10px 20px;
-  background-color: #e6f6ed; /* 연한 연두색 배경 */
-  color: #03c75a; /* 네이버 초록색 */
+  background-color: #e6f6ed;
+  color: #03c75a;
   font-weight: 600;
   border-radius: 12px;
   text-decoration: none;
@@ -347,12 +347,29 @@ img.blocking-hover {
   text-align: center;
   border: none;
 }
-/* 마우스 호버시 조금 어둡게 */
+
 .naver-button:hover {
   background-color: #d2f0e1;
 }
 
-/* 버튼 눌렀을 때 더 어둡게 */
+.naver-button-temp {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #dcdcdc;
+  color: #828282;
+  font-weight: 600;
+  border-radius: 12px;
+  text-decoration: none;
+  font-size: 16px;
+  text-align: center;
+  border: none;
+}
+
+.naver-button-temp:hover {
+  background-color: #d2d2d2	;
+  color: #000000;
+}
+
 .naver-button:active {
   background-color: #bfe7d3;
 }
