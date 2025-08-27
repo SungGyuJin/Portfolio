@@ -74,7 +74,7 @@
 	
 	function changeStat_2(num, cmnt){
 		$.ajax({
-			url      : "changeStat.do",
+			url      : contextPath+"changeStat.do",
 			method   : "POST",
 			data     : $("#frm-board").serialize(),
 			dataType : "json",

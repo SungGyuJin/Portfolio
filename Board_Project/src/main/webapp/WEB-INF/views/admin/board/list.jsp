@@ -200,7 +200,7 @@
 	function changeStat_2(num, cmnt){
 		
 		$.ajax({
-			url      : "changeStat.do",
+			url      : contextPath+"changeStat.do",
 			method   : "POST",
 			data     : $("#frm-board").serialize(),
 			dataType : "json",
@@ -232,12 +232,11 @@
 	
 	// 게시물 조회
 	function getBoard(no){
-		
 		$("table tr").removeClass('table-active');
 		$("#tr-"+no).addClass('table-active');
 		
 		$.ajax({
-			url      : "getBoard.do",
+			url      : contextPath+"getBoard.do",
 			method   : "GET",
 			data     : {"no" : no},
 			dataType : "json",

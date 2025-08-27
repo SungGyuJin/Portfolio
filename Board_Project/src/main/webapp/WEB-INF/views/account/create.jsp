@@ -61,7 +61,7 @@ $(function(){
 		
 		
 		$.ajax({
-			url      : "aprvChk.do",
+			url      : contextPath+"aprvChk.do",
 			method   : "GET",
 			data     : {"aprvNum" : $("#aprvNum").val() },
 			dataType : "json",
