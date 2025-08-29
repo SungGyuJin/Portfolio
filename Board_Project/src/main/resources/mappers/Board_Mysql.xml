@@ -196,7 +196,7 @@
 			, NOW()
 			, #{regNo}
 			, NOW()
-			, 1
+			, #{stat}
 		)
 		<selectKey keyProperty="boardSeq" resultType="integer" order="AFTER">
 			SELECT LAST_INSERT_ID()

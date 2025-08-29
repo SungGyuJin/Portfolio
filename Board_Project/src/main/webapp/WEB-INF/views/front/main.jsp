@@ -206,8 +206,14 @@ $(function(){
 		addCmnt('frm-addCmnt', 'add');
 	});
 	
+	// 게시글 등록
 	$("#btn-addBoard").on('click', function(){
 		addBoardPost();
+	});
+
+	// 게시글 임시저장
+	$("#btn-addBoardTemp").on('click', function(){
+		addBoardPost('temp');
 	});
 	
 	getBoardList(null, $("#listTyp").val());
@@ -347,8 +353,10 @@ function removeThumb(gubun){
 }
 
 // 게시물 등록처리
-function addBoardPost(){
+function addBoardPost(gubun){
 	
+	gubun == 'temp' ? $("#board-stat").val('5') : $("#board-stat").val('1');
+
 	if($("#brd-select").val() == ''){
 		alert('게시판을 선택해 주세요.');
 		$("#brd-select").focus();
@@ -377,13 +385,19 @@ function addBoardPost(){
 		success  : function(res){
 			
 			if(res > 0){
-				alert('등록되었습니다.');
+				
+				if(gubun == 'temp'){
+					alert('임시저장되었습니다.');
+				}else{
+					alert('등록되었습니다.');
+					$("#bbsSeq").val($("#brd-select").val());
+					getBoardList('1', $("#listTyp").val());
+					$("#brd-select").val('');
+					$("#brd-title").val('');
+					$("#brd-cont").val('');
+				}
+				
 				$("#btn-addBoard-close").trigger('click');
-				$("#bbsSeq").val($("#brd-select").val());
-				getBoardList('1', $("#listTyp").val());
-				$("#brd-select").val('');
-				$("#brd-title").val('');
-				$("#brd-cont").val('');
 			}
 			
 		    CKEDITOR.instances['brd-cont'].setData('');
@@ -1625,6 +1639,7 @@ function btnAddCmntChange(str){
 			            </div>
 			         	<div style="border-top: 1px solid #000; margin-top: 20px;">
 				        	<form id="frm-addBoard" enctype="multipart/form-data">
+				        		<input type="text" name="stat" id="board-stat">
 					            <div class="mb-3 mt-3">
 					            	<label for="brd-select" class="form-label fw-bold">게시판</label>
 					              	<select class="form-select" name="bbsSeq" id="brd-select">

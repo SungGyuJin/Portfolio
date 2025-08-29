@@ -174,6 +174,20 @@ public class FrontController {
 			HttpServletResponse response,
 			HttpSession session) throws Exception{
 
+
+		/* request 정보확인 START */
+		System.out.println();
+		System.out.println("++++++++++++++++++++++++++++++");
+		System.out.println("============ /addBoard.do INFO  ===========");
+		Enumeration params = request.getParameterNames();
+		while(params.hasMoreElements()) {
+			String name= (String) params.nextElement();
+			System.out.println(name + ": " + request.getParameter(name));
+		}
+		System.out.println("++++++++++++++++++++++++++++++");
+		System.out.println();
+		/* request 정보확인 END */
+		
 		boardVO.setRegNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
 		int result = boardService.addBoard(boardVO, attachVO);
 		
