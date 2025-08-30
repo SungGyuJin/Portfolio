@@ -339,6 +339,7 @@
 				<if test='!myPageYn.equals("N")'>
 					<choose>
 						<when test='myPageYn.equals("B")'>AND REG_NO = #{regNo}</when>
+						<when test='myPageYn.equals("T")'>AND REG_NO = #{regNo} AND STAT = 5</when>
 						<otherwise>
 						AND EXISTS (
 					        SELECT 1

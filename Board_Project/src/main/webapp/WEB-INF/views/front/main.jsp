@@ -753,6 +753,10 @@ function getBoardList(num, style, myPg, card){
 				bbsNm = '내가 쓴 댓글';
 				$("#bbsSeq-"+bbsSeq).removeClass('fw-bolder');
 				$("#my-cmnt").addClass('fw-bolder');
+			}else if(res.boardVO.myPageYn == 'T'){
+				bbsNm = '임시저장 글';
+				$("#bbsSeq-"+bbsSeq).removeClass('fw-bolder');
+				$("#my-temp").addClass('fw-bolder');
 			}
 			
 			html += 	'<div class="mb-3">';
@@ -1481,8 +1485,11 @@ function btnAddCmntChange(str){
 														    <div><a href="javascript:getBoardList(1, 'L', 'C');" class="my-a"><span id="cmntCnt"></span> 개</a></div>
 														</div>
 														
-<!-- 											            <div class="small text-muted">내가 쓴 댓글: <span id="my-comment-count">34</span></div> -->
-			       										<button type="button" class="btn my-success w-100 mt-4" id="btn-addBoradModal" onclick="addBoardModalView();">
+											            <div class="small text-muted d-flex justify-content-between ms-1 me-1" id="my-temp">
+														    <div><img class="mb-1 me-1" src="${pageContext.request.contextPath}/resources/front/main/assets/img/cmnt.png" style="max-width: 16px;">임시저장 글:</div>
+														    <div><a href="javascript:getBoardList(1, 'L', 'T');" class="my-a"><span id="tempCnt"></span> 개</a></div>
+														</div>
+			       										<button type="button" class="btn my-success w-100 mt-1" id="btn-addBoradModal" onclick="addBoardModalView();">
 			       											글쓰기
 			       										</button>
 											        </div>
