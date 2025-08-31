@@ -718,6 +718,7 @@ function getBoardList(num, style, myPg, card){
 			if(res.getWriterCnt != null){
 				$("#boardCnt").html(res.getWriterCnt[0].boardCnt);
 				$("#cmntCnt").html(res.getWriterCnt[0].cmntCnt);
+				$("#tempCnt").html(res.getWriterCnt[0].tempCnt);
 			}
 			
 			// 게시판 목록

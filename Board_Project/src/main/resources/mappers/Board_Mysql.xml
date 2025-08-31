@@ -30,6 +30,7 @@
 		<result property="rowNum"		column="ROW_NUM" 	/>
 		<result property="cmntCnt"		column="CMNT_CNT" 	/>
 		<result property="boardCnt"		column="BOARD_CNT" 	/>
+		<result property="tempCnt"		column="TEMP_CNT" 	/>
 		<result property="atchCnt"	    column="ATCH_CNT"	/>
 		<result property="rsMatch"	    column="RS_MATCH"	/>
 		<result property="thumbYn"	    column="THUMB_YN"	/>
@@ -330,12 +331,12 @@
 				, (SELECT PWD_YN FROM TB_BOARD WHERE BOARD_SEQ = (SELECT REF FROM TB_BOARD WHERE BOARD_SEQ = T1.BOARD_SEQ)) PWD_YN
 			FROM TB_BOARD T1, (SELECT @rownum := 0) AS TMP
 			WHERE 1=1
-				<if test="listTyp.equals('list')">
+				<if test='!myPageYn.equals("T")'>
 					AND STAT = 1
 				</if>
-				<if test="listTyp.equals('trash')">
-					AND STAT = 0
-				</if>
+<!-- 				<if test="listTyp.equals('trash')"> -->
+<!-- 					AND STAT = 0 -->
+<!-- 				</if> -->
 				<if test='!myPageYn.equals("N")'>
 					<choose>
 						<when test='myPageYn.equals("B")'>AND REG_NO = #{regNo}</when>
@@ -386,12 +387,12 @@
         	COUNT(*)
         FROM TB_BOARD T1
 		WHERE 1=1
-			<if test="listTyp.equals('list')">
+			<if test='!myPageYn.equals("T")'>
 				AND STAT = 1
 			</if>
-			<if test="listTyp.equals('trash')">
-				AND STAT = 0
-			</if>
+<!-- 			<if test="listTyp.equals('trash')"> -->
+<!-- 				AND STAT = 0 -->
+<!-- 			</if> -->
 			<if test='!myPageYn.equals("N")'>
 				<choose>
 					<when test='myPageYn.equals("B")'>AND REG_NO = #{regNo}</when>
@@ -517,7 +518,9 @@
 	<select id="getWriterCnt" resultMap="boardVO">
 		SELECT
 		    (SELECT COUNT(*) FROM TB_BOARD WHERE 1=1 AND STAT = 1 AND REG_NO = #{regNo}) AS BOARD_CNT,
-		    (SELECT COUNT(*) FROM TB_COMMENT WHERE 1=1 AND STAT = 1 AND REG_NO = #{regNo}) AS CMNT_CNT
+		    (SELECT COUNT(*) FROM TB_COMMENT WHERE 1=1 AND STAT = 1 AND REG_NO = #{regNo}) AS CMNT_CNT,
+		    (SELECT COUNT(*) FROM TB_BOARD WHERE 1=1 AND STAT = 5 AND REG_NO = #{regNo}) AS TEMP_CNT
+		    
 	</select>
 
 </mapper>

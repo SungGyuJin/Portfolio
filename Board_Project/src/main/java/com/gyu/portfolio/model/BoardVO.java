@@ -44,6 +44,7 @@ public class BoardVO extends DefalutVO {
 	private int    rowNum 	=  0;
 	private int    cmntCnt 	=  0;
 	private int    boardCnt =  0;
+	private int    tempCnt 	=  0;
 	private int    atchCnt 	=  0;
 	
 	@Override
@@ -53,8 +54,9 @@ public class BoardVO extends DefalutVO {
 				+ ", regNo=" + regNo + ", regDt=" + regDt + ", updNo=" + updNo + ", updDt=" + updDt + ", stat=" + stat
 				+ ", replyYn=" + replyYn + ", atchYn=" + atchYn + ", secrtYn=" + secrtYn + ", bbsStat=" + bbsStat
 				+ ", bbsNm=" + bbsNm + ", rsMatch=" + rsMatch + ", thumbInfo=" + thumbInfo + ", delSeqArr="
-				+ Arrays.toString(delSeqArr) + ", filePath=" + filePath + ", strgFileNm=" + strgFileNm + ", rowNum="
-				+ rowNum + ", cmntCnt=" + cmntCnt + ", boardCnt=" + boardCnt + ", atchCnt=" + atchCnt + "]";
+				+ Arrays.toString(delSeqArr) + ", filePath=" + filePath + ", strgFileNm=" + strgFileNm + ", myPageYn="
+				+ myPageYn + ", rowNum=" + rowNum + ", cmntCnt=" + cmntCnt + ", boardCnt=" + boardCnt + ", tempCnt="
+				+ tempCnt + ", atchCnt=" + atchCnt + "]";
 	}
 	
 }
