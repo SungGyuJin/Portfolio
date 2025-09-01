@@ -506,7 +506,7 @@ function btnUpdateBoardClose(no, pYn){
 	}
 }
 
-function getBoard(no, pYn){
+function getBoard(no, pYn, stat){
 	
 	$("#fn-area").empty();
 	
@@ -532,13 +532,14 @@ function getBoard(no, pYn){
 		$.ajax({
 			url      : contextPath+"/main/getBoard.do",
 			method   : "GET",
-			data     : {"no" : no},
+			data     : {"no" : no, "stat" : stat},
 			dataType : "json",
 			success  : function(res){
 				
-				var data = res.getBoardReply[0];
-				
+				var data = res.getBoard;
+
 				$("#brd-bbsNm").html(data.bbsNm);
+// 				$("#brd-bbsNm").html(res.getBoard.bbsNm);
 				
 				if(data.pwdYn == 'Y'){
 					$("#brd-ttl").html('<img class="mb-2 me-1" src="'+contextPath+'/resources/front/main/assets/img/lock.png" style="max-width: 22px;">'+data.title);
@@ -703,7 +704,7 @@ function getBoardList(num, style, myPg, card){
 		data     : $("#frm-board").serialize(),
 		dataType : "json",
 		success  : function(res){
-
+			
 			var bbsList 		= res.getBbsList;
 			var boardList 		= res.getBoardList;
 			var boardListCnt 	= res.total;
@@ -812,7 +813,7 @@ function getBoardList(num, style, myPg, card){
 				html +=							'<td class=""><span class="my-notice">공지</span></td>';
 				html +=							'<td class="text-start fw-bolder">';
 				html +=								'<img class="mb-1" src="'+contextPath +'/resources/front/main/assets/img/spk.png" style="max-width: 20px;"/>\u00a0\u00a0';
-				html +=								'<small><a href="javascript:getBoard('+boardList[i].ref+', \''+boardList[i].pwdYn+'\');" class="my-a text-danger"><span class="underline">'+boardList[i].title+'</span></a></small>';
+				html +=								'<small><a href="javascript:getBoard('+boardList[i].ref+', \''+boardList[i].pwdYn+'\', \''+boardList[i].stat+'\');" class="my-a text-danger"><span class="underline">'+boardList[i].title+'</span></a></small>';
 										}else{
 				html +=						'<tr>';
 											boardList[i].rowNum > 0 ? html += '<td class="text-secondary"><small>'+boardList[i].rowNum+'</small></td>' : html += '<td></td>';
@@ -829,9 +830,9 @@ function getBoardList(num, style, myPg, card){
 												if(boardList[i].lvl < 1){
 				html +=	 							'<img class="mb-1 me-1" src="'+contextPath +'/resources/front/main/assets/img/lock.png" style="max-width: 18px;"/>';
 												}
-				html +=							'<small><a href="javascript:getBoard('+boardList[i].ref+', \''+boardList[i].pwdYn+'\');" class="my-a text-dark"><span class="underline">'+boardList[i].title+'</span></a></small>';
+				html +=							'<small><a href="javascript:getBoard('+boardList[i].ref+', \''+boardList[i].pwdYn+'\', \''+boardList[i].stat+'\');" class="my-a text-dark"><span class="underline">'+boardList[i].title+'</span></a></small>';
 											}else{
-				html +=							'<small><a href="javascript:getBoard('+boardList[i].ref+', \''+boardList[i].pwdYn+'\');" class="my-a text-dark"><span class="underline">'+boardList[i].title+'</span></a></small>';
+				html +=							'<small><a href="javascript:getBoard('+boardList[i].ref+', \''+boardList[i].pwdYn+'\', \''+boardList[i].stat+'\');" class="my-a text-dark"><span class="underline">'+boardList[i].title+'</span></a></small>';
 											}
 										}
 	
@@ -873,7 +874,7 @@ function getBoardList(num, style, myPg, card){
 					for(let i=0; i < boardList.length; i++){
 						
 						html +=	'<div class="col-md-3 mb-4" style="width: 20%;">';
-						html +=		'<a href="javascript:getBoard('+boardList[i].ref+', \''+boardList[i].pwdYn+'\');" class="my-a">';
+						html +=		'<a href="javascript:getBoard('+boardList[i].ref+', \''+boardList[i].pwdYn+'\', \''+boardList[i].stat+'\');" class="my-a">';
 						html +=			'<div class="card h-100 shadow-sm">';
 						html +=				'<img src="'+ contextPath + boardList[i].filePath+'/'+boardList[i].strgFileNm+'" class="card-img-top" alt="thumbnail" onerror="this.onerror=null; this.src=\''+contextPath +'/resources/front/main/assets/img/default-img.png\'" style="object-fit: cover; height: 180px;">';
 						
