@@ -544,7 +544,16 @@ function getBoard(no, pYn, stat){
 				if(data.pwdYn == 'Y'){
 					$("#brd-ttl").html('<img class="mb-2 me-1" src="'+contextPath+'/resources/front/main/assets/img/lock.png" style="max-width: 22px;">'+data.title);
 				}else{
-					$("#brd-ttl").html(data.title);
+					
+					var html = '';
+					
+					if(data.stat == 5){
+						html = '<small class="text-danger fw-bolder me-2">임시저장중</small>';
+					}
+					
+					html +=	data.title;
+					
+					$("#brd-ttl").html(html);
 				}
 				
 				$("#brd-userNm").html(data.userNm);
@@ -816,8 +825,12 @@ function getBoardList(num, style, myPg, card){
 				html +=								'<small><a href="javascript:getBoard('+boardList[i].ref+', \''+boardList[i].pwdYn+'\', \''+boardList[i].stat+'\');" class="my-a text-danger"><span class="underline">'+boardList[i].title+'</span></a></small>';
 										}else{
 				html +=						'<tr>';
+
 											boardList[i].rowNum > 0 ? html += '<td class="text-secondary"><small>'+boardList[i].rowNum+'</small></td>' : html += '<td></td>';
 				html +=							'<td class="text-start">';
+											if(boardList[i].stat == 5){
+				html +=							'<small class="text-danger fw-bolder me-2">임시저장중</small>';
+											}
 											if(boardList[i].lvl > 0){
 												for(let k=0; k < boardList[i].lvl; k++){
 													html += "\u00a0";
@@ -1028,7 +1041,13 @@ function updateBoard(no, gubun, num, option){
 					});
 					updateBoardModal.show();
 				}
-					
+				
+				if(res.getBoard.stat == 5){
+					$("#btn-updateBoard-temp").removeClass('d-none');
+				}else{
+					$("#btn-updateBoard-temp").addClass('d-none');
+				}
+				
 // 				res.getBoard.secrtYn == 'Y' ? $("#div-upd-secrt").removeClass('d-none') : $("#div-upd-secrt").addClass('d-none');
 				res.getBoard.atchYn == 'Y' ? $("#div-upd-atchYn").removeClass('d-none') : $("#div-upd-atchYn").addClass('d-none');
 			
@@ -1708,7 +1727,10 @@ function btnAddCmntChange(str){
 					<div class="w-100 mt-2 text-start">
 			            <div class="d-flex justify-content-between mt-5">
 				        	<h1>수정</h1>
-				            <button type="button" class="naver-button" id="btn-updateBoard">수정</button>
+				        	<div>
+					            <button type="button" class="naver-button-temp" id="btn-updateBoard-temp">임시저장</button>
+					            <button type="button" class="naver-button" id="btn-updateBoard">수정</button>
+				        	</div>
 			            </div>
 			         	<div style="border-top: 1px solid #000; margin-top: 20px;">
 				        	<form id="frm-updateBoard" enctype="multipart/form-data">
