@@ -413,7 +413,9 @@ function addBoardPost(gubun){
 
 
 // 게시물 수정처리
-function updateBoardPost(no, pYn){
+function updateBoardPost(no, pYn, stat){
+	
+	$("#brd-upd-stat").val(stat);
 	
 	if($("#brd-upd-title").val().trim() == ''){
 		alert('제목을 입력해 주세요.');
@@ -511,7 +513,8 @@ function getBoard(no, pYn, stat){
 	$("#fn-area").empty();
 	
 	$("#btn-updateBoard-close").attr('onclick', 'btnUpdateBoardClose(\''+no+'\', \''+pYn+'\');');
-	$("#btn-updateBoard").attr('onclick', 'updateBoardPost(\''+no+'\', \''+pYn+'\');');
+	$("#btn-updateBoard").attr('onclick', 'updateBoardPost(\''+no+'\', \''+pYn+'\', \'1\');');
+	$("#btn-updateBoard-temp").attr('onclick', 'updateBoardPost(\''+no+'\', \''+pYn+'\', \'5\');');
 	
 	if(pYn == 'N'){
 		
@@ -1734,6 +1737,7 @@ function btnAddCmntChange(str){
 			            </div>
 			         	<div style="border-top: 1px solid #000; margin-top: 20px;">
 				        	<form id="frm-updateBoard" enctype="multipart/form-data">
+				        		<input type="text" name="stat" id="brd-upd-stat">
 				        		<input type="hidden" name="boardSeq" id="brd-upd-boardSeq">
 					            <div class="mb-3 mt-3">
 					            	<label for="brd-upd-select" class="form-label fw-bold">게시판</label>
