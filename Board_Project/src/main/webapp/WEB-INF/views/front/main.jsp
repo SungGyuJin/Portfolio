@@ -452,7 +452,7 @@ function updateBoardPost(no, pYn, stat){
 				alert('수정되었습니다.');
 				$("#updateBoardModal").modal('hide');
 				getBoard(no, pYn);
-				getBoardList($("#pageNum").val(), $("#listTyp").val());
+				getBoardList($("#pageNum").val(), $("#listTyp").val(), $("#myPageYn").val());
 				
 				$("#brd-upd-pwdYn").prop("checked", false);
 				$("#brd-upd-pwd").removeAttr("placeholder");
@@ -1039,8 +1039,8 @@ function updateBoard(no, gubun, num, option){
 				  // Bootstrap 모달 인스턴스 생성 및 표시
 					var updateBoardModal = new bootstrap.Modal($('#updateBoardModal')[0], {
 						backdrop: 'static',
-					    keyboard: false, 
-					    focus: false
+					    keyboard: false
+// 					    focus: false
 					});
 					updateBoardModal.show();
 				}
@@ -1670,7 +1670,7 @@ function btnAddCmntChange(str){
 			            </div>
 			         	<div style="border-top: 1px solid #000; margin-top: 20px;">
 				        	<form id="frm-addBoard" enctype="multipart/form-data">
-				        		<input type="text" name="stat" id="board-stat">
+				        		<input type="hidden" name="stat" id="board-stat">
 					            <div class="mb-3 mt-3">
 					            	<label for="brd-select" class="form-label fw-bold">게시판</label>
 					              	<select class="form-select" name="bbsSeq" id="brd-select">
@@ -1737,7 +1737,7 @@ function btnAddCmntChange(str){
 			            </div>
 			         	<div style="border-top: 1px solid #000; margin-top: 20px;">
 				        	<form id="frm-updateBoard" enctype="multipart/form-data">
-				        		<input type="text" name="stat" id="brd-upd-stat">
+				        		<input type="hidden" name="stat" id="brd-upd-stat">
 				        		<input type="hidden" name="boardSeq" id="brd-upd-boardSeq">
 					            <div class="mb-3 mt-3">
 					            	<label for="brd-upd-select" class="form-label fw-bold">게시판</label>
