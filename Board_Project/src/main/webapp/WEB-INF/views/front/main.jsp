@@ -357,6 +357,10 @@ function addBoardPost(gubun){
 	
 	gubun == 'temp' ? $("#board-stat").val('5') : $("#board-stat").val('1');
 
+	if(gubun == 'temp'){
+		$("#myPageYn").val('T');
+	}
+	
 	if($("#brd-select").val() == ''){
 		alert('게시판을 선택해 주세요.');
 		$("#brd-select").focus();
@@ -391,12 +395,13 @@ function addBoardPost(gubun){
 				}else{
 					alert('등록되었습니다.');
 					$("#bbsSeq").val($("#brd-select").val());
-					getBoardList('1', $("#listTyp").val());
+					getBoardList('1', $("#listTyp").val(), '');
 					$("#brd-select").val('');
 					$("#brd-title").val('');
 					$("#brd-cont").val('');
 				}
-				
+
+				getBoardList('1', $("#listTyp").val(), $("#myPageYn").val());
 				$("#btn-addBoard-close").trigger('click');
 			}
 			
@@ -1548,7 +1553,7 @@ function btnAddCmntChange(str){
 									<input type="hidden" id="oldKeyword" value="">
 		                        	<hr>
 		                        	<form id="frm-board">
-		                        		<input type="hidden" name="myPageYn" id="myPageYn" value="N">
+		                        		<input type="text" name="myPageYn" id="myPageYn" value="N">
 		                        		<input type="hidden" name="listTyp" id="listTyp" value="L">
 		                        		<input type="hidden" name="bbsSeq" id="bbsSeq" value="0">
 		                        		<input type="hidden" name="pageNum" id="pageNum" value="1">
