@@ -686,7 +686,7 @@ function changeBbsSeq(no, info){
 	getBoardList(null, $("#listTyp").val());
 }
 
-// 게시물 목록
+// 게시물 목록 JS
 function getBoardList(num, style, myPg, card){
 	
 	if(card == 'click'){
@@ -833,12 +833,20 @@ function getBoardList(num, style, myPg, card){
 				html +=								'<small><a href="javascript:getBoard('+boardList[i].ref+', \''+boardList[i].pwdYn+'\', \''+boardList[i].stat+'\');" class="my-a text-danger"><span class="underline">'+boardList[i].title+'</span></a></small>';
 										}else{
 				html +=						'<tr>';
-
-											boardList[i].rowNum > 0 ? html += '<td class="text-secondary"><small>'+boardList[i].rowNum+'</small></td>' : html += '<td></td>';
-				html +=							'<td class="text-start">';
+											
 											if(boardList[i].stat == 5){
-				html +=							'<small class="text-danger fw-bolder me-2">임시저장중</small>';
+				html +=							'<td><small class="text-danger fw-bolder me-2">임시저장중</small></td>';
+											}else{
+												boardList[i].rowNum > 0 ? html += '<td class="text-secondary"><small>'+boardList[i].rowNum+'</small></td>' : html += '<td></td>';
 											}
+				
+				
+				html +=							'<td class="text-start">';
+				
+// 											if(boardList[i].stat == 5){
+// 				html +=							'<small class="text-danger fw-bolder me-2">임시저장중</small>';
+// 											}
+											
 											if(boardList[i].lvl > 0){
 												for(let k=0; k < boardList[i].lvl; k++){
 													html += "\u00a0";
