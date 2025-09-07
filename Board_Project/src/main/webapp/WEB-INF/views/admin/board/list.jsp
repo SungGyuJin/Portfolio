@@ -8,6 +8,42 @@
 
 	$(function(){
 
+		$("#dataTable" ).sortable({
+            items:$('.sorting'),
+            start:function(event, ui){
+				
+            },
+            stop: function(event, ui) {
+            	
+            	var html = '';
+            	
+                $("#dataTable .sorting_1").each(function(index){
+					html += '<input type="hidden" name="bbsSeqArr" value="'+$(this).attr('aria-label')+'">';
+					html += '<input type="hidden" name="srtOrdArr" value="'+(index+1)+'">';
+                });
+                
+                $("#frm_sorting").html(html);
+                
+                $.ajax({
+        			url      : contextPath+"updateBbsSrtOrd.do",
+        			method   : "GET",
+        			data     : $("#frm_sorting").serialize(),
+        			dataType : "json",
+        			success  : function(res){
+						
+        				
+        			},
+        			error : function(request, status, error){
+        				Swal.fire({
+        					icon: "error",
+        					title: "통신불가"
+        				})
+        			}
+        		});
+            }
+			
+        });
+		
 		var delArr = [];
 		
 		$(".check-cell").on("click", function(e) {
@@ -350,7 +386,7 @@
 												</thead>
 												<tbody>
 													<c:forEach var="list" varStatus="varStatus" items="${getBoardList }">
-													<tr id="tr-${list.boardSeq }">
+													<tr class="sorting" id="tr-${list.boardSeq }">
 														<td class="sorting_1 text-center cursor-pointer check-cell">
 															<input type="checkbox" id="check-box-${list.boardSeq }" class="list-chk cursor-pointer custom-checkbox-lg" value="${list.boardSeq }">
 														</td>

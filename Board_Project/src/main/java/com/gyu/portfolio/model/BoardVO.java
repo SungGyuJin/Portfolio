@@ -21,6 +21,7 @@ public class BoardVO extends DefalutVO {
 	private String pwdYn 	= "";
 	private String pwd 		= "";  // password
 	private int    readCnt 	=  0;  // 조회수
+	private int    srtOrd 	=  0;	// 정렬순서
 	private int    regNo 	=  0;  // 등록자 번호
 	private String regDt 	= "";  // 등록일자
 	private int    updNo 	=  0;  // 수정자 번호
@@ -51,12 +52,12 @@ public class BoardVO extends DefalutVO {
 	public String toString() {
 		return "BoardVO [boardSeq=" + boardSeq + ", bbsSeq=" + bbsSeq + ", title=" + title + ", cont=" + cont + ", ref="
 				+ ref + ", step=" + step + ", lvl=" + lvl + ", pwdYn=" + pwdYn + ", pwd=" + pwd + ", readCnt=" + readCnt
-				+ ", regNo=" + regNo + ", regDt=" + regDt + ", updNo=" + updNo + ", updDt=" + updDt + ", stat=" + stat
-				+ ", replyYn=" + replyYn + ", atchYn=" + atchYn + ", secrtYn=" + secrtYn + ", bbsStat=" + bbsStat
-				+ ", bbsNm=" + bbsNm + ", rsMatch=" + rsMatch + ", thumbInfo=" + thumbInfo + ", delSeqArr="
-				+ Arrays.toString(delSeqArr) + ", filePath=" + filePath + ", strgFileNm=" + strgFileNm + ", myPageYn="
-				+ myPageYn + ", rowNum=" + rowNum + ", cmntCnt=" + cmntCnt + ", boardCnt=" + boardCnt + ", tempCnt="
-				+ tempCnt + ", atchCnt=" + atchCnt + "]";
+				+ ", srtOrd=" + srtOrd + ", regNo=" + regNo + ", regDt=" + regDt + ", updNo=" + updNo + ", updDt="
+				+ updDt + ", stat=" + stat + ", replyYn=" + replyYn + ", atchYn=" + atchYn + ", secrtYn=" + secrtYn
+				+ ", bbsStat=" + bbsStat + ", bbsNm=" + bbsNm + ", rsMatch=" + rsMatch + ", thumbInfo=" + thumbInfo
+				+ ", delSeqArr=" + Arrays.toString(delSeqArr) + ", filePath=" + filePath + ", strgFileNm=" + strgFileNm
+				+ ", myPageYn=" + myPageYn + ", rowNum=" + rowNum + ", cmntCnt=" + cmntCnt + ", boardCnt=" + boardCnt
+				+ ", tempCnt=" + tempCnt + ", atchCnt=" + atchCnt + "]";
 	}
 	
 }

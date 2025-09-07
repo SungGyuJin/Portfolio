@@ -842,11 +842,6 @@ function getBoardList(num, style, myPg, card){
 				
 				
 				html +=							'<td class="text-start">';
-				
-// 											if(boardList[i].stat == 5){
-// 				html +=							'<small class="text-danger fw-bolder me-2">임시저장중</small>';
-// 											}
-											
 											if(boardList[i].lvl > 0){
 												for(let k=0; k < boardList[i].lvl; k++){
 													html += "\u00a0";

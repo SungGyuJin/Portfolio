@@ -13,6 +13,7 @@
 		<result property="pwdYn"		column="PWD_YN" 	/>
 		<result property="pwd"			column="PWD" 		/>
 		<result property="readCnt"		column="READ_CNT" 	/>
+		<result property="srtOrd"		column="SRT_ORD" 	/>
 		
 		<result property="regNo"		column="REG_NO" 	/>
 		<result property="regDt"		column="REG_DT" 	/>
@@ -60,6 +61,7 @@
 				, PWD_YN
 				, PWD
 				, READ_CNT
+				, SRT_ORD
 				, REG_NO
 				, REG_DT
 				, UPD_NO
@@ -142,6 +144,7 @@
 			, B.PWD_YN
 			, B.PWD
 			, B.READ_CNT
+			, B.SRT_ORD
 			, B.REG_NO
 			, B.REG_DT
 			, B.UPD_NO
@@ -318,6 +321,7 @@
 				, LVL
 				, PWD
 				, READ_CNT
+				, SRT_ORD
 				, REG_NO
 				, DATE_FORMAT(REG_DT, '%Y. %m. %d.') REG_DT
 				, UPD_NO
@@ -442,6 +446,7 @@
 			, B.PWD_YN
 			, B.PWD
 			, B.READ_CNT
+			, B.SRT_ORD
 			, B.REG_NO
 			, DATE_FORMAT(B.REG_DT, '%Y. %m. %d.  %H:%i') REG_DT
 			, B.UPD_NO
@@ -472,6 +477,7 @@
 			, B.PWD_YN
 			, B.PWD
 			, B.READ_CNT
+			, B.SRT_ORD
 			, B.REG_NO
 			, DATE_FORMAT(B.REG_DT, '%Y. %m. %d.  %H:%i') REG_DT
 			, B.UPD_NO
