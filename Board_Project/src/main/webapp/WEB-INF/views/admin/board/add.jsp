@@ -145,6 +145,7 @@
                             </div> -->
                             <form class="user" id="frm-board" method="post" enctype="multipart/form-data">
                             	<input type="hidden" name="pwdYn" value="N">
+                            	<input type="hidden" name="stat" value="1">
                                 <div class="form-group mb-4">
                                 	<label for="bbsSeq"><strong>게시판</strong></label>
                                 	<select class="form-control" name="bbsSeq" id="bbsSeq">

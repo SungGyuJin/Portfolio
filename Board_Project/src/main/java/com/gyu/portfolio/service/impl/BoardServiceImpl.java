@@ -369,4 +369,10 @@ public class BoardServiceImpl implements BoardService {
 		return resultMap;
 	}
 
+	@Override
+	public int updateBoardSrtOrd(BoardVO boardVO) throws Exception {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

@@ -3,6 +3,7 @@ package com.gyu.portfolio.service.mapper;
 import java.util.List;
 import java.util.Map;
 
+import com.gyu.portfolio.model.BbsVO;
 import com.gyu.portfolio.model.BoardVO;
 
 public interface BoardMapper {
@@ -47,6 +48,9 @@ public interface BoardMapper {
 
 	/* update step2 */
 	int getMaxStep(BoardVO boardVO) throws Exception;
+
+	// 정렬순서 변경
+	int updateBoardSrtOrd(BoardVO boardVO) throws Exception;
 	
 
 	/* ########################################################################################################### */

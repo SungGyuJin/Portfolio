@@ -318,5 +318,22 @@ public class BoardController {
         }
 	}
 	
+
+	/* 게시물 순서변경 */
+	@GetMapping("/updateBoardSrtOrd.do")
+	@ResponseBody
+	public int updateBorardSrtOrd(ModelMap model,
+			@ModelAttribute("BoardVO") BoardVO boardVO,
+			HttpServletRequest request,
+			HttpServletResponse response,
+			HttpSession session) throws Exception{
+		
+		boardVO.setUpdNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
+//		int result = bbsService.updateBbsSrtOrd(boardVO);
+		int result = 1;
+
+		
+		return result;
+	}
 	
 }

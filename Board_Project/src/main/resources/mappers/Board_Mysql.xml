@@ -96,7 +96,8 @@
 					</choose>
 				</if>
 		) AS SUB
-		ORDER BY REF DESC, STEP
+<!-- 		ORDER BY REF DESC, STEP -->
+		ORDER BY SRT_ORD DESC, STEP
 		LIMIT #{skip}, #{amount}
 	</select>
 	
@@ -209,8 +210,8 @@
 	
 	<update id="updateRef">
 		<choose>
-			<when test="ref > 0">UPDATE TB_BOARD SET REF = #{ref} WHERE BOARD_SEQ = #{boardSeq}</when>
-			<otherwise>UPDATE TB_BOARD SET REF = #{boardSeq} WHERE BOARD_SEQ = #{boardSeq}</otherwise>
+			<when test="ref > 0">UPDATE TB_BOARD SET REF = #{ref}, SRT_ORD = #{ref} WHERE BOARD_SEQ = #{boardSeq}</when>
+			<otherwise>UPDATE TB_BOARD SET REF = #{boardSeq}, SRT_ORD = #{boardSeq} WHERE BOARD_SEQ = #{boardSeq}</otherwise>
 		</choose>
 	</update>
 	
@@ -522,7 +523,6 @@
 		    (SELECT COUNT(*) FROM TB_BOARD WHERE 1=1 AND STAT = 1 AND REG_NO = #{regNo}) AS BOARD_CNT,
 		    (SELECT COUNT(*) FROM TB_COMMENT WHERE 1=1 AND STAT = 1 AND REG_NO = #{regNo}) AS CMNT_CNT,
 		    (SELECT COUNT(*) FROM TB_BOARD WHERE 1=1 AND STAT = 5 AND REG_NO = #{regNo}) AS TEMP_CNT
-		    
 	</select>
 
 </mapper>

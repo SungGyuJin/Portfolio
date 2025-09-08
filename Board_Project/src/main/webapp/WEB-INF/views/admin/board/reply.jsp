@@ -91,6 +91,7 @@
                                 <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
                             </div> -->
                             <form class="user" id="frm-board" method="post" action="addBoard.do" data-parsley-validate>
+                            	<input type="hidden" name="stat" value="1">
                             	<input type="hidden" name="pwdYn" value="N">
                                	<input type="hidden" name="bbsSeq" value="${getBoard.bbsSeq }">
                                	<input type="hidden" name="ref" value="${getBoard.ref }">

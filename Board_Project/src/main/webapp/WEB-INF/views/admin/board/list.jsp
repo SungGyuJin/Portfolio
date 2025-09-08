@@ -25,12 +25,13 @@
                 $("#frm_sorting").html(html);
                 
                 $.ajax({
-        			url      : contextPath+"updateBbsSrtOrd.do",
+        			url      : contextPath+"updateBoardSrtOrd.do",
         			method   : "GET",
         			data     : $("#frm_sorting").serialize(),
         			dataType : "json",
         			success  : function(res){
 						
+        				
         				
         			},
         			error : function(request, status, error){
@@ -310,6 +311,8 @@
 </script>
 
 <input type="hidden" id="pageNum" value="${boardVO.pageNum }" />
+
+<form id="frm_sorting"></form>
 
 <div id="content">
 	<!-- Begin Page Content -->
