@@ -18,8 +18,8 @@
             	var html = '';
             	
                 $("#dataTable .sorting_1").each(function(index){
-					html += '<input type="hidden" name="bbsSeqArr" value="'+$(this).attr('aria-label')+'">';
-					html += '<input type="hidden" name="srtOrdArr" value="'+(index+1)+'">';
+					html += '<input type="text" name="bbsSeqArr" value="'+$(this).attr('aria-label')+'">';
+					html += '<input type="text" name="srtOrdArr" value="'+(index+1)+'"><br>';
                 });
                 
                 $("#frm_sorting").html(html);
