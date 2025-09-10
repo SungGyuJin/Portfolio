@@ -12,6 +12,61 @@
             items:$('.sorting'),
             start:function(event, ui){
             	
+    			let dragged = ui.item;
+
+				if(dragged.attr("aria-label") > 0){
+					
+	            	setTimeout(() => {
+	                    $(this).sortable("cancel");
+	                }, 0);
+	            	
+	            	
+	            	Swal.fire({
+	        			icon:  "error",
+	        			title: "정렬 실패",
+					  	text:  "답글은 순서변경이 불가능합니다."
+	        		}).then(function(){
+	        			
+	        		});
+				}else{
+					var html = '';
+	            	
+	                $("#dataTable .sorting_1").each(function(index){
+	                	const bSeq = $(this).attr('aria-label').split(',')[0];
+	                	const bSrt = $(this).attr('aria-label').split(',')[1];
+
+	                	// temp
+// 						html += '<input type="text" class="temp-sorting-data" name="boardSeqArr" id="bSeq-'+bSeq+'" value="'+bSeq+'">';
+// 						html += '<input type="text" class="temp-sorting-data srtOrdArr" name="srtOrdArr" id="bSrt-'+bSrt+'" value="'+bSrt+'"><br>';
+						
+						// true
+						html += '<input type="hidden" class="temp-sorting-data" name="boardSeqArr" id="bSeq-'+bSeq+'" value="'+bSeq+'">';
+						html += '<input type="hidden" class="temp-sorting-data srtOrdArr" name="srtOrdArr" id="bSrt-'+bSrt+'" value="'+bSrt+'">';
+	                
+	                });
+	                
+	                $("#frm_sorting").html(html);
+				}
+            	
+            },
+            stop: function(event, ui) {
+            	
+                $(".srtOrdArr").each(function(idx){
+                	$(".srtOrdArr").eq(idx).val($(".og-list").eq(idx).val());
+                	
+                });
+            	
+                
+                // 원글 수 만큼 반복
+                $(".og-list").each(function(idx){
+                	
+                	const srtNum = ($(".og-list").eq(idx).val());
+                	console.log(srtNum);
+                });
+                
+//                 $(".temp-sorting-data").remove();
+                
+//                 return false;
                 
                 $.ajax({
         			url      : contextPath+"updateBoardSrtOrd.do",
@@ -20,8 +75,6 @@
         			dataType : "json",
         			success  : function(res){
 						
-//         				location.reload();
-        				
         			},
         			error : function(request, status, error){
         				Swal.fire({
