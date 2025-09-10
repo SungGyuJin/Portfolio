@@ -301,6 +301,17 @@
 		WHERE 1=1
 			AND REF = #{boardSeq}
 	</update>
+	
+	<update id="updateBoardSrtOrd">
+		UPDATE
+			TB_BOARD
+		SET
+			SRT_ORD		= #{srtOrd}
+			, UPD_NO = #{updNo}
+			, UPD_DT 	= NOW()
+		WHERE 1=1
+			AND BOARD_SEQ = #{bbsSeq}
+	</update>
 
 	<!-- #################################################################################################### -->
 	<!-- ############################################# Front SQL ############################################ -->

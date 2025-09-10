@@ -329,9 +329,8 @@ public class BoardController {
 			HttpSession session) throws Exception{
 		
 		boardVO.setUpdNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
-//		int result = bbsService.updateBbsSrtOrd(boardVO);
-		int result = 1;
-
+		int result = boardService.updateBoardSrtOrd(boardVO);
+//		int result = 1;
 		
 		return result;
 	}

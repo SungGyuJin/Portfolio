@@ -371,8 +371,35 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public int updateBoardSrtOrd(BoardVO boardVO) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+		
+		TransactionStatus status = transactionManager.getTransaction(def);
+		
+			int result = 0;
+			
+			try{
+				
+				BoardVO vo = new BoardVO();
+				vo.setUpdNo(boardVO.getUpdNo());
+				
+				for(int i=0; i < boardVO.getBoardSeqArr().length; i++) {
+					vo.setSrtOrd(Integer.parseInt(boardVO.getSrtOrdArr()[i]));
+					vo.setBbsSeq(Integer.parseInt(boardVO.getBoardSeqArr()[i]));
+					
+					result = boardMapper.updateBoardSrtOrd(vo);
+				}
+				
+				transactionManager.commit(status);
+			}catch(Exception e){
+				transactionManager.rollback(status);
+				System.out.println();
+				System.out.println(e.getMessage());
+				System.out.println();
+			}
+			
+		return result;
 	}
 
 }

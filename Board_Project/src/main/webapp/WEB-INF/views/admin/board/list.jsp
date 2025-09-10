@@ -12,40 +12,6 @@
             items:$('.sorting'),
             start:function(event, ui){
             	
-    			let dragged = ui.item;
-
-				if(dragged.attr("aria-label") > 0){
-					
-	            	setTimeout(() => {
-	                    $(this).sortable("cancel");
-	                }, 0);
-	            	
-	            	
-	            	Swal.fire({
-	        			icon:  "error",
-	        			title: "정렬 실패",
-					  	text:  "답글은 순서변경이 불가능합니다."
-	        		}).then(function(){
-	        			
-	        		});
-	            	
-				}
-            	
-            },
-            stop: function(event, ui) {
-            	
-            	var html = '';
-            	
-                $("#dataTable .sorting_1").each(function(index){
-                	
-					html += '<input type="hidden" name="boardSeqArr" value="'+$(this).attr('aria-label').split(',')[0]+'">';
-					html += '<input type="hidden" name="srtOrdArr" value="'+$(this).attr('aria-label').split(',')[1]+'">';
-                	
-// 					html += '<input type="text" name="boardSeqArr" value="'+$(this).attr('aria-label')+'">';
-// 					html += '<input type="text" name="srtOrdArr" value="'+(index+1)+'"><br>';
-                });
-                
-                $("#frm_sorting").html(html);
                 
                 $.ajax({
         			url      : contextPath+"updateBoardSrtOrd.do",
@@ -54,7 +20,7 @@
         			dataType : "json",
         			success  : function(res){
 						
-        				
+//         				location.reload();
         				
         			},
         			error : function(request, status, error){
@@ -414,7 +380,7 @@
 													<c:forEach var="list" varStatus="varStatus" items="${getBoardList }">
 													<tr class="sorting" id="tr-${list.boardSeq }" aria-label="${list.lvl }">
 														<td class="<c:if test="${list.lvl eq 0 }">sorting_1 </c:if>text-center cursor-pointer check-cell" <c:if test="${list.lvl eq 0 }">aria-label="${list.boardSeq },${list.srtOrd}"</c:if>>
-															<input type="checkbox" id="check-box-${list.boardSeq }" class="list-chk cursor-pointer custom-checkbox-lg" value="${list.boardSeq }">
+															<input type="checkbox" id="check-box-${list.boardSeq }" class="list-chk cursor-pointer custom-checkbox-lg <c:if test="${list.lvl eq 0 }">og-list</c:if>" value="${list.boardSeq }">
 														</td>
 														<td class="text-center" onclick="getBoard('${list.boardSeq}');">
 															<c:if test="${list.lvl eq 0 }">
