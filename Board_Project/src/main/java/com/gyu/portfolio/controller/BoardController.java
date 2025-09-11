@@ -330,7 +330,6 @@ public class BoardController {
 		
 		boardVO.setUpdNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
 		int result = boardService.updateBoardSrtOrd(boardVO);
-//		int result = 1;
 		
 		return result;
 	}

@@ -8,7 +8,7 @@
 
 	$(function(){
 		
-		$("#dataTable" ).sortable({
+		$("#dataTable").sortable({
             items:$('.sorting'),
             start:function(event, ui){
 				

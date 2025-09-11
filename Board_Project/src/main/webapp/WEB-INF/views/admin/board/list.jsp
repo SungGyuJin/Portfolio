@@ -8,7 +8,7 @@
 
 	$(function(){
 
-		$("#dataTable" ).sortable({
+		$("#dataTable").sortable({
             items:$('.sorting'),
             start:function(event, ui){
             	
@@ -19,7 +19,6 @@
 	            	setTimeout(() => {
 	                    $(this).sortable("cancel");
 	                }, 0);
-	            	
 	            	
 	            	Swal.fire({
 	        			icon:  "error",
@@ -36,12 +35,12 @@
 	                	const bSrt = $(this).attr('aria-label').split(',')[1];
 
 	                	// temp
-// 						html += '<input type="text" class="temp-sorting-data" name="boardSeqArr" id="bSeq-'+bSeq+'" value="'+bSeq+'">';
-// 						html += '<input type="text" class="temp-sorting-data srtOrdArr" name="srtOrdArr" id="bSrt-'+bSrt+'" value="'+bSrt+'"><br>';
+						html += '<input type="text" class="temp-sorting-data" name="boardSeqArr" id="bSeq-'+bSeq+'" value="'+bSeq+'">';
+						html += '<input type="text" class="temp-sorting-data srtOrdArr" name="srtOrdArr" id="bSrt-'+bSrt+'" value="'+bSrt+'"><br>';
 						
 						// true
-						html += '<input type="hidden" class="temp-sorting-data" name="boardSeqArr" id="bSeq-'+bSeq+'" value="'+bSeq+'">';
-						html += '<input type="hidden" class="temp-sorting-data srtOrdArr" name="srtOrdArr" id="bSrt-'+bSrt+'" value="'+bSrt+'">';
+// 						html += '<input type="hidden" class="temp-sorting-data" name="boardSeqArr" id="bSeq-'+bSeq+'" value="'+bSeq+'">';
+// 						html += '<input type="hidden" class="temp-sorting-data srtOrdArr" name="srtOrdArr" id="bSrt-'+bSrt+'" value="'+bSrt+'">';
 	                
 	                });
 	                
