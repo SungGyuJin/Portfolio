@@ -43,7 +43,7 @@ public class BoardVO extends DefalutVO {
 	private String myPageYn		= "";
 
 	private String[] boardSeqArr  = null;
-	private String[] srtOrdArr    = null;	// 새로운 번호(기존X)
+	private String[] refArr  	  = null;
 	
 	private int    rowNum 	=  0;
 	private int    cmntCnt 	=  0;
@@ -59,8 +59,8 @@ public class BoardVO extends DefalutVO {
 				+ updDt + ", stat=" + stat + ", replyYn=" + replyYn + ", atchYn=" + atchYn + ", secrtYn=" + secrtYn
 				+ ", bbsStat=" + bbsStat + ", bbsNm=" + bbsNm + ", rsMatch=" + rsMatch + ", thumbInfo=" + thumbInfo
 				+ ", delSeqArr=" + Arrays.toString(delSeqArr) + ", filePath=" + filePath + ", strgFileNm=" + strgFileNm
-				+ ", myPageYn=" + myPageYn + ", boardSeqArr=" + Arrays.toString(boardSeqArr) + ", srtOrdArr="
-				+ Arrays.toString(srtOrdArr) + ", rowNum=" + rowNum + ", cmntCnt=" + cmntCnt + ", boardCnt=" + boardCnt
+				+ ", myPageYn=" + myPageYn + ", boardSeqArr=" + Arrays.toString(boardSeqArr) + ", refArr="
+				+ Arrays.toString(refArr) + ", rowNum=" + rowNum + ", cmntCnt=" + cmntCnt + ", boardCnt=" + boardCnt
 				+ ", tempCnt=" + tempCnt + ", atchCnt=" + atchCnt + "]";
 	}
 	

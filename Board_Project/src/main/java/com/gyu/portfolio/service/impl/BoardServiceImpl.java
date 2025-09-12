@@ -370,7 +370,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public int updateBoardSrtOrd(BoardVO boardVO) throws Exception {
+	public int updateBoardRef(BoardVO boardVO) throws Exception {
 		
 		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
 		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
@@ -381,14 +381,24 @@ public class BoardServiceImpl implements BoardService {
 			
 			try{
 				
+
+				System.out.println();
+				System.out.println("SEQ.length: "+boardVO.getBoardSeqArr());
+				System.out.println("REF.length: "+boardVO.getRefArr());
+				System.out.println();
+				
 				BoardVO vo = new BoardVO();
 				vo.setUpdNo(boardVO.getUpdNo());
 				
 				for(int i=0; i < boardVO.getBoardSeqArr().length; i++) {
-					vo.setSrtOrd(Integer.parseInt(boardVO.getSrtOrdArr()[i]));
-					vo.setBbsSeq(Integer.parseInt(boardVO.getBoardSeqArr()[i]));
+					vo.setRef(Integer.parseInt(boardVO.getRefArr()[i]));
+					vo.setBoardSeq(Integer.parseInt(boardVO.getBoardSeqArr()[i]));
+
+					System.out.println();
+					System.out.println("boardSeq: "+boardVO.getBoardSeqArr()[i]+", ref: "+boardVO.getRefArr()[i]);
+					System.out.println();
 					
-					result = boardMapper.updateBoardSrtOrd(vo);
+					result = boardMapper.updateBoardRef(vo);
 				}
 				
 				transactionManager.commit(status);

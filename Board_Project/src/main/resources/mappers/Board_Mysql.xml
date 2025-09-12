@@ -13,7 +13,6 @@
 		<result property="pwdYn"		column="PWD_YN" 	/>
 		<result property="pwd"			column="PWD" 		/>
 		<result property="readCnt"		column="READ_CNT" 	/>
-		<result property="srtOrd"		column="SRT_ORD" 	/>
 		
 		<result property="regNo"		column="REG_NO" 	/>
 		<result property="regDt"		column="REG_DT" 	/>
@@ -61,7 +60,6 @@
 				, PWD_YN
 				, PWD
 				, READ_CNT
-				, SRT_ORD
 				, REG_NO
 				, REG_DT
 				, UPD_NO
@@ -96,8 +94,7 @@
 					</choose>
 				</if>
 		) AS SUB
-<!-- 		ORDER BY REF DESC, STEP -->
-		ORDER BY SRT_ORD DESC, STEP
+		ORDER BY REF DESC, STEP
 		LIMIT #{skip}, #{amount}
 	</select>
 	
@@ -145,7 +142,6 @@
 			, B.PWD_YN
 			, B.PWD
 			, B.READ_CNT
-			, B.SRT_ORD
 			, B.REG_NO
 			, B.REG_DT
 			, B.UPD_NO
@@ -210,8 +206,8 @@
 	
 	<update id="updateRef">
 		<choose>
-			<when test="ref > 0">UPDATE TB_BOARD SET REF = #{ref}, SRT_ORD = #{ref} WHERE BOARD_SEQ = #{boardSeq}</when>
-			<otherwise>UPDATE TB_BOARD SET REF = #{boardSeq}, SRT_ORD = #{boardSeq} WHERE BOARD_SEQ = #{boardSeq}</otherwise>
+			<when test="ref > 0">UPDATE TB_BOARD SET REF = #{ref} WHERE BOARD_SEQ = #{boardSeq}</when>
+			<otherwise>UPDATE TB_BOARD SET REF = #{boardSeq} WHERE BOARD_SEQ = #{boardSeq}</otherwise>
 		</choose>
 	</update>
 	
@@ -302,15 +298,15 @@
 			AND REF = #{boardSeq}
 	</update>
 	
-	<update id="updateBoardSrtOrd">
+	<update id="updateBoardRef">
 		UPDATE
 			TB_BOARD
 		SET
-			SRT_ORD		= #{srtOrd}
+			REF	= #{ref}
 			, UPD_NO = #{updNo}
-			, UPD_DT 	= NOW()
+			, UPD_DT = NOW()
 		WHERE 1=1
-			AND BOARD_SEQ = #{bbsSeq}
+			AND BOARD_SEQ = #{boardSeq}
 	</update>
 
 	<!-- #################################################################################################### -->
@@ -333,7 +329,6 @@
 				, LVL
 				, PWD
 				, READ_CNT
-				, SRT_ORD
 				, REG_NO
 				, DATE_FORMAT(REG_DT, '%Y. %m. %d.') REG_DT
 				, UPD_NO
@@ -458,7 +453,6 @@
 			, B.PWD_YN
 			, B.PWD
 			, B.READ_CNT
-			, B.SRT_ORD
 			, B.REG_NO
 			, DATE_FORMAT(B.REG_DT, '%Y. %m. %d.  %H:%i') REG_DT
 			, B.UPD_NO
@@ -489,7 +483,6 @@
 			, B.PWD_YN
 			, B.PWD
 			, B.READ_CNT
-			, B.SRT_ORD
 			, B.REG_NO
 			, DATE_FORMAT(B.REG_DT, '%Y. %m. %d.  %H:%i') REG_DT
 			, B.UPD_NO

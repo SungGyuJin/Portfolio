@@ -32,26 +32,31 @@
 	            	
 	                $("#dataTable .sorting_1").each(function(index){
 	                	const bSeq = $(this).attr('aria-label').split(',')[0];
-	                	const bSrt = $(this).attr('aria-label').split(',')[1];
+	                	const bRef = $(this).attr('aria-label').split(',')[1];
 
 	                	// temp
-						html += '<input type="text" class="temp-sorting-data" name="boardSeqArr" id="bSeq-'+bSeq+'" value="'+bSeq+'">';
-						html += '<input type="text" class="temp-sorting-data srtOrdArr" name="srtOrdArr" id="bSrt-'+bSrt+'" value="'+bSrt+'"><br>';
+// 	                	html +=	'<div class="d-flex">';
+// 						html += 	'<input type="text" class="temp-sorting-data" name="boardSeqArr" id="bSeq-'+bSeq+'" value="'+bSeq+'">';
+// 						html += 	'<input type="text" class="temp-sorting-data refArr" name="refArr" id="bRef-'+bRef+'" value="'+bRef+'">';
+// 						html +=	'</div>';
 						
 						// true
-// 						html += '<input type="hidden" class="temp-sorting-data" name="boardSeqArr" id="bSeq-'+bSeq+'" value="'+bSeq+'">';
-// 						html += '<input type="hidden" class="temp-sorting-data srtOrdArr" name="srtOrdArr" id="bSrt-'+bSrt+'" value="'+bSrt+'">';
+						html += '<input type="hidden" class="temp-sorting-data" name="boardSeqArr" id="bSeq-'+bSeq+'" value="'+bSeq+'">';
+						html += '<input type="hidden" class="temp-sorting-data refArr" name="refArr" id="bRef-'+bRef+'" value="'+bRef+'">';
 	                
 	                });
-	                
+
 	                $("#frm_sorting").html(html);
+// 	                $("#temp-body").empty();
+// 	                $("#temp-body").append(html);
+	                
 				}
             	
             },
             stop: function(event, ui) {
             	
-                $(".srtOrdArr").each(function(idx){
-                	$(".srtOrdArr").eq(idx).val($(".og-list").eq(idx).val());
+                $(".refArr").each(function(idx){
+                	$(".refArr").eq(idx).val($(".og-list").eq(idx).val());
                 	
                 });
             	
@@ -59,21 +64,19 @@
                 // 원글 수 만큼 반복
                 $(".og-list").each(function(idx){
                 	
-                	const srtNum = ($(".og-list").eq(idx).val());
-                	console.log(srtNum);
+                	const ref = ($(".og-list").eq(idx).val());
+                	console.log(ref);
                 });
                 
-//                 $(".temp-sorting-data").remove();
-                
-//                 return false;
-                
                 $.ajax({
-        			url      : contextPath+"updateBoardSrtOrd.do",
+        			url      : contextPath+"updateBoardRef.do",
         			method   : "GET",
         			data     : $("#frm_sorting").serialize(),
         			dataType : "json",
         			success  : function(res){
-						
+        				
+//         	        	$(".temp-sorting-data").remove();
+//         				location.reload();
         			},
         			error : function(request, status, error){
         				Swal.fire({
@@ -431,7 +434,7 @@
 												<tbody>
 													<c:forEach var="list" varStatus="varStatus" items="${getBoardList }">
 													<tr class="sorting" id="tr-${list.boardSeq }" aria-label="${list.lvl }">
-														<td class="<c:if test="${list.lvl eq 0 }">sorting_1 </c:if>text-center cursor-pointer check-cell" <c:if test="${list.lvl eq 0 }">aria-label="${list.boardSeq },${list.srtOrd}"</c:if>>
+														<td class="<c:if test="${list.lvl eq 0 }">sorting_1 </c:if>text-center cursor-pointer check-cell" <c:if test="${list.lvl eq 0 }">aria-label="${list.boardSeq },${list.ref}"</c:if>>
 															<input type="checkbox" id="check-box-${list.boardSeq }" class="list-chk cursor-pointer custom-checkbox-lg <c:if test="${list.lvl eq 0 }">og-list</c:if>" value="${list.boardSeq }">
 														</td>
 														<td class="text-center" onclick="getBoard('${list.boardSeq}');">
@@ -453,7 +456,7 @@
 															<c:if test="${list.pwdYn eq 'Y' }">
 																<img class="mb-1" src="${pageContext.request.contextPath}/resources/admin/assets/img/lock-fill.svg" />
 															</c:if>
-															${list.title }
+															${list.title } (seq: ${list.boardSeq }, ref: ${list.ref })
 														</td>
 														<td class="text-center" onclick="getBoard('${list.boardSeq}');"><strong>${list.userNm }</strong></td>
 														<td class="text-center" onclick="getBoard('${list.boardSeq}');">${list.regDt }</td>
@@ -596,6 +599,11 @@
 			    				</div>
 							</div>
 			    		</div>
+			    		
+			    		<div id="temp-body">
+			    			
+			    		</div>
+			    		
 					</div>	<!-- .card-body END -->
 					
 				</div>

@@ -320,16 +320,16 @@ public class BoardController {
 	
 
 	/* 게시물 순서변경 */
-	@GetMapping("/updateBoardSrtOrd.do")
+	@GetMapping("/updateBoardRef.do")
 	@ResponseBody
-	public int updateBorardSrtOrd(ModelMap model,
+	public int updateBoardRef(ModelMap model,
 			@ModelAttribute("BoardVO") BoardVO boardVO,
 			HttpServletRequest request,
 			HttpServletResponse response,
 			HttpSession session) throws Exception{
 		
 		boardVO.setUpdNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
-		int result = boardService.updateBoardSrtOrd(boardVO);
+		int result = boardService.updateBoardRef(boardVO);
 		
 		return result;
 	}
