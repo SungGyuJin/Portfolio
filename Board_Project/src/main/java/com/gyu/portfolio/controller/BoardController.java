@@ -70,7 +70,7 @@ public class BoardController {
 		ModelAndView mav = null;
 		mav = new ModelAndView("admin/board/list");
 		
-		boardVO.setAmount(15);	// 페이지당 데이터 갯수
+		boardVO.setAmount(10);	// 페이지당 데이터 갯수
 
 		// 게시판 목록(select option)
 		List<BbsVO> getBbsList = bbsService.getSelectBbsList();

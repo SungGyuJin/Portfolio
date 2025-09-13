@@ -740,11 +740,12 @@ function getBoardList(num, style, myPg, card){
 			}
 			
 			// 게시판 목록
+			html_bbs +=	'<tr>';
+			html_bbs += 	'<td class="my-td"> └ <a href="javascript:bbsClick(0)" id="bbsSeq-0" class="my-a text-dark" onclick="changeBbsSeq(0, this);"><img class="mb-1 me-1" src="'+contextPath +'/resources/front/main/assets/img/bbs_icon.png" style="max-width: 16px;"/><span class="underline">전체글보기</span></td>';
+			html_bbs +=	'</tr>';
+			
 			for(let i=0; i < bbsList.length; i++){
 				html_bbs += '<tr>';
-				if(i == 0){
-					html_bbs += '<td class="my-td"> └ <a href="javascript:bbsClick(0)" id="bbsSeq-0" class="my-a text-dark" onclick="changeBbsSeq(0, this);"><img class="mb-1 me-1" src="'+contextPath +'/resources/front/main/assets/img/bbs_icon.png" style="max-width: 16px;"/><span class="underline">전체글보기</span></td>';
-				}
 				if(bbsList[i].bbsSeq != 1){
 					html_bbs += '<td class="my-td"> └ <a href="javascript:bbsClick('+bbsList[i].bbsSeq+')" id="bbsSeq-'+bbsList[i].bbsSeq+'" class="my-a text-dark" onclick="changeBbsSeq('+bbsList[i].bbsSeq+', this);"><img class="mb-1 me-1" src="'+contextPath +'/resources/front/main/assets/img/bbs_icon.png" style="max-width: 16px;"/><span class="underline">'+bbsList[i].nm+'</span></a></td>';
 				}
@@ -1556,7 +1557,7 @@ function btnAddCmntChange(str){
 									<input type="hidden" id="oldKeyword" value="">
 		                        	<hr>
 		                        	<form id="frm-board">
-		                        		<input type="text" name="myPageYn" id="myPageYn" value="N">
+		                        		<input type="hidden" name="myPageYn" id="myPageYn" value="N">
 		                        		<input type="hidden" name="listTyp" id="listTyp" value="L">
 		                        		<input type="hidden" name="bbsSeq" id="bbsSeq" value="0">
 		                        		<input type="hidden" name="pageNum" id="pageNum" value="1">

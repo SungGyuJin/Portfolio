@@ -27,6 +27,8 @@
 	        		}).then(function(){
 	        			
 	        		});
+	            	
+	           	// 드래그 순간 카피
 				}else{
 					var html = '';
 	            	
@@ -34,38 +36,30 @@
 	                	const bSeq = $(this).attr('aria-label').split(',')[0];
 	                	const bRef = $(this).attr('aria-label').split(',')[1];
 
+	                	console.log("bSeq: "+bSeq+", bRef: "+bRef)
+	                	
 	                	// temp
-// 	                	html +=	'<div class="d-flex">';
-// 						html += 	'<input type="text" class="temp-sorting-data" name="boardSeqArr" id="bSeq-'+bSeq+'" value="'+bSeq+'">';
-// 						html += 	'<input type="text" class="temp-sorting-data refArr" name="refArr" id="bRef-'+bRef+'" value="'+bRef+'">';
-// 						html +=	'</div>';
+	                	html +=	'<div class="d-flex">';
+						html += 	'<input type="text" class="temp-sorting-data boardSeqArr" name="boardSeqArr" id="bSeq-'+bSeq+'" value="'+bSeq+'">';
+						html += 	'<input type="text" class="temp-sorting-data refArr" name="refArr" id="bRef-'+bRef+'" value="'+bRef+'">';
+						html +=	'</div>';
 						
 						// true
-						html += '<input type="hidden" class="temp-sorting-data" name="boardSeqArr" id="bSeq-'+bSeq+'" value="'+bSeq+'">';
-						html += '<input type="hidden" class="temp-sorting-data refArr" name="refArr" id="bRef-'+bRef+'" value="'+bRef+'">';
+// 						html += '<input type="hidden" class="temp-sorting-data" name="boardSeqArr" id="bSeq-'+bSeq+'" value="'+bSeq+'">';
+// 						html += '<input type="hidden" class="temp-sorting-data refArr" name="refArr" id="bRef-'+bRef+'" value="'+bRef+'">';
+	                
 	                
 	                });
 
 	                $("#frm_sorting").html(html);
-// 	                $("#temp-body").empty();
-// 	                $("#temp-body").append(html);
-	                
 				}
             	
             },
+            // 드래그 끝나는 순간 다시 카피
             stop: function(event, ui) {
             	
                 $(".refArr").each(function(idx){
-                	$(".refArr").eq(idx).val($(".og-list").eq(idx).val());
-                	
-                });
-            	
-                
-                // 원글 수 만큼 반복
-                $(".og-list").each(function(idx){
-                	
-                	const ref = ($(".og-list").eq(idx).val());
-                	console.log(ref);
+                	$(".refArr").eq(idx).val($(".sorting_1").eq(idx).attr('aria-label').split(',')[1]);
                 });
                 
                 $.ajax({
@@ -75,8 +69,7 @@
         			dataType : "json",
         			success  : function(res){
         				
-//         	        	$(".temp-sorting-data").remove();
-//         				location.reload();
+        				location.reload();
         			},
         			error : function(request, status, error){
         				Swal.fire({
@@ -356,7 +349,6 @@
 
 <input type="hidden" id="pageNum" value="${boardVO.pageNum }" />
 
-<form id="frm_sorting"></form>
 
 <div id="content">
 	<!-- Begin Page Content -->
@@ -434,8 +426,8 @@
 												<tbody>
 													<c:forEach var="list" varStatus="varStatus" items="${getBoardList }">
 													<tr class="sorting" id="tr-${list.boardSeq }" aria-label="${list.lvl }">
-														<td class="<c:if test="${list.lvl eq 0 }">sorting_1 </c:if>text-center cursor-pointer check-cell" <c:if test="${list.lvl eq 0 }">aria-label="${list.boardSeq },${list.ref}"</c:if>>
-															<input type="checkbox" id="check-box-${list.boardSeq }" class="list-chk cursor-pointer custom-checkbox-lg <c:if test="${list.lvl eq 0 }">og-list</c:if>" value="${list.boardSeq }">
+														<td class="<c:if test="${list.lvl eq 0 }">sorting_1 </c:if>text-center cursor-pointer" <c:if test="${list.lvl eq 0 }">aria-label="${list.boardSeq },${list.ref}"</c:if>>
+															<input type="checkbox" id="check-box-${list.boardSeq }" class="list-chk cursor-pointer custom-checkbox-lg">
 														</td>
 														<td class="text-center" onclick="getBoard('${list.boardSeq}');">
 															<c:if test="${list.lvl eq 0 }">
@@ -603,6 +595,10 @@
 			    		<div id="temp-body">
 			    			
 			    		</div>
+			    		
+						<form id="frm_sorting">
+						
+						</form>
 			    		
 					</div>	<!-- .card-body END -->
 					
