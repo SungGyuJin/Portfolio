@@ -7,80 +7,6 @@
 <script>
 
 	$(function(){
-
-		$("#dataTable").sortable({
-            items:$('.sorting'),
-            start:function(event, ui){
-            	
-    			let dragged = ui.item;
-
-				if(dragged.attr("aria-label") > 0){
-					
-	            	setTimeout(() => {
-	                    $(this).sortable("cancel");
-	                }, 0);
-	            	
-	            	Swal.fire({
-	        			icon:  "error",
-	        			title: "정렬 실패",
-					  	text:  "답글은 순서변경이 불가능합니다."
-	        		}).then(function(){
-	        			
-	        		});
-	            	
-	           	// 드래그 순간 카피
-				}else{
-					var html = '';
-	            	
-	                $("#dataTable .sorting_1").each(function(index){
-	                	const bSeq = $(this).attr('aria-label').split(',')[0];
-	                	const bRef = $(this).attr('aria-label').split(',')[1];
-
-	                	console.log("bSeq: "+bSeq+", bRef: "+bRef)
-	                	
-	                	// temp
-	                	html +=	'<div class="d-flex">';
-						html += 	'<input type="text" class="temp-sorting-data boardSeqArr" name="boardSeqArr" id="bSeq-'+bSeq+'" value="'+bSeq+'">';
-						html += 	'<input type="text" class="temp-sorting-data refArr" name="refArr" id="bRef-'+bRef+'" value="'+bRef+'">';
-						html +=	'</div>';
-						
-						// true
-// 						html += '<input type="hidden" class="temp-sorting-data" name="boardSeqArr" id="bSeq-'+bSeq+'" value="'+bSeq+'">';
-// 						html += '<input type="hidden" class="temp-sorting-data refArr" name="refArr" id="bRef-'+bRef+'" value="'+bRef+'">';
-	                
-	                
-	                });
-
-	                $("#frm_sorting").html(html);
-				}
-            	
-            },
-            // 드래그 끝나는 순간 다시 카피
-            stop: function(event, ui) {
-            	
-                $(".refArr").each(function(idx){
-                	$(".refArr").eq(idx).val($(".sorting_1").eq(idx).attr('aria-label').split(',')[1]);
-                });
-                
-                $.ajax({
-        			url      : contextPath+"updateBoardRef.do",
-        			method   : "GET",
-        			data     : $("#frm_sorting").serialize(),
-        			dataType : "json",
-        			success  : function(res){
-        				
-        				location.reload();
-        			},
-        			error : function(request, status, error){
-        				Swal.fire({
-        					icon: "error",
-        					title: "통신불가"
-        				})
-        			}
-        		});
-            }
-			
-        });
 		
 		var delArr = [];
 		
@@ -426,7 +352,7 @@
 												<tbody>
 													<c:forEach var="list" varStatus="varStatus" items="${getBoardList }">
 													<tr class="sorting" id="tr-${list.boardSeq }" aria-label="${list.lvl }">
-														<td class="<c:if test="${list.lvl eq 0 }">sorting_1 </c:if>text-center cursor-pointer" <c:if test="${list.lvl eq 0 }">aria-label="${list.boardSeq },${list.ref}"</c:if>>
+														<td class="text-center cursor-pointer">
 															<input type="checkbox" id="check-box-${list.boardSeq }" class="list-chk cursor-pointer custom-checkbox-lg">
 														</td>
 														<td class="text-center" onclick="getBoard('${list.boardSeq}');">
@@ -592,13 +518,7 @@
 							</div>
 			    		</div>
 			    		
-			    		<div id="temp-body">
-			    			
-			    		</div>
-			    		
-						<form id="frm_sorting">
-						
-						</form>
+			    		<div id="temp-body"></div>
 			    		
 					</div>	<!-- .card-body END -->
 					

@@ -49,10 +49,6 @@ public interface BoardMapper {
 	/* update step2 */
 	int getMaxStep(BoardVO boardVO) throws Exception;
 
-	// 정렬순서 변경
-	int updateBoardRef(BoardVO boardVO) throws Exception;
-	
-
 	/* ########################################################################################################### */
 	/* ################################################## Front ################################################## */
 

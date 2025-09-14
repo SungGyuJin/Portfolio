@@ -35,7 +35,6 @@
 		<result property="rsMatch"	    column="RS_MATCH"	/>
 		<result property="thumbYn"	    column="THUMB_YN"	/>
 		<result property="thumbInfo"	column="THUMB_INFO"	/>
-<!-- 		<result property="myPageYn"		column="MY_PAGE_YN"	/> -->
 
 		<result property="filePath"	    column="FILE_PATH"		/>
 		<result property="strgFileNm"	column="STRG_FILE_NM"	/>
@@ -296,17 +295,6 @@
 			, UPD_DT = NOW()
 		WHERE 1=1
 			AND REF = #{boardSeq}
-	</update>
-	
-	<update id="updateBoardRef">
-		UPDATE
-			TB_BOARD
-		SET
-			REF	= #{ref}
-			, UPD_NO = #{updNo}
-			, UPD_DT = NOW()
-		WHERE 1=1
-			AND BOARD_SEQ = #{boardSeq}
 	</update>
 
 	<!-- #################################################################################################### -->

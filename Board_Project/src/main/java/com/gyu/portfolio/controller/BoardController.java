@@ -70,7 +70,7 @@ public class BoardController {
 		ModelAndView mav = null;
 		mav = new ModelAndView("admin/board/list");
 		
-		boardVO.setAmount(10);	// 페이지당 데이터 갯수
+		boardVO.setAmount(15);	// 페이지당 데이터 갯수
 
 		// 게시판 목록(select option)
 		List<BbsVO> getBbsList = bbsService.getSelectBbsList();
@@ -316,22 +316,6 @@ public class BoardController {
 
             out.flush();
         }
-	}
-	
-
-	/* 게시물 순서변경 */
-	@GetMapping("/updateBoardRef.do")
-	@ResponseBody
-	public int updateBoardRef(ModelMap model,
-			@ModelAttribute("BoardVO") BoardVO boardVO,
-			HttpServletRequest request,
-			HttpServletResponse response,
-			HttpSession session) throws Exception{
-		
-		boardVO.setUpdNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
-		int result = boardService.updateBoardRef(boardVO);
-		
-		return result;
 	}
 	
 }

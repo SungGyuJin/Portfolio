@@ -369,47 +369,4 @@ public class BoardServiceImpl implements BoardService {
 		return resultMap;
 	}
 
-	@Override
-	public int updateBoardRef(BoardVO boardVO) throws Exception {
-		
-		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
-		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
-		
-		TransactionStatus status = transactionManager.getTransaction(def);
-		
-			int result = 0;
-			
-			try{
-				
-
-				System.out.println();
-				System.out.println("SEQ.length: "+boardVO.getBoardSeqArr());
-				System.out.println("REF.length: "+boardVO.getRefArr());
-				System.out.println();
-				
-				BoardVO vo = new BoardVO();
-				vo.setUpdNo(boardVO.getUpdNo());
-				
-				for(int i=0; i < boardVO.getBoardSeqArr().length; i++) {
-					vo.setRef(Integer.parseInt(boardVO.getRefArr()[i]));
-					vo.setBoardSeq(Integer.parseInt(boardVO.getBoardSeqArr()[i]));
-
-					System.out.println();
-					System.out.println("boardSeq: "+boardVO.getBoardSeqArr()[i]+", ref: "+boardVO.getRefArr()[i]);
-					System.out.println();
-					
-					result = boardMapper.updateBoardRef(vo);
-				}
-				
-				transactionManager.commit(status);
-			}catch(Exception e){
-				transactionManager.rollback(status);
-				System.out.println();
-				System.out.println(e.getMessage());
-				System.out.println();
-			}
-			
-		return result;
-	}
-
 }
