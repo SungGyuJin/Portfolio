@@ -68,7 +68,6 @@
 					AND NM LIKE CONCAT('%', #{searchKeyword}, '%')
 				</if>
 		) AS T1
-<!-- 		ORDER BY STAT DESC, BBS_SEQ DESC -->
 		ORDER BY SRT_ORD ASC
 		LIMIT #{skip}, #{amount}
 	</select>
