@@ -7,7 +7,7 @@
 <script>
 
 	$(function(){
-		
+
 		var delArr = [];
 		
 		$(".check-cell").on("click", function(e) {
@@ -275,7 +275,6 @@
 
 <input type="hidden" id="pageNum" value="${boardVO.pageNum }" />
 
-
 <div id="content">
 	<!-- Begin Page Content -->
 	<div class="container-fluid">
@@ -351,11 +350,11 @@
 												</thead>
 												<tbody>
 													<c:forEach var="list" varStatus="varStatus" items="${getBoardList }">
-													<tr class="sorting" id="tr-${list.boardSeq }" aria-label="${list.lvl }">
-														<td class="text-center cursor-pointer">
-															<input type="checkbox" id="check-box-${list.boardSeq }" class="list-chk cursor-pointer custom-checkbox-lg">
+													<tr id="tr-${list.boardSeq }">
+														<td class="sorting_1 text-center cursor-pointer check-cell">
+															<input type="checkbox" id="check-box-${list.boardSeq }" class="list-chk cursor-pointer custom-checkbox-lg" value="${list.boardSeq }">
 														</td>
-														<td class="text-center" onclick="getBoard('${list.boardSeq}');">
+														<td class="sorting_1 text-center" onclick="getBoard('${list.boardSeq}');">
 															<c:if test="${list.lvl eq 0 }">
 																${list.rowNum }
 															</c:if>
@@ -374,7 +373,7 @@
 															<c:if test="${list.pwdYn eq 'Y' }">
 																<img class="mb-1" src="${pageContext.request.contextPath}/resources/admin/assets/img/lock-fill.svg" />
 															</c:if>
-															${list.title } (seq: ${list.boardSeq }, ref: ${list.ref })
+															${list.title }
 														</td>
 														<td class="text-center" onclick="getBoard('${list.boardSeq}');"><strong>${list.userNm }</strong></td>
 														<td class="text-center" onclick="getBoard('${list.boardSeq}');">${list.regDt }</td>
@@ -517,9 +516,6 @@
 			    				</div>
 							</div>
 			    		</div>
-			    		
-			    		<div id="temp-body"></div>
-			    		
 					</div>	<!-- .card-body END -->
 					
 				</div>

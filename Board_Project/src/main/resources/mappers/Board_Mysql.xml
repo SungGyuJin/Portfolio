@@ -318,9 +318,9 @@
 				, PWD
 				, READ_CNT
 				, REG_NO
-				, DATE_FORMAT(REG_DT, '%Y. %m. %d.') REG_DT
+				, DATE_FORMAT(REG_DT, '%Y. %m. %d') REG_DT
 				, UPD_NO
-				, UPD_DT
+				, DATE_FORMAT(UPD_DT, '%m. %d') UPD_DT
 				, STAT
 				, (SELECT NM FROM TB_BBS WHERE BBS_SEQ = T1.BBS_SEQ) BBS_NM
 				, (SELECT USER_NM FROM TB_USER WHERE USER_SEQ = T1.REG_NO) USER_NM
