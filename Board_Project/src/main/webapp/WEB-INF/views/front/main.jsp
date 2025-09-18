@@ -1005,6 +1005,17 @@ function getBoardList(num, style, myPg, card){
 	});
 }
 
+function getUserInfo(){
+	
+	var getUserInfoModal = new bootstrap.Modal($('#getUserInfoModal')[0], {
+		backdrop: 'static',
+	    keyboard: false
+//		    focus: false
+	});
+	getUserInfoModal.show();
+	
+}
+
 // 첨부파일 삭제
 function removeFile(no, gubun, num){
 	if(no == 'new'){
@@ -1507,7 +1518,9 @@ function btnAddCmntChange(str){
 									        	<c:when test="${sessionScope.USERSEQ ne 1 }">
 			            							<div class="user-info-box bg-light border rounded pt-2 mb-1 text-center fixed-image">
 									        		
-											            <div class="fw-bold mb-2">👤 <span id="user-nickname">${sessionScope.USERNM }</span> 님</div>
+											            <div class="fw-bold mb-2">
+											            	<a href="javascript:getUserInfo();" class="my-a">👤 <span id="user-nickname">${sessionScope.USERNM }</span> 님</a>
+											            </div>
 											            
 											            <div class="small text-muted d-flex justify-content-between ms-1 me-1" id="my-board">
 														    <div><img class="mb-1 me-1" src="${pageContext.request.contextPath}/resources/front/main/assets/img/pencil-black.png" style="max-width: 16px;">내가 쓴 게시글:</div>
@@ -1532,7 +1545,7 @@ function btnAddCmntChange(str){
 			            							<div class="user-info-box bg-light border rounded pt-2 mb-1 text-center fixed-image">
 			            								<br>
 			            								<br>
-											            <div class="fw-bold mb-2">👤 <span id="user-nickname">관리자 계정입니다</span></div>
+											            <div class="fw-bold mb-2">👤 <span id="admin-nickname">관리자 계정입니다</span></div>
 											        </div>
 									        	</c:otherwise>
 									        </c:choose>
@@ -1947,6 +1960,42 @@ function btnAddCmntChange(str){
                 </div>
             </div>
         </section>
+        
+        <!-- getUserInfoModal Modal -->
+        <div class="portfolio-modal modal fade" id="getUserInfoModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="close-modal" data-bs-dismiss="modal"><img src="${pageContext.request.contextPath}/resources/front/main/assets/img/close-icon.svg" alt="Close modal" /></div>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <div class="modal-body">
+                                    <!-- Project details-->
+                                    <h2 class="text-uppercase">Project Name</h2>
+                                    <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+                                    <img class="img-fluid d-block mx-auto" src="${pageContext.request.contextPath}/resources/front/main/assets/img/portfolio/1-board-img.jpg" alt="..." />
+                                    <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
+                                    <ul class="list-inline">
+                                        <li>
+                                            <strong>Client:</strong>
+                                            Threads
+                                        </li>
+                                        <li>
+                                            <strong>Category:</strong>
+                                            Illustration
+                                        </li>
+                                    </ul>
+                                    <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">
+                                        <i class="fas fa-xmark me-1"></i>
+                                        Close Project
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         
         <!-- OG -->
         <!-- Portfolio item 1 modal popup-->
