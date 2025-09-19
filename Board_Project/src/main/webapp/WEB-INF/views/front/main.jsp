@@ -1930,7 +1930,6 @@ function btnAddCmntChange(str){
             </div>
         </section>
         
-        
         <!-- Portfolio Grid-->
         <section class="page-section bg-light" id="portfolio">
             <div class="container">
@@ -1962,8 +1961,68 @@ function btnAddCmntChange(str){
         </section>
         
         <!-- getUserInfoModal Modal -->
+        
         <div class="portfolio-modal modal fade" id="getUserInfoModal" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog">
+	  		<div class="modal-dialog modal-half-left modal-lg">
+	    		<div class="modal-content modal-content-scrollable" id="modal-addBoard">
+					<div class="close-modal" data-bs-dismiss="modal" id="btn-addBoard-close">
+						<img src="${pageContext.request.contextPath}/resources/front/main/assets/img/close-icon.svg" alt="Close modal" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">
+					</div>
+					<div class="modal-header border-0 pb-0 mt-4">
+						<div class="w-100 mt-2 text-start">
+				            <div class="d-flex justify-content-between mt-5">
+				            	<div>
+						        	<h1>Information</h1>
+				            	</div>
+				            	<div>
+						            <button type="button" class="naver-button" id="btn-userSave">저장</button>
+				            	</div>
+				            </div>
+				         	<div style="border-top: 1px solid #000; margin-top: 20px;">
+					        	<form id="frm-user" enctype="multipart/form-data">
+					        	
+						            <%-- <div class="mb-3 mt-3">
+						            	<label for="brd-select" class="form-label fw-bold">게시판</label>
+						              	<select class="form-select" name="bbsSeq" id="brd-select">
+						              		<option value="">게시판을 선택해 주세요.</option>
+											<c:forEach var="list" items="${getBbsList }">
+												<c:if test="${list.bbsSeq ne 1 }">
+													<option value="${list.bbsSeq }">${list.nm }</option>
+												</c:if>
+											</c:forEach>
+						              	</select>
+						            </div> --%>
+						            
+						            <div class="mb-3">
+						            	<label for="brd-title" class="form-label fw-bold">ID</label>
+						              	<input type="text" class="form-control my-input" id="user-id" disabled>
+						            </div>
+						            
+						            <div class="mb-3" id="div-add-secrt">
+						            	<label for="brd-pwdYn" class="form-label fw-bold">비밀번호</label>
+						              	<input type="password" class="form-control my-input mb-1" name="user-pwd" id="user-pwd" placeholder="비밀번호">
+						              	<input type="password" class="form-control my-input" name="user-pwd" id="user-pwd-chk" placeholder="비밀번호 확인">
+						            </div>
+						            
+						            <div class="mb-4">
+										<label for="brd-add-file" class="form-label fw-bold">프로필 이미지</label>
+						              	<input type="file" class="form-control my-input mb-2" id="add-file-thumb" onchange="thumbChk(this, event, 'add');">
+						              	<input type="hidden" class="form-control my-input mb-2" name="userProfile" id="user-profile" value="D" readonly="readonly">
+						              	<div id="add-thumb-view"></div>
+						              	<div id="add-thumb-data"></div>
+						            </div>
+						            
+					        	</form>
+				          	</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+        
+        
+        <%-- <div class="portfolio-modal modal fade" id="getUserInfoModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-my">
                 <div class="modal-content">
                     <div class="close-modal" data-bs-dismiss="modal"><img src="${pageContext.request.contextPath}/resources/front/main/assets/img/close-icon.svg" alt="Close modal" /></div>
                     <div class="container">
@@ -1971,7 +2030,7 @@ function btnAddCmntChange(str){
                             <div class="col-lg-8">
                                 <div class="modal-body">
                                     <!-- Project details-->
-                                    <h2 class="text-uppercase">Project Name</h2>
+                                    <h2 class="text-uppercase">계정정보</h2>
                                     <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
                                     <img class="img-fluid d-block mx-auto" src="${pageContext.request.contextPath}/resources/front/main/assets/img/portfolio/1-board-img.jpg" alt="..." />
                                     <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
@@ -1995,7 +2054,7 @@ function btnAddCmntChange(str){
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --%>
         
         <!-- OG -->
         <!-- Portfolio item 1 modal popup-->
