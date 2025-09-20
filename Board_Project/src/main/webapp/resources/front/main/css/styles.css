@@ -11404,3 +11404,21 @@ section#contact form#contactForm :-ms-input-placeholder {
   border-radius: .375rem;
   padding: 1rem;
 }
+
+.modal-half-center {
+  position: fixed;
+  top: 0;
+  left: 35%;
+  margin: 1;
+  height: 50%;
+  max-width: 30%;
+  width: 30%;
+}
+
+.modal-half-center .modal-content {
+/*   height: 100%; */
+  height: 100%;
+  overflow-y: auto;
+  border-radius: .375rem;
+  padding: 1rem;
+}

@@ -467,14 +467,6 @@ img.blocking-hover {
   background-color: rgba(0,0,0,0.8);
 }
 
-.modal-my{
-	width: 720px;
- 	display: flex;
-  align-items: center;   /* 세로 중앙 */
-  justify-content: center; /* 가로 중앙 */
-  min-height: 100vh;     /* 화면 높이 꽉 채움 */
-}
-
 </style>
         
         

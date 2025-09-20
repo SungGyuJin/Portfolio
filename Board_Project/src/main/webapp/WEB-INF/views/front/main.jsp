@@ -1961,11 +1961,10 @@ function btnAddCmntChange(str){
         </section>
         
         <!-- getUserInfoModal Modal -->
-        
         <div class="portfolio-modal modal fade" id="getUserInfoModal" tabindex="-1" role="dialog" aria-hidden="true">
-	  		<div class="modal-dialog modal-half-left modal-lg">
+	  		<div class="modal-dialog modal-half-center modal-lg">
 	    		<div class="modal-content modal-content-scrollable" id="modal-addBoard">
-					<div class="close-modal" data-bs-dismiss="modal" id="btn-addBoard-close">
+					<div class="close-modal" data-bs-dismiss="modal" id="btn-getUserInfoModal-close">
 						<img src="${pageContext.request.contextPath}/resources/front/main/assets/img/close-icon.svg" alt="Close modal" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">
 					</div>
 					<div class="modal-header border-0 pb-0 mt-4">
@@ -2008,8 +2007,8 @@ function btnAddCmntChange(str){
 										<label for="brd-add-file" class="form-label fw-bold">프로필 이미지</label>
 						              	<input type="file" class="form-control my-input mb-2" id="add-file-thumb" onchange="thumbChk(this, event, 'add');">
 						              	<input type="hidden" class="form-control my-input mb-2" name="userProfile" id="user-profile" value="D" readonly="readonly">
-						              	<div id="add-thumb-view"></div>
-						              	<div id="add-thumb-data"></div>
+<!-- 						              	<div id="add-thumb-view"></div> -->
+<!-- 						              	<div id="add-thumb-data"></div> -->
 						            </div>
 						            
 					        	</form>
