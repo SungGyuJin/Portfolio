@@ -12,5 +12,8 @@ public interface LoginMapper {
 
 	// 계정 조회
 	LoginVO getLogin(LoginVO loginVO) throws Exception;
+
+	// 유저 정보조회(비밀번호 제외)
+	LoginVO getUserInfo(LoginVO loginVO) throws Exception;
     
 }

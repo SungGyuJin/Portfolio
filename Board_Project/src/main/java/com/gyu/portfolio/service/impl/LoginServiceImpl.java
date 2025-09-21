@@ -27,5 +27,10 @@ public class LoginServiceImpl implements LoginService{
 	public LoginVO getLogin(LoginVO loginVO) throws Exception {
 		return loginMapper.getLogin(loginVO);
 	}
+
+	@Override
+	public LoginVO getUserInfo(LoginVO loginVO) throws Exception {
+		return loginMapper.getUserInfo(loginVO);
+	}
 	
 }

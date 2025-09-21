@@ -13,5 +13,7 @@ public interface LoginService {
 
 	// 계정 조회
 	LoginVO getLogin(LoginVO loginVO) throws Exception;
+
+	LoginVO getUserInfo(LoginVO loginVO) throws Exception;
 	
 }

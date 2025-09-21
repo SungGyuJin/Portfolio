@@ -34,10 +34,12 @@ import com.gyu.portfolio.model.AttachVO;
 import com.gyu.portfolio.model.BbsVO;
 import com.gyu.portfolio.model.BoardVO;
 import com.gyu.portfolio.model.CmntVO;
+import com.gyu.portfolio.model.LoginVO;
 import com.gyu.portfolio.service.AttachService;
 import com.gyu.portfolio.service.BbsService;
 import com.gyu.portfolio.service.BoardService;
 import com.gyu.portfolio.service.CmntService;
+import com.gyu.portfolio.service.LoginService;
 
 @Controller
 @PropertySource("classpath:/common.properties")
@@ -61,6 +63,9 @@ public class FrontController {
 
 	@Autowired
 	private CmntService cmntService;
+
+	@Autowired
+	private LoginService loginService;
 	
 	
 	@GetMapping(value={"/", "/main"})
@@ -446,5 +451,38 @@ public class FrontController {
 		
 		return resultMap;
 	}
+	
+	/* 유저정보 조회 */
+	@GetMapping("/main/getUserInfo.do")
+	@ResponseBody
+	public Map<String, Object> getUserInfo(ModelMap model,
+			@ModelAttribute("LoginVO") LoginVO loginVO,
+			HttpServletRequest request,
+			HttpServletResponse response) throws Exception{
+		
+		/* request 정보확인 START */
+		System.out.println();
+		System.out.println("++++++++++++++++++++++++++++++");
+		System.out.println("============ /getUserInfo.do INFO  ===========");
+		Enumeration params = request.getParameterNames();
+		while(params.hasMoreElements()) {
+			String name= (String) params.nextElement();
+			System.out.println(name + ": " + request.getParameter(name));
+		}
+		System.out.println("++++++++++++++++++++++++++++++");
+		System.out.println();
+		/* request 정보확인 END */
+		
+	    Map<String, Object> resultMap = new HashMap<>();
+	    
+	    loginVO.setUserSeq(Integer.parseInt(request.getParameter("no")));
+	    resultMap.put("uInfo", loginService.getUserInfo(loginVO));
+	    
+		model.clear();
+		model.addAttribute("uInfo", resultMap);
+		
+		return resultMap;
+	}
+	
 	
 }

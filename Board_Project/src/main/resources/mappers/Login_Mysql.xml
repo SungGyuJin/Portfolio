@@ -30,6 +30,19 @@
 			AND USER_ID = #{userId}
 	</select>
 	
+	<!-- 계정 상세조회 -->
+	<select id="getUserInfo" resultMap="loginVO">
+		SELECT
+			USER_SEQ
+			, USER_ID
+			, USER_NM
+			, USER_SE
+			, STAT
+		FROM TB_USER
+		WHERE 1=1
+			AND USER_SEQ = #{userSeq}
+	</select>
+	
 	<!-- 계정 등록 -->
 	<insert id="addLogin">
 		INSERT INTO TB_USER(

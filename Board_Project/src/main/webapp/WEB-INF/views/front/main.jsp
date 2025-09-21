@@ -341,6 +341,10 @@ $(function(){
 		
 	});
 	
+	$("#btn-userSave").on('click', function(){
+		
+	});
+	
 });
 
 /* ################################################################################################# */
@@ -1005,7 +1009,7 @@ function getBoardList(num, style, myPg, card){
 	});
 }
 
-function getUserInfo(){
+function getUserInfo(no){
 	
 	var getUserInfoModal = new bootstrap.Modal($('#getUserInfoModal')[0], {
 		backdrop: 'static',
@@ -1013,6 +1017,24 @@ function getUserInfo(){
 //		    focus: false
 	});
 	getUserInfoModal.show();
+	
+	$.ajax({
+		url      : contextPath+"/main/getUserInfo.do",
+		method   : "GET",
+		data     : {"no" : no},
+		dataType : "json",
+		success  : function(res){
+			
+			$("#user-id").val(res.uInfo.userId);
+			
+		},
+		error : function(request, status, error){
+			Swal.fire({
+				icon: "error",
+				title: "통신불가"
+			})
+		}
+	});
 	
 }
 
@@ -1519,7 +1541,7 @@ function btnAddCmntChange(str){
 			            							<div class="user-info-box bg-light border rounded pt-2 mb-1 text-center fixed-image">
 									        		
 											            <div class="fw-bold mb-2">
-											            	<a href="javascript:getUserInfo();" class="my-a">👤 <span id="user-nickname">${sessionScope.USERNM }</span> 님</a>
+											            	<a href="javascript:getUserInfo('${sessionScope.USERSEQ }');" class="my-a">👤 <span id="user-nickname">${sessionScope.USERNM }</span> 님</a>
 											            </div>
 											            
 											            <div class="small text-muted d-flex justify-content-between ms-1 me-1" id="my-board">
