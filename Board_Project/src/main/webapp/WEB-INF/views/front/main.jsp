@@ -121,13 +121,14 @@ function addProfile(e, event, gubun){
 			dataType : "json",
 			success  : function(res){
 
+				$("#add-profile-view").empty();
+				
 				var reader = new FileReader();
 
 				reader.onload = function(event) {
-					$("#"+gubun+"-thumb-view").children().remove(); // 기존 내용 제거
 					var img_html = '';
-					img_html += '<img src="'+ event.target.result +'" style="height: auto; width: 100%;">';
-					img_html += '<span class="thumb-close" onclick="removeThumb(\''+gubun+'\');">&times;</span>';
+					img_html += '<img src="'+ event.target.result +'" style="height: auto; width: 100%; object-fit: contain;">';
+					img_html += '<span class="thumb-close" onclick="removeProfile();">&times;</span>';
 					$("#add-profile-view").append(img_html);
 				};
 				
@@ -159,17 +160,26 @@ function addProfile(e, event, gubun){
 		});
 		
 	}else{
-		
 		$("#add-profile-file").val('');
-		$("#add-profile-view").remove();
+		$("#add-profile-view").empty();
 		$("#add-profileYn").val('N');
 	}
+}
+
+function removeProfile(){
+	$("#add-profile-file").val('');
+	$("#add-profile-view").empty();
+	$("#add-profileYn").val('N');
+	
+	$("#add-profile-data").empty();
 }
 
 $(function(){
 	
 	$("#profile-click").on('click', function(){
-		$("#add-profile-file").trigger('click');
+		if($("#add-profileYn").val() != 'N'){
+			$("#add-profile-file").trigger('click');
+		}
 	});
 	
 	$("#brd-select").on('change', function(){
@@ -2120,15 +2130,15 @@ function btnAddCmntChange(str){
 								            </div>
 									  	</div>
 									  
-										<div class="col-md-3 cursor-pointer" id="profile-click">
+										<div class="col-md-3 cursor-pointer">
 							            	<label for="brd-pwdYn" class="form-label fw-bold">프로필 이미지</label>
-										    <div class="border d-flex align-items-center justify-content-center" style="height: 150px; background-color:#f8f9fa;">
-										    	<span class="text-muted" id="add-profile-view">No Image</span>
-										    </div>
+										    <div class="border d-flex align-items-center justify-content-center position-relative" id="profile-click" style="height: 150px; background-color:#f8f9fa;">
+												<span class="text-muted" id="add-profile-view">No Image</span>
+											</div>
 										</div>
 										
 										<input type="file" class="form-control d-none" id="add-profile-file" onchange="addProfile(this, event, 'add');">
-										<input type="hidden" name="userProfile" id="add-profileYn" value="D" readonly>
+										<input type="text" name="userProfile" id="add-profileYn" value="D" readonly>
 										
 										<div id="add-profile-data"></div>
 										
