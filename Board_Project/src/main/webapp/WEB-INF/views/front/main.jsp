@@ -93,94 +93,7 @@ function thumbChk(e, event, gubun){
 	}
 }
 
-// 썸네일 업로드 조건 및 표시
-function addProfile(e, event, gubun){
-	var file = e.files;
-	
-	if(file.length > 0){
-		var imgChk = file[0].type.substr(0,5);
-
-		if(imgChk != "image"){
-			alert("이미지파일만 첨부 가능합니다");
-			$("#add-profile-file").val('');
-			$("#add-profile-view").remove();
-			$("#add-profileYn").val('N');
-			return false;
-		}
-		
-		var formData = new FormData();
-		
-	    formData.append("files", file[0]);
-
-		$.ajax({
-			url      : contextPath+"/main/upload.do",
-			method   : "POST",
-			data     : formData,
-			processData: false,
-			contentType: false,
-			dataType : "json",
-			success  : function(res){
-
-				$("#add-profile-view").empty();
-				
-				var reader = new FileReader();
-
-				reader.onload = function(event) {
-					var img_html = '';
-					img_html += '<img src="'+ event.target.result +'" style="height: auto; width: 100%; object-fit: contain;">';
-					img_html += '<span class="thumb-close" onclick="removeProfile();">&times;</span>';
-					$("#add-profile-view").append(img_html);
-				};
-				
-				reader.readAsDataURL(file[0]);
-
-				$("#add-profileYn").val('Y');
-
-	        	var html = '';
-				
-				for(var i=0; i < res.fileList.length; i++) {
-					html += '<div class="d-flex fileData-area">';
-					html += 	'<input type="text" name="thumbFileOrgNm" value="'+res.fileList[i].fileOrgNm+'">';
-					html += 	'<input type="text" name="thumbFileSvgNm" value="'+res.fileList[i].fileSvgNm+'">';
-					html += 	'<input type="text" name="thumbFileExt" value="'+res.fileList[i].fileExt+'">';
-					html += 	'<input type="text" name="thumbFilePath" value="'+res.fileList[i].filePath+'">';
-					html += 	'<input type="text" name="thumbFileSize" value="'+res.fileList[i].fileSz+'">';
-					html +=	'</div>';
-				}
-				
-				$("#add-profile-data").html(html);
-				
-			},
-			error : function(request, status, error){
-				Swal.fire({
-					icon: "error",
-					title: "통신불가"
-				})
-			}
-		});
-		
-	}else{
-		$("#add-profile-file").val('');
-		$("#add-profile-view").empty();
-		$("#add-profileYn").val('N');
-	}
-}
-
-function removeProfile(){
-	$("#add-profile-file").val('');
-	$("#add-profile-view").empty();
-	$("#add-profileYn").val('N');
-	
-	$("#add-profile-data").empty();
-}
-
 $(function(){
-	
-	$("#profile-click").on('click', function(){
-		if($("#add-profileYn").val() != 'N'){
-			$("#add-profile-file").trigger('click');
-		}
-	});
 	
 	$("#brd-select").on('change', function(){
 		
@@ -2101,8 +2014,6 @@ function btnAddCmntChange(str){
 						              	</select>
 						            </div> --%>
 						            
-						            
-						            
 						            <!-- <div class="mb-4">
 										<label for="brd-add-file" class="form-label fw-bold">프로필 이미지</label>
 						              	<input type="file" class="form-control my-input mb-2" id="add-file-thumb" onchange="thumbChk(this, event, 'add');">
@@ -2111,38 +2022,17 @@ function btnAddCmntChange(str){
 						              	<div id="add-thumb-data"></div>
 						            </div> -->
 						            
-						            <div class="row mb-4 align-items-center">
-										<div class="col-md-9">
-									  
-										    <!-- <label for="add-file-thumb" class="form-label fw-bold">프로필 이미지</label>
-										    <input type="file" class="form-control mb-2" 
-										           id="add-file-thumb" onchange="thumbChk(this, event, 'add');">
-										    <input type="hidden" name="userProfile" id="user-profile" value="D" readonly> -->
-											    <div class="mb-3">
-								            	<label for="brd-title" class="form-label fw-bold">ID</label>
-								              	<input type="text" class="form-control my-input" id="user-id" disabled>
-								            </div>
-							            
-								            <div class="mb-3" id="div-add-secrt">
-								            	<label for="brd-pwdYn" class="form-label fw-bold">비밀번호</label>
-								              	<input type="password" class="form-control my-input mb-1" name="user-pwd" id="user-pwd" placeholder="비밀번호">
-								              	<input type="password" class="form-control my-input" name="user-pwd" id="user-pwd-chk" placeholder="비밀번호 확인">
-								            </div>
-									  	</div>
-									  
-										<div class="col-md-3 cursor-pointer">
-							            	<label for="brd-pwdYn" class="form-label fw-bold">프로필 이미지</label>
-										    <div class="border d-flex align-items-center justify-content-center position-relative" id="profile-click" style="height: 150px; background-color:#f8f9fa;">
-												<span class="text-muted" id="add-profile-view">No Image</span>
-											</div>
-										</div>
-										
-										<input type="file" class="form-control d-none" id="add-profile-file" onchange="addProfile(this, event, 'add');">
-										<input type="text" name="userProfile" id="add-profileYn" value="D" readonly>
-										
-										<div id="add-profile-data"></div>
-										
-									</div>
+									<div class="mb-3">
+						            	<label for="brd-title" class="form-label fw-bold">ID</label>
+						              	<input type="text" class="form-control my-input" id="user-id" disabled>
+						            </div>
+					            
+						            <div class="mb-3" id="div-add-secrt">
+						            	<label for="brd-pwdYn" class="form-label fw-bold">비밀번호</label>
+						              	<input type="password" class="form-control my-input mb-1" name="user-pwd" id="user-pwd" placeholder="비밀번호">
+						              	<input type="password" class="form-control my-input" name="user-pwd" id="user-pwd-chk" placeholder="비밀번호 확인">
+						            </div>
+						            
 					        	</form>
 				          	</div>
 						</div>

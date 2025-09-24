@@ -467,24 +467,6 @@ img.blocking-hover {
   background-color: rgba(0,0,0,0.8);
 }
 
-.thumb-close {
-  position: absolute;
-  top: 5px;
-  right: 2px;
-  background: rgba(0,0,0,0.5);
-  color: #fff;
-  font-weight: bold;
-  border-radius: 50%;
-  width: 18px;
-  height: 18px;
-  text-align: center;
-  line-height: 18px;
-  cursor: pointer;
-}
-.thumb-close:hover {
-  background: rgba(0,0,0,0.8);
-}
-
 </style>
         
         
