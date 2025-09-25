@@ -343,6 +343,36 @@ $(function(){
 	
 	$("#btn-userSave").on('click', function(){
 		
+		if($("#user-pwd").val().length > 0 || $("#user-pwd-chk").val().length > 0){
+			
+			if($("#user-pwd").val() == $("#user-pwd-chk").val()){
+
+				$.ajax({
+					url      : contextPath+"/main/updateUser.do",
+					method   : "POST",
+					data     : $("#frm-user").serialize(),
+					dataType : "json",
+					success  : function(res){
+						
+						
+						
+					},
+					error : function(request, status, error){
+						Swal.fire({
+							icon: "error",
+							title: "통신불가"
+						})
+					}
+				});
+				
+			}else{
+				alert('비밀번호가 일치하지 않습니다.');
+			}
+		}else{
+			alert('변경할 비밀번호를 입력해주세요.');
+		}
+		
+		
 	});
 	
 });

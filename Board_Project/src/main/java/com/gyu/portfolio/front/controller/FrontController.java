@@ -484,5 +484,19 @@ public class FrontController {
 		return resultMap;
 	}
 	
+	/* 사용자 정보(비밀번호) 수정처리 */
+	@PostMapping("/main/updateUser.do")
+	@ResponseBody
+	public int updateUser(ModelMap model,
+			@ModelAttribute("LoginVO") LoginVO loginVO,
+			HttpServletRequest request,
+			HttpServletResponse response,
+			HttpSession session) throws Exception{
+
+		int result = 1;
+		
+		return result;
+	}
+	
 	
 }
