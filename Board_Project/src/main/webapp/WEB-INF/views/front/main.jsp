@@ -343,36 +343,34 @@ $(function(){
 	
 	$("#btn-userSave").on('click', function(){
 		
-		if($("#user-pwd").val().length > 0 || $("#user-pwd-chk").val().length > 0){
-			
-			if($("#user-pwd").val() == $("#user-pwd-chk").val()){
+		if($("#uPwd").val() == $("#uPwd-chk").val()){
 
-				$.ajax({
-					url      : contextPath+"/main/updateUser.do",
-					method   : "POST",
-					data     : $("#frm-user").serialize(),
-					dataType : "json",
-					success  : function(res){
+			$.ajax({
+				url      : contextPath+"/main/updateUser.do",
+				method   : "POST",
+				data     : $("#frm-user").serialize(),
+				dataType : "json",
+				success  : function(res){
+					
+					if(res > 0){
+						alert('저장되었습니다.');
 						
-						
-						
-					},
-					error : function(request, status, error){
-						Swal.fire({
-							icon: "error",
-							title: "통신불가"
-						})
+					}else{
+						alert('저장에러')
 					}
-				});
-				
-			}else{
-				alert('비밀번호가 일치하지 않습니다.');
-			}
+					
+				},
+				error : function(request, status, error){
+					Swal.fire({
+						icon: "error",
+						title: "통신불가"
+					})
+				}
+			});
+			
 		}else{
-			alert('변경할 비밀번호를 입력해주세요.');
+			alert('비밀번호가 일치하지 않습니다.');
 		}
-		
-		
 	});
 	
 });
@@ -1054,8 +1052,10 @@ function getUserInfo(no){
 		data     : {"no" : no},
 		dataType : "json",
 		success  : function(res){
-			
-			$("#user-id").val(res.uInfo.userId);
+
+			$("#uNo").val(res.uInfo.userSeq);
+			$("#uId").val(res.uInfo.userId);
+			$("#uNm").val(res.uInfo.userNm);
 			
 		},
 		error : function(request, status, error){
@@ -2031,7 +2031,8 @@ function btnAddCmntChange(str){
 				            </div>
 				         	<div style="border-top: 1px solid #000; margin-top: 20px;">
 					        	<form id="frm-user" enctype="multipart/form-data">
-					        	
+					        		<input type="hidden" name="userSeq" id="uNo" value="">
+					        		
 						            <%-- <div class="mb-3 mt-3">
 						            	<label for="brd-select" class="form-label fw-bold">게시판</label>
 						              	<select class="form-select" name="bbsSeq" id="brd-select">
@@ -2053,14 +2054,19 @@ function btnAddCmntChange(str){
 						            </div> -->
 						            
 									<div class="mb-3">
-						            	<label for="brd-title" class="form-label fw-bold">ID</label>
-						              	<input type="text" class="form-control my-input" id="user-id" disabled>
+						            	<label for="uId" class="form-label fw-bold">ID</label>
+						              	<input type="text" class="form-control my-input" id="uId" disabled>
 						            </div>
 					            
 						            <div class="mb-3" id="div-add-secrt">
-						            	<label for="brd-pwdYn" class="form-label fw-bold">비밀번호</label>
-						              	<input type="password" class="form-control my-input mb-1" name="user-pwd" id="user-pwd" placeholder="비밀번호">
-						              	<input type="password" class="form-control my-input" name="user-pwd" id="user-pwd-chk" placeholder="비밀번호 확인">
+						            	<label for="uPwd" class="form-label fw-bold">비밀번호</label><small class="text-danger"> *변경을 원할시 입력</small>
+						              	<input type="password" class="form-control my-input mb-1" id="uPwd" placeholder="비밀번호">
+						              	<input type="password" class="form-control my-input" name="userPwd" id="uPwd-chk" placeholder="비밀번호 확인">
+						            </div>
+						            
+									<div class="mb-3">
+						            	<label for="uNm" class="form-label fw-bold">사용자 이름(닉네임)</label>
+						              	<input type="text" class="form-control my-input" name="userNm" id="uNm" spellcheck="false">
 						            </div>
 						            
 					        	</form>

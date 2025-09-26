@@ -493,7 +493,7 @@ public class FrontController {
 			HttpServletResponse response,
 			HttpSession session) throws Exception{
 
-		int result = 1;
+		int result = loginService.updateLogin(loginVO);
 		
 		return result;
 	}

@@ -65,11 +65,10 @@
 		UPDATE
 			TB_USER
 		SET
-			USER_ID = #{userId}
+			USER_NM	= #{userNm}
 		<if test='!userPwd.equals("")'>
 			, USER_PWD	= SHA2(#{userPwd}, 256)
 		</if>
-			, USER_NM	= #{userNm}
 		WHERE 1=1
 			AND USER_SEQ = #{userSeq}
 	</update>
