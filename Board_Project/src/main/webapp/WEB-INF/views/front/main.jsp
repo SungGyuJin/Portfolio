@@ -344,6 +344,12 @@ $(function(){
 	$("#btn-userSave").on('click', function(){
 		
 		if($("#uPwd").val() == $("#uPwd-chk").val()){
+			
+			if($("#uNm").val().length == 0){
+				alert('사용자 이름을 입력하세요.');
+				$("#uNm").focus();
+				return false;
+			}
 
 			$.ajax({
 				url      : contextPath+"/main/updateUser.do",
@@ -354,7 +360,10 @@ $(function(){
 					
 					if(res > 0){
 						alert('저장되었습니다.');
+						getBoardList(null, $("#listTyp").val(), $("#myPageYn").val());
 						
+						$("#user-nickname").html($("#uNm").val());
+						$("#btn-getUserInfoModal-close").trigger('click');
 					}else{
 						alert('저장에러')
 					}
@@ -2015,7 +2024,7 @@ function btnAddCmntChange(str){
         <!-- getUserInfoModal Modal -->
         <div class="portfolio-modal modal fade" id="getUserInfoModal" tabindex="-1" role="dialog" aria-hidden="true">
 	  		<div class="modal-dialog modal-half-center modal-lg">
-	    		<div class="modal-content modal-content-scrollable" id="modal-addBoard">
+	    		<div class="modal-content modal-content-scrollable">
 					<div class="close-modal" data-bs-dismiss="modal" id="btn-getUserInfoModal-close">
 						<img src="${pageContext.request.contextPath}/resources/front/main/assets/img/close-icon.svg" alt="Close modal" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">
 					</div>
@@ -2066,7 +2075,7 @@ function btnAddCmntChange(str){
 						            
 									<div class="mb-3">
 						            	<label for="uNm" class="form-label fw-bold">사용자 이름(닉네임)</label>
-						              	<input type="text" class="form-control my-input" name="userNm" id="uNm" spellcheck="false">
+						              	<input type="text" class="form-control my-input" name="userNm" id="uNm" spellcheck="false" autocomplete="off">
 						            </div>
 						            
 					        	</form>

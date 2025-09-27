@@ -493,6 +493,10 @@ public class FrontController {
 			HttpServletResponse response,
 			HttpSession session) throws Exception{
 
+		session.setAttribute("USERNM", loginVO.getUserNm());
+		
+		
+		
 		int result = loginService.updateLogin(loginVO);
 		
 		return result;
