@@ -2038,54 +2038,50 @@ function btnAddCmntChange(str){
 						            <button type="button" class="naver-button" id="btn-userSave">저장</button>
 				            	</div>
 				            </div>
-				         	<div style="border-top: 1px solid #000; margin-top: 20px;">
-					        	<form id="frm-user" enctype="multipart/form-data">
-					        		<input type="hidden" name="userSeq" id="uNo" value="">
-					        		
-						            <%-- <div class="mb-3 mt-3">
-						            	<label for="brd-select" class="form-label fw-bold">게시판</label>
-						              	<select class="form-select" name="bbsSeq" id="brd-select">
-						              		<option value="">게시판을 선택해 주세요.</option>
-											<c:forEach var="list" items="${getBbsList }">
-												<c:if test="${list.bbsSeq ne 1 }">
-													<option value="${list.bbsSeq }">${list.nm }</option>
-												</c:if>
-											</c:forEach>
-						              	</select>
-						            </div> --%>
-						            
-						            <!-- <div class="mb-4">
-										<label for="brd-add-file" class="form-label fw-bold">프로필 이미지</label>
-						              	<input type="file" class="form-control my-input mb-2" id="add-file-thumb" onchange="thumbChk(this, event, 'add');">
-						              	<input type="hidden" class="form-control my-input mb-2" name="userProfile" id="user-profile" value="D" readonly="readonly">
-						              	<div id="add-thumb-view"></div>
-						              	<div id="add-thumb-data"></div>
-						            </div> -->
-						            
-									<div class="mb-3">
-						            	<label for="uId" class="form-label fw-bold">ID</label>
-						              	<input type="text" class="form-control my-input" id="uId" disabled>
-						            </div>
-					            
-						            <div class="mb-3" id="div-add-secrt">
-						            	<label for="uPwd" class="form-label fw-bold">비밀번호</label><small class="text-danger"> *변경을 원할시 입력</small>
-						              	<input type="password" class="form-control my-input mb-1" id="uPwd" placeholder="비밀번호">
-						              	<input type="password" class="form-control my-input" name="userPwd" id="uPwd-chk" placeholder="비밀번호 확인">
-						            </div>
-						            
-									<div class="mb-3">
-						            	<label for="uNm" class="form-label fw-bold">사용자 이름(닉네임)</label>
-						              	<input type="text" class="form-control my-input" name="userNm" id="uNm" spellcheck="false" autocomplete="off">
-						            </div>
-						            
-					        	</form>
-				          	</div>
+
+							<form id="frm-user" enctype="multipart/form-data">
+								<div class="row" style="border-top: 1px solid #000; margin-top: 20px;">
+								   	<input type="hidden" name="userSeq" id="uNo" value="">
+									<div class="col-md-8 mt-1">
+								    	<div class="mb-3">
+								      		<label for="uId" class="form-label fw-bold">ID</label>
+								      		<input type="text" class="form-control my-input" id="uId" disabled>
+								    	</div>
+										<div class="mb-3" id="div-add-secrt">
+									    	<label for="uPwd" class="form-label fw-bold">비밀번호</label>
+									      	<small class="text-danger"> *변경을 원할시 입력</small>
+									      	<input type="password" class="form-control my-input mb-1" id="uPwd" placeholder="비밀번호">
+									      	<input type="password" class="form-control my-input" name="userPwd" id="uPwd-chk" placeholder="비밀번호 확인">
+									    </div>
+									</div>
+								  	<div class="col-md-4 d-flex flex-column align-items-center mt-1">
+								    	<label for="profileImg" class="form-label fw-bold">프로필 이미지</label>
+								    	<div class="border rounded d-flex align-items-center justify-content-center mb-2" style="width: 150px; height: 150px; background-color:#f8f9fa;">
+									      	<span class="text-muted">
+									      		<img class="img-fluid my-round" src="${pageContext.request.contextPath}/resources/front/main/assets/img/profile.png" alt="profile img" />
+									      	</span>
+								    	</div>
+								    	<div class="d-flex">
+								      		<button type="button" class="btn btn-success me-1">추가</button>
+								      		<button type="button" class="btn btn-danger">삭제</button>
+								    	</div>
+								  	</div>
+								</div>
+								<div class="row mt-3">
+									<div class="col-12">
+								    	<div class="mb-3">
+								      		<label for="uNm" class="form-label fw-bold">사용자 이름(닉네임)</label>
+								      		<input type="text" class="form-control my-input" name="userNm" id="uNm" spellcheck="false" autocomplete="off">
+								    	</div>
+									</div>
+								</div>
+						  	</form>
+						  	
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-        
         
         <%-- <div class="portfolio-modal modal fade" id="getUserInfoModal" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog modal-my">
