@@ -22,6 +22,7 @@
 
 // 썸네일 업로드 조건 및 표시
 function thumbChk(e, event, gubun){
+	
 	var file = e.files;
 
 	if(file.length > 0){
@@ -93,7 +94,91 @@ function thumbChk(e, event, gubun){
 	}
 }
 
+function profileChk(e, event, gubun){
+	
+	var file = e.files;
+
+	if(file.length > 0){
+		var imgChk = file[0].type.substr(0,5);
+
+		if(imgChk != "image"){
+			alert("이미지파일만 첨부 가능합니다");
+			$("#profile-file").val('');
+			$("#profile-view").children().remove();
+			$("#profile-thumbYn").val('N');
+			return false;
+		}
+		
+		var formData = new FormData();
+		
+	    formData.append("files", file[0]);
+		
+		$.ajax({
+			url      : contextPath+"/main/upload.do",
+			method   : "POST",
+			data     : formData,
+			processData: false,
+			contentType: false,
+			dataType : "json",
+			success  : function(res){
+
+				var reader = new FileReader();
+
+				reader.onload = function(event) {
+					$("#profile-view").children().remove(); // 기존 내용 제거
+					var img_html = '';
+					img_html += '<img src="'+ event.target.result +'" style="height: auto; width: 100%;">';
+					img_html += '<span class="thumb-close" onclick="removeThumb();">&times;</span>';
+					$("#profile-view").append(img_html);
+				};
+				
+				reader.readAsDataURL(file[0]);
+
+				$("#profile-thumbYn").val('Y');
+
+	        	var html = '';
+				
+				for(var i=0; i < res.fileList.length; i++) {
+					html += '<div class="d-flex fileData-area">';
+					html += 	'<input type="text" name="thumbFileOrgNm" value="'+res.fileList[i].fileOrgNm+'">';
+					html += 	'<input type="text" name="thumbFileSvgNm" value="'+res.fileList[i].fileSvgNm+'">';
+					html += 	'<input type="text" name="thumbFileExt" value="'+res.fileList[i].fileExt+'">';
+					html += 	'<input type="text" name="thumbFilePath" value="'+res.fileList[i].filePath+'">';
+					html += 	'<input type="text" name="thumbFileSize" value="'+res.fileList[i].fileSz+'">';
+					html +=	'</div>';
+				}
+				
+				$("#profile-data").html(html);
+				
+			},
+			error : function(request, status, error){
+				Swal.fire({
+					icon: "error",
+					title: "통신불가"
+				})
+			}
+		});
+		
+	}else{
+		$("#profile-view").children().remove();
+		$("#profile-thumbYn").val('D');
+		$("#profile-file").val('');
+		$("#profile-data").empty();
+		
+		$("#profile-view").html('<img class="img-fluid my-round" src="'+contextPath+'/resources/front/main/assets/img/profile.png" alt="profile img" />');
+	}
+}
+
 $(function(){
+	
+	$("#btn-addProfile").on('click', function(){
+		$("#profile-file").trigger('click');
+	});
+
+	$("#btn-delProfile").on('click', function(){
+		
+		
+	});
 	
 	$("#brd-select").on('change', function(){
 		
@@ -2057,14 +2142,17 @@ function btnAddCmntChange(str){
 								  	<div class="col-md-4 d-flex flex-column align-items-center mt-1">
 								    	<label for="profileImg" class="form-label fw-bold">프로필 이미지</label>
 								    	<div class="border rounded d-flex align-items-center justify-content-center mb-2" style="width: 150px; height: 150px; background-color:#f8f9fa;">
-									      	<span class="text-muted">
+									      	<span class="text-muted" id="profile-view">
 									      		<img class="img-fluid my-round" src="${pageContext.request.contextPath}/resources/front/main/assets/img/profile.png" alt="profile img" />
 									      	</span>
 								    	</div>
 								    	<div class="d-flex">
-								      		<button type="button" class="btn btn-success me-1">추가</button>
-								      		<button type="button" class="btn btn-danger">삭제</button>
+								      		<button type="button" id="btn-addProfile" class="btn btn-success me-1">추가</button>
+								      		<button type="button" id="btn-delProfile" class="btn btn-danger">삭제</button>
 								    	</div>
+								    	<input type="file" class="d-none" name="thumb" id="profile-file" onchange="profileChk(this, event, 'add');">
+								    	<input type="text" name="thumb" id="profile-thumbYn" value="D" readonly>
+								    	<div id="profile-data"></div>
 								  	</div>
 								</div>
 								<div class="row mt-3">
