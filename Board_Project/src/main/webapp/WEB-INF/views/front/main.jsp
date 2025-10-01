@@ -128,7 +128,7 @@ function profileChk(e, event, gubun){
 					$("#profile-view").children().remove(); // 기존 내용 제거
 					var img_html = '';
 					img_html += '<img src="'+ event.target.result +'" style="height: auto; width: 100%;">';
-					img_html += '<span class="thumb-close" onclick="removeThumb();">&times;</span>';
+// 					img_html += '<span class="thumb-close" onclick="removeThumb();">&times;</span>';
 					$("#profile-view").append(img_html);
 				};
 				
@@ -159,14 +159,21 @@ function profileChk(e, event, gubun){
 			}
 		});
 		
-	}else{
-		$("#profile-view").children().remove();
-		$("#profile-thumbYn").val('D');
-		$("#profile-file").val('');
-		$("#profile-data").empty();
+		$("#btn-delProfile").prop("disabled", false);
 		
-		$("#profile-view").html('<img class="img-fluid my-round" src="'+contextPath+'/resources/front/main/assets/img/profile.png" alt="profile img" />');
+	}else{
+		removeProfile();
 	}
+}
+
+function removeProfile() {
+	$("#profile-view").children().remove();
+	$("#profile-thumbYn").val('D');
+	$("#profile-file").val('');
+	$("#profile-data").empty();
+	$("#btn-delProfile").prop("disabled", true);
+	
+	$("#profile-view").html('<img class="img-fluid my-round" src="'+contextPath+'/resources/front/main/assets/img/profile.png" alt="profile img" />');
 }
 
 $(function(){
@@ -2148,10 +2155,10 @@ function btnAddCmntChange(str){
 								    	</div>
 								    	<div class="d-flex">
 								      		<button type="button" id="btn-addProfile" class="btn btn-success me-1">추가</button>
-								      		<button type="button" id="btn-delProfile" class="btn btn-danger">삭제</button>
+								      		<button type="button" id="btn-delProfile" class="btn btn-danger" onclick="removeProfile();" disabled>삭제</button>
 								    	</div>
 								    	<input type="file" class="d-none" name="thumb" id="profile-file" onchange="profileChk(this, event, 'add');">
-								    	<input type="text" name="thumb" id="profile-thumbYn" value="D" readonly>
+								    	<input type="text" name="thumbYn" id="profile-thumbYn" value="D" readonly>
 								    	<div id="profile-data"></div>
 								  	</div>
 								</div>

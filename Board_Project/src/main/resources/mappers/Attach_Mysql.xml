@@ -173,5 +173,16 @@
 			AND THUMB_YN = 'Y'
 	</update>
 	
+	<update id="profileImgInit">
+		UPDATE
+			TB_ATTACH
+		SET
+			THUMB_YN = 'N'
+			, UPD_NO = #{regNo}
+			, STAT = 0
+		WHERE 1=1
+			AND BOARD_SEQ = 0
+			AND REG_NO = #{regNo}
+	</update>
 	
 </mapper>

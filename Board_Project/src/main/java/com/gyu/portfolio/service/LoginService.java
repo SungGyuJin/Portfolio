@@ -1,6 +1,7 @@
 package com.gyu.portfolio.service;
 
 
+import com.gyu.portfolio.model.AttachVO;
 import com.gyu.portfolio.model.LoginVO;
 
 public interface LoginService {
@@ -9,7 +10,7 @@ public interface LoginService {
 	int addLogin(LoginVO loginVO) throws Exception;
 
 	// 계정 수정
-	int updateLogin(LoginVO loginVO) throws Exception;
+	int updateLogin(LoginVO loginVO, AttachVO attachVO) throws Exception;
 
 	// 계정 조회
 	LoginVO getLogin(LoginVO loginVO) throws Exception;

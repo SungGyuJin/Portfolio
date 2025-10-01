@@ -8,7 +8,6 @@
 		<result property="userPwd"	column="USER_PWD" 	/>
 		<result property="userNm"	column="USER_NM" 	/>
 		<result property="userSe"	column="USER_SE" 	/>
-		<result property="stat"		column="STAT" 		/>
 		
 		<result property="stat"		column="STAT" 		/>
 		<result property="inputPwd"	column="INPUT_PWD" 	/>

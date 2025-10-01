@@ -29,5 +29,8 @@ public interface AttachMapper {
 	
 	/* 썸네일 초기화(All N) */
 	int thumbInit(AttachVO attachVO) throws Exception;
-
+	
+	/* 프로필 이미지 초기화(All N) */
+	int profileImgInit(AttachVO attachVO) throws Exception;
+	
 }
