@@ -9,6 +9,12 @@
 		<result property="userNm"	column="USER_NM" 	/>
 		<result property="userSe"	column="USER_SE" 	/>
 		
+		<result property="fileNm"		column="FILE_NM" 	  />
+		<result property="fileExt"		column="FILE_EXT" 	  />
+		<result property="fileSz"		column="FILE_SZ" 	  />
+		<result property="filePath"		column="FILE_PATH" 	  />
+		<result property="strgFileNm"	column="STRG_FILE_NM" />
+		
 		<result property="stat"		column="STAT" 		/>
 		<result property="inputPwd"	column="INPUT_PWD" 	/>
 	</resultMap>
@@ -37,7 +43,9 @@
 			, USER_NM
 			, USER_SE
 			, STAT
-		FROM TB_USER
+			, (SELECT FILE_PATH FROM TB_ATTACH WHERE BOARD_SEQ = 0 AND STAT = 1 AND REG_NO = T1.USER_SEQ) FILE_PATH
+			, (SELECT STRG_FILE_NM FROM TB_ATTACH WHERE BOARD_SEQ = 0 AND  STAT = 1 AND REG_NO = T1.USER_SEQ) STRG_FILE_NM
+		FROM TB_USER T1
 		WHERE 1=1
 			AND USER_SEQ = #{userSeq}
 	</select>

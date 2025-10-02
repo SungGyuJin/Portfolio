@@ -456,6 +456,7 @@ $(function(){
 						
 						$("#user-nickname").html($("#uNm").val());
 						$("#btn-getUserInfoModal-close").trigger('click');
+						$("#profile-data").empty();
 					}else{
 						alert('저장에러')
 					}
@@ -1154,10 +1155,21 @@ function getUserInfo(no){
 		dataType : "json",
 		success  : function(res){
 
+			console.log(res)
+			
 			$("#uNo").val(res.uInfo.userSeq);
 			$("#uId").val(res.uInfo.userId);
 			$("#uNm").val(res.uInfo.userNm);
 			
+			if(res.uInfo.filePath != null){
+				
+				var html = '';
+				html = '<img src="'+ contextPath + res.uInfo.filePath+'/'+res.uInfo.strgFileNm+'" class="card-img-top" alt="thumbnail" onerror="this.onerror=null; this.src=\''+contextPath +'/resources/front/main/assets/img/profile.png\'">';
+				$("#profile-view").html(html);
+				
+				$("#profile-thumbYn").val('Y');
+				$("#btn-delProfile").prop('disabled', false);
+			}
 		},
 		error : function(request, status, error){
 			Swal.fire({
