@@ -140,11 +140,11 @@ function profileChk(e, event, gubun){
 				
 				for(var i=0; i < res.fileList.length; i++) {
 					html += '<div class="d-flex fileData-area">';
-					html += 	'<input type="text" name="thumbFileOrgNm" value="'+res.fileList[i].fileOrgNm+'">';
-					html += 	'<input type="text" name="thumbFileSvgNm" value="'+res.fileList[i].fileSvgNm+'">';
-					html += 	'<input type="text" name="thumbFileExt" value="'+res.fileList[i].fileExt+'">';
-					html += 	'<input type="text" name="thumbFilePath" value="'+res.fileList[i].filePath+'">';
-					html += 	'<input type="text" name="thumbFileSize" value="'+res.fileList[i].fileSz+'">';
+					html += 	'<input type="hidden" name="thumbFileOrgNm" value="'+res.fileList[i].fileOrgNm+'">';
+					html += 	'<input type="hidden" name="thumbFileSvgNm" value="'+res.fileList[i].fileSvgNm+'">';
+					html += 	'<input type="hidden" name="thumbFileExt" value="'+res.fileList[i].fileExt+'">';
+					html += 	'<input type="hidden" name="thumbFilePath" value="'+res.fileList[i].filePath+'">';
+					html += 	'<input type="hidden" name="thumbFileSize" value="'+res.fileList[i].fileSz+'">';
 					html +=	'</div>';
 				}
 				
@@ -166,9 +166,14 @@ function profileChk(e, event, gubun){
 	}
 }
 
-function removeProfile() {
+function removeProfile(str) {
+	if(str == 'upd'){
+		$("#profile-thumbYn").val('N');
+	}else{
+		$("#profile-thumbYn").val('D');
+	}
+	
 	$("#profile-view").children().remove();
-	$("#profile-thumbYn").val('D');
 	$("#profile-file").val('');
 	$("#profile-data").empty();
 	$("#btn-delProfile").prop("disabled", true);
@@ -190,8 +195,6 @@ $(function(){
 	$("#brd-select").on('change', function(){
 		
 		if($(this).val() != ''){
-			
-	// 		$(this).val() != '' ? no = $(this).val() : no;
 			
 			$.ajax({
 				url      : contextPath+"/main/getBbs.do",
@@ -1155,20 +1158,20 @@ function getUserInfo(no){
 		dataType : "json",
 		success  : function(res){
 
-			console.log(res)
+			console.log(res.uInfo.filePath.length)
 			
 			$("#uNo").val(res.uInfo.userSeq);
 			$("#uId").val(res.uInfo.userId);
 			$("#uNm").val(res.uInfo.userNm);
 			
-			if(res.uInfo.filePath != null){
-				
+			if(res.uInfo.filePath.length > 0){
 				var html = '';
 				html = '<img src="'+ contextPath + res.uInfo.filePath+'/'+res.uInfo.strgFileNm+'" class="card-img-top" alt="thumbnail" onerror="this.onerror=null; this.src=\''+contextPath +'/resources/front/main/assets/img/profile.png\'">';
 				$("#profile-view").html(html);
 				
 				$("#profile-thumbYn").val('Y');
 				$("#btn-delProfile").prop('disabled', false);
+				$("#btn-delProfile").attr('onclick', "removeProfile('upd')");
 			}
 		},
 		error : function(request, status, error){
@@ -2167,10 +2170,10 @@ function btnAddCmntChange(str){
 								    	</div>
 								    	<div class="d-flex">
 								      		<button type="button" id="btn-addProfile" class="btn btn-success me-1">추가</button>
-								      		<button type="button" id="btn-delProfile" class="btn btn-danger" onclick="removeProfile();" disabled>삭제</button>
+								      		<button type="button" id="btn-delProfile" class="btn btn-danger" onclick="removeProfile('add');" disabled>삭제</button>
 								    	</div>
 								    	<input type="file" class="d-none" name="thumb" id="profile-file" onchange="profileChk(this, event, 'add');">
-								    	<input type="text" name="thumbYn" id="profile-thumbYn" value="D" readonly>
+								    	<input type="hidden" name="thumbYn" id="profile-thumbYn" value="D" readonly>
 								    	<div id="profile-data"></div>
 								  	</div>
 								</div>
