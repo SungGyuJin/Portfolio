@@ -38,6 +38,8 @@
 
 		<result property="filePath"	    column="FILE_PATH"		/>
 		<result property="strgFileNm"	column="STRG_FILE_NM"	/>
+		<result property="pFilePath"	column="P_FILE_PATH"	/>
+		<result property="pStrgFileNm"	column="P_STRG_FILE_NM"	/>
 	</resultMap>
 	
 	
@@ -329,6 +331,8 @@
 				, (SELECT FILE_PATH FROM TB_ATTACH WHERE BOARD_SEQ = T1.BOARD_SEQ AND STAT = 1 AND THUMB_YN = 'Y') FILE_PATH
 				, (SELECT STRG_FILE_NM FROM TB_ATTACH WHERE BOARD_SEQ = T1.BOARD_SEQ AND STAT = 1 AND THUMB_YN = 'Y') STRG_FILE_NM
 				, (SELECT PWD_YN FROM TB_BOARD WHERE BOARD_SEQ = (SELECT REF FROM TB_BOARD WHERE BOARD_SEQ = T1.BOARD_SEQ)) PWD_YN
+				, (SELECT FILE_PATH FROM TB_ATTACH WHERE BOARD_SEQ = 0 AND STAT = 1 AND REG_NO = T1.REG_NO) P_FILE_PATH
+				, (SELECT STRG_FILE_NM FROM TB_ATTACH WHERE BOARD_SEQ = 0 AND  STAT = 1 AND REG_NO = T1.REG_NO) P_STRG_FILE_NM
 			FROM TB_BOARD T1, (SELECT @rownum := 0) AS TMP
 			WHERE 1=1
 				<if test='!myPageYn.equals("T")'>

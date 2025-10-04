@@ -467,6 +467,10 @@ img.blocking-hover {
   background-color: rgba(0,0,0,0.8);
 }
 
+.profile-icon{
+	width: 20px;
+}
+
 </style>
         
         

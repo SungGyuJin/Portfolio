@@ -859,6 +859,8 @@ function getBoardList(num, style, myPg, card){
 		dataType : "json",
 		success  : function(res){
 			
+			console.log(res)
+			
 			var bbsList 		= res.getBbsList;
 			var boardList 		= res.getBoardList;
 			var boardListCnt 	= res.total;
@@ -1009,7 +1011,20 @@ function getBoardList(num, style, myPg, card){
 				
 				html +=						'</td>';
 				
-				html +=						'<td class="text-secondary"><small>'+boardList[i].userNm+'</small></td>';
+				html +=						'<td class="text-secondary">';
+				html +=							'<span>';
+											if(boardList[i].regNo > 1){
+												if(boardList[i].pfilePath != null){
+				html += 							'<img class="img-fluid my-round profile-icon me-1" src="'+contextPath+boardList[i].pfilePath+'/'+boardList[i].pstrgFileNm+'" alt="profile img">';
+												}else{
+				html += 							'<img class="img-fluid my-round profile-icon me-1" src="'+contextPath+'/resources/front/main/assets/img/profile.png" alt="profile img">';
+												}
+												
+											}
+				html +=								'<small>'+boardList[i].userNm+'</small>';
+				html +=							'</span>';
+				
+				html +=						'</td>';
 				html +=						'<td class="text-secondary"><small>'+boardList[i].regDt+' ('+boardList[i].updDt+')</small></td>';
 				html +=						'<td class="text-secondary"><small id="brdReadCnt-'+boardList[i].boardSeq+'">'+boardList[i].readCnt+'</small></td>';
 				html +=					'</tr>';
