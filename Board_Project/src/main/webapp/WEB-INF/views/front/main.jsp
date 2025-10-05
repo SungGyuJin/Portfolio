@@ -1014,7 +1014,7 @@ function getBoardList(num, style, myPg, card){
 				html +=						'<td class="text-secondary">';
 				html +=							'<span>';
 											if(boardList[i].regNo > 1){
-												if(boardList[i].pfilePath != null){
+												if(boardList[i].pfilePath.length > 0){
 				html += 							'<img class="img-fluid my-round profile-icon me-1" src="'+contextPath+boardList[i].pfilePath+'/'+boardList[i].pstrgFileNm+'" alt="profile img">';
 												}else{
 				html += 							'<img class="img-fluid my-round profile-icon me-1" src="'+contextPath+'/resources/front/main/assets/img/profile.png" alt="profile img">';
