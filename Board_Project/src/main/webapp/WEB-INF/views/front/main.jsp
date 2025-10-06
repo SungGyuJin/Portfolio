@@ -681,8 +681,19 @@ function getBoard(no, pYn, stat){
 			dataType : "json",
 			success  : function(res){
 				
+				console.log(res)
+				
 				var data = res.getBoard;
 
+				var profileImg = '<img src="'+contextPath+'/resources/front/main/assets/img/profile.png" class="me-2" alt="프로필 이미지" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">';
+				$("#brd-profile").html(html);
+				
+				if(data.pfilePath.length > 0){
+					profileImg = '<img class="img-fluid my-round profile-icon me-1" src="'+contextPath+data.pfilePath+'/'+data.pstrgFileNm+'" alt="profile img" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">';
+				}
+				
+				$("#brd-profile").html(profileImg);
+				
 				$("#brd-bbsNm").html(data.bbsNm);
 // 				$("#brd-bbsNm").html(res.getBoard.bbsNm);
 				
@@ -1789,7 +1800,9 @@ function btnAddCmntChange(str){
           					<small class="text-success fw-bold ms-1"><span id="brd-bbsNm"></span>&gt;</small>
           					<h4 class="fw-bold mt-1" id="brd-ttl"></h4>
           					<div class="d-flex align-items-center mt-2 mb-4">
-  								<img src="${pageContext.request.contextPath}/resources/front/main/assets/img/profile.png" class="me-2" alt="프로필 이미지" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">
+	          					<span id="brd-profile">
+  									<img src="${pageContext.request.contextPath}/resources/front/main/assets/img/profile.png" class="me-2" alt="프로필 이미지" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">
+    	      					</span>
             					<div>
             						<span class="me-2 fw-bolder" id="brd-userNm"></span>
             						<br>
