@@ -360,7 +360,7 @@ img.blocking-hover {
   font-weight: 600;
   border-radius: 12px;
   text-decoration: none;
-  font-size: 16px;
+  font-size: 18px;
   text-align: center;
   border: none;
 }
@@ -469,6 +469,21 @@ img.blocking-hover {
 
 .profile-icon{
 	width: 20px;
+}
+
+.naver-button img {
+  width: 32px;
+/*   height: 20px; */
+  object-fit: contain;
+}
+
+.naver-button:hover {
+  background-color: #f3f3f3;
+}
+
+#btn-userSave-text {
+  font-size: 14px;
+  font-weight: bold;
 }
 
 </style>

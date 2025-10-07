@@ -1168,14 +1168,20 @@ function getBoardList(num, style, myPg, card){
 	});
 }
 
-function getUserInfo(no){
+function getUserInfo(no, str){
 	
-	var getUserInfoModal = new bootstrap.Modal($('#getUserInfoModal')[0], {
-		backdrop: 'static',
-	    keyboard: false
-//		    focus: false
-	});
-	getUserInfoModal.show();
+	if(str != 'refresh'){
+		var getUserInfoModal = new bootstrap.Modal($('#getUserInfoModal')[0], {
+			backdrop: 'static',
+		    keyboard: false
+	//		    focus: false
+		});
+		getUserInfoModal.show();
+	}else{
+		$("#uPwd").val('');
+		$("#uPwd-chk").val('');
+	}
+	
 	
 	$.ajax({
 		url      : contextPath+"/main/getUserInfo.do",
@@ -1184,8 +1190,6 @@ function getUserInfo(no){
 		dataType : "json",
 		success  : function(res){
 
-			console.log(res.uInfo.filePath.length)
-			
 			$("#uNo").val(res.uInfo.userSeq);
 			$("#uId").val(res.uInfo.userId);
 			$("#uNm").val(res.uInfo.userNm);
@@ -1198,6 +1202,8 @@ function getUserInfo(no){
 				$("#profile-thumbYn").val('Y');
 				$("#btn-delProfile").prop('disabled', false);
 				$("#btn-delProfile").attr('onclick', "removeProfile('upd')");
+			}else{
+				$("#profile-view").html('<img class="img-fluid my-round" src="'+contextPath+'/resources/front/main/assets/img/profile.png" alt="profile img" />');
 			}
 		},
 		error : function(request, status, error){
@@ -2169,7 +2175,10 @@ function btnAddCmntChange(str){
 				            	<div>
 						        	<h1>Information</h1>
 				            	</div>
-				            	<div>
+				            	<div class="d-flex gap-2">
+						            <button type="button" class="naver-button" onclick="getUserInfo('${sessionScope.USERSEQ }', 'refresh');">
+						            	<img src="${pageContext.request.contextPath}/resources/front/main/assets/img/front-refresh.png" alt="profile img" />
+						            </button>
 						            <button type="button" class="naver-button" id="btn-userSave">저장</button>
 				            	</div>
 				            </div>
