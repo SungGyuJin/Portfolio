@@ -111,39 +111,16 @@ public class FrontController {
 			HttpServletRequest request,
 			HttpSession session,
 			HttpServletResponse response) throws Exception{
-
-
-		/* request 정보확인 START */
-		System.out.println();
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println("============ /getBoardList.do INFO  ===========");
-		Enumeration params = request.getParameterNames();
-		while(params.hasMoreElements()) {
-			String name= (String) params.nextElement();
-			System.out.println(name + ": " + request.getParameter(name));
-		}
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println();
-		/* request 정보확인 END */
 		
 		// 게시물 목록
 	    Map<String, Object> resultMap = new HashMap<>();
 
-	    System.out.println();
-	    System.out.println("sNo:: "+session.getAttribute("USERSEQ"));
-	    System.out.println();
-	    
 	    if(session.getAttribute("USERSEQ") != null) {
 	    	boardVO.setRegNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
 	    }
 
 //		boardVO.setAmount(10);	// 페이지당 데이터 갯수
 	    boardVO.setListTyp("list");
-
-	    System.out.println();
-	    System.out.println("regNo:: "+boardVO.getRegNo());
-	    System.out.println("getMyPageYn:: "+boardVO.getMyPageYn());
-	    System.out.println();
 	    
 	    resultMap = boardService.getFrontBoardList(boardVO);
 
@@ -178,20 +155,6 @@ public class FrontController {
 			HttpServletRequest request,
 			HttpServletResponse response,
 			HttpSession session) throws Exception{
-
-
-		/* request 정보확인 START */
-		System.out.println();
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println("============ /addBoard.do INFO  ===========");
-		Enumeration params = request.getParameterNames();
-		while(params.hasMoreElements()) {
-			String name= (String) params.nextElement();
-			System.out.println(name + ": " + request.getParameter(name));
-		}
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println();
-		/* request 정보확인 END */
 		
 		boardVO.setRegNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
 		int result = boardService.addBoard(boardVO, attachVO);
@@ -351,8 +314,6 @@ public class FrontController {
 		
 		for(MultipartFile file : attachVO.getFiles()) {
 
-			System.out.println(file.getOriginalFilename());
-			
 	        String fileOrgNm = file.getOriginalFilename();	// 파일명(원본)
 	        String fileSvgNm = "";							// 파일명(저장명)
 	        String fileExt   = "";							// 확장자
@@ -460,19 +421,6 @@ public class FrontController {
 			HttpServletRequest request,
 			HttpServletResponse response) throws Exception{
 		
-		/* request 정보확인 START */
-		System.out.println();
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println("============ /getUserInfo.do INFO  ===========");
-		Enumeration params = request.getParameterNames();
-		while(params.hasMoreElements()) {
-			String name= (String) params.nextElement();
-			System.out.println(name + ": " + request.getParameter(name));
-		}
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println();
-		/* request 정보확인 END */
-		
 	    Map<String, Object> resultMap = new HashMap<>();
 	    
 	    loginVO.setUserSeq(Integer.parseInt(request.getParameter("no")));
@@ -493,19 +441,6 @@ public class FrontController {
 			HttpServletRequest request,
 			HttpServletResponse response,
 			HttpSession session) throws Exception{
-
-		/* request 정보확인 START */
-		System.out.println();
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println("============ /updateUser.do INFO  ===========");
-		Enumeration params = request.getParameterNames();
-		while(params.hasMoreElements()) {
-			String name= (String) params.nextElement();
-			System.out.println(name + ": " + request.getParameter(name));
-		}
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println();
-		/* request 정보확인 END */
 		
 		session.setAttribute("USERNM", loginVO.getUserNm());
 		

@@ -681,8 +681,6 @@ function getBoard(no, pYn, stat){
 			dataType : "json",
 			success  : function(res){
 				
-				console.log(res)
-				
 				var data = res.getBoard;
 
 				var profileImg = '<img src="'+contextPath+'/resources/front/main/assets/img/profile.png" class="me-2" alt="프로필 이미지" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">';
@@ -869,8 +867,6 @@ function getBoardList(num, style, myPg, card){
 		data     : $("#frm-board").serialize(),
 		dataType : "json",
 		success  : function(res){
-			
-			console.log(res)
 			
 			var bbsList 		= res.getBbsList;
 			var boardList 		= res.getBoardList;
