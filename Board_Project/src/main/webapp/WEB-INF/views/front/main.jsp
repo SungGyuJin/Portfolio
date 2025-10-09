@@ -20,176 +20,12 @@
 	</c:when>
 </c:choose>
 
-// 썸네일 업로드 조건 및 표시
-function thumbChk(e, event, gubun){
-	
-	var file = e.files;
-
-	if(file.length > 0){
-		var imgChk = file[0].type.substr(0,5);
-
-		if(imgChk != "image"){
-			alert("이미지파일만 첨부 가능합니다");
-			$("#"+gubun+"-file-thumb").val('');
-			$("#"+gubun+"-thumb-view").children().remove();
-			$("#"+gubun+"-file-thumbYn").val('N');
-			return false;
-		}
-		
-		var formData = new FormData();
-		
-	    formData.append("files", file[0]);
-		
-		$.ajax({
-			url      : contextPath+"/main/upload.do",
-			method   : "POST",
-			data     : formData,
-			processData: false,
-			contentType: false,
-			dataType : "json",
-			success  : function(res){
-
-				var reader = new FileReader();
-
-				reader.onload = function(event) {
-					$("#"+gubun+"-thumb-view").children().remove(); // 기존 내용 제거
-					var img_html = '';
-					img_html += '<img src="'+ event.target.result +'" style="height: auto; width: 100%;">';
-					img_html += '<span class="thumb-close" onclick="removeThumb(\''+gubun+'\');">&times;</span>';
-					$("#"+gubun+"-thumb-view").append(img_html);
-				};
-				
-				reader.readAsDataURL(file[0]);
-
-				$("#"+gubun+"-file-thumbYn").val('Y');
-
-	        	var html = '';
-				
-				for(var i=0; i < res.fileList.length; i++) {
-					html += '<div class="d-flex fileData-area">';
-					html += 	'<input type="hidden" name="thumbFileOrgNm" value="'+res.fileList[i].fileOrgNm+'">';
-					html += 	'<input type="hidden" name="thumbFileSvgNm" value="'+res.fileList[i].fileSvgNm+'">';
-					html += 	'<input type="hidden" name="thumbFileExt" value="'+res.fileList[i].fileExt+'">';
-					html += 	'<input type="hidden" name="thumbFilePath" value="'+res.fileList[i].filePath+'">';
-					html += 	'<input type="hidden" name="thumbFileSize" value="'+res.fileList[i].fileSz+'">';
-					html +=	'</div>';
-				}
-				
-				$("#"+gubun+"-thumb-data").html(html);
-				
-			},
-			error : function(request, status, error){
-				Swal.fire({
-					icon: "error",
-					title: "통신불가"
-				})
-			}
-		});
-		
-	}else{
-		
-		$("#"+gubun+"-thumb-view").children().remove();
-		$("#"+gubun+"-file-thumbYn").val('N');
-		$("#"+gubun+"-file-thumb").val('');
-	}
-}
-
-function profileChk(e, event, gubun){
-	
-	var file = e.files;
-
-	if(file.length > 0){
-		var imgChk = file[0].type.substr(0,5);
-
-		if(imgChk != "image"){
-			alert("이미지파일만 첨부 가능합니다");
-			$("#profile-file").val('');
-			$("#profile-view").children().remove();
-			$("#profile-thumbYn").val('N');
-			return false;
-		}
-		
-		var formData = new FormData();
-		
-	    formData.append("files", file[0]);
-		
-		$.ajax({
-			url      : contextPath+"/main/upload.do",
-			method   : "POST",
-			data     : formData,
-			processData: false,
-			contentType: false,
-			dataType : "json",
-			success  : function(res){
-
-				var reader = new FileReader();
-
-				reader.onload = function(event) {
-					$("#profile-view").children().remove(); // 기존 내용 제거
-					var img_html = '';
-					img_html += '<img src="'+ event.target.result +'" style="height: auto; width: 100%;">';
-// 					img_html += '<span class="thumb-close" onclick="removeThumb();">&times;</span>';
-					$("#profile-view").append(img_html);
-				};
-				
-				reader.readAsDataURL(file[0]);
-
-				$("#profile-thumbYn").val('Y');
-
-	        	var html = '';
-				
-				for(var i=0; i < res.fileList.length; i++) {
-					html += '<div class="d-flex fileData-area">';
-					html += 	'<input type="hidden" name="thumbFileOrgNm" value="'+res.fileList[i].fileOrgNm+'">';
-					html += 	'<input type="hidden" name="thumbFileSvgNm" value="'+res.fileList[i].fileSvgNm+'">';
-					html += 	'<input type="hidden" name="thumbFileExt" value="'+res.fileList[i].fileExt+'">';
-					html += 	'<input type="hidden" name="thumbFilePath" value="'+res.fileList[i].filePath+'">';
-					html += 	'<input type="hidden" name="thumbFileSize" value="'+res.fileList[i].fileSz+'">';
-					html +=	'</div>';
-				}
-				
-				$("#profile-data").html(html);
-				
-			},
-			error : function(request, status, error){
-				Swal.fire({
-					icon: "error",
-					title: "통신불가"
-				})
-			}
-		});
-		
-		$("#btn-delProfile").prop("disabled", false);
-		
-	}else{
-		removeProfile();
-	}
-}
-
-function removeProfile(str) {
-	if(str == 'upd'){
-		$("#profile-thumbYn").val('N');
-	}else{
-		$("#profile-thumbYn").val('D');
-	}
-	
-	$("#profile-view").children().remove();
-	$("#profile-file").val('');
-	$("#profile-data").empty();
-	$("#btn-delProfile").prop("disabled", true);
-	
-	$("#profile-view").html('<img class="img-fluid my-round" src="'+contextPath+'/resources/front/main/assets/img/profile.png" alt="profile img" />');
-}
-
 $(function(){
+	
+// 	getUserInfo($("#uno").val(), str);
 	
 	$("#btn-addProfile").on('click', function(){
 		$("#profile-file").trigger('click');
-	});
-
-	$("#btn-delProfile").on('click', function(){
-		
-		
 	});
 	
 	$("#brd-select").on('change', function(){
@@ -312,7 +148,6 @@ $(function(){
 	});
 	
 	getBoardList(null, $("#listTyp").val());
-	
 	
 	$('#brd-add-file').on('change', function() {
 		
@@ -460,6 +295,7 @@ $(function(){
 						$("#user-nickname").html($("#uNm").val());
 						$("#btn-getUserInfoModal-close").trigger('click');
 						$("#profile-data").empty();
+// 						$("#profile-thumbYn").val('D');
 					}else{
 						alert('저장에러')
 					}
@@ -479,6 +315,166 @@ $(function(){
 	});
 	
 });
+
+// 썸네일 업로드 조건 및 표시
+function thumbChk(e, event, gubun){
+	
+	var file = e.files;
+
+	if(file.length > 0){
+		var imgChk = file[0].type.substr(0,5);
+
+		if(imgChk != "image"){
+			alert("이미지파일만 첨부 가능합니다");
+			$("#"+gubun+"-file-thumb").val('');
+			$("#"+gubun+"-thumb-view").children().remove();
+			$("#"+gubun+"-file-thumbYn").val('N');
+			return false;
+		}
+		
+		var formData = new FormData();
+		
+	    formData.append("files", file[0]);
+		
+		$.ajax({
+			url      : contextPath+"/main/upload.do",
+			method   : "POST",
+			data     : formData,
+			processData: false,
+			contentType: false,
+			dataType : "json",
+			success  : function(res){
+
+				var reader = new FileReader();
+
+				reader.onload = function(event) {
+					$("#"+gubun+"-thumb-view").children().remove(); // 기존 내용 제거
+					var img_html = '';
+					img_html += '<img src="'+ event.target.result +'" style="height: auto; width: 100%;">';
+					img_html += '<span class="thumb-close" onclick="removeThumb(\''+gubun+'\');">&times;</span>';
+					$("#"+gubun+"-thumb-view").append(img_html);
+				};
+				
+				reader.readAsDataURL(file[0]);
+
+				$("#"+gubun+"-file-thumbYn").val('Y');
+
+	        	var html = '';
+				
+				for(var i=0; i < res.fileList.length; i++) {
+					html += '<div class="d-flex fileData-area">';
+					html += 	'<input type="hidden" name="thumbFileOrgNm" value="'+res.fileList[i].fileOrgNm+'">';
+					html += 	'<input type="hidden" name="thumbFileSvgNm" value="'+res.fileList[i].fileSvgNm+'">';
+					html += 	'<input type="hidden" name="thumbFileExt" value="'+res.fileList[i].fileExt+'">';
+					html += 	'<input type="hidden" name="thumbFilePath" value="'+res.fileList[i].filePath+'">';
+					html += 	'<input type="hidden" name="thumbFileSize" value="'+res.fileList[i].fileSz+'">';
+					html +=	'</div>';
+				}
+				
+				$("#"+gubun+"-thumb-data").html(html);
+				
+			},
+			error : function(request, status, error){
+				Swal.fire({
+					icon: "error",
+					title: "통신불가"
+				})
+			}
+		});
+		
+	}else{
+		
+		$("#"+gubun+"-thumb-view").children().remove();
+		$("#"+gubun+"-file-thumbYn").val('N');
+		$("#"+gubun+"-file-thumb").val('');
+	}
+}
+
+function profileChk(e, event, gubun){
+	
+	var file = e.files;
+
+	if(file.length > 0){
+		var imgChk = file[0].type.substr(0,5);
+
+		if(imgChk != "image"){
+			alert("이미지파일만 첨부 가능합니다");
+			$("#profile-file").val('');
+			$("#profile-view").children().remove();
+			$("#profile-thumbYn").val('N');
+			return false;
+		}
+		
+		var formData = new FormData();
+		
+	    formData.append("files", file[0]);
+		
+		$.ajax({
+			url      : contextPath+"/main/upload.do",
+			method   : "POST",
+			data     : formData,
+			processData: false,
+			contentType: false,
+			dataType : "json",
+			success  : function(res){
+
+				var reader = new FileReader();
+
+				reader.onload = function(event) {
+					$("#profile-view").children().remove(); // 기존 내용 제거
+					var img_html = '';
+					img_html += '<img src="'+ event.target.result +'" style="height: auto; width: 100%;">';
+					$("#profile-view").append(img_html);
+				};
+				
+				reader.readAsDataURL(file[0]);
+
+				$("#profile-thumbYn").val('Y');
+
+	        	var html = '';
+				
+				for(var i=0; i < res.fileList.length; i++) {
+					html += '<div class="d-flex fileData-area">';
+					html += 	'<input type="hidden" name="thumbFileOrgNm" value="'+res.fileList[i].fileOrgNm+'">';
+					html += 	'<input type="hidden" name="thumbFileSvgNm" value="'+res.fileList[i].fileSvgNm+'">';
+					html += 	'<input type="hidden" name="thumbFileExt" value="'+res.fileList[i].fileExt+'">';
+					html += 	'<input type="hidden" name="thumbFilePath" value="'+res.fileList[i].filePath+'">';
+					html += 	'<input type="hidden" name="thumbFileSize" value="'+res.fileList[i].fileSz+'">';
+					html +=	'</div>';
+				}
+				
+				$("#profile-data").html(html);
+				
+			},
+			error : function(request, status, error){
+				Swal.fire({
+					icon: "error",
+					title: "통신불가"
+				})
+			}
+		});
+		
+		$("#btn-delProfile").prop("disabled", false);
+		
+	}else{
+		removeProfile();
+	}
+}
+
+function removeProfile(str) {
+	if(str == 'upd'){
+		$("#profile-thumbYn").val('N');
+	}else{
+		$("#profile-thumbYn").val('D');
+	}
+	
+	$("#profile-view").children().remove();
+	$("#profile-file").val('');
+	$("#profile-data").empty();
+	$("#btn-delProfile").prop("disabled", true);
+	
+	$("#profile-view").html('<img class="img-fluid my-round" src="'+contextPath+'/resources/front/main/assets/img/profile.png" alt="profile img" />');
+}
 
 /* ################################################################################################# */
 /* ######################################## BOARD ################################################## */
@@ -1176,6 +1172,7 @@ function getUserInfo(no, str){
 	}else{
 		$("#uPwd").val('');
 		$("#uPwd-chk").val('');
+		$("#profile-thumbYn").val('D');
 	}
 	
 	
@@ -1195,7 +1192,6 @@ function getUserInfo(no, str){
 				html = '<img src="'+ contextPath + res.uInfo.filePath+'/'+res.uInfo.strgFileNm+'" class="card-img-top" alt="thumbnail" onerror="this.onerror=null; this.src=\''+contextPath +'/resources/front/main/assets/img/profile.png\'">';
 				$("#profile-view").html(html);
 				
-				$("#profile-thumbYn").val('Y');
 				$("#btn-delProfile").prop('disabled', false);
 				$("#btn-delProfile").attr('onclick', "removeProfile('upd')");
 			}else{
@@ -1715,7 +1711,10 @@ function btnAddCmntChange(str){
 			            							<div class="user-info-box bg-light border rounded pt-2 mb-1 text-center fixed-image">
 									        		
 											            <div class="fw-bold mb-2">
-											            	<a href="javascript:getUserInfo('${sessionScope.USERSEQ }');" class="my-a">👤 <span id="user-nickname">${sessionScope.USERNM }</span> 님</a>
+											            	<a href="javascript:getUserInfo('${sessionScope.USERSEQ }');" class="my-a">
+											            		<span id="user-profile">👤</span>
+											            		<span id="user-nickname">${sessionScope.USERNM }</span> 님
+											            	</a>
 											            </div>
 											            
 											            <div class="small text-muted d-flex justify-content-between ms-1 me-1" id="my-board">
