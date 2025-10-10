@@ -22,7 +22,7 @@
 
 $(function(){
 	
-// 	getUserInfo($("#uno").val(), str);
+	getUserInfo($("#uno").val(), 'refresh');
 	
 	$("#btn-addProfile").on('click', function(){
 		$("#profile-file").trigger('click');
@@ -1194,8 +1194,13 @@ function getUserInfo(no, str){
 				
 				$("#btn-delProfile").prop('disabled', false);
 				$("#btn-delProfile").attr('onclick', "removeProfile('upd')");
+
+				var p_html = '<img src="'+ contextPath + res.uInfo.filePath+'/'+res.uInfo.strgFileNm+'" class="card-img-top" alt="thumbnail" onerror="this.onerror=null; this.src=\''+contextPath +'/resources/front/main/assets/img/profile.png\'" style="width: 25px; height: 25px; object-fit: cover; border-radius: 50%;">';
+				$("#user-profile").html(p_html);
+				
 			}else{
-				$("#profile-view").html('<img class="img-fluid my-round" src="'+contextPath+'/resources/front/main/assets/img/profile.png" alt="profile img" />');
+				$("#profile-view").html('<img class="img-fluid my-round" src="'+contextPath+'/resources/front/main/assets/img/profile.png" alt="profile img" style="width: 25px; height: 25px; object-fit: cover; border-radius: 50%;" />');
+				$("#user-profile").html('<img class="img-fluid my-round" src="'+contextPath+'/resources/front/main/assets/img/profile.png" alt="profile img" style="width: 25px; height: 25px; object-fit: cover; border-radius: 50%;" />');
 			}
 		},
 		error : function(request, status, error){
@@ -1712,7 +1717,10 @@ function btnAddCmntChange(str){
 									        		
 											            <div class="fw-bold mb-2">
 											            	<a href="javascript:getUserInfo('${sessionScope.USERSEQ }');" class="my-a">
-											            		<span id="user-profile">👤</span>
+											            		<!-- <span id="user-profile">👤</span> -->
+											            		<span id="user-profile">
+											            			<img src="${pageContext.request.contextPath}/resources/front/main/assets/img/profile.png" alt="프로필 이미지" style="width: 25px; height: 25px; object-fit: cover; border-radius: 50%;">
+											            		</span>
 											            		<span id="user-nickname">${sessionScope.USERNM }</span> 님
 											            	</a>
 											            </div>
