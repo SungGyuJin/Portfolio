@@ -1175,42 +1175,45 @@ function getUserInfo(no, str){
 		$("#profile-thumbYn").val('D');
 	}
 	
+	if(no.length > 0){
+		
+		$.ajax({
+			url      : contextPath+"/main/getUserInfo.do",
+			method   : "GET",
+			data     : {"no" : no},
+			dataType : "json",
+			success  : function(res){
 	
-	$.ajax({
-		url      : contextPath+"/main/getUserInfo.do",
-		method   : "GET",
-		data     : {"no" : no},
-		dataType : "json",
-		success  : function(res){
-
-			$("#uNo").val(res.uInfo.userSeq);
-			$("#uId").val(res.uInfo.userId);
-			$("#uNm").val(res.uInfo.userNm);
-			
-			if(res.uInfo.filePath.length > 0){
-				var html = '';
-				html = '<img src="'+ contextPath + res.uInfo.filePath+'/'+res.uInfo.strgFileNm+'" class="card-img-top" alt="thumbnail" onerror="this.onerror=null; this.src=\''+contextPath +'/resources/front/main/assets/img/profile.png\'">';
-				$("#profile-view").html(html);
+				$("#uNo").val(res.uInfo.userSeq);
+				$("#uId").val(res.uInfo.userId);
+				$("#uNm").val(res.uInfo.userNm);
 				
-				$("#btn-delProfile").prop('disabled', false);
-				$("#btn-delProfile").attr('onclick', "removeProfile('upd')");
-
-				var p_html = '<img src="'+ contextPath + res.uInfo.filePath+'/'+res.uInfo.strgFileNm+'" class="card-img-top" alt="thumbnail" onerror="this.onerror=null; this.src=\''+contextPath +'/resources/front/main/assets/img/profile.png\'" style="width: 25px; height: 25px; object-fit: cover; border-radius: 50%;">';
-				$("#user-profile").html(p_html);
+				var dflt_profile = '<img class="img-fluid my-round" src="'+contextPath+'/resources/front/main/assets/img/profile.png" alt="profile img" style="width: 25px; height: 25px; object-fit: cover; border-radius: 50%;" />';
 				
-			}else{
-				$("#profile-view").html('<img class="img-fluid my-round" src="'+contextPath+'/resources/front/main/assets/img/profile.png" alt="profile img" style="width: 25px; height: 25px; object-fit: cover; border-radius: 50%;" />');
-				$("#user-profile").html('<img class="img-fluid my-round" src="'+contextPath+'/resources/front/main/assets/img/profile.png" alt="profile img" style="width: 25px; height: 25px; object-fit: cover; border-radius: 50%;" />');
+				if(res.uInfo.filePath.length > 0){
+					var html = '';
+					html = '<img src="'+ contextPath + res.uInfo.filePath+'/'+res.uInfo.strgFileNm+'" class="card-img-top" alt="thumbnail" onerror="this.onerror=null; this.src=\''+contextPath +'/resources/front/main/assets/img/profile.png\'">';
+					$("#profile-view").html(html);
+					
+					$("#btn-delProfile").prop('disabled', false);
+					$("#btn-delProfile").attr('onclick', "removeProfile('upd')");
+	
+					var p_html = '<img src="'+ contextPath + res.uInfo.filePath+'/'+res.uInfo.strgFileNm+'" class="card-img-top" alt="thumbnail" onerror="this.onerror=null; this.src=\''+contextPath +'/resources/front/main/assets/img/profile.png\'" style="width: 25px; height: 25px; object-fit: cover; border-radius: 50%;">';
+					$("#user-profile").html(p_html);
+					
+				}else{
+					$("#profile-view").html(dflt_profile);
+					$("#user-profile").html(dflt_profile);
+				}
+			},
+			error : function(request, status, error){
+				Swal.fire({
+					icon: "error",
+					title: "통신불가"
+				})
 			}
-		},
-		error : function(request, status, error){
-			Swal.fire({
-				icon: "error",
-				title: "통신불가"
-			})
-		}
-	});
-	
+		});
+	}
 }
 
 // 첨부파일 삭제
