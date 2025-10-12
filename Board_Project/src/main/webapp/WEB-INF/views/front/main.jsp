@@ -296,6 +296,10 @@ $(function(){
 						$("#btn-getUserInfoModal-close").trigger('click');
 						$("#profile-data").empty();
 // 						$("#profile-thumbYn").val('D');
+
+
+						getUserInfo($("#uNo").val(), 'refresh');
+
 					}else{
 						alert('저장에러')
 					}
@@ -1202,7 +1206,7 @@ function getUserInfo(no, str){
 					$("#user-profile").html(p_html);
 					
 				}else{
-					$("#profile-view").html(dflt_profile);
+// 					$("#profile-view").html(dflt_profile);
 					$("#user-profile").html(dflt_profile);
 				}
 			},
