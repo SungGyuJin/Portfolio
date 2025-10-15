@@ -468,7 +468,9 @@ img.blocking-hover {
 }
 
 .profile-icon{
-	width: 20px;
+	width: 20Px;
+	height: 20px;
+	border-radius: 50% !important;
 }
 
 .naver-button img {

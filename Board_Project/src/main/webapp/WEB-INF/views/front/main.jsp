@@ -457,12 +457,12 @@ function profileChk(e, event, gubun){
 		$("#btn-delProfile").prop("disabled", false);
 		
 	}else{
-		removeProfile();
+		removeProfile('del');
 	}
 }
 
 function removeProfile(str) {
-	if(str == 'upd'){
+	if(str == 'upd' || str == 'del'){
 		$("#profile-thumbYn").val('N');
 	}else{
 		$("#profile-thumbYn").val('D');
@@ -1202,7 +1202,6 @@ function getUserInfo(no, str){
 					$("#user-profile").html(p_html);
 					
 				}else{
-// 					$("#profile-view").html(dflt_profile);
 					$("#user-profile").html(dflt_profile);
 				}
 			},
