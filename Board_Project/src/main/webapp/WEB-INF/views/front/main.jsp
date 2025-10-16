@@ -288,7 +288,7 @@ $(function(){
 					
 					if(res > 0){
 						alert('저장되었습니다.');
-						getBoardList(null, $("#listTyp").val(), $("#myPageYn").val());
+						getBoardList($("#pageNum").val(), $("#listTyp").val(), $("#myPageYn").val());
 						
 						$("#user-nickname").html($("#uNm").val());
 						$("#btn-getUserInfoModal-close").trigger('click');
@@ -676,6 +676,8 @@ function getBoard(no, pYn, stat){
 			data     : {"no" : no, "stat" : stat},
 			dataType : "json",
 			success  : function(res){
+				
+				console.log(res)
 				
 				var data = res.getBoard;
 
@@ -1488,6 +1490,8 @@ function getCmntList(no){
 			var cmntList = res.getCmntList;			
 			var html = '';
 			
+			var tempCnt = 0;
+			
 			if(cmntList.length > 0){
 				
 				for(var i=0; i < cmntList.length; i++){
@@ -1503,6 +1507,14 @@ function getCmntList(no){
 					html += 	'<img src="'+contextPath+'/resources/front/main/assets/img/profile.png" alt="프로필 이미지" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">';
 					html += 	'<div class="ms-2 flex-grow-1">';
 					html += 		'<div class="mb-1">';
+					
+										if($("#uNo").val() == cmntList[i].regNo){
+											if(tempCnt == 0){
+												$("#cmnt-userNm").html(cmntList[i].userNm);
+												tempCnt++;
+											}
+										}
+					
 					html += 			'<span class="fw-bold">'+cmntList[i].userNm+'</span>';
 
 					if(cmntList[i].authYn == 'Y'){
@@ -1860,7 +1872,9 @@ function btnAddCmntChange(str){
 			  		<form id="frm-addCmnt">
 			  			<input type="hidden" name="boardSeq" id="cmnt-boardSeq">
 						<div class="comment-box border rounded p-3 position-relative text-start mb-3" style="min-height: 100px;">
-				  			<div class="fw-bold mb-1">${sessionScope.USERNM}</div>
+				  			<div class="fw-bold mb-1">
+				  				<span id="cmnt-userNm">${sessionScope.USERNM}</span>
+				  			</div>
 				  			<c:choose>
 				  				<c:when test="${empty sessionScope.USERSEQ }">
 				  					<textarea class="form-control border-0 p-0 my-textarea autosize-textarea" placeholder="로그인이 필요합니다." rows="2" style="resize: none;" disabled></textarea>
