@@ -1052,6 +1052,8 @@ function getBoardList(num, style, myPg, card){
 
 				if(boardList.length > 0){
 					
+					console.log(boardList)
+					
 					html = 	'<div class="row">';
 					
 					for(let i=0; i < boardList.length; i++){
@@ -1069,7 +1071,19 @@ function getBoardList(num, style, myPg, card){
 						html +=					'<h5 class="card-title underline">'+boardList[i].title+'</h5>';
 						html +=				'</div>';
 						html +=				'<div class="card-footer d-flex justify-content-between">';
-						html +=					'<small class="text-muted">'+boardList[i].userNm+'</small>';
+
+						var uProfileImg = '';
+						
+						if(boardList[i].regNo > 1){
+							if(boardList[i].pfilePath.length > 0){
+								uProfileImg += '<img class="img-fluid my-round profile-icon me-1" src="'+contextPath+boardList[i].pfilePath+'/'+boardList[i].pstrgFileNm+'" alt="profile img">';
+							}else{
+								uProfileImg += '<img class="img-fluid my-round profile-icon me-1" src="'+contextPath+'/resources/front/main/assets/img/profile.png" alt="profile img">';
+							}
+						}
+
+						html +=					'<small class="text-muted">'+uProfileImg+boardList[i].userNm+'</small>';
+						
 						html +=					'<small class="text-muted">'+boardList[i].regDt+'</small>';
 						html +=				'</div>';
 						html +=			'</div>';
