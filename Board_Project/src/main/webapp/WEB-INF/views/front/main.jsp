@@ -677,8 +677,6 @@ function getBoard(no, pYn, stat){
 			dataType : "json",
 			success  : function(res){
 				
-				console.log(res)
-				
 				var data = res.getBoard;
 
 				var profileImg = '<img src="'+contextPath+'/resources/front/main/assets/img/profile.png" class="me-2" alt="프로필 이미지" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">';
@@ -691,7 +689,6 @@ function getBoard(no, pYn, stat){
 				$("#brd-profile").html(profileImg);
 				
 				$("#brd-bbsNm").html(data.bbsNm);
-// 				$("#brd-bbsNm").html(res.getBoard.bbsNm);
 				
 				if(data.pwdYn == 'Y'){
 					$("#brd-ttl").html('<img class="mb-2 me-1" src="'+contextPath+'/resources/front/main/assets/img/lock.png" style="max-width: 22px;">'+data.title);
@@ -713,6 +710,7 @@ function getBoard(no, pYn, stat){
 				$("#brd-readCnt").html(data.readCnt);
 				$("#brd-cn").html(data.cont);
 				$("#brdReadCnt-"+data.boardSeq).html(data.readCnt);
+				$("#cmnt-userNm").html(data.userNm);
 
 				var dataAtch = res.getAttachList;
 				
@@ -1051,8 +1049,6 @@ function getBoardList(num, style, myPg, card){
 				$("#listTyp").val('G');
 
 				if(boardList.length > 0){
-					
-					console.log(boardList)
 					
 					html = 	'<div class="row">';
 					
