@@ -1060,7 +1060,7 @@ function getBoardList(num, style, myPg, card){
 						html +=				'<img src="'+ contextPath + boardList[i].filePath+'/'+boardList[i].strgFileNm+'" class="card-img-top" alt="thumbnail" onerror="this.onerror=null; this.src=\''+contextPath +'/resources/front/main/assets/img/default-img.png\'" style="object-fit: cover; height: 180px;">';
 						
 						if(boardList[i].pwdYn == 'Y'){
-							html +=				'<img class="lock-icon" src="'+contextPath +'/resources/front/main/assets/img/lock.png" style="max-width: 25px;"/>';
+							html +=				'<img class="lock-icon" src="'+contextPath +'/resources/front/main/assets/img/lock.png" style="width: 30px; height: 30px;"/>';
 						}
 						
 						html +=				'<div class="card-body">';
@@ -1080,7 +1080,7 @@ function getBoardList(num, style, myPg, card){
 
 						html +=					'<small class="text-muted">'+uProfileImg+boardList[i].userNm+'</small>';
 						
-						html +=					'<small class="text-muted">'+boardList[i].regDt+'</small>';
+						html +=					'<small class="text-muted">작성일: '+boardList[i].regDt+'</small>';
 						html +=				'</div>';
 						html +=			'</div>';
 						html +=		'</a>';
