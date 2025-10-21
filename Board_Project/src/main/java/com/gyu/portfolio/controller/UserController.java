@@ -18,15 +18,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.gyu.portfolio.model.LoginVO;
-import com.gyu.portfolio.service.LoginService;
+import com.gyu.portfolio.model.UserVO;
+import com.gyu.portfolio.service.UserService;
 
 @Controller
 //@RequestMapping(value="/account")
-public class LoginController {
+public class UserController {
 
 	@Autowired
-	private LoginService loginService;
+	private UserService userService;
 	
 	/* 로그인 화면 */
 	@GetMapping(value="/login.do")
@@ -45,7 +45,7 @@ public class LoginController {
 	/* 로그인 처리 */
 	@PostMapping(value="/login.do")
 	public ModelAndView getLogin(ModelMap model,
-			@ModelAttribute("LoginVO") LoginVO loginVO,
+			@ModelAttribute("UserVO") UserVO userVO,
 			HttpServletRequest request,
 			HttpServletResponse response 
 			) throws Exception{
@@ -53,8 +53,8 @@ public class LoginController {
 		ModelAndView mav = null;
 		mav = new ModelAndView("/admin/main");
 		
-		LoginVO vo = null;
-		vo = loginService.getLogin(loginVO);
+		UserVO vo = null;
+		vo = userService.getUser(userVO);
 		
 		if(vo == null) {
 			mav.setViewName("account/login_error");
@@ -95,7 +95,7 @@ public class LoginController {
 	}
 	
 
-	private void processLogin(HttpServletRequest request, LoginVO rs){
+	private void processLogin(HttpServletRequest request, UserVO rs){
 		HttpSession session = request.getSession();
 		
 		session.setAttribute("USERSEQ", rs.getUserSeq());
@@ -135,7 +135,7 @@ public class LoginController {
 	}
 	
 
-	/* 계정생성 화면 */
+	/* 사용자 생성 화면 */
 	@GetMapping(value="/create.do")
 	public ModelAndView createView(ModelMap model,
 			HttpServletRequest request,
@@ -149,16 +149,15 @@ public class LoginController {
 		return mav;
 	}
 
-
-	/* 계정 등록처리 */
+	/* 사용자 등록처리 */
 	@PostMapping("/create.do")
 	public String create(ModelMap model,
-			@ModelAttribute("LoginVO") LoginVO loginVO,
+			@ModelAttribute("UserVO") UserVO userVO,
 			HttpServletRequest request,
 			HttpServletResponse response) throws Exception{
 
 		int result = 0;
-		result = loginService.addLogin(loginVO);
+		result = userService.addUser(userVO);
 		
 		if(result > 0) {
 			return "redirect:login.do";
@@ -167,7 +166,6 @@ public class LoginController {
 		}
 		
 	}
-	
 
 	/* 관리자 승인번호 체크 조회 */
 	@GetMapping("/aprvChk.do")
@@ -188,6 +186,42 @@ public class LoginController {
 		
 		model.clear();
 		model.addAttribute("resultMap", resultMap);
+		
+		return resultMap;
+	}
+	
+	/* 사용자 목록 */
+	@GetMapping("/list.do")
+	public ModelAndView boardList(ModelMap model,
+			@ModelAttribute("UserVO") UserVO userVO,
+			HttpServletRequest request,
+			HttpServletResponse response) throws Exception{
+
+		ModelAndView mav = null;
+		mav = new ModelAndView("admin/board/list");
+		
+		userVO.setAmount(15);	// 페이지당 데이터 갯수
+
+		// 회원 목록
+	    Map<String, Object> resultMap = new HashMap<>();
+
+		model.clear();
+		
+		return mav;
+	}
+	
+	/* 사용자 조회 */
+	@GetMapping("/getUser.do")
+	@ResponseBody
+	public Map<String, Object> getUser(ModelMap model,
+			@ModelAttribute("UserVO") UserVO userVO,
+			HttpServletRequest request,
+			HttpServletResponse response) throws Exception{
+
+	    Map<String, Object> resultMap = new HashMap<>();
+	    
+		model.clear();
+//		model.addAttribute("resultMap", resultMap);
 		
 		return resultMap;
 	}

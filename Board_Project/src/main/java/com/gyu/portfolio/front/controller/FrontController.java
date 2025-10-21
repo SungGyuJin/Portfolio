@@ -34,12 +34,12 @@ import com.gyu.portfolio.model.AttachVO;
 import com.gyu.portfolio.model.BbsVO;
 import com.gyu.portfolio.model.BoardVO;
 import com.gyu.portfolio.model.CmntVO;
-import com.gyu.portfolio.model.LoginVO;
+import com.gyu.portfolio.model.UserVO;
 import com.gyu.portfolio.service.AttachService;
 import com.gyu.portfolio.service.BbsService;
 import com.gyu.portfolio.service.BoardService;
 import com.gyu.portfolio.service.CmntService;
-import com.gyu.portfolio.service.LoginService;
+import com.gyu.portfolio.service.UserService;
 
 @Controller
 @PropertySource("classpath:/common.properties")
@@ -65,7 +65,7 @@ public class FrontController {
 	private CmntService cmntService;
 
 	@Autowired
-	private LoginService loginService;
+	private UserService userService;
 	
 	
 	@GetMapping(value={"/", "/main"})
@@ -417,14 +417,14 @@ public class FrontController {
 	@GetMapping("/main/getUserInfo.do")
 	@ResponseBody
 	public Map<String, Object> getUserInfo(ModelMap model,
-			@ModelAttribute("LoginVO") LoginVO loginVO,
+			@ModelAttribute("UserVO") UserVO userVO,
 			HttpServletRequest request,
 			HttpServletResponse response) throws Exception{
 		
 	    Map<String, Object> resultMap = new HashMap<>();
 	    
-	    loginVO.setUserSeq(Integer.parseInt(request.getParameter("no")));
-	    resultMap.put("uInfo", loginService.getUserInfo(loginVO));
+	    userVO.setUserSeq(Integer.parseInt(request.getParameter("no")));
+	    resultMap.put("uInfo", userService.getUserInfo(userVO));
 	    
 		model.clear();
 		model.addAttribute("uInfo", resultMap);
@@ -436,15 +436,15 @@ public class FrontController {
 	@PostMapping("/main/updateUser.do")
 	@ResponseBody
 	public int updateUser(ModelMap model,
-			@ModelAttribute("LoginVO") LoginVO loginVO,
+			@ModelAttribute("UserVO") UserVO userVO,
 			@ModelAttribute("AttachVO") AttachVO attachVO,
 			HttpServletRequest request,
 			HttpServletResponse response,
 			HttpSession session) throws Exception{
 		
-		session.setAttribute("USERNM", loginVO.getUserNm());
+		session.setAttribute("USERNM", userVO.getUserNm());
 		
-		int result = loginService.updateLogin(loginVO, attachVO);
+		int result = userService.updateUser(userVO, attachVO);
 		
 		return result;
 	}

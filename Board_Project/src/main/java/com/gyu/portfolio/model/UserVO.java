@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class LoginVO extends DefalutVO {
+public class UserVO extends DefalutVO {
 	
 	private int    userSeq 	=   0;  // 사용자 번호
 	private String userId 	=  ""; 	// ID
@@ -28,7 +28,7 @@ public class LoginVO extends DefalutVO {
 	
 	@Override
 	public String toString() {
-		return "LoginVO [userSeq=" + userSeq + ", userId=" + userId + ", userPwd=" + userPwd + ", userNm=" + userNm
+		return "UserVO [userSeq=" + userSeq + ", userId=" + userId + ", userPwd=" + userPwd + ", userNm=" + userNm
 				+ ", userSe=" + userSe + ", stat=" + stat + ", aprvNum=" + aprvNum + ", inputPwd=" + inputPwd
 				+ ", fileNm=" + fileNm + ", fileExt=" + fileExt + ", fileSz=" + fileSz + ", filePath=" + filePath
 				+ ", strgFileNm=" + strgFileNm + "]";

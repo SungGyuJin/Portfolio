@@ -8,16 +8,16 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.gyu.portfolio.model.AttachVO;
-import com.gyu.portfolio.model.LoginVO;
-import com.gyu.portfolio.service.LoginService;
+import com.gyu.portfolio.model.UserVO;
+import com.gyu.portfolio.service.UserService;
 import com.gyu.portfolio.service.mapper.AttachMapper;
-import com.gyu.portfolio.service.mapper.LoginMapper;
+import com.gyu.portfolio.service.mapper.UserMapper;
 
 @Service
-public class LoginServiceImpl implements LoginService{
+public class UserServiceImpl implements UserService{
 
 	@Autowired
-	private LoginMapper loginMapper;
+	private UserMapper userMapper;
 
 	@Autowired
 	private AttachMapper attachMapper;
@@ -26,12 +26,12 @@ public class LoginServiceImpl implements LoginService{
 	private DataSourceTransactionManager transactionManager;
 
 	@Override
-	public int addLogin(LoginVO loginVO) throws Exception {
-		return loginMapper.addLogin(loginVO);
+	public int addUser(UserVO userVO) throws Exception {
+		return userMapper.addUser(userVO);
 	}
 
 	@Override
-	public int updateLogin(LoginVO loginVO,  AttachVO attachVO) throws Exception {
+	public int updateUser(UserVO userVO,  AttachVO attachVO) throws Exception {
 		
 		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
 		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
@@ -42,21 +42,17 @@ public class LoginServiceImpl implements LoginService{
 			
 			try{
 				
-				result = loginMapper.updateLogin(loginVO);
+				result = userMapper.updateUser(userVO);
 				
 				// 프로필 이미지 등록 및 수정
 				if(attachVO.getThumbYn().equals("Y") || attachVO.getThumbYn().equals("N")){
 
-					System.out.println();
-					System.out.println("프로필 Image 진입");
-					System.out.println();
-					
-					attachVO.setRegNo(loginVO.getUserSeq());
+					attachVO.setRegNo(userVO.getUserSeq());
 					
 					AttachVO vo = new AttachVO();
 					
 					vo.setBoardSeq(0);
-					vo.setRegNo(loginVO.getUserSeq());
+					vo.setRegNo(userVO.getUserSeq());
 					vo.setThumbYn(attachVO.getThumbYn());
 
 					attachMapper.profileImgInit(attachVO);
@@ -86,13 +82,13 @@ public class LoginServiceImpl implements LoginService{
 	}
 
 	@Override
-	public LoginVO getLogin(LoginVO loginVO) throws Exception {
-		return loginMapper.getLogin(loginVO);
+	public UserVO getUser(UserVO userVO) throws Exception {
+		return userMapper.getUser(userVO);
 	}
 
 	@Override
-	public LoginVO getUserInfo(LoginVO loginVO) throws Exception {
-		return loginMapper.getUserInfo(loginVO);
+	public UserVO getUserInfo(UserVO userVO) throws Exception {
+		return userMapper.getUserInfo(userVO);
 	}
 	
 }
