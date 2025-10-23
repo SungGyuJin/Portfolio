@@ -36,7 +36,7 @@ public class UserController {
 			HttpServletResponse response) throws Exception{
 
 		ModelAndView mav = null;
-		mav = new ModelAndView("admin/board/list");
+		mav = new ModelAndView("admin/user/list");
 		
 		userVO.setAmount(15);	// 페이지당 데이터 갯수
 

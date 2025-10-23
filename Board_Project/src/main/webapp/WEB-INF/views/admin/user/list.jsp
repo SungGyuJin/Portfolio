@@ -8,42 +8,6 @@
 
 	$(function(){
 
-		$("#dataTable").sortable({
-            items:$('.sorting'),
-            start:function(event, ui){
-				
-            },
-            stop: function(event, ui) {
-            	
-            	var html = '';
-            	
-                $("#dataTable .sorting_1").each(function(index){
-					html += '<input type="hidden" name="bbsSeqArr" value="'+$(this).attr('aria-label')+'">';
-					html += '<input type="hidden" name="srtOrdArr" value="'+(index+1)+'">';
-                });
-                
-                $("#frm_sorting").html(html);
-                
-                $.ajax({
-        			url      : contextPath+"updateBbsSrtOrd.do",
-        			method   : "GET",
-        			data     : $("#frm_sorting").serialize(),
-        			dataType : "json",
-        			success  : function(res){
-						
-        				
-        			},
-        			error : function(request, status, error){
-        				Swal.fire({
-        					icon: "error",
-        					title: "통신불가"
-        				})
-        			}
-        		});
-            }
-			
-        });
-		
 		var delArr = [];
 		
 		$(".check-cell").on("click", function(e) {
@@ -164,20 +128,9 @@
 			location.href = 'list.do?listTyp='+$(this).val();
 		});
 		
-		if($("#listTyp").val() == 'list'){
-			$("#bbs-ttl").html('게시물 목록');
-			$("#btn-list").prop('disabled', true);
-			$("#btn-trash").prop('disabled', false);
-		}else{
-			$("#bbs-ttl").html('휴지통');
-			$("#btn-list").prop('disabled', false);
-			$("#btn-trash").prop('disabled', true);
-		}
-		
 		$("#bbsSeq").on('change', function(e){
 			$("#frm-search").submit();
 		});
-		
 		
 		if($("#listTyp").val() == 'list'){
 			$("#btn-del").removeClass('d-none');
@@ -191,85 +144,8 @@
 		
 	});
 	
-	// 버튼제어
-	function btnControl(e, num){
-		if(e == 'move'){
-			location.href = 'updateBoard.do?boardSeq='+$("#boardSeq").val()+'&pageNum='+$("#pageNum").val()+'&listTyp='+$("#listTyp").val()+'&searchKeyword='+$("#searchKeyword").val()+'&gubun='+$("#gubun").val()+'&bbsSeq='+$("#bbsSeq").val();
-		}else if(e == 'reply'){
-			location.href = 'replyBoard.do?boardSeq='+$("#boardSeq").val()+'&pageNum='+$("#pageNum").val()+'&listTyp='+$("#listTyp").val()+'&searchKeyword='+$("#searchKeyword").val()+'&gubun='+$("#gubun").val()+'&bbsSeq='+$("#bbsSeq").val();
-		// 삭제, 복구 처리
-		}else{
-			changeStat_1(num);
-		}
-	}
-	
-	// 복구, 삭제, 영구삭제 버튼(상태변경)
-	function changeStat_1(num){
-		
-		if(num == '9'){
-			Swal.fire({
-				title: '영구삭제 하시겠습니까?',
-				html: "※삭제된 데이터는 복구가 불가합니다.",
-				icon: 'warning',
-				showCancelButton: true,
-				confirmButtonColor: '#3085d6',
-				cancelButtonColor: '#d33',
-				confirmButtonText: '확인',
-				cancelButtonText: '취소'
-			}).then(function(result){
-
-		        if (result.isConfirmed) {
-		        	$("#stat").val(num);
-		        	changeStat_2(num, '영구삭제완료');
-		        }
-			})
-		}else if(num == '1'){
-        	$("#stat").val(num);
-			changeStat_2(num, '복구완료');
-		}else{
-        	$("#stat").val(num);
-			changeStat_2(num, '삭제완료');
-		}
-			
-	}
-	
-	function changeStat_2(num, cmnt){
-		
-		$.ajax({
-			url      : contextPath+"changeStat.do",
-			method   : "POST",
-			data     : $("#frm-board").serialize(),
-			dataType : "json",
-			success  : function(res){
-				
-				if(res > 0){
-					Swal.fire({
-						icon: "success",
-						title: cmnt
-					}).then(function(){
-						location.reload();
-					});
-				}else{
-					Swal.fire({
-						icon: "error",
-						title: "기능오류"
-					})
-				}
-				
-			},
-			error : function(request, status, error){
-				Swal.fire({
-					icon: "error",
-					title: "통신불가"
-				})
-			}
-		});
-	}
-	
-	// 게시물 조회
-	function getBoard(no){
-		$("table tr").removeClass('table-active');
-		$("#tr-"+no).addClass('table-active');
+	// 회원정보 조회
+	function getUser(no){
 		
 		$.ajax({
 			url      : contextPath+"getBoard.do",
@@ -278,24 +154,6 @@
 			dataType : "json",
 			success  : function(res){
 				
-				var getBoard = res.getBoard;
-				
-				$("#boardSeq").val(getBoard.boardSeq);
-				$("#title").val(getBoard.title);
-				$("#cont").html(getBoard.cont);
-				$("#stat").val(getBoard.stat);
-				$("#btn-move").prop('disabled', false);
-
-				// 버튼변화
-				if(getBoard.stat == '1'){
-// 					$("#btn-del").removeClass('d-none');
-// 					$("#btn-restore").ADDCLASS('D-NONE');
-// 					$("#BTN-DELPERMNT").ADdClass('d-none');
-				}else{
-// 					$("#btn-del").addClass('d-none');
-// 					$("#btn-restore").removeClass('d-none');
-// 					$("#btn-delPermnt").removeClass('d-none');
-				}
 				
 			},
 			error : function(request, status, error){
@@ -317,7 +175,7 @@
 
       	<!-- Page Heading -->
 		<div class="d-sm-flex align-items-center justify-content-between mb-4">
-         	<h1 class="h3 mb-0 text-gray-800 ml-1"><strong>게시물 관리</strong></h1>
+         	<h1 class="h3 mb-0 text-gray-800 ml-1"><strong>사용자 관리</strong></h1>
 <!--          	<a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> -->
      	</div>
 
@@ -325,7 +183,7 @@
 			<div class="col-xl-9 col-lg-7">
     			<div class="card shadow mb-4">
 					<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-    					<h5 class="m-0 font-weight-bold text-primary"><span id="bbs-ttl">게시물 목록</span> (${total })</h5>
+    					<h5 class="m-0 font-weight-bold text-primary">사용자 목록 (${total })</h5>
     					<div class="dropdown no-arrow">
 	        				<!-- <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 	    						<i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
@@ -337,10 +195,10 @@
 					            <div class="dropdown-divider"></div>
 					            <a class="dropdown-item" href="#">Something else here</a>
 					        </div>
-	    					<button class="btn btn-primary btn-icon-split btn-list" id="btn-list" title="목록보기" value="list">
+	    					<button class="btn btn-primary btn-icon-split btn-list invisible" id="btn-list" title="목록보기" value="list">
 	    						<span class="text"><i class="fas fa-fw fa-table"></i> 목록</span>
 			    			</button>
-	    					<button class="btn btn-danger btn-icon-split btn-list" id="btn-trash" title="휴지통" value="trash">
+	    					<button class="btn btn-danger btn-icon-split btn-list invisible" id="btn-trash" title="휴지통" value="trash">
 	    						<span class="text"><i class="fas fa-trash"></i> 휴지통</span>
 			    			</button>
     					</div>
@@ -348,15 +206,15 @@
 					<!-- Card Body -->
 					<div class="card-body">
 						<form id="frm-search" method="get">
-							<input type="hidden" name="listTyp" id="listTyp" value="${boardVO.listTyp }" readonly="readonly">
-							<div class="form-group mb-3">
+<%-- 							<input type="hidden" name="listTyp" id="listTyp" value="${boardVO.listTyp }" readonly="readonly"> --%>
+							<%-- <div class="form-group mb-3">
 	                          	<select class="form-control text-center border-primary" name="bbsSeq" id="bbsSeq">
 	                          		<option value="0">전체 게시판</option>	
 	                          	<c:forEach var="list" items="${getBbsList }">
 	                          		<option value="${list.bbsSeq }" <c:if test="${list.bbsSeq eq boardVO.bbsSeq }">selected</c:if>>${list.nm }</option>
 	                          	</c:forEach>
 	                          	</select>
-                            </div>
+                            </div> --%>
 					    	<div class="table-responsive" style="overflow-x: hidden;">
 					  			<div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
 									<div class="row">
@@ -376,9 +234,9 @@
 												    <tr role="row">
 														<th class="sorting text-center cursor-pointer check-cell" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending"><input type="checkbox" id="all-chk" class="cursor-pointer custom-checkbox-lg" value="Y" <c:if test="${empty getBoardList }">disabled</c:if>></th>
 												    	<th class="sorting sorting_asc text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending">No.</th>
-														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending">제목</th>
-														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">작성자</th>
-														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">등록일시</th>
+														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending">이름</th>
+														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">ID</th>
+														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">생성일시</th>
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">수정일시</th>
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">첨부파일</th>
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">상태</th>
@@ -430,8 +288,7 @@
 													<c:if test="${empty getBoardList }">
 													<tr class="text-center">
 														<td colspan="8">
-															<c:if test="${boardVO.listTyp eq 'list' }"><strong class="text-lg"><br>등록된 게시물이 없습니다.<br><br></strong></c:if>
-															<c:if test="${boardVO.listTyp eq 'trash' }"><strong class="text-lg"><br>삭제된 게시물이 없습니다.<br><br></strong></c:if>
+															<strong class="text-lg"><br>사용자 데이터가 없습니다.<br><br></strong>
 														</td>
 													</tr>
 													</c:if>
