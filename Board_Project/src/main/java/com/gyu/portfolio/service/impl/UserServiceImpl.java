@@ -1,5 +1,10 @@
 package com.gyu.portfolio.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Service;
@@ -7,7 +12,9 @@ import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
+import com.gyu.portfolio.common.PageMakerDTO;
 import com.gyu.portfolio.model.AttachVO;
+import com.gyu.portfolio.model.BoardVO;
 import com.gyu.portfolio.model.UserVO;
 import com.gyu.portfolio.service.UserService;
 import com.gyu.portfolio.service.mapper.AttachMapper;
@@ -89,6 +96,27 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public UserVO getUserInfo(UserVO userVO) throws Exception {
 		return userMapper.getUserInfo(userVO);
+	}
+
+	@Override
+	public Map<String, Object> getUserList(UserVO userVO) throws Exception {
+		
+	    Map<String, Object> resultMap = new HashMap<>();
+	    
+	    // 사용자 목록
+		List<UserVO> getUserList = new ArrayList<>();
+		getUserList = userMapper.getUserList(userVO);
+	    
+	    // 페이징 처리
+		int totalCnt = userMapper.getUserListCnt(userVO);
+		PageMakerDTO pageMaker = new PageMakerDTO(userVO, totalCnt);
+
+		resultMap.put("getUserList", getUserList);
+		resultMap.put("pageMaker", pageMaker);
+		resultMap.put("total", totalCnt);
+		resultMap.put("userVO", userVO);
+		
+		return resultMap;
 	}
 	
 }

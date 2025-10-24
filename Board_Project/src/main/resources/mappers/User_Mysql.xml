@@ -19,8 +19,31 @@
 		<result property="inputPwd"	column="INPUT_PWD" 	/>
 	</resultMap>
 	
+	<!-- 사용자 목록 -->
+	<select id="getUserList" resultMap="userVO">
+		SELECT
+			USER_SEQ
+			, USER_ID
+			, USER_PWD
+			, USER_NM
+			, USER_SE
+			, STAT
+		FROM TB_USER
+		WHERE 1=1
+			AND USER_SE = 'U'
+		ORDER BY USER_SEQ DESC
+	</select>
 	
-	<!-- 계정 상세조회 -->
+	<!-- 사용자 목록 수 -->
+	<select id="getUserListCnt" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM TB_USER
+		WHERE 1=1
+			AND USER_SE = 'U'
+	</select>
+	
+	<!-- 사용자 상세조회 -->
 	<select id="getUser" resultMap="userVO">
 		SELECT
 			USER_SEQ
@@ -35,7 +58,7 @@
 			AND USER_ID = #{userId}
 	</select>
 	
-	<!-- 계정 상세조회 -->
+	<!-- 사용자 상세조회 -->
 	<select id="getUserInfo" resultMap="userVO">
 		SELECT
 			USER_SEQ
@@ -50,7 +73,7 @@
 			AND USER_SEQ = #{userSeq}
 	</select>
 	
-	<!-- 계정 등록 -->
+	<!-- 사용자 등록 -->
 	<insert id="addUser">
 		INSERT INTO TB_USER(
 			USER_ID
@@ -67,7 +90,7 @@
 		)
 	</insert>
 	
-	<!-- 계정 수정 -->
+	<!-- 사용자 수정 -->
 	<update id="updateUser">
 		UPDATE
 			TB_USER

@@ -39,11 +39,16 @@ public class UserController {
 		mav = new ModelAndView("admin/user/list");
 		
 		userVO.setAmount(15);	// 페이지당 데이터 갯수
-
-		// 회원 목록
+		
+		// 사용자 목록
 	    Map<String, Object> resultMap = new HashMap<>();
+	    resultMap = userService.getUserList(userVO);
 
 		model.clear();
+		model.addAttribute("getUserList", resultMap.get("getUserList"));
+		model.addAttribute("pageMaker", resultMap.get("pageMaker"));
+		model.addAttribute("total", resultMap.get("total"));
+		model.addAttribute("userVO", resultMap.get("userVO"));
 		
 		return mav;
 	}

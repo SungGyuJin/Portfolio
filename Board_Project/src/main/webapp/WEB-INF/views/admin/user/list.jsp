@@ -7,153 +7,266 @@
 <script>
 
 	$(function(){
-
-		var delArr = [];
 		
-		$(".check-cell").on("click", function(e) {
-			if(!$(e.target).is("input[type='checkbox']")) {
-				
-			    const chkBox = $(this).find("input[type='checkbox']");
-			    chkBox.prop("checked", !chkBox.prop("checked")).trigger("change");
-			    
-				if(delArr.indexOf($("#"+chkBox.attr("id")).val()) == -1){
-					if(chkBox.attr('id') == 'all-chk'){
-						
-						// 전체체크 설정
-						if(chkBox.prop("checked")){
-							
-							var html = '';
-							
-							$(".list-chk").each(function(){
-								if($("#del-"+$(this).val()).length == 0){
-									html += '<input type="hidden" name="delSeqArr" id="del-'+$(this).val()+'" value="'+$(this).val()+'">';
-									delArr.push($(this).val());
-								}
-							});
-							
-							$("#delSeqArr").append(html);
-							$(".list-chk").prop('checked', true);
-
-						// 전체체크 해제
-						}else{
-
-							$("#delSeqArr").empty();
-							delArr.splice(0, delArr.length);
-							$(".list-chk").prop('checked', false);
-						}
-						
-					}else{
-						var html = '<input type="hidden" name="delSeqArr" id="del-'+$("#"+chkBox.attr("id")).val()+'" value="'+$("#"+chkBox.attr("id")).val()+'">';
-						delArr.push($("#"+chkBox.attr("id")).val());
-						$("#delSeqArr").append(html);
-					}
-
-				}else{
-					
-					delArr.splice(delArr.indexOf($("#"+chkBox.attr("id")).val()), 1);
-					$("#del-"+$("#"+chkBox.attr("id")).val()).remove();
-				}
-
-				if($(".list-chk").length == $(".list-chk:checked").length){
-					$("#all-chk").prop('checked', true);
-				}else{
-					$("#all-chk").prop('checked', false);
-				}
-				
-			}
+		initBbs('init');
+		
+		// 신규등록 버튼
+		$("#btn-new").on('click', function(){
+			$("#frm-typ").val('add');
+			initBbs('click');
+			$("#btn-new").prop("disabled", true);
+			$("#bbsSeq").val('0');
+			$("#btn-text-span").html('등록완료');
 			
-			chkboxOption();
+			// 버튼삭제
+			$("#btn-restore").addClass('d-none');	// 복구버튼
+			$("#btn-del").addClass('d-none');		// 삭제버튼
+			$("#btn-delPermnt").addClass('d-none');	// 영구삭제 버튼
 		});
-		
-		// 전체체크
-		$("#all-chk").on('click', function(){
-			
-			if($('#all-chk').is(':checked')){
-				$("#btn-del").prop('disabled', false);
-				$(".list-chk").prop('checked', true);
-				
-				var html = '';
-				
-				$(".list-chk").each(function(){
-					if($("#del-"+$(this).val()).length == 0){
-						html += '<input type="hidden" name="delSeqArr" id="del-'+$(this).val()+'" value="'+$(this).val()+'">';
-						delArr.push($(this).val());
-					}
-				});
-				
-				$("#delSeqArr").append(html);
-			}else{
-				$("#btn-del").prop('disabled', true);
-				$(".list-chk").prop('checked', false);
-				$("#delSeqArr").empty();
-				delArr.splice(0, delArr.length);
-			}
-			
-			chkboxOption();
-		});
-		
-		// 개별체크
-		$(".list-chk").on('click', function(){
-			if($(".list-chk").length == $(".list-chk:checked").length){
-				$("#all-chk").prop('checked', true);
-			}else{
-				$("#all-chk").prop('checked', false);
-			}
-			
-			if(delArr.indexOf($(this).val()) == -1){
-				var html = '<input type="hidden" name="delSeqArr" id="del-'+$(this).val()+'" value="'+$(this).val()+'">';
-				delArr.push($(this).val());
-				$("#delSeqArr").append(html);
-			}else{
-				delArr.splice(delArr.indexOf($(this).val()), 1);
-				$("#del-"+$(this).val()).remove();
-			}
-			
-			chkboxOption();
-		});
-		
-		function chkboxOption(){
-			if($(".list-chk:checked").length > 0){
-				$("#btn-del").prop('disabled', false);
-				$("#btn-restore").prop('disabled', false);
-				$("#btn-delPermnt").prop('disabled', false);
-			}else{
-				$("#btn-del").prop('disabled', true);
-				$("#btn-restore").prop('disabled', true);
-				$("#btn-delPermnt").prop('disabled', true);
-			}
-		}
 		
 		$(".btn-list").on('click', function(){
 			location.href = 'list.do?listTyp='+$(this).val();
 		});
 		
-		$("#bbsSeq").on('change', function(e){
-			$("#frm-search").submit();
-		});
-		
 		if($("#listTyp").val() == 'list'){
-			$("#btn-del").removeClass('d-none');
-			$("#btn-restore").addClass('d-none');
-			$("#btn-delPermnt").addClass('d-none');
+			$("#bbs-ttl").html('게시판 목록');
+			$("#btn-list").prop('disabled', true);
+			$("#btn-trash").prop('disabled', false);
 		}else{
-			$("#btn-del").addClass('d-none');
-			$("#btn-restore").removeClass('d-none');
-			$("#btn-delPermnt").removeClass('d-none');
+			$("#bbs-ttl").html('휴지통');
+			$("#btn-list").prop('disabled', false);
+			$("#btn-trash").prop('disabled', true);
 		}
 		
 	});
 	
-	// 회원정보 조회
-	function getUser(no){
+	// 버튼제어
+	function btnControl(e, num){
+		if(e == 'add'){
+			btnRegister();
+		}else if(e == 'reset'){
+			btnReset();
+		}else{
+			changeStat_1(num);
+		}
+	}
+
+	// 게시판 등록&수정
+	function btnRegister(){
+		if($("#frm-typ").val() == 'add'){
+			addBbs();
+		}else{
+			updateBbs();
+		}
+	}
+	
+	// 취소버튼
+	function btnReset(){
+		if($("#frm-typ").val() == 'add'){
+			$("#nm").val('');
+			$("#expln").val('');
+			$(".init-class").prop("checked", false);
+		}else{
+			getBbs($("#bbsSeq").val());
+		}
+	}
+	
+	// 복구, 삭제, 영구삭제 버튼(상태변경)
+	function changeStat_1(num){
+		
+		if(num == '9'){
+			Swal.fire({
+				title: '영구삭제 하시겠습니까?',
+				html: "※삭제된 데이터는 복구가 불가합니다.",
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				confirmButtonText: '확인',
+				cancelButtonText: '취소'
+			}).then(function(result){
+
+		        if (result.isConfirmed) {
+		        	$("#stat").val(num);
+		        	changeStat_2(num, '영구삭제완료');
+		        }
+			})
+		}else if(num == '1'){
+        	$("#stat").val(num);
+			changeStat_2(num, '복구완료');
+		}else{
+        	$("#stat").val(num);
+			changeStat_2(num, '삭제완료');
+		}
+	}
+	
+	function changeStat_2(num, cmnt){
+		$.ajax({
+			url      : contextPath+"changeStat.do",
+			method   : "POST",
+			data     : $("#frm-addBbs").serialize(),
+			dataType : "json",
+			success  : function(res){
+				
+				if(res > 0){
+					Swal.fire({
+						icon: "success",
+						title: cmnt
+					}).then(function(){
+						location.reload();
+					});
+				}else{
+					Swal.fire({
+						icon: "error",
+						title: "기능오류"
+					})
+				}
+				
+			},
+			error : function(request, status, error){
+				Swal.fire({
+					icon: "error",
+					title: "통신불가"
+				})
+			}
+		});
+	}
+	
+	// 게시판 form 옵션변화 (ex.초기화면 세팅)
+	function initBbs(e){
+		if(e == 'init'){
+			$(".init-class").prop("disabled", true);
+		}else{
+			if($("#frm-typ").val() == 'add'){
+				$("#nm").val('');
+				$("#expln").val('');
+				$("#ttl-typ").html('등록');
+				$(".init-class").prop("disabled", false);
+				$(".init-class").prop("checked", false);
+			}else{
+// 				$("#ttl-typ").html('수정 / <span class="text-success">복구</span> / <span class="text-danger">삭제</span>');
+				$("#ttl-typ").html('수정');
+				$(".init-class").prop("disabled", false);
+			}
+			$("#nm").focus();
+		}
+	}
+	
+	// 게시판 등록
+	function addBbs(){
 		
 		$.ajax({
-			url      : contextPath+"getBoard.do",
+			url      : contextPath+"addBbs.do",
+			method   : "POST",
+			data     : $("#frm-addBbs").serialize(),
+			dataType : "json",
+			success  : function(res){
+				
+				if(res > 0){
+					Swal.fire({
+						icon: "success",
+						title: "등록완료"
+					}).then(function(){
+						location.href = 'list.do';
+					});
+				}else{
+					Swal.fire({
+						icon: "error",
+						title: "저장 오류"
+					})
+				}
+			},
+			error : function(request, status, error){
+				Swal.fire({
+					icon: "error",
+					title: "통신불가"
+				})
+			}
+		});
+	}
+	
+	// 게시판 수정
+	function updateBbs(){
+		
+		$.ajax({
+			url      : contextPath+"updateBbs.do",
+			method   : "POST",
+			data     : $("#frm-addBbs").serialize(),
+			dataType : "json",
+			success  : function(res){
+				
+				if(res > 0){
+					Swal.fire({
+						icon: "success",
+						title: "수정완료"
+					}).then(function(){
+// 						location.reload();
+						$("#nm-"+$("#bbsSeq").val()).text($("#nm").val());
+					});
+				}else{
+					Swal.fire({
+						icon: "error",
+						title: "저장 오류"
+					})
+				}
+			},
+			error : function(request, status, error){
+				Swal.fire({
+					icon: "error",
+					title: "통신불가"
+				})
+			}
+		});
+	}
+	
+	// 게시만 조회
+	function getUser(no){
+
+		$("table tr").removeClass('table-active');
+		$("#tr-"+no).addClass('table-active');
+		
+		$("#frm-typ").val('upd');
+		initBbs('click');
+		$("#btn-new").prop("disabled", false);
+		$("#btn-text-span").html('수정완료');
+		
+		$.ajax({
+			url      : contextPath+"getBbs.do",
 			method   : "GET",
 			data     : {"no" : no},
 			dataType : "json",
 			success  : function(res){
 				
+				var getBbs = res.getBbs;
+				
+				$("#temp-stat").val(getBbs.stat);
+
+				// 버튼변화
+				if(getBbs.stat == '1'){
+					$("#btn-del").removeClass('d-none');	// 삭제버튼 추가
+					$("#btn-restore").addClass('d-none');	// 복구버튼 제거
+					$("#btn-delPermnt").addClass('d-none');	// 영구삭제버튼 제거
+				}else{
+					
+					if(getBbs.stat == '0'){
+						$("#btn-del").addClass('d-none');			// 삭제버튼 삭제
+						$("#btn-restore").removeClass('d-none');	// 복구버튼 추가
+						$("#btn-delPermnt").removeClass('d-none');	// 영구삭제버튼 추가
+					}else{
+						
+					}
+				}
+				
+				$("#bbsSeq").val(getBbs.bbsSeq);
+				$("#nm").val(getBbs.nm);
+				$("#expln").val(getBbs.expln);
+				$("#stat").val(getBbs.stat);
+
+				getBbs.replyYn 	== 'Y' ? $("#replyYn").prop('checked',  true) : $("#replyYn").prop('checked',  false);
+				getBbs.comentYn == 'Y' ? $("#comentYn").prop('checked', true) : $("#comentYn").prop('checked', false);
+				getBbs.atchYn 	== 'Y' ? $("#atchYn").prop('checked',   true) : $("#atchYn").prop('checked',   false);
+				getBbs.secrtYn 	== 'Y' ? $("#secrtYn").prop('checked',  true) : $("#secrtYn").prop('checked',  false);
+					
 				
 			},
 			error : function(request, status, error){
@@ -167,7 +280,9 @@
 	
 </script>
 
-<input type="hidden" id="pageNum" value="${boardVO.pageNum }" />
+<input type="hidden" id="frm-typ" value="add" />
+
+<form id="frm_sorting"></form>
 
 <div id="content">
 	<!-- Begin Page Content -->
@@ -195,88 +310,50 @@
 					            <div class="dropdown-divider"></div>
 					            <a class="dropdown-item" href="#">Something else here</a>
 					        </div>
-	    					<button class="btn btn-primary btn-icon-split btn-list invisible" id="btn-list" title="목록보기" value="list">
-	    						<span class="text"><i class="fas fa-fw fa-table"></i> 목록</span>
+	    					<button class="btn btn-primary btn-icon-split btn-list" id="btn-list" title="목록보기" value="list">
+	    						<span class="text"><i class="fas fa-fw fa-table"></i> 사용자</span>
 			    			</button>
-	    					<button class="btn btn-danger btn-icon-split btn-list invisible" id="btn-trash" title="휴지통" value="trash">
-	    						<span class="text"><i class="fas fa-trash"></i> 휴지통</span>
+	    					<button class="btn btn-danger btn-icon-split btn-list" id="btn-trash" title="휴지통" value="trash">
+	    						<span class="text"><i class="fas fa-trash"></i> 탈퇴</span>
 			    			</button>
     					</div>
 					</div>
+					
 					<!-- Card Body -->
 					<div class="card-body">
+<%-- 							<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum }" /> --%>
+<%-- 							<input type="hidden" name="amount" value="${pageMaker.cri.amount }"  /> --%>
 						<form id="frm-search" method="get">
-<%-- 							<input type="hidden" name="listTyp" id="listTyp" value="${boardVO.listTyp }" readonly="readonly"> --%>
-							<%-- <div class="form-group mb-3">
-	                          	<select class="form-control text-center border-primary" name="bbsSeq" id="bbsSeq">
-	                          		<option value="0">전체 게시판</option>	
-	                          	<c:forEach var="list" items="${getBbsList }">
-	                          		<option value="${list.bbsSeq }" <c:if test="${list.bbsSeq eq boardVO.bbsSeq }">selected</c:if>>${list.nm }</option>
-	                          	</c:forEach>
-	                          	</select>
-                            </div> --%>
+							<input type="hidden" name="listTyp" id="listTyp" value="${userVO.listTyp }" readonly="readonly">
 					    	<div class="table-responsive" style="overflow-x: hidden;">
 					  			<div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
 									<div class="row">
 										<div class="col-sm-12">
-											<table class="table table-bordered dataTable" id="dataTable" cellspacing="0" role="grid" aria-describedby="dataTable_info">
+											<table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
 												<colgroup>
-													<col width="5%">	<!-- checkbox -->
-													<col width="5%">	<!-- No. -->
-													<col width="25%">	<!-- 제목 -->
-													<col width="5%"> 	<!-- 작성자 -->
-													<col width="10%"> 	<!-- 등록일시 -->
-													<col width="10%"> 	<!-- 수정일시 -->
-													<col width="5%"> 	<!-- 첨부파일 -->
-													<col width="5%"> 	<!-- 상태 -->
+													<col width="15%">	<!-- 이름 	-->
+													<col width="15%"> 	<!-- ID 	-->
+													<col width="15%"> 	<!-- 프로필 	-->
+													<col width="15%"> 	<!-- 상태    	-->
 												</colgroup>
 												<thead>
 												    <tr role="row">
-														<th class="sorting text-center cursor-pointer check-cell" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending"><input type="checkbox" id="all-chk" class="cursor-pointer custom-checkbox-lg" value="Y" <c:if test="${empty getBoardList }">disabled</c:if>></th>
-												    	<th class="sorting sorting_asc text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending">No.</th>
-														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending">이름</th>
+												    	<th class="sorting sorting_asc text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 154px;">이름</th>
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">ID</th>
-														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">생성일시</th>
-														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">수정일시</th>
-														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">첨부파일</th>
+														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">프로필 이미지</th>
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">상태</th>
 												    </tr>
 												</thead>
 												<tbody>
-													<c:forEach var="list" varStatus="varStatus" items="${getBoardList }">
-													<tr id="tr-${list.boardSeq }">
-														<td class="sorting_1 text-center cursor-pointer check-cell">
-															<input type="checkbox" id="check-box-${list.boardSeq }" class="list-chk cursor-pointer custom-checkbox-lg" value="${list.boardSeq }">
-														</td>
-														<td class="sorting_1 text-center" onclick="getBoard('${list.boardSeq}');">
-															<c:if test="${list.lvl eq 0 }">
-																${list.rowNum }
-															</c:if>
-														</td>
-														<td onclick="getBoard('${list.boardSeq}');">
-															<c:if test="${list.lvl eq 1 }">
-																<c:forEach begin="0" end="${list.lvl }">&nbsp;</c:forEach>
-																<img class="mb-1" src="${pageContext.request.contextPath}/resources/admin/assets/img/arrow-return-right.svg" />
-																<span class="border px-1 py-0 fw-bold small text-primary"><strong>RE</strong></span>
-															</c:if>
-															<c:if test="${list.lvl gt 1 }">
-																<c:forEach begin="0" end="${list.lvl }">&nbsp;&nbsp;</c:forEach>
-																<img class="mb-1" src="${pageContext.request.contextPath}/resources/admin/assets/img/arrow-return-right.svg" />
-																<span class="border px-1 py-0 fw-bold small text-primary"><strong>RE</strong></span>
-															</c:if>
-															<c:if test="${list.pwdYn eq 'Y' }">
-																<img class="mb-1" src="${pageContext.request.contextPath}/resources/admin/assets/img/lock-fill.svg" />
-															</c:if>
-															${list.title }
-														</td>
-														<td class="text-center" onclick="getBoard('${list.boardSeq}');"><strong>${list.userNm }</strong></td>
-														<td class="text-center" onclick="getBoard('${list.boardSeq}');">${list.regDt }</td>
-														<td class="text-center" onclick="getBoard('${list.boardSeq}');">${list.updDt }</td>
-														<td class="text-center p-0" onclick="getBoard('${list.boardSeq}');"><c:if test="${list.atchCnt gt 0 }"><img src="${pageContext.request.contextPath}/resources/admin/assets/img/atch_icon.png" class="mt-2" style="max-width: 35px;" /></c:if></td>
-														<td class="text-center" onclick="getBoard('${list.boardSeq}');">
+													<c:forEach var="list" varStatus="varStatus" items="${getUserList }">
+													<tr class="text-center sorting" onclick="getUser(${list.userSeq});" id="tr-${list.userSeq }">
+														<td class="sorting_1" id="nm-${list.userSeq }" aria-label="${list.userSeq }">${list.userNm }</td>
+														<td>${list.userId }</td>
+														<td>${list.userId }</td>
+														<td>
 															<c:choose>
 																<c:when test="${list.stat eq 1 }">
-																	<strong class="ms-3"><span class="text-primary">게시중</span></strong>
+																	<strong class="ms-3"><span class="text-primary">사용중</span></strong>
 																</c:when>
 																<c:otherwise>
 																	<strong class="ms-3"><span class="text-danger">삭제됨</span></strong>
@@ -285,10 +362,11 @@
 													    </td>
 													</tr>
 													</c:forEach>
-													<c:if test="${empty getBoardList }">
+													<c:if test="${empty getUserList }">
 													<tr class="text-center">
-														<td colspan="8">
-															<strong class="text-lg"><br>사용자 데이터가 없습니다.<br><br></strong>
+														<td colspan="5">
+															<c:if test="${userVO.listTyp eq 'list' }"><strong class="text-lg"><br>등록된 사용자가 없습니다.<br><br></strong></c:if>
+															<c:if test="${userVO.listTyp eq 'trash' }"><strong class="text-lg"><br>탈퇴한 사용자가 없습니다.<br><br></strong></c:if>
 														</td>
 													</tr>
 													</c:if>
@@ -301,48 +379,29 @@
 											<div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
 										 		<ul class="pagination">
 										 			
-										 			<%-- <fmt:parseNumber value = "${pageMaker.endPage}" var = "endPage"/>
-										 			<fmt:parseNumber value = "${pageMaker.realEndPageNum}" var = "realEnd"/> --%>
-										 			
-									 			 	<!-- 첫페이지 버튼 -->
-									 			 	<%-- <c:if test="${pageMaker.prev}">
-														<li class="paginate_button page-item previous" id="dataTable_previous"><a href="/admin/board/list.do?pageNum=1&amp;searchKeyword=${boardVO.searchKeyword}&amp;bbsSeq=${boardVO.bbsSeq}" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">◀</a></li>
-									 				</c:if> --%>
-										 			
 									 			 	<!-- 이전페이지 버튼 -->
 									 			 	<c:if test="${pageMaker.prev}">
-														<li class="paginate_button page-item previous" id="dataTable_previous"><a href="/admin/board/list.do?pageNum=${pageMaker.startPage-1}&amp;searchKeyword=${boardVO.searchKeyword}&amp;bbsSeq=${boardVO.bbsSeq}&amp;listTyp=${boardVO.listTyp}" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">&lt;</a></li>
+														<li class="paginate_button page-item previous" id="dataTable_previous"><a href="/admin/bbs/list.do?pageNum=${pageMaker.startPage-1}" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li>
 									 				</c:if>
 									 				
 									 				<!-- 페이지 번호 -->
 													<c:forEach var="num" begin="${pageMaker.startPage }" end="${pageMaker.endPage }">
-										 				<li class="paginate_button page-item <c:if test="${pageMaker.cri.pageNum eq num }"> active</c:if>"><a href="/admin/board/list.do?pageNum=${num }&amp;searchKeyword=${boardVO.searchKeyword}&amp;bbsSeq=${boardVO.bbsSeq}&amp;listTyp=${boardVO.listTyp}" aria-controls="dataTable" data-dt-idx="${num }" tabindex="0" class="page-link">${num }</a></li>
+										 				<li class="paginate_button page-item <c:if test="${pageMaker.cri.pageNum eq num }"> active</c:if>"><a href="/admin/bbs/list.do?pageNum=${num }&amp;searchKeyword=${userVO.searchKeyword}" aria-controls="dataTable" data-dt-idx="${num }" tabindex="0" class="page-link">${num }</a></li>
 													</c:forEach>
 													
 													<!-- 다음페이지 버튼 -->
 													<c:if test="${pageMaker.next}">
-											  			<li class="pageInfo_btn page-item next" id="dataTable_next"><a href="/admin/board/list.do?pageNum=${pageMaker.endPage + 1 }&amp;searchKeyword=${boardVO.searchKeyword}&amp;bbsSeq=${boardVO.bbsSeq}&amp;listTyp=${boardVO.listTyp}" aria-controls="dataTable" data-dt-idx="${pageMaker.endPage + 1 }" tabindex="0" class="page-link">&gt;</a></li>
+											  			<li class="pageInfo_btn page-item next" id="dataTable_next"><a href="/admin/bbs/list.do?pageNum=${pageMaker.endPage + 1 }" aria-controls="dataTable" data-dt-idx="${pageMaker.endPage + 1 }" tabindex="0" class="page-link">Next</a></li>
 													</c:if>
-													
-													<!-- 끝페이지 버튼 -->
-													<%-- <c:if test="${pageMaker.next}">
-											  			<li class="pageInfo_btn page-item next" id="dataTable_next"><a href="/admin/board/list.do?pageNum=${pageMaker.realEndPageNum }&amp;searchKeyword=${boardVO.searchKeyword}&amp;bbsSeq=${boardVO.bbsSeq}" aria-controls="dataTable" data-dt-idx="${pageMaker.endPage + 1 }" tabindex="0" class="page-link">▶</a></li>
-													</c:if> --%>
-													
 										 		</ul>
 											</div>
 										</div>
-										<div class="col-sm-12 col-md-5 text-right mb-1">
-											<div class="input-group w-100" style="display: inline-flex; width: 100%;">
-			                                	<select class="form-control mr-1" name="gubun" id="gubun" style="flex: 0 0 25%;">
-			                                		<option value="">전체</option>
-			                                		<option value="ttl" <c:if test="${boardVO.gubun eq 'ttl' }">selected="selected"</c:if>>제목</option>
-			                                		<option value="cn" <c:if test="${boardVO.gubun eq 'cn' }">selected="selected"</c:if>>내용</option>
-			                                		<option value="writer" <c:if test="${boardVO.gubun eq 'writer' }">selected="selected"</c:if>>작성자</option>
-			                                	</select>
-									    		<input type="text" class="form-control bg-light border-0 small" name="searchKeyword" id="searchKeyword" placeholder="검색어를 입력하세요." aria-label="Search" aria-describedby="basic-addon2" autocomplete="off" value="${boardVO.searchKeyword }">
+										<div class="col-sm-12 col-md-5 text-right">
+											<!-- <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div> -->
+											<div class="input-group w-75 mb-1" style="display: inline-flex; width: auto;">
+									    		<input type="text" class="form-control bg-light border-0 small" name="searchKeyword" placeholder="게시판명을 입력하세요." aria-label="Search" aria-describedby="basic-addon2" autocomplete="off" value="${userVO.searchKeyword }">
 									    		<div class="input-group-append">
-											        <button type="submit" id="btn-search" class="btn btn-primary" type="button">
+											        <button type="submit" class="btn btn-primary" type="button">
 											            <i class="fas fa-search"></i>
 											        </button>
 									    		</div>
@@ -351,6 +410,7 @@
 									</div>
 	      						</div>
 	       					</div>
+       					
 						</form>
    					</div>
          		</div>
@@ -360,50 +420,90 @@
 			    <div class="card shadow mb-4">
 			        	<!-- Card Header - Dropdown -->
 						<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-						    <h5 class="m-0 font-weight-bold text-primary">미리보기</h5>
-						    <button class="btn btn-primary btn-icon-split" id="btn-new" onclick="location.href='addBoard.do';">
+						    <h5 class="m-0 font-weight-bold text-primary">게시판 <span id="ttl-typ">등록</span></h5>
+						    <button class="btn btn-primary btn-icon-split" id="btn-new">
 						        <span class="text">신규등록</span>
 						   	</button>
 						</div>
 						<!-- .card-body START -->
 	                    <div class="card-body">
-	                   		<form class="user" id="frm-board">
-								<div id="delSeqArr"></div>
-	                   			<input type="hidden" name="stat" id="stat" value="1" readonly="readonly" />
-	                    		<input type="hidden" name="boardSeq" id="boardSeq" value="0" readonly="readonly" />
+	                   		<form class="user" id="frm-addBbs">
+	                   			<input type="hidden" name="stat" id="stat" value="1" readonly="readonly"/>
+	                    		<input type="hidden" name="bbsSeq" id="bbsSeq" value="0" readonly="readonly" />
 	                      		<div class="form-group">
-<!-- 	                      			<label for="bbs-title"><strong>제목</strong></label> -->
-	                          		<input type="email" class="form-control form-control-user init-class" id="title" autocomplete="off" value="게시물을 선택하세요." disabled="disabled">
+	                      			<label for="bbs-title"><strong>게시판명</strong></label>
+	                          		<input type="email" class="form-control form-control-user init-class" name="nm" id="nm" placeholder="게시판명" autocomplete="off">
 	                      		</div>
-                                <div class="form-group">
-<!-- 	                      			<label for="bbs-title"><strong>내용</strong></label> -->
-<!--                                 	<textarea class="form-control init-class" name="cont" id="cont" rows="5" disabled="disabled"></textarea> -->
-                                	<div class="p-2 rounded editor-preview" id="cont">
-                                	</div>
-                                </div>
-                                <div class="form-group">
-		                        	<button type="button" class="btn btn-primary btn-lg init-class w-100" id="btn-move" onclick="btnControl('move');" disabled="disabled">상세페이지 이동</button>
-                                </div>
+	                    		<div class="form-group">
+		                      		<label for="bbs-title"><strong>설명</strong></label>
+		                         	<input type="email" class="form-control form-control-user init-class" name="expln" id="expln" placeholder="설명" autocomplete="off">
+	                      		</div>
 	                      		<hr>
+<!-- 	                      		<small class="text-danger"><strong>*게시판 옵션을 선택하세요.</strong></small> -->
+	                      		<small class="text-danger">* 게시판 옵션을 선택하세요.</small>
+				             	<div class="form-group row mt-2">
+									<div class="col-sm-6 mb-3 mb-sm-0">
+										<label class="toggle-wrapper">
+											<strong>답글</strong>
+										  	<input type="checkbox" class="tiny-toggle init-class" id="replyYn" name="replyYn" value="Y" />
+									  		<span class="tiny-slider"></span>
+										</label>
+									</div>
+		                      	 	<div class="col-sm-6 mb-3 mb-sm-0">
+										<label class="toggle-wrapper">
+										  <strong>첨부파일</strong>
+										  <input type="checkbox" class="tiny-toggle init-class" id="atchYn" name="atchYn" value="Y" />
+										  <span class="tiny-slider"></span>
+										</label>
+									</div>
+								</div>
+			                      
+		                      	<div class="form-group row">
+									<div class="col-sm-6 mb-3 mb-sm-0">
+										<label class="toggle-wrapper">
+										  	<strong>댓글</strong>
+										  	<input type="checkbox" class="tiny-toggle init-class" id="comentYn" name="comentYn" value="Y" />
+										  	<span class="tiny-slider"></span>
+										</label>
+									</div>
+									<div class="col-sm-6 mb-3 mb-sm-0">
+										<label class="toggle-wrapper">
+											<strong>비밀&nbsp;글</strong>
+											<input type="checkbox" class="tiny-toggle init-class" id="secrtYn" name="secrtYn" value="Y" />
+											<span class="tiny-slider"></span>
+										</label>
+			                        </div>
+		                      	</div>
 							</form>
-			
+			  
 						<div class="text-center">
 							<div class="d-flex justify-content-between">
-								<div class="mt-1" id="btn-divTag1">
-									<c:if test="${boardVO.listTyp eq 'list' }"><small class="text-danger">* 삭제를 원하시면 게시글을 체크하세요.</small></c:if>
-									<c:if test="${boardVO.listTyp eq 'trash' }"><small class="text-danger">* 복구 및 영구삭제를 원하시면 게시글을 체크하세요.</small></c:if>
+								<div>
+									<div id="btn-divTag1">
+<!-- 										<button class="btn btn-primary btn-icon-split init-class" id="btn-save" onclick="bbsPostFlag();"> -->
+										<button class="btn btn-primary btn-icon-split init-class" id="btn-save" onclick="btnControl('add');">
+<!-- 										    <span class="icon text-white-50"><i class="fas fa-check"></i></span> -->
+									    	<span class="text" id="btn-text-span">등록완료</span>
+										</button>
+<!-- 										<button class="btn btn-secondary btn-icon-split init-class" id="btn-reset" onclick="btnReset();"> -->
+										<button class="btn btn-secondary btn-icon-split init-class" id="btn-reset" onclick="btnControl('reset');">
+<!-- 											<span class="icon text-white-50"><i class="fas fa-arrow-left"></i></span> -->
+						         			<span class="text">취소</span>
+						    			</button>
+									</div>
 								</div>
 								<div id="btn-divTag2">
-									<button class="btn btn-info btn-icon-split init-class d-none" onclick="btnControl('reply');">
-					         			<span class="text">답글쓰기</span>
-					    			</button>
-									<button class="btn btn-success btn-icon-split init-class d-none" id="btn-restore" onclick="btnControl('stat', '1');" disabled>
+<!-- 									<button class="btn btn-success btn-icon-split init-class d-none" id="btn-restore" onclick="btnDel(4);"> -->
+									<button class="btn btn-success btn-icon-split init-class d-none" id="btn-restore" onclick="btnControl('stat', '1');">
+<!-- 										<span class="icon text-white-50"><i class="fas fa-trash"></i></span> -->
 					         			<span class="text">복구</span>
 					    			</button>
-									<button class="btn btn-danger btn-icon-split init-class d-none" id="btn-del" onclick="btnControl('stat', '0');" disabled>
+									<button class="btn btn-danger btn-icon-split init-class d-none" id="btn-del" onclick="btnControl('stat', '0');">
+<!-- 										<span class="icon text-white-50"><i class="fas fa-trash"></i></span> -->
 					         			<span class="text">삭제</span>
 					    			</button>
-									<button class="btn btn-danger btn-icon-split init-class d-none" id="btn-delPermnt" onclick="btnControl('stat', '9');" disabled>
+									<button class="btn btn-danger btn-icon-split init-class d-none" id="btn-delPermnt" onclick="btnControl('stat', '9');">
+<!-- 										<span class="icon text-white-50"><i class="fas fa-trash"></i></span> -->
 				         				<span class="text">영구삭제</span>
 				    				</button>
 			    				</div>
