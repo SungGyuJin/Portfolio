@@ -225,13 +225,14 @@
 		$("table tr").removeClass('table-active');
 		$("#tr-"+no).addClass('table-active');
 		
-		$("#frm-typ").val('upd');
-		initBbs('click');
+// 		initBbs('click');
 		$("#btn-new").prop("disabled", false);
 		$("#btn-text-span").html('수정완료');
 		
+		return false;
+		
 		$.ajax({
-			url      : contextPath+"getBbs.do",
+			url      : contextPath+"getUser.do",
 			method   : "GET",
 			data     : {"no" : no},
 			dataType : "json",
@@ -257,11 +258,6 @@
 					}
 				}
 				
-				$("#bbsSeq").val(getBbs.bbsSeq);
-				$("#nm").val(getBbs.nm);
-				$("#expln").val(getBbs.expln);
-				$("#stat").val(getBbs.stat);
-
 				getBbs.replyYn 	== 'Y' ? $("#replyYn").prop('checked',  true) : $("#replyYn").prop('checked',  false);
 				getBbs.comentYn == 'Y' ? $("#comentYn").prop('checked', true) : $("#comentYn").prop('checked', false);
 				getBbs.atchYn 	== 'Y' ? $("#atchYn").prop('checked',   true) : $("#atchYn").prop('checked',   false);
@@ -399,7 +395,7 @@
 										<div class="col-sm-12 col-md-5 text-right">
 											<!-- <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div> -->
 											<div class="input-group w-75 mb-1" style="display: inline-flex; width: auto;">
-									    		<input type="text" class="form-control bg-light border-0 small" name="searchKeyword" placeholder="게시판명을 입력하세요." aria-label="Search" aria-describedby="basic-addon2" autocomplete="off" value="${userVO.searchKeyword }">
+									    		<input type="text" class="form-control bg-light border-0 small" name="searchKeyword" placeholder="사용자명을 입력하세요." aria-label="Search" aria-describedby="basic-addon2" autocomplete="off" value="${userVO.searchKeyword }">
 									    		<div class="input-group-append">
 											        <button type="submit" class="btn btn-primary" type="button">
 											            <i class="fas fa-search"></i>
@@ -420,27 +416,26 @@
 			    <div class="card shadow mb-4">
 			        	<!-- Card Header - Dropdown -->
 						<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-						    <h5 class="m-0 font-weight-bold text-primary">게시판 <span id="ttl-typ">등록</span></h5>
-						    <button class="btn btn-primary btn-icon-split" id="btn-new">
-						        <span class="text">신규등록</span>
+						    <h5 class="m-0 font-weight-bold text-primary">사용자 정보</h5>
+						    <button class="btn btn-primary btn-icon-split invisible" id="btn-new">
+						        <span class="text">사용자 정보</span>
 						   	</button>
 						</div>
 						<!-- .card-body START -->
 	                    <div class="card-body">
-	                   		<form class="user" id="frm-addBbs">
+	                   		<form class="user" id="frm-user">
 	                   			<input type="hidden" name="stat" id="stat" value="1" readonly="readonly"/>
 	                    		<input type="hidden" name="bbsSeq" id="bbsSeq" value="0" readonly="readonly" />
 	                      		<div class="form-group">
-	                      			<label for="bbs-title"><strong>게시판명</strong></label>
-	                          		<input type="email" class="form-control form-control-user init-class" name="nm" id="nm" placeholder="게시판명" autocomplete="off">
+	                      			<label for="bbs-title"><strong>이름</strong></label>
+	                          		<input type="email" class="form-control form-control-user init-class" name="nm" id="nm" placeholder="" autocomplete="off">
 	                      		</div>
 	                    		<div class="form-group">
-		                      		<label for="bbs-title"><strong>설명</strong></label>
-		                         	<input type="email" class="form-control form-control-user init-class" name="expln" id="expln" placeholder="설명" autocomplete="off">
+		                      		<label for="bbs-title"><strong>ID</strong></label>
+		                         	<input type="email" class="form-control form-control-user init-class" name="expln" id="expln" placeholder="" autocomplete="off">
 	                      		</div>
 	                      		<hr>
-<!-- 	                      		<small class="text-danger"><strong>*게시판 옵션을 선택하세요.</strong></small> -->
-	                      		<small class="text-danger">* 게시판 옵션을 선택하세요.</small>
+	                      		<!-- <small class="text-danger">* 게시판 옵션을 선택하세요.</small>
 				             	<div class="form-group row mt-2">
 									<div class="col-sm-6 mb-3 mb-sm-0">
 										<label class="toggle-wrapper">
@@ -456,7 +451,7 @@
 										  <span class="tiny-slider"></span>
 										</label>
 									</div>
-								</div>
+								</div> -->
 			                      
 		                      	<div class="form-group row">
 									<div class="col-sm-6 mb-3 mb-sm-0">
