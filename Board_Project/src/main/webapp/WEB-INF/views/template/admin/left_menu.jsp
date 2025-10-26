@@ -19,7 +19,12 @@
     <li class="nav-item active">
         <a class="nav-link" href="${pageContext.request.contextPath}/main.do">
             <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Home</span></a>
+            <span>Home</span>
+        </a>
+        <%-- <a class="nav-link" href="${pageContext.request.contextPath}/main.do">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>메인화면 관리</span>
+        </a> --%>
     </li>
 
     <!-- Divider -->

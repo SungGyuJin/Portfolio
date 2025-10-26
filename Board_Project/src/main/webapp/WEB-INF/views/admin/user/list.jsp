@@ -220,49 +220,29 @@
 	}
 	
 	// 게시만 조회
-	function getUser(no){
+	function getUser(no, str){
 
 		$("table tr").removeClass('table-active');
 		$("#tr-"+no).addClass('table-active');
 		
 // 		initBbs('click');
 		$("#btn-new").prop("disabled", false);
-		$("#btn-text-span").html('수정완료');
-		
-		return false;
 		
 		$.ajax({
 			url      : contextPath+"getUser.do",
 			method   : "GET",
-			data     : {"no" : no},
+			data     : {"userId" : str},
 			dataType : "json",
 			success  : function(res){
 				
-				var getBbs = res.getBbs;
+				console.log(res)
 				
-				$("#temp-stat").val(getBbs.stat);
+				var getUser = res.getUser;
 
-				// 버튼변화
-				if(getBbs.stat == '1'){
-					$("#btn-del").removeClass('d-none');	// 삭제버튼 추가
-					$("#btn-restore").addClass('d-none');	// 복구버튼 제거
-					$("#btn-delPermnt").addClass('d-none');	// 영구삭제버튼 제거
-				}else{
-					
-					if(getBbs.stat == '0'){
-						$("#btn-del").addClass('d-none');			// 삭제버튼 삭제
-						$("#btn-restore").removeClass('d-none');	// 복구버튼 추가
-						$("#btn-delPermnt").removeClass('d-none');	// 영구삭제버튼 추가
-					}else{
-						
-					}
-				}
-				
-				getBbs.replyYn 	== 'Y' ? $("#replyYn").prop('checked',  true) : $("#replyYn").prop('checked',  false);
-				getBbs.comentYn == 'Y' ? $("#comentYn").prop('checked', true) : $("#comentYn").prop('checked', false);
-				getBbs.atchYn 	== 'Y' ? $("#atchYn").prop('checked',   true) : $("#atchYn").prop('checked',   false);
-				getBbs.secrtYn 	== 'Y' ? $("#secrtYn").prop('checked',  true) : $("#secrtYn").prop('checked',  false);
-					
+				$("#uNo").val(getUser.userSeq);
+				$("#nm").val(getUser.userNm);
+				$("#uId").val(getUser.userId);
+				$("#stat").val(getUser.stat);
 				
 			},
 			error : function(request, status, error){
@@ -342,7 +322,7 @@
 												</thead>
 												<tbody>
 													<c:forEach var="list" varStatus="varStatus" items="${getUserList }">
-													<tr class="text-center sorting" onclick="getUser(${list.userSeq});" id="tr-${list.userSeq }">
+													<tr class="text-center sorting" onclick="getUser(${list.userSeq}, '${list.userId}');" id="tr-${list.userSeq }">
 														<td class="sorting_1" id="nm-${list.userSeq }" aria-label="${list.userSeq }">${list.userNm }</td>
 														<td>${list.userId }</td>
 														<td>${list.userId }</td>
@@ -424,15 +404,15 @@
 						<!-- .card-body START -->
 	                    <div class="card-body">
 	                   		<form class="user" id="frm-user">
-	                   			<input type="hidden" name="stat" id="stat" value="1" readonly="readonly"/>
-	                    		<input type="hidden" name="bbsSeq" id="bbsSeq" value="0" readonly="readonly" />
+	                   			<input type="hidden" name="stat" id="stat" value="1" readonly="readonly" />
+	                    		<input type="hidden" name="userSeq" id="uNo" value="0" readonly="readonly" />
 	                      		<div class="form-group">
-	                      			<label for="bbs-title"><strong>이름</strong></label>
-	                          		<input type="email" class="form-control form-control-user init-class" name="nm" id="nm" placeholder="" autocomplete="off">
+	                      			<label for="nm"><strong>이름</strong></label>
+	                          		<input type="text" class="form-control form-control-user init-class" id="nm" />
 	                      		</div>
 	                    		<div class="form-group">
-		                      		<label for="bbs-title"><strong>ID</strong></label>
-		                         	<input type="email" class="form-control form-control-user init-class" name="expln" id="expln" placeholder="" autocomplete="off">
+		                      		<label for="uId"><strong>ID</strong></label>
+		                         	<input type="text" class="form-control form-control-user init-class" id="uId" />
 	                      		</div>
 	                      		<hr>
 	                      		<!-- <small class="text-danger">* 게시판 옵션을 선택하세요.</small>
@@ -456,14 +436,14 @@
 		                      	<div class="form-group row">
 									<div class="col-sm-6 mb-3 mb-sm-0">
 										<label class="toggle-wrapper">
-										  	<strong>댓글</strong>
+										  	<strong>글쓰기 금지</strong>
 										  	<input type="checkbox" class="tiny-toggle init-class" id="comentYn" name="comentYn" value="Y" />
 										  	<span class="tiny-slider"></span>
 										</label>
 									</div>
 									<div class="col-sm-6 mb-3 mb-sm-0">
 										<label class="toggle-wrapper">
-											<strong>비밀&nbsp;글</strong>
+											<strong>댓글쓰기 금지</strong>
 											<input type="checkbox" class="tiny-toggle init-class" id="secrtYn" name="secrtYn" value="Y" />
 											<span class="tiny-slider"></span>
 										</label>
@@ -478,7 +458,7 @@
 <!-- 										<button class="btn btn-primary btn-icon-split init-class" id="btn-save" onclick="bbsPostFlag();"> -->
 										<button class="btn btn-primary btn-icon-split init-class" id="btn-save" onclick="btnControl('add');">
 <!-- 										    <span class="icon text-white-50"><i class="fas fa-check"></i></span> -->
-									    	<span class="text" id="btn-text-span">등록완료</span>
+									    	<span class="text" id="btn-text-span">저장</span>
 										</button>
 <!-- 										<button class="btn btn-secondary btn-icon-split init-class" id="btn-reset" onclick="btnReset();"> -->
 										<button class="btn btn-secondary btn-icon-split init-class" id="btn-reset" onclick="btnControl('reset');">

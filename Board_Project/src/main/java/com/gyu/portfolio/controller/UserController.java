@@ -1,5 +1,6 @@
 package com.gyu.portfolio.controller;
 
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -61,10 +62,28 @@ public class UserController {
 			HttpServletRequest request,
 			HttpServletResponse response) throws Exception{
 
+		/* request 정보확인 START */
+		System.out.println();
+		System.out.println("++++++++++++++++++++++++++++++");
+		System.out.println("============ /getUser.do INFO  ===========");
+		Enumeration params = request.getParameterNames();
+		while(params.hasMoreElements()) {
+			String name= (String) params.nextElement();
+			System.out.println(name + ": " + request.getParameter(name));
+		}
+		System.out.println("++++++++++++++++++++++++++++++");
+		System.out.println();
+		/* request 정보확인 END */
+		
 	    Map<String, Object> resultMap = new HashMap<>();
 	    
+	    UserVO getUser = null;
+	    getUser = userService.getUser(userVO);
+	    
+	    resultMap.put("getUser", getUser);
+	    
 		model.clear();
-//		model.addAttribute("resultMap", resultMap);
+		model.addAttribute("getUser", resultMap);
 		
 		return resultMap;
 	}
