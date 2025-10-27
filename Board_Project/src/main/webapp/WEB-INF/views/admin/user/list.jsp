@@ -8,55 +8,29 @@
 
 	$(function(){
 		
-		initBbs('init');
-		
-		// 신규등록 버튼
-		$("#btn-new").on('click', function(){
-			$("#frm-typ").val('add');
-			initBbs('click');
-			$("#btn-new").prop("disabled", true);
-			$("#bbsSeq").val('0');
-			$("#btn-text-span").html('등록완료');
+		$(".tiny-toggle").on('click', function(){
+
+			if($(this).attr('id') == 'acntBan'){
+				if($("#acntBan").prop('checked')){
+					$("#writeBan").prop('checked', false);
+					$("#cmntBan").prop('checked', false);
+				}
+			}else{
+				if($("#writeBan").prop('checked') || $("#cmntBan").prop('checked')){
+					$("#acntBan").prop('checked', false);
+				}
+			}
 			
-			// 버튼삭제
-			$("#btn-restore").addClass('d-none');	// 복구버튼
-			$("#btn-del").addClass('d-none');		// 삭제버튼
-			$("#btn-delPermnt").addClass('d-none');	// 영구삭제 버튼
 		});
-		
-		$(".btn-list").on('click', function(){
-			location.href = 'list.do?listTyp='+$(this).val();
-		});
-		
-		if($("#listTyp").val() == 'list'){
-			$("#bbs-ttl").html('게시판 목록');
-			$("#btn-list").prop('disabled', true);
-			$("#btn-trash").prop('disabled', false);
-		}else{
-			$("#bbs-ttl").html('휴지통');
-			$("#btn-list").prop('disabled', false);
-			$("#btn-trash").prop('disabled', true);
-		}
 		
 	});
 	
 	// 버튼제어
 	function btnControl(e, num){
-		if(e == 'add'){
-			btnRegister();
-		}else if(e == 'reset'){
-			btnReset();
+		if(e == 'save'){
+			userSave();
 		}else{
 			changeStat_1(num);
-		}
-	}
-
-	// 게시판 등록&수정
-	function btnRegister(){
-		if($("#frm-typ").val() == 'add'){
-			addBbs();
-		}else{
-			updateBbs();
 		}
 	}
 	
@@ -152,13 +126,26 @@
 		}
 	}
 	
-	// 게시판 등록
-	function addBbs(){
+	// 사용자 권한 저장
+	function userSave(){
+		
+		if($("#acntBan").prop('checked')){
+			$("#stat").val('8'); // 계정금지
+		}else if($("#writeBan").prop('checked') && !$("#cmntBan").prop('checked')){
+			$("#stat").val('2'); // 글쓰기만 금지
+		}else if(!$("#writeBan").prop('checked') && $("#cmntBan").prop('checked')){
+			$("#stat").val('3'); // 댓글만 금지
+		}else if($("#writeBan").prop('checked') && $("#cmntBan").prop('checked')){
+			$("#stat").val('4'); // 글쓰기, 댓글 모두금지
+		}
+		
+		
+		return false;
 		
 		$.ajax({
 			url      : contextPath+"addBbs.do",
 			method   : "POST",
-			data     : $("#frm-addBbs").serialize(),
+			data     : $("#frm-user").serialize(),
 			dataType : "json",
 			success  : function(res){
 				
@@ -310,14 +297,18 @@
 													<col width="15%">	<!-- 이름 	-->
 													<col width="15%"> 	<!-- ID 	-->
 													<col width="15%"> 	<!-- 프로필 	-->
-													<col width="15%"> 	<!-- 상태    	-->
+													<col width="10%"> 	<!-- 상태    	-->
+													<col width="10%"> 	<!-- 상태    	-->
+													<col width="10%"> 	<!-- 상태    	-->
 												</colgroup>
 												<thead>
 												    <tr role="row">
 												    	<th class="sorting sorting_asc text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 154px;">이름</th>
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">ID</th>
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">프로필 이미지</th>
-														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">상태</th>
+														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">계정</th>
+														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">글쓰기</th>
+														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">댓글</th>
 												    </tr>
 												</thead>
 												<tbody>
@@ -329,10 +320,30 @@
 														<td>
 															<c:choose>
 																<c:when test="${list.stat eq 1 }">
-																	<strong class="ms-3"><span class="text-primary">사용중</span></strong>
+																	<strong class="ms-3"><span class="text-primary">사용가능</span></strong>
 																</c:when>
 																<c:otherwise>
-																	<strong class="ms-3"><span class="text-danger">삭제됨</span></strong>
+																	<strong class="ms-3"><span class="text-danger">금지</span></strong>
+																</c:otherwise>
+															</c:choose>
+														</td>
+														<td>
+															<c:choose>
+																<c:when test="${list.stat eq 1 }">
+																	<strong class="ms-3"><span class="text-primary">사용가능</span></strong>
+																</c:when>
+																<c:otherwise>
+																	<strong class="ms-3"><span class="text-danger">금지</span></strong>
+																</c:otherwise>
+															</c:choose>
+														</td>
+														<td>
+															<c:choose>
+																<c:when test="${list.stat eq 1 }">
+																	<strong class="ms-3"><span class="text-primary">사용가능</span></strong>
+																</c:when>
+																<c:otherwise>
+																	<strong class="ms-3"><span class="text-danger">금지</span></strong>
 																</c:otherwise>
 															</c:choose>
 													    </td>
@@ -340,7 +351,7 @@
 													</c:forEach>
 													<c:if test="${empty getUserList }">
 													<tr class="text-center">
-														<td colspan="5">
+														<td colspan="6">
 															<c:if test="${userVO.listTyp eq 'list' }"><strong class="text-lg"><br>등록된 사용자가 없습니다.<br><br></strong></c:if>
 															<c:if test="${userVO.listTyp eq 'trash' }"><strong class="text-lg"><br>탈퇴한 사용자가 없습니다.<br><br></strong></c:if>
 														</td>
@@ -404,22 +415,22 @@
 						<!-- .card-body START -->
 	                    <div class="card-body">
 	                   		<form class="user" id="frm-user">
-	                   			<input type="hidden" name="stat" id="stat" value="1" readonly="readonly" />
+	                   			<input type="text" name="stat" id="stat" value="1" readonly="readonly" />
 	                    		<input type="hidden" name="userSeq" id="uNo" value="0" readonly="readonly" />
 	                      		<div class="form-group">
 	                      			<label for="nm"><strong>이름</strong></label>
-	                          		<input type="text" class="form-control form-control-user init-class" id="nm" />
+	                          		<input type="text" class="form-control form-control-user init-class" id="nm" disabled />
 	                      		</div>
 	                    		<div class="form-group">
 		                      		<label for="uId"><strong>ID</strong></label>
-		                         	<input type="text" class="form-control form-control-user init-class" id="uId" />
+		                         	<input type="text" class="form-control form-control-user init-class" id="uId" disabled />
 	                      		</div>
 	                      		<hr>
 	                      		<!-- <small class="text-danger">* 게시판 옵션을 선택하세요.</small>
 				             	<div class="form-group row mt-2">
 									<div class="col-sm-6 mb-3 mb-sm-0">
 										<label class="toggle-wrapper">
-											<strong>답글</strong>
+											<strong>계정정지</strong>
 										  	<input type="checkbox" class="tiny-toggle init-class" id="replyYn" name="replyYn" value="Y" />
 									  		<span class="tiny-slider"></span>
 										</label>
@@ -434,17 +445,24 @@
 								</div> -->
 			                      
 		                      	<div class="form-group row">
-									<div class="col-sm-6 mb-3 mb-sm-0">
+									<div class="col-sm-4 mb-3 mb-sm-0">
 										<label class="toggle-wrapper">
-										  	<strong>글쓰기 금지</strong>
-										  	<input type="checkbox" class="tiny-toggle init-class" id="comentYn" name="comentYn" value="Y" />
+										  	<strong class="text-danger">계정사용 금지</strong>
+										  	<input type="checkbox" class="tiny-toggle init-class" id="acntBan" value="Y" />
 										  	<span class="tiny-slider"></span>
 										</label>
 									</div>
-									<div class="col-sm-6 mb-3 mb-sm-0">
+									<div class="col-sm-4 mb-3 mb-sm-0">
+										<label class="toggle-wrapper">
+										  	<strong>글쓰기 금지</strong>
+										  	<input type="checkbox" class="tiny-toggle init-class" id="writeBan" value="Y" />
+										  	<span class="tiny-slider"></span>
+										</label>
+									</div>
+									<div class="col-sm-4 mb-3 mb-sm-0">
 										<label class="toggle-wrapper">
 											<strong>댓글쓰기 금지</strong>
-											<input type="checkbox" class="tiny-toggle init-class" id="secrtYn" name="secrtYn" value="Y" />
+											<input type="checkbox" class="tiny-toggle init-class" id="cmntBan" value="Y" />
 											<span class="tiny-slider"></span>
 										</label>
 			                        </div>
@@ -456,7 +474,7 @@
 								<div>
 									<div id="btn-divTag1">
 <!-- 										<button class="btn btn-primary btn-icon-split init-class" id="btn-save" onclick="bbsPostFlag();"> -->
-										<button class="btn btn-primary btn-icon-split init-class" id="btn-save" onclick="btnControl('add');">
+										<button class="btn btn-primary btn-icon-split init-class" id="btn-save" onclick="btnControl('save');">
 <!-- 										    <span class="icon text-white-50"><i class="fas fa-check"></i></span> -->
 									    	<span class="text" id="btn-text-span">저장</span>
 										</button>
