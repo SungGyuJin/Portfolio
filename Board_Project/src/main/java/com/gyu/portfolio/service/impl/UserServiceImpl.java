@@ -118,5 +118,10 @@ public class UserServiceImpl implements UserService{
 		
 		return resultMap;
 	}
+
+	@Override
+	public int updateUserAdmin(UserVO userVO) throws Exception {
+		return userMapper.updateUserAdmin(userVO);
+	}
 	
 }

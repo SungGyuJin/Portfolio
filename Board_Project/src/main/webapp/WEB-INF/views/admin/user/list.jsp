@@ -106,26 +106,6 @@
 		});
 	}
 	
-	// 게시판 form 옵션변화 (ex.초기화면 세팅)
-	function initBbs(e){
-		if(e == 'init'){
-			$(".init-class").prop("disabled", true);
-		}else{
-			if($("#frm-typ").val() == 'add'){
-				$("#nm").val('');
-				$("#expln").val('');
-				$("#ttl-typ").html('등록');
-				$(".init-class").prop("disabled", false);
-				$(".init-class").prop("checked", false);
-			}else{
-// 				$("#ttl-typ").html('수정 / <span class="text-success">복구</span> / <span class="text-danger">삭제</span>');
-				$("#ttl-typ").html('수정');
-				$(".init-class").prop("disabled", false);
-			}
-			$("#nm").focus();
-		}
-	}
-	
 	// 사용자 권한 저장
 	function userSave(){
 		
@@ -136,14 +116,13 @@
 		}else if(!$("#writeBan").prop('checked') && $("#cmntBan").prop('checked')){
 			$("#stat").val('3'); // 댓글만 금지
 		}else if($("#writeBan").prop('checked') && $("#cmntBan").prop('checked')){
-			$("#stat").val('4'); // 글쓰기, 댓글 모두금지
+			$("#stat").val('4'); // 글쓰기, 댓글 모두 금지
+		}else if(!$("#writeBan").prop('checked') && !$("#cmntBan").prop('checked')){
+			$("#stat").val('1'); // 글쓰기, 댓글 모두 사용가능
 		}
 		
-		
-		return false;
-		
 		$.ajax({
-			url      : contextPath+"addBbs.do",
+			url      : contextPath+"updateUserAdmin.do",
 			method   : "POST",
 			data     : $("#frm-user").serialize(),
 			dataType : "json",
@@ -152,7 +131,7 @@
 				if(res > 0){
 					Swal.fire({
 						icon: "success",
-						title: "등록완료"
+						title: "수정완료"
 					}).then(function(){
 						location.href = 'list.do';
 					});
@@ -206,14 +185,15 @@
 		});
 	}
 	
+	
+	
 	// 게시만 조회
 	function getUser(no, str){
 
 		$("table tr").removeClass('table-active');
 		$("#tr-"+no).addClass('table-active');
-		
-// 		initBbs('click');
-		$("#btn-new").prop("disabled", false);
+
+		$(".init-class").prop("disabled", false);
 		
 		$.ajax({
 			url      : contextPath+"getUser.do",
@@ -415,15 +395,15 @@
 						<!-- .card-body START -->
 	                    <div class="card-body">
 	                   		<form class="user" id="frm-user">
-	                   			<input type="text" name="stat" id="stat" value="1" readonly="readonly" />
-	                    		<input type="hidden" name="userSeq" id="uNo" value="0" readonly="readonly" />
+	                   			<input type="text" name="stat" id="stat" readonly="readonly" />
+	                    		<input type="text" name="userSeq" id="uNo" readonly="readonly" />
 	                      		<div class="form-group">
 	                      			<label for="nm"><strong>이름</strong></label>
-	                          		<input type="text" class="form-control form-control-user init-class" id="nm" disabled />
+	                          		<input type="text" class="form-control form-control-user" id="nm" disabled />
 	                      		</div>
 	                    		<div class="form-group">
 		                      		<label for="uId"><strong>ID</strong></label>
-		                         	<input type="text" class="form-control form-control-user init-class" id="uId" disabled />
+		                         	<input type="text" class="form-control form-control-user" name="userId" id="uId" readonly="readonly" />
 	                      		</div>
 	                      		<hr>
 	                      		<!-- <small class="text-danger">* 게시판 옵션을 선택하세요.</small>
@@ -448,21 +428,21 @@
 									<div class="col-sm-4 mb-3 mb-sm-0">
 										<label class="toggle-wrapper">
 										  	<strong class="text-danger">계정사용 금지</strong>
-										  	<input type="checkbox" class="tiny-toggle init-class" id="acntBan" value="Y" />
+										  	<input type="checkbox" class="tiny-toggle init-class" id="acntBan" value="Y" disabled />
 										  	<span class="tiny-slider"></span>
 										</label>
 									</div>
 									<div class="col-sm-4 mb-3 mb-sm-0">
 										<label class="toggle-wrapper">
 										  	<strong>글쓰기 금지</strong>
-										  	<input type="checkbox" class="tiny-toggle init-class" id="writeBan" value="Y" />
+										  	<input type="checkbox" class="tiny-toggle init-class" id="writeBan" value="Y" disabled />
 										  	<span class="tiny-slider"></span>
 										</label>
 									</div>
 									<div class="col-sm-4 mb-3 mb-sm-0">
 										<label class="toggle-wrapper">
 											<strong>댓글쓰기 금지</strong>
-											<input type="checkbox" class="tiny-toggle init-class" id="cmntBan" value="Y" />
+											<input type="checkbox" class="tiny-toggle init-class" id="cmntBan" value="Y" disabled />
 											<span class="tiny-slider"></span>
 										</label>
 			                        </div>
@@ -474,12 +454,12 @@
 								<div>
 									<div id="btn-divTag1">
 <!-- 										<button class="btn btn-primary btn-icon-split init-class" id="btn-save" onclick="bbsPostFlag();"> -->
-										<button class="btn btn-primary btn-icon-split init-class" id="btn-save" onclick="btnControl('save');">
+										<button class="btn btn-primary btn-icon-split init-class" id="btn-save" onclick="btnControl('save');" disabled>
 <!-- 										    <span class="icon text-white-50"><i class="fas fa-check"></i></span> -->
 									    	<span class="text" id="btn-text-span">저장</span>
 										</button>
 <!-- 										<button class="btn btn-secondary btn-icon-split init-class" id="btn-reset" onclick="btnReset();"> -->
-										<button class="btn btn-secondary btn-icon-split init-class" id="btn-reset" onclick="btnControl('reset');">
+										<button class="btn btn-secondary btn-icon-split init-class" id="btn-reset" onclick="btnControl('reset');" disabled>
 <!-- 											<span class="icon text-white-50"><i class="fas fa-arrow-left"></i></span> -->
 						         			<span class="text">취소</span>
 						    			</button>

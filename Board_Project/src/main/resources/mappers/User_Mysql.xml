@@ -90,7 +90,7 @@
 		)
 	</insert>
 	
-	<!-- 사용자 수정 -->
+	<!-- 사용자 수정(사용자 화면) -->
 	<update id="updateUser">
 		UPDATE
 			TB_USER
@@ -101,6 +101,18 @@
 		</if>
 		WHERE 1=1
 			AND USER_SEQ = #{userSeq}
+	</update>
+	
+	
+	<!-- 사용자 권한정보 수정(관리자 화면) -->
+	<update id="updateUserAdmin">
+		UPDATE
+			TB_USER
+		SET
+			STAT = #{stat}
+		WHERE 1=1
+			AND USER_SEQ = #{userSeq}
+			AND USER_ID = #{userId}
 	</update>
 	
 </mapper>

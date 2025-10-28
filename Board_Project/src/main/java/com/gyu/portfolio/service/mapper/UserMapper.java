@@ -12,6 +12,9 @@ public interface UserMapper {
 	// 사용자 수정
 	int updateUser(UserVO userVO) throws Exception;
 
+	// 사용자 권한정보 수정(관리자)
+	int updateUserAdmin(UserVO userVO) throws Exception;
+
 	// 사용자 목록
 	List<UserVO> getUserList(UserVO userVO) throws Exception;
 

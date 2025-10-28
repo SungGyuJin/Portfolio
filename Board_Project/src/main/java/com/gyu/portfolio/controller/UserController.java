@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.gyu.portfolio.model.BoardVO;
 import com.gyu.portfolio.model.UserVO;
 import com.gyu.portfolio.service.UserService;
 
@@ -87,5 +88,20 @@ public class UserController {
 		
 		return resultMap;
 	}
+
+	/* 사용자 권한 수정(관리자) */
+	@PostMapping("/updateUserAdmin.do")
+	@ResponseBody
+	public int changeStat(ModelMap model,
+			@ModelAttribute("UserVO") UserVO userVO,
+			HttpServletRequest request,
+			HttpServletResponse response,
+			HttpSession session) throws Exception{
+		
+		int result = userService.updateUserAdmin(userVO);
+
+		return result;
+	}
+	
 	
 }

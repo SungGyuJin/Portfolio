@@ -13,6 +13,9 @@ public interface UserService {
 
 	// 사용자 수정
 	int updateUser(UserVO userVO, AttachVO attachVO) throws Exception;
+	
+	// 사용자 권한정보 수정(관리자)
+	int updateUserAdmin(UserVO userVO) throws Exception;
 
 	// 사용자 목록
 	Map<String, Object> getUserList(UserVO userVO) throws Exception;
