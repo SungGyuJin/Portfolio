@@ -211,6 +211,33 @@
 				$("#uId").val(getUser.userId);
 				$("#stat").val(getUser.stat);
 				
+				if(getUser.stat == 8){
+					$("#stat").val('8');
+					$("#acntBan").prop('checked', true);
+					$("#writeBan").prop('checked', false);
+					$("#cmntBan").prop('checked', false);
+				}else if(getUser.stat == 2){
+					$("#stat").val('2');
+					$("#acntBan").prop('checked', false);
+					$("#writeBan").prop('checked', true);
+					$("#cmntBan").prop('checked', false);
+				}else if(getUser.stat == 3){
+					$("#stat").val('3');
+					$("#acntBan").prop('checked', false);
+					$("#writeBan").prop('checked', false);
+					$("#cmntBan").prop('checked', true);
+				}else if(getUser.stat == 4){
+					$("#stat").val('4');
+					$("#acntBan").prop('checked', false);
+					$("#writeBan").prop('checked', true);
+					$("#cmntBan").prop('checked', true);
+				}else if(getUser.stat == 1){
+					$("#stat").val('1');
+					$("#acntBan").prop('checked', false);
+					$("#writeBan").prop('checked', false);
+					$("#cmntBan").prop('checked', false);
+				}
+				
 			},
 			error : function(request, status, error){
 				Swal.fire({
@@ -299,31 +326,31 @@
 														<td>${list.userId }</td>
 														<td>
 															<c:choose>
-																<c:when test="${list.stat eq 1 }">
-																	<strong class="ms-3"><span class="text-primary">사용가능</span></strong>
+																<c:when test="${list.stat eq 8 }">
+																	<strong class="ms-3"><span class="text-danger">금지</span></strong>
 																</c:when>
 																<c:otherwise>
-																	<strong class="ms-3"><span class="text-danger">금지</span></strong>
+																	<strong class="ms-3"><span class="text-primary">사용가능</span></strong>
 																</c:otherwise>
 															</c:choose>
 														</td>
 														<td>
 															<c:choose>
-																<c:when test="${list.stat eq 1 }">
-																	<strong class="ms-3"><span class="text-primary">사용가능</span></strong>
+																<c:when test="${list.stat eq 2 || list.stat eq 4 }">
+																	<strong class="ms-3"><span class="text-danger">금지</span></strong>
 																</c:when>
 																<c:otherwise>
-																	<strong class="ms-3"><span class="text-danger">금지</span></strong>
+																	<strong class="ms-3"><span class="text-primary">사용가능</span></strong>
 																</c:otherwise>
 															</c:choose>
 														</td>
 														<td>
 															<c:choose>
-																<c:when test="${list.stat eq 1 }">
-																	<strong class="ms-3"><span class="text-primary">사용가능</span></strong>
+																<c:when test="${list.stat eq 3 || list.stat eq 4 }">
+																	<strong class="ms-3"><span class="text-danger">금지</span></strong>
 																</c:when>
 																<c:otherwise>
-																	<strong class="ms-3"><span class="text-danger">금지</span></strong>
+																	<strong class="ms-3"><span class="text-primary">사용가능</span></strong>
 																</c:otherwise>
 															</c:choose>
 													    </td>
