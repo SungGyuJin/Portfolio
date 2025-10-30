@@ -20,6 +20,11 @@
 
 $(function(){
 	
+	if($("#ustat").val() == 8){
+		alert('계정사용이 금지되었습니다. 로그인 화면으로 이동합니다.');
+		location.href = contextPath+'logout.do';
+	}
+	
 	getUserInfo($("#uno").val(), 'refresh');
 	
 	$("#btn-addProfile").on('click', function(){

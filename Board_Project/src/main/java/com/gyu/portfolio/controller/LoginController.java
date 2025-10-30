@@ -13,13 +13,13 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.gyu.portfolio.model.UserVO;
 import com.gyu.portfolio.service.UserService;
+
 
 @Controller
 //@RequestMapping(value="/account")
@@ -67,8 +67,6 @@ public class LoginController {
 				mav.addObject("errorMsgEng", "Password does not match.");
 			}else {
 
-				System.out.println("else");
-				
 //				if(vo.getUserSe().equals("A")) {
 //					System.out.println("AAA");
 //					processLogin(request, vo);
@@ -84,9 +82,9 @@ public class LoginController {
 
 //				mav.addObject("loginChk", request.getParameter("loginChk"));
 //				mav.addObject("errorCode", "0000");
+				
 				processLogin(request, vo);
 				response.sendRedirect("/main.do");
-				
 				
 			}
 		}
@@ -102,6 +100,7 @@ public class LoginController {
 		session.setAttribute("USERID", rs.getUserId());
 		session.setAttribute("USERNM", rs.getUserNm());
 		session.setAttribute("USERSE", rs.getUserSe());
+		session.setAttribute("USERSTAT", rs.getStat());
 		
 //		if(rs.getUserSe().equals("U")) {
 			session.setAttribute("loginChk", request.getParameter("loginChk"));
@@ -118,9 +117,9 @@ public class LoginController {
 		
 		String returnVal = "redirect:login.do";
 		
-		if(session.getAttribute("USERSE").equals("A") || session.getAttribute("USERSE").equals("U")) {
-			returnVal = "redirect:/main.do";
-		}
+//		if(session.getAttribute("USERSE").equals("A") || session.getAttribute("USERSE").equals("U")) {
+//			returnVal = "redirect:/main.do";
+//		}
 		
 		session.removeAttribute("USERSEQ");
 		session.removeAttribute("USERID");

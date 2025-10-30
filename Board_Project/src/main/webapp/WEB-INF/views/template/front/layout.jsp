@@ -495,6 +495,7 @@ img.blocking-hover {
 <body id="page-top">
 <input type="hidden" id="uno" value="${sessionScope.USERSEQ }"> 
 <input type="hidden" id="unm" value="${sessionScope.USERNM }"> 
+<input type="hidden" id="ustat" value="${sessionScope.USERSTAT }"> 
 
 	<page:applyDecorator name="headerFront" />
 		<decorator:body />

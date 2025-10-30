@@ -339,6 +339,9 @@
 																<c:when test="${list.stat eq 2 || list.stat eq 4 }">
 																	<strong class="ms-3"><span class="text-danger">금지</span></strong>
 																</c:when>
+																<c:when test="${list.stat eq 8 }">
+																	<strong class="ms-3"><span class="text-danger">-</span></strong>
+																</c:when>
 																<c:otherwise>
 																	<strong class="ms-3"><span class="text-primary">사용가능</span></strong>
 																</c:otherwise>
@@ -348,6 +351,9 @@
 															<c:choose>
 																<c:when test="${list.stat eq 3 || list.stat eq 4 }">
 																	<strong class="ms-3"><span class="text-danger">금지</span></strong>
+																</c:when>
+																<c:when test="${list.stat eq 8 }">
+																	<strong class="ms-3"><span class="text-danger">-</span></strong>
 																</c:when>
 																<c:otherwise>
 																	<strong class="ms-3"><span class="text-primary">사용가능</span></strong>
@@ -422,8 +428,8 @@
 						<!-- .card-body START -->
 	                    <div class="card-body">
 	                   		<form class="user" id="frm-user">
-	                   			<input type="text" name="stat" id="stat" readonly="readonly" />
-	                    		<input type="text" name="userSeq" id="uNo" readonly="readonly" />
+	                   			<input type="hidden" name="stat" id="stat" readonly="readonly" />
+	                    		<input type="hidden" name="userSeq" id="uNo" readonly="readonly" />
 	                      		<div class="form-group">
 	                      			<label for="nm"><strong>이름</strong></label>
 	                          		<input type="text" class="form-control form-control-user" id="nm" disabled />
