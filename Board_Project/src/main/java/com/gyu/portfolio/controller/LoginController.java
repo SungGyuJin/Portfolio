@@ -32,12 +32,16 @@ public class LoginController {
 	@GetMapping(value="/login.do")
 	public ModelAndView loginView(ModelMap model,
 			HttpServletRequest request,
-			HttpServletResponse response 
-			) throws Exception{
+			HttpServletResponse response,
+			HttpSession session) throws Exception{
 		
 		ModelAndView mav = null;
 		mav = new ModelAndView("account/login");
 		
+		if(session.getAttribute("USERSEQ") == null && session.getAttribute("USERID") != null && session.getAttribute("USERNM") != null) {
+			session.removeAttribute("USERNM");
+			mav.addObject("loginMsg", "계정이용이 금지되었습니다.");
+		}
 		
 		return mav;
 	}
@@ -66,26 +70,19 @@ public class LoginController {
 				mav.addObject("errorMsg", "비밀번호가 일치하지 않습니다.");
 				mav.addObject("errorMsgEng", "Password does not match.");
 			}else {
-
-//				if(vo.getUserSe().equals("A")) {
-//					System.out.println("AAA");
-//					processLogin(request, vo);
-//					response.sendRedirect("/main.do");
-//				}else {
-//					System.out.println("UUU");
-//					mav.addObject("loginChk", request.getParameter("loginChk"));
-//					mav.addObject("errorCode", "0000");
-//					processLogin(request, vo);
-//					response.sendRedirect("/main.do");
-//				}
 				
-
-//				mav.addObject("loginChk", request.getParameter("loginChk"));
-//				mav.addObject("errorCode", "0000");
-				
-				processLogin(request, vo);
-				response.sendRedirect("/main.do");
-				
+				if(vo.getStat() == 8) {
+					HttpSession session = request.getSession();
+					session.setAttribute("USERID", vo.getUserId());
+					session.setAttribute("USERNM", vo.getUserNm());
+					session.setAttribute("loginChk", request.getParameter("loginChk"));
+					session.setAttribute("errorCode", "0000");
+					
+					response.sendRedirect("/login.do");
+				}else {
+					processLogin(request, vo);
+					response.sendRedirect("/main.do");
+				}
 			}
 		}
 		
@@ -102,11 +99,8 @@ public class LoginController {
 		session.setAttribute("USERSE", rs.getUserSe());
 		session.setAttribute("USERSTAT", rs.getStat());
 		
-//		if(rs.getUserSe().equals("U")) {
-			session.setAttribute("loginChk", request.getParameter("loginChk"));
-			session.setAttribute("errorCode", "0000");
-//		}
-		
+		session.setAttribute("loginChk", request.getParameter("loginChk"));
+		session.setAttribute("errorCode", "0000");
 	}
 	
 	@GetMapping(value="/logout.do")
@@ -133,7 +127,6 @@ public class LoginController {
 		return returnVal;
 	}
 	
-
 	/* 사용자 생성 화면 */
 	@GetMapping(value="/create.do")
 	public ModelAndView createView(ModelMap model,

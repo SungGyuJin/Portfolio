@@ -2,12 +2,29 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-
-
 <body class="bg-gradient-primary">
 <script>
 
+<c:choose>
+	<c:when test="${errorCode eq '0000' }">
+		<c:if test="${loginChk eq 'Y'}">
+			localStorage.setItem("loginChk", "${sessionScope.USERID }");
+		</c:if>
+		<c:if test="${loginChk ne 'Y'}">
+			localStorage.removeItem("loginChk");
+		</c:if>
+	
+	</c:when>
+</c:choose>
+
+
 $(function(){
+	
+	var loginMsg = '${loginMsg}';
+	
+	if(loginMsg.length > 0){
+		alert(loginMsg)
+	}
 
 	if(localStorage.getItem("loginChk") != null){
 		$("#userId").val(localStorage.getItem("loginChk"));
@@ -16,12 +33,6 @@ $(function(){
 		$("#loginChk").prop("checked", false);
 	}
 	
-	var str = '${sessionScope.USERID}';
-	
-	if(str.length > 0){
-		location.href = '/admin/main.do';
-	}
-
 });
 
 </script>

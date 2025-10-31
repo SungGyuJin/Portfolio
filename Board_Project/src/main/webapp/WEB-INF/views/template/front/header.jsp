@@ -28,7 +28,7 @@
 <!-- 		                 <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li> -->
 
 						<c:choose>
-							<c:when test="${empty sessionScope.USERID }">
+							<c:when test="${empty sessionScope.USERSEQ }">
 		                        <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/login.do">Login</a></li>
 							</c:when>
 							<c:otherwise>
