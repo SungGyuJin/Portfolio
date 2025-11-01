@@ -14,7 +14,6 @@
 		<c:if test="${loginChk ne 'Y'}">
 			localStorage.removeItem("loginChk");
 		</c:if>
-	
 	</c:when>
 </c:choose>
 
@@ -624,6 +623,12 @@ function bbsClick(){
 }
 
 function addBoardModalView(){
+
+	if($("#ustat").val() == '2' || $("#ustat").val() == '4'){
+		alert('글쓰기 기능이 금지되었습니다. 관리자에게 문의하세요.');
+		return false;
+	}
+	
 	var addBoardModal = new bootstrap.Modal($('#addBoardModal')[0], {
 		backdrop: 'static',
 		keyboard: false
@@ -648,6 +653,14 @@ function btnUpdateBoardClose(no, pYn){
 
 function getBoard(no, pYn, stat){
 	
+	if($("#ustat").val() == '3' || $("#ustat").val() == '4'){
+		$("#cmnt-cn").prop('disabled', true);
+		$("#cmnt-cn").prop('placeholder', '댓글(답글) 쓰기가 금지되었습니다. 관리자에게 문의하세요.');
+	}else{
+		$("#cmnt-cn").prop('disabled', false);
+		$("#cmnt-cn").prop('placeholder', '댓글을 남겨보세요.');
+	}
+	
 	$("#fn-area").empty();
 	
 	$("#btn-updateBoard-close").attr('onclick', 'btnUpdateBoardClose(\''+no+'\', \''+pYn+'\');');
@@ -659,8 +672,8 @@ function getBoard(no, pYn, stat){
 		// Bootstrap 모달 인스턴스 생성 및 표시
 		const getBoardModal = new bootstrap.Modal($('#getBoardModal')[0], {
 			backdrop: true,
-			keyboard: true,
-		    focus: false
+			keyboard: true
+// 		    focus: false
 		});
 		getBoardModal.show();
 	
@@ -1659,6 +1672,11 @@ function updateCmnt(cmntSeq, gubun, no){
 // 답글쓰기 클릭시 변화
 function replyCmntView(brdSeq, ref, step, lvl, no){
 
+	if($("#ustat").val() == '3' || $("#ustat").val() == '4'){
+		alert('댓글(답글) 쓰기가 금지되었습니다. 관리자에게 문의하세요.');
+		return false;
+	}
+	
 	$("#frm-addReplyCmnt").remove();
 	
 	let html = '';
@@ -1710,7 +1728,6 @@ function btnAddCmntChange(str){
 }
 
 </script>
-
 	<!-- getBoardList Modal -->
 	<div class="portfolio-modal modal fade" id="getBoardListModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered mx-auto" style="max-width: 100%;">

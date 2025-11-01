@@ -13,13 +13,10 @@
 		<c:if test="${loginChk ne 'Y'}">
 			localStorage.removeItem("loginChk");
 		</c:if>
-	
 	</c:when>
 </c:choose>
 
-
 $(function(){
-	
 	var loginMsg = '${loginMsg}';
 	
 	if(loginMsg.length > 0){
@@ -32,7 +29,6 @@ $(function(){
 	}else{
 		$("#loginChk").prop("checked", false);
 	}
-	
 });
 
 </script>
