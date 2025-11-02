@@ -25,6 +25,17 @@
 		
 	});
 	
+	function formSubmit(typ){
+		
+		if(typ == 'list'){
+			$("#listTyp").val('list');
+		}else{
+			$("#listTyp").val('leave');
+		}
+		
+		$("#frm-search").submit();
+	}
+	
 	// 버튼제어
 	function btnControl(e, num){
 		if(e == 'save'){
@@ -280,10 +291,10 @@
 					            <div class="dropdown-divider"></div>
 					            <a class="dropdown-item" href="#">Something else here</a>
 					        </div>
-	    					<button class="btn btn-primary btn-icon-split btn-list" id="btn-list" title="목록보기" value="list">
+	    					<button class="btn btn-primary btn-icon-split btn-list" id="btn-list" title="목록보기" value="list" onclick="formSubmit('list');" <c:if test="${userVO.listTyp eq 'list'}">disabled</c:if>>
 	    						<span class="text"><i class="fas fa-fw fa-table"></i> 사용자</span>
 			    			</button>
-	    					<button class="btn btn-danger btn-icon-split btn-list" id="btn-trash" title="휴지통" value="trash">
+	    					<button class="btn btn-danger btn-icon-split btn-list" id="btn-trash" title="휴지통" value="trash" onclick="formSubmit('leave');" <c:if test="${userVO.listTyp eq 'leave'}">disabled</c:if>>
 	    						<span class="text"><i class="fas fa-trash"></i> 탈퇴</span>
 			    			</button>
     					</div>
@@ -366,7 +377,7 @@
 													<tr class="text-center">
 														<td colspan="6">
 															<c:if test="${userVO.listTyp eq 'list' }"><strong class="text-lg"><br>등록된 사용자가 없습니다.<br><br></strong></c:if>
-															<c:if test="${userVO.listTyp eq 'trash' }"><strong class="text-lg"><br>탈퇴한 사용자가 없습니다.<br><br></strong></c:if>
+															<c:if test="${userVO.listTyp eq 'leave' }"><strong class="text-lg"><br>탈퇴한 사용자가 없습니다.<br><br></strong></c:if>
 														</td>
 													</tr>
 													</c:if>
@@ -399,7 +410,7 @@
 										<div class="col-sm-12 col-md-5 text-right">
 											<!-- <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div> -->
 											<div class="input-group w-75 mb-1" style="display: inline-flex; width: auto;">
-									    		<input type="text" class="form-control bg-light border-0 small" name="searchKeyword" placeholder="사용자명을 입력하세요." aria-label="Search" aria-describedby="basic-addon2" autocomplete="off" value="${userVO.searchKeyword }">
+									    		<input type="text" class="form-control bg-light border-0 small" name="searchKeyword" placeholder="이름을 입력하세요." aria-label="Search" aria-describedby="basic-addon2" autocomplete="off" value="${userVO.searchKeyword }">
 									    		<div class="input-group-append">
 											        <button type="submit" class="btn btn-primary" type="button">
 											            <i class="fas fa-search"></i>

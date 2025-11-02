@@ -31,6 +31,15 @@
 		FROM TB_USER
 		WHERE 1=1
 			AND USER_SE = 'U'
+			<if test="listTyp.equals('list')">
+				AND STAT > 0
+			</if>
+			<if test="listTyp.equals('leave')">
+				AND STAT = 0
+			</if>
+			<if test="searchKeyword != null and !searchKeyword.equals('')">
+				AND USER_NM LIKE CONCAT('%', #{searchKeyword}, '%')
+			</if>
 		ORDER BY USER_SEQ DESC
 	</select>
 	
@@ -41,6 +50,15 @@
 		FROM TB_USER
 		WHERE 1=1
 			AND USER_SE = 'U'
+			<if test="listTyp.equals('list')">
+				AND STAT > 0
+			</if>
+			<if test="listTyp.equals('leave')">
+				AND STAT = 0
+			</if>
+			<if test="searchKeyword != null and !searchKeyword.equals('')">
+				AND USER_NM LIKE CONCAT('%', #{searchKeyword}, '%')
+			</if>
 	</select>
 	
 	<!-- 사용자 상세조회 -->
