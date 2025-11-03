@@ -47,13 +47,7 @@
 	
 	// 취소버튼
 	function btnReset(){
-		if($("#frm-typ").val() == 'add'){
-			$("#nm").val('');
-			$("#expln").val('');
-			$(".init-class").prop("checked", false);
-		}else{
-			getBbs($("#bbsSeq").val());
-		}
+		getUser();
 	}
 	
 	// 복구, 삭제, 영구삭제 버튼(상태변경)
@@ -203,8 +197,8 @@
 
 		$("table tr").removeClass('table-active');
 		$("#tr-"+no).addClass('table-active');
-
 		$(".init-class").prop("disabled", false);
+		$("#btn-reset").attr('onclick', 'getUser(\''+no+'\', \''+str+'\')');
 		
 		$.ajax({
 			url      : contextPath+"getUser.do",
@@ -212,8 +206,6 @@
 			data     : {"userId" : str},
 			dataType : "json",
 			success  : function(res){
-				
-				console.log(res)
 				
 				var getUser = res.getUser;
 
@@ -497,30 +489,22 @@
 							<div class="d-flex justify-content-between">
 								<div>
 									<div id="btn-divTag1">
-<!-- 										<button class="btn btn-primary btn-icon-split init-class" id="btn-save" onclick="bbsPostFlag();"> -->
 										<button class="btn btn-primary btn-icon-split init-class" id="btn-save" onclick="btnControl('save');" disabled>
-<!-- 										    <span class="icon text-white-50"><i class="fas fa-check"></i></span> -->
 									    	<span class="text" id="btn-text-span">저장</span>
 										</button>
-<!-- 										<button class="btn btn-secondary btn-icon-split init-class" id="btn-reset" onclick="btnReset();"> -->
-										<button class="btn btn-secondary btn-icon-split init-class" id="btn-reset" onclick="btnControl('reset');" disabled>
-<!-- 											<span class="icon text-white-50"><i class="fas fa-arrow-left"></i></span> -->
+										<button class="btn btn-secondary btn-icon-split init-class" id="btn-reset" disabled>
 						         			<span class="text">취소</span>
 						    			</button>
 									</div>
 								</div>
 								<div id="btn-divTag2">
-<!-- 									<button class="btn btn-success btn-icon-split init-class d-none" id="btn-restore" onclick="btnDel(4);"> -->
 									<button class="btn btn-success btn-icon-split init-class d-none" id="btn-restore" onclick="btnControl('stat', '1');">
-<!-- 										<span class="icon text-white-50"><i class="fas fa-trash"></i></span> -->
 					         			<span class="text">복구</span>
 					    			</button>
 									<button class="btn btn-danger btn-icon-split init-class d-none" id="btn-del" onclick="btnControl('stat', '0');">
-<!-- 										<span class="icon text-white-50"><i class="fas fa-trash"></i></span> -->
 					         			<span class="text">삭제</span>
 					    			</button>
 									<button class="btn btn-danger btn-icon-split init-class d-none" id="btn-delPermnt" onclick="btnControl('stat', '9');">
-<!-- 										<span class="icon text-white-50"><i class="fas fa-trash"></i></span> -->
 				         				<span class="text">영구삭제</span>
 				    				</button>
 			    				</div>
