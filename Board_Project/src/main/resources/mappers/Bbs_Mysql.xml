@@ -115,7 +115,7 @@
 			, #{comentYn}
 			, #{atchYn}
 			, #{secrtYn}
-			, (SELECT MAX(SRT_ORD) FROM TB_BBS)
+			, (SELECT MAX(SRT_ORD)+1 FROM (SELECT SRT_ORD FROM TB_BBS) AS TMP)
 			, #{regNo}
 			, NOW()
 			, #{regNo}

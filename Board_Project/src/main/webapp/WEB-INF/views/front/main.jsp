@@ -614,18 +614,20 @@ function cnChk(content) {
 }
 
 // 게시판 클릭
-function bbsClick(){
+function bbsClick(no){
 	if($("#bbsSeq").val() == 0){
 		$("#brd-select").val('');
 	}else{
 		$("#brd-select").val($("#bbsSeq").val());
 	}
+
+	$("#nowBbs").val(no);
 }
 
 function addBoardModalView(){
 
-	if($("#ustat").val() == '2' || $("#ustat").val() == '4'){
-		alert('글쓰기 기능이 금지되었습니다. 관리자에게 문의하세요.');
+	if($("#ustat").val() == '2' || $("#ustat").val() == '4' && $("#nowBbs").val() != '26'){
+		alert('글쓰기 기능이 금지되었습니다. \n문의하기 게시판을 통해 관리자에게 문의하세요.');
 		return false;
 	}
 	
@@ -1728,8 +1730,10 @@ function btnAddCmntChange(str){
 }
 
 </script>
+
 	<!-- getBoardList Modal -->
 	<div class="portfolio-modal modal fade" id="getBoardListModal" tabindex="-1" role="dialog" aria-hidden="true">
+		<input type="text" id="nowBbs" readonly="readonly">
         <div class="modal-dialog modal-dialog-centered mx-auto" style="max-width: 100%;">
 <!--         <div class="modal-dialog modal-dialog-centered mx-auto" style="max-width: 50%;"> -->
 <!--     <div class="modal-dialog modal-dialog-centered"> -->
