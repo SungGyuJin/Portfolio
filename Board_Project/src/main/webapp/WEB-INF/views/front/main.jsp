@@ -955,6 +955,10 @@ function getBoardList(num, style, myPg, card){
 			html += 	'</div>';
 			
 			$("#board-header").html(html);
+
+			console.log(bbsList)
+			console.log(boardList)
+			console.log($("#brd-select").val())
 			
 			if(style == 'L'){
 				
@@ -981,72 +985,147 @@ function getBoardList(num, style, myPg, card){
 				html += 			'<tbody>';
 				
 								if(boardList.length > 0){
+									
+									if($("#brd-select").val() == '26'){
 										
-									for(let i=0; i < boardList.length; i++){
-										
-										if(boardList[i].bbsSeq == 1){
-				html +=						'<tr class="tr-notice">';
-				html +=							'<td class=""><span class="my-notice">공지</span></td>';
-				html +=							'<td class="text-start fw-bolder">';
-				html +=								'<img class="mb-1" src="'+contextPath +'/resources/front/main/assets/img/spk.png" style="max-width: 20px;"/>\u00a0\u00a0';
-				html +=								'<small><a href="javascript:getBoard('+boardList[i].ref+', \''+boardList[i].pwdYn+'\', \''+boardList[i].stat+'\');" class="my-a text-danger"><span class="underline">'+boardList[i].title+'</span></a></small>';
-										}else{
-				html +=						'<tr>';
-											
-											if(boardList[i].stat == 5){
-				html +=							'<td><small class="text-danger fw-bolder me-2">임시저장중</small></td>';
-											}else{
-												boardList[i].rowNum > 0 ? html += '<td class="text-secondary"><small>'+boardList[i].rowNum+'</small></td>' : html += '<td></td>';
-											}
-				
-				
-				html +=							'<td class="text-start">';
-											if(boardList[i].lvl > 0){
-												for(let k=0; k < boardList[i].lvl; k++){
-													html += "\u00a0";
-												}
+										for(let i=0; i < boardList.length; i++){
+
+											if(boardList[i].regNo == $("#uno").val()){
 												
-				html +=							' └ <small><span class="border px-1 py-0 fw-bold small my-danger me-1"><strong>RE:</strong></span></small>';
-											}
-											
-											if(boardList[i].pwdYn == 'Y'){
-												if(boardList[i].lvl < 1){
-				html +=	 							'<img class="mb-1 me-1" src="'+contextPath +'/resources/front/main/assets/img/lock.png" style="max-width: 18px;"/>';
-												}
-				html +=							'<small><a href="javascript:getBoard('+boardList[i].ref+', \''+boardList[i].pwdYn+'\', \''+boardList[i].stat+'\');" class="my-a text-dark"><span class="underline">'+boardList[i].title+'</span></a></small>';
-											}else{
-				html +=							'<small><a href="javascript:getBoard('+boardList[i].ref+', \''+boardList[i].pwdYn+'\', \''+boardList[i].stat+'\');" class="my-a text-dark"><span class="underline">'+boardList[i].title+'</span></a></small>';
-											}
-										}
-	
-											if(boardList[i].atchCnt > 0){
-				html += 						'<img class="ms-1 mb-1" src="'+contextPath +'/resources/front/main/assets/img/front-atch.png" style="max-width: 20px;"/>';
-											}
-	
-											if(boardList[i].cmntCnt > 0){
-				html +=							'<span class="cmnt-cnt fw-bolder ms-1">['+boardList[i].cmntCnt+']</span>';
-											}
-				
-				html +=						'</td>';
-				
-				html +=						'<td class="text-secondary">';
-				html +=							'<span>';
-											if(boardList[i].regNo > 1){
-												if(boardList[i].pfilePath.length > 0){
-				html += 							'<img class="img-fluid my-round profile-icon me-1" src="'+contextPath+boardList[i].pfilePath+'/'+boardList[i].pstrgFileNm+'" alt="profile img">';
+												if(boardList[i].bbsSeq == 1){
+						html +=						'<tr class="tr-notice">';
+						html +=							'<td class=""><span class="my-notice">공지</span></td>';
+						html +=							'<td class="text-start fw-bolder">';
+						html +=								'<img class="mb-1" src="'+contextPath +'/resources/front/main/assets/img/spk.png" style="max-width: 20px;"/>\u00a0\u00a0';
+						html +=								'<small><a href="javascript:getBoard('+boardList[i].ref+', \''+boardList[i].pwdYn+'\', \''+boardList[i].stat+'\');" class="my-a text-danger"><span class="underline">'+boardList[i].title+'</span></a></small>';
 												}else{
-				html += 							'<img class="img-fluid my-round profile-icon me-1" src="'+contextPath+'/resources/front/main/assets/img/profile.png" alt="profile img">';
+						html +=						'<tr>';
+													
+													if(boardList[i].stat == 5){
+						html +=							'<td><small class="text-danger fw-bolder me-2">임시저장중</small></td>';
+													}else{
+														boardList[i].rowNum > 0 ? html += '<td class="text-secondary"><small>'+boardList[i].rowNum+'</small></td>' : html += '<td></td>';
+													}
+						
+						
+						html +=							'<td class="text-start">';
+													if(boardList[i].lvl > 0){
+														for(let k=0; k < boardList[i].lvl; k++){
+															html += "\u00a0";
+														}
+														
+						html +=							' └ <small><span class="border px-1 py-0 fw-bold small my-danger me-1"><strong>RE:</strong></span></small>';
+													}
+													
+													if(boardList[i].pwdYn == 'Y'){
+														if(boardList[i].lvl < 1){
+						html +=	 							'<img class="mb-1 me-1" src="'+contextPath +'/resources/front/main/assets/img/lock.png" style="max-width: 18px;"/>';
+														}
+						html +=							'<small><a href="javascript:getBoard('+boardList[i].ref+', \''+boardList[i].pwdYn+'\', \''+boardList[i].stat+'\');" class="my-a text-dark"><span class="underline">'+boardList[i].title+'</span></a></small>';
+													}else{
+						html +=							'<small><a href="javascript:getBoard('+boardList[i].ref+', \''+boardList[i].pwdYn+'\', \''+boardList[i].stat+'\');" class="my-a text-dark"><span class="underline">'+boardList[i].title+'</span></a></small>';
+													}
+												}
+			
+													if(boardList[i].atchCnt > 0){
+						html += 						'<img class="ms-1 mb-1" src="'+contextPath +'/resources/front/main/assets/img/front-atch.png" style="max-width: 20px;"/>';
+													}
+			
+													if(boardList[i].cmntCnt > 0){
+						html +=							'<span class="cmnt-cnt fw-bolder ms-1">['+boardList[i].cmntCnt+']</span>';
+													}
+						
+						html +=						'</td>';
+						
+						html +=						'<td class="text-secondary">';
+						html +=							'<span>';
+													if(boardList[i].regNo > 1){
+														if(boardList[i].pfilePath.length > 0){
+						html += 							'<img class="img-fluid my-round profile-icon me-1" src="'+contextPath+boardList[i].pfilePath+'/'+boardList[i].pstrgFileNm+'" alt="profile img">';
+														}else{
+						html += 							'<img class="img-fluid my-round profile-icon me-1" src="'+contextPath+'/resources/front/main/assets/img/profile.png" alt="profile img">';
+														}
+														
+													}
+						html +=								'<small>'+boardList[i].userNm+'</small>';
+						html +=							'</span>';
+						
+						html +=						'</td>';
+						html +=						'<td class="text-secondary"><small>'+boardList[i].regDt+' ('+boardList[i].updDt+')</small></td>';
+						html +=						'<td class="text-secondary"><small id="brdReadCnt-'+boardList[i].boardSeq+'">'+boardList[i].readCnt+'</small></td>';
+						html +=					'</tr>';
+											}
+											
+										}
+									}else{
+										for(let i=0; i < boardList.length; i++){
+											
+											if(boardList[i].bbsSeq == 1){
+					html +=						'<tr class="tr-notice">';
+					html +=							'<td class=""><span class="my-notice">공지</span></td>';
+					html +=							'<td class="text-start fw-bolder">';
+					html +=								'<img class="mb-1" src="'+contextPath +'/resources/front/main/assets/img/spk.png" style="max-width: 20px;"/>\u00a0\u00a0';
+					html +=								'<small><a href="javascript:getBoard('+boardList[i].ref+', \''+boardList[i].pwdYn+'\', \''+boardList[i].stat+'\');" class="my-a text-danger"><span class="underline">'+boardList[i].title+'</span></a></small>';
+											}else{
+					html +=						'<tr>';
+												
+												if(boardList[i].stat == 5){
+					html +=							'<td><small class="text-danger fw-bolder me-2">임시저장중</small></td>';
+												}else{
+													boardList[i].rowNum > 0 ? html += '<td class="text-secondary"><small>'+boardList[i].rowNum+'</small></td>' : html += '<td></td>';
+												}
+					
+					
+					html +=							'<td class="text-start">';
+												if(boardList[i].lvl > 0){
+													for(let k=0; k < boardList[i].lvl; k++){
+														html += "\u00a0";
+													}
+													
+					html +=							' └ <small><span class="border px-1 py-0 fw-bold small my-danger me-1"><strong>RE:</strong></span></small>';
 												}
 												
+												if(boardList[i].pwdYn == 'Y'){
+													if(boardList[i].lvl < 1){
+					html +=	 							'<img class="mb-1 me-1" src="'+contextPath +'/resources/front/main/assets/img/lock.png" style="max-width: 18px;"/>';
+													}
+					html +=							'<small><a href="javascript:getBoard('+boardList[i].ref+', \''+boardList[i].pwdYn+'\', \''+boardList[i].stat+'\');" class="my-a text-dark"><span class="underline">'+boardList[i].title+'</span></a></small>';
+												}else{
+					html +=							'<small><a href="javascript:getBoard('+boardList[i].ref+', \''+boardList[i].pwdYn+'\', \''+boardList[i].stat+'\');" class="my-a text-dark"><span class="underline">'+boardList[i].title+'</span></a></small>';
+												}
 											}
-				html +=								'<small>'+boardList[i].userNm+'</small>';
-				html +=							'</span>';
-				
-				html +=						'</td>';
-				html +=						'<td class="text-secondary"><small>'+boardList[i].regDt+' ('+boardList[i].updDt+')</small></td>';
-				html +=						'<td class="text-secondary"><small id="brdReadCnt-'+boardList[i].boardSeq+'">'+boardList[i].readCnt+'</small></td>';
-				html +=					'</tr>';
+		
+												if(boardList[i].atchCnt > 0){
+					html += 						'<img class="ms-1 mb-1" src="'+contextPath +'/resources/front/main/assets/img/front-atch.png" style="max-width: 20px;"/>';
+												}
+		
+												if(boardList[i].cmntCnt > 0){
+					html +=							'<span class="cmnt-cnt fw-bolder ms-1">['+boardList[i].cmntCnt+']</span>';
+												}
+					
+					html +=						'</td>';
+					
+					html +=						'<td class="text-secondary">';
+					html +=							'<span>';
+												if(boardList[i].regNo > 1){
+													if(boardList[i].pfilePath.length > 0){
+					html += 							'<img class="img-fluid my-round profile-icon me-1" src="'+contextPath+boardList[i].pfilePath+'/'+boardList[i].pstrgFileNm+'" alt="profile img">';
+													}else{
+					html += 							'<img class="img-fluid my-round profile-icon me-1" src="'+contextPath+'/resources/front/main/assets/img/profile.png" alt="profile img">';
+													}
+													
+												}
+					html +=								'<small>'+boardList[i].userNm+'</small>';
+					html +=							'</span>';
+					
+					html +=						'</td>';
+					html +=						'<td class="text-secondary"><small>'+boardList[i].regDt+' ('+boardList[i].updDt+')</small></td>';
+					html +=						'<td class="text-secondary"><small id="brdReadCnt-'+boardList[i].boardSeq+'">'+boardList[i].readCnt+'</small></td>';
+					html +=					'</tr>';
+										}
+										
 									}
+									
 								}else{
 				html +=					'<tr>';
 				html +=						'<td colspan="5">';
