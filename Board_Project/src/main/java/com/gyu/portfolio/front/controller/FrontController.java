@@ -76,7 +76,9 @@ public class FrontController {
 	@GetMapping(value="/main.do")
 	public ModelAndView main(ModelMap model,
 			HttpServletRequest request,
-			HttpServletResponse response) throws Exception{
+			HttpServletResponse response,
+			HttpSession session
+			) throws Exception{
 
 		/* request 정보확인 START */
 		System.out.println();
@@ -90,15 +92,21 @@ public class FrontController {
 		System.out.println("++++++++++++++++++++++++++++++");
 		System.out.println();
 		/* request 정보확인 END */
-		
+
 		ModelAndView mav = null;
 		mav = new ModelAndView("front/main");
+	
+		String msg = (String) session.getAttribute("loginMsg");
+		if (msg != null) {
+
+		    mav.addObject("loginMsg", msg);
+		    session.removeAttribute("loginMsg");
+		}
 		
 		List<BbsVO> getBbsList = null;
 		getBbsList = bbsService.getSelectBbsList();
 		
-		model.clear();
-		model.addAttribute("getBbsList", getBbsList);
+		mav.addObject("getBbsList", getBbsList);
 		
 		return mav;
 	}

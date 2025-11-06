@@ -17,11 +17,6 @@
 </c:choose>
 
 $(function(){
-	var loginMsg = '${loginMsg}';
-	
-	if(loginMsg.length > 0){
-		alert(loginMsg)
-	}
 
 	if(localStorage.getItem("loginChk") != null){
 		$("#userId").val(localStorage.getItem("loginChk"));

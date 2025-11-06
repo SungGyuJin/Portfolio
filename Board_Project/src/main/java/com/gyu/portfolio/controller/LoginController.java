@@ -38,11 +38,6 @@ public class LoginController {
 		ModelAndView mav = null;
 		mav = new ModelAndView("account/login");
 		
-		if(session.getAttribute("USERSEQ") == null && session.getAttribute("USERID") != null && session.getAttribute("USERNM") != null) {
-			session.removeAttribute("USERNM");
-			mav.addObject("loginMsg", "계정이용이 금지되었습니다.");
-		}
-		
 		return mav;
 	}
 
@@ -51,7 +46,8 @@ public class LoginController {
 	public ModelAndView getLogin(ModelMap model,
 			@ModelAttribute("UserVO") UserVO userVO,
 			HttpServletRequest request,
-			HttpServletResponse response 
+			HttpServletResponse response,
+			HttpSession session
 			) throws Exception{
 		
 		ModelAndView mav = null;
@@ -72,17 +68,11 @@ public class LoginController {
 			}else {
 				
 				if(vo.getStat() == 8) {
-					HttpSession session = request.getSession();
-					session.setAttribute("USERID", vo.getUserId());
-					session.setAttribute("USERNM", vo.getUserNm());
-					session.setAttribute("loginChk", request.getParameter("loginChk"));
-					session.setAttribute("errorCode", "0000");
-					
-					response.sendRedirect("/login.do");
-				}else {
-					processLogin(request, vo);
-					response.sendRedirect("/main.do");
+					session.setAttribute("loginMsg", "계정이용이 정지되었으니, 관리자에게 문의하세요. (게시판: 문의하기)");
 				}
+				
+				processLogin(request, vo);
+				response.sendRedirect("/main.do");
 			}
 		}
 		
