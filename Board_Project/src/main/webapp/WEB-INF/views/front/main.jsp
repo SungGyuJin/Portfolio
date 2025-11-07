@@ -625,7 +625,7 @@ function bbsClick(no){
 		$("#brd-select").val('');
 	}else{
 		
-		if($("#ustat").val() == '2' || $("#ustat").val() == '4'){
+		if($("#ustat").val() == '2' || $("#ustat").val() == '4' || $("#ustat").val() == '8'){
 			$("#brd-select").val('');
 		}else{
 			$("#brd-select").val($("#bbsSeq").val());
@@ -633,13 +633,16 @@ function bbsClick(no){
 	}
 }
 
+var cnt = 0;
 function addBoardModalView(){
 
 	if($("#ustat").val() == '2' || $("#ustat").val() == '4'){
 		alert('글쓰기 기능이 금지되었습니다.\n문의하기 게시판을 통해 관리자에게 문의하세요.');
 	}
-	if($("#ustat").val() == '8'){
+
+	if($("#ustat").val() == '8' && cnt == 0){
 		alert('계정이용이 정지되었습니다.\n문의하기 게시판을 통해 관리자에게 문의하세요.');
+		cnt++;
 	}
 	
 	var addBoardModal = new bootstrap.Modal($('#addBoardModal')[0], {
@@ -685,8 +688,8 @@ function getBoard(no, pYn, stat){
 		// Bootstrap 모달 인스턴스 생성 및 표시
 		const getBoardModal = new bootstrap.Modal($('#getBoardModal')[0], {
 			backdrop: true,
-			keyboard: true
-// 		    focus: false
+			keyboard: true,
+		    focus: true
 		});
 		getBoardModal.show();
 	
@@ -803,7 +806,7 @@ function getBoard(no, pYn, stat){
 		});
 		
 	}else{
-
+		
 		Swal.fire({
 			  title: '비밀번호를 입력하세요',
 			  input: 'password',
@@ -859,7 +862,8 @@ function getBoardList(num, style, myPg, card){
 	if(card == 'click'){
 		var getBoardListModal = new bootstrap.Modal($('#getBoardListModal')[0], {
 			backdrop: 'static',
-			keyboard: false
+			keyboard: false,
+			focus: false
 		});
 
 		getBoardListModal.show();
@@ -905,22 +909,43 @@ function getBoardList(num, style, myPg, card){
 				$("#cmntCnt").html(res.getWriterCnt[0].cmntCnt);
 				$("#tempCnt").html(res.getWriterCnt[0].tempCnt);
 			}
+
+			if($("#ustat").val() != '8'){
 			
-			// 게시판 목록
-			html_bbs +=	'<tr>';
-			html_bbs += 	'<td class="my-td"> └ <a href="javascript:bbsClick(0)" id="bbsSeq-0" class="my-a text-dark" onclick="changeBbsSeq(0, this);"><img class="mb-1 me-1" src="'+contextPath +'/resources/front/main/assets/img/bbs_icon.png" style="max-width: 16px;"/><span class="underline">전체글보기</span></td>';
-			html_bbs +=	'</tr>';
-			
-			for(let i=0; i < bbsList.length; i++){
-				html_bbs += '<tr>';
-				if(bbsList[i].bbsSeq != 1){
-					html_bbs += '<td class="my-td"> └ <a href="javascript:bbsClick('+bbsList[i].bbsSeq+')" id="bbsSeq-'+bbsList[i].bbsSeq+'" class="my-a text-dark" onclick="changeBbsSeq('+bbsList[i].bbsSeq+', this);"><img class="mb-1 me-1" src="'+contextPath +'/resources/front/main/assets/img/bbs_icon.png" style="max-width: 16px;"/><span class="underline">'+bbsList[i].nm+'</span></a></td>';
-				}
-				html_bbs += '</tr>';
+				// 게시판 목록
+				html_bbs +=	'<tr>';
+				html_bbs += 	'<td class="my-td"> └ <a href="javascript:bbsClick(0)" id="bbsSeq-0" class="my-a text-dark" onclick="changeBbsSeq(0, this);"><img class="mb-1 me-1" src="'+contextPath +'/resources/front/main/assets/img/bbs_icon.png" style="max-width: 16px;"/><span class="underline">전체글보기</span></td>';
+				html_bbs +=	'</tr>';
 				
-				if(vo.bbsSeq == bbsList[i].bbsSeq){
-					bbsSeq = bbsList[i].bbsSeq;
-					bbsNm = bbsList[i].nm;
+				for(let i=0; i < bbsList.length; i++){
+					
+						
+					
+					html_bbs += '<tr>';
+					if(bbsList[i].bbsSeq != 1){
+						html_bbs += '<td class="my-td"> └ <a href="javascript:bbsClick('+bbsList[i].bbsSeq+')" id="bbsSeq-'+bbsList[i].bbsSeq+'" class="my-a text-dark" onclick="changeBbsSeq('+bbsList[i].bbsSeq+', this);"><img class="mb-1 me-1" src="'+contextPath +'/resources/front/main/assets/img/bbs_icon.png" style="max-width: 16px;"/><span class="underline">'+bbsList[i].nm+'</span></a></td>';
+					}
+					html_bbs += '</tr>';
+					
+					if(vo.bbsSeq == bbsList[i].bbsSeq){
+						bbsSeq = bbsList[i].bbsSeq;
+						bbsNm = bbsList[i].nm;
+					}
+				}
+			}else{
+
+				for(let i=0; i < bbsList.length; i++){
+					
+					html_bbs += '<tr>';
+					if(bbsList[i].bbsSeq == 26){
+						html_bbs += '<td class="my-td"> └ <a href="javascript:bbsClick('+bbsList[i].bbsSeq+')" id="bbsSeq-'+bbsList[i].bbsSeq+'" class="my-a text-dark" onclick="changeBbsSeq('+bbsList[i].bbsSeq+', this);"><img class="mb-1 me-1" src="'+contextPath +'/resources/front/main/assets/img/bbs_icon.png" style="max-width: 16px;"/><span class="underline">'+bbsList[i].nm+'</span></a></td>';
+					}
+					html_bbs += '</tr>';
+					
+					if(vo.bbsSeq == bbsList[i].bbsSeq){
+						bbsSeq = bbsList[i].bbsSeq;
+						bbsNm = bbsList[i].nm;
+					}
 				}
 			}
 
@@ -1964,9 +1989,9 @@ function btnAddCmntChange(str){
 					              		<option value="">게시판을 선택해 주세요.</option>
 										<c:forEach var="list" items="${getBbsList }">
 											<c:choose>
-												<c:when test="${sessionScope.USERSTAT eq 2 || sessionScope.USERSTAT eq 3 || sessionScope.USERSTAT eq 4 || sessionScope.USERSTAT eq 8}">
+												<c:when test="${sessionScope.USERSTAT eq 2 || sessionScope.USERSTAT eq 4 || sessionScope.USERSTAT eq 8}">
 													<c:if test="${list.bbsSeq eq 26 }">
-														<option value="${list.bbsSeq }">${list.nm }</option>
+														<option value="${list.bbsSeq }" selected="selected">${list.nm }</option>
 													</c:if>
 												</c:when>
 												<c:otherwise>
