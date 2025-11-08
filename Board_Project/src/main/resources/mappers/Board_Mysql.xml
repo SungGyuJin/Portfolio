@@ -335,6 +335,9 @@
 				, (SELECT STRG_FILE_NM FROM TB_ATTACH WHERE BOARD_SEQ = 0 AND  STAT = 1 AND REG_NO = T1.REG_NO) P_STRG_FILE_NM
 			FROM TB_BOARD T1, (SELECT @rownum := 0) AS TMP
 			WHERE 1=1
+				<if test='stat == 8'>
+					AND BBS_SEQ = 26
+				</if>
 				<if test='!myPageYn.equals("T")'>
 					AND STAT = 1
 				</if>
@@ -388,6 +391,9 @@
         	COUNT(*)
         FROM TB_BOARD T1
 		WHERE 1=1
+			<if test='stat == 8'>
+				AND BBS_SEQ = 26
+			</if>
 			<if test='!myPageYn.equals("T")'>
 				AND STAT = 1
 			</if>

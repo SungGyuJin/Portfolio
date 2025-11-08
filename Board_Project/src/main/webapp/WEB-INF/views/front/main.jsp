@@ -886,6 +886,14 @@ function getBoardList(num, style, myPg, card){
 		$("#myPageYn").val('N');
 	}
 	
+	if($("#ustat").val() == 8){
+		$("#stat").val('8');
+	}
+	
+	if(myPg != null){
+		$("#stat").val('1');
+	}
+	
 	$.ajax({
 		url      : contextPath+"/main/getBoardList.do",
 		method   : "get",
@@ -970,6 +978,11 @@ function getBoardList(num, style, myPg, card){
 				bbsNm = '임시저장 글';
 				$("#bbsSeq-"+bbsSeq).removeClass('fw-bolder');
 				$("#my-temp").addClass('fw-bolder');
+			}
+			
+			if($("#ustat").val() == 8){
+				bbsNm = '문의하기';
+				$("#bbsSeq-26").addClass('fw-bolder');
 			}
 			
 			html += 	'<div class="mb-3">';
@@ -1862,6 +1875,7 @@ function btnAddCmntChange(str){
 		                        		<input type="hidden" name="pageNum" id="pageNum" value="1">
 		                        		<input type="hidden" name="searchKeyword" id="searchKeyword" autocomplete="off">
 		                        		<input type="hidden" name="bbsNm" id="bbsNm" value="${vo.pageNum }">
+		                        		<input type="hidden" name="stat" id="stat" value="1">
 		                        		<div id="board-header"></div>
 		                        		<div id="board-body"></div>
 		                        		<div id="board-footer"></div>
