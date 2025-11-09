@@ -880,18 +880,18 @@ function getBoardList(num, style, myPg, card){
 		}
 	}
 	
+	// Mpg 클릭
 	if(myPg != null){
 		$("#myPageYn").val(myPg);
+		$("#stat").val('1');
 	}else{
 		$("#myPageYn").val('N');
-	}
-	
-	if($("#ustat").val() == 8){
-		$("#stat").val('8');
-	}
-	
-	if(myPg != null){
-		$("#stat").val('1');
+		if($("#ustat").val() == 8){
+	 		$("#stat").val('8');
+		}else{
+			$("#stat").val('1');
+			
+		}
 	}
 	
 	$.ajax({
@@ -1010,7 +1010,6 @@ function getBoardList(num, style, myPg, card){
 				
 				html = 	'';
 				html += 		'<table class="table table-sm mb-5">';
-	// 			html += 		'<table class="table mb-5">';
 				html +=				'<colgroup>';
 				html +=					'<col width="5%">';
 				html +=					'<col width="30%">';
@@ -1223,6 +1222,13 @@ function getBoardList(num, style, myPg, card){
 			$("#sel-gubun").val(vo.gubun);
 			
 			$("#oldKeyword").val(vo.searchKeyword);
+			
+			if(boardListCnt < 10){
+				$("#sel-amount").prop('disabled', true);
+				$("#sel-amount").val('10');
+			}else{
+				$("#sel-amount").prop('disabled', false);
+			}
 			
 		},
 		error : function(request, status, error){

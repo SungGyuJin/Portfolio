@@ -336,7 +336,7 @@
 			FROM TB_BOARD T1, (SELECT @rownum := 0) AS TMP
 			WHERE 1=1
 				<if test='stat == 8'>
-					AND BBS_SEQ = 26
+					AND (BBS_SEQ = 26 OR BBS_SEQ = 1)
 				</if>
 				<if test='!myPageYn.equals("T")'>
 					AND STAT = 1
@@ -392,7 +392,7 @@
         FROM TB_BOARD T1
 		WHERE 1=1
 			<if test='stat == 8'>
-				AND BBS_SEQ = 26
+				AND (BBS_SEQ = 26 OR BBS_SEQ = 1)
 			</if>
 			<if test='!myPageYn.equals("T")'>
 				AND STAT = 1
