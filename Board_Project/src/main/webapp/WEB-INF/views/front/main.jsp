@@ -668,8 +668,8 @@ function btnUpdateBoardClose(no, pYn){
 }
 
 function getBoard(no, pYn, stat){
-	
-	if($("#ustat").val() == '3' || $("#ustat").val() == '4'){
+
+	if($("#ustat").val() == '3' || $("#ustat").val() == '4' || $("#ustat").val() == '8'){
 		$("#cmnt-cn").prop('disabled', true);
 		$("#cmnt-cn").prop('placeholder', '댓글(답글) 쓰기가 금지되었습니다. 관리자에게 문의하세요.');
 	}else{
@@ -780,15 +780,18 @@ function getBoard(no, pYn, stat){
 					$("#brd-reply-area").addClass('d-none');
 				}
 				
-				
+					
 				// 본인 여부
-				if($("#uno").val() != 1 && $("#uno").val() == data.regNo){
+				if($("#uno").val() != 1 && $("#uno").val() == data.regNo && $("#ustat").val() != 8){
 					var html = '';
 					
 					html += '<small class="text-muted cursor-pointer ms-2" onclick="updateBoard(\''+data.boardSeq+'\', \'upd\', 0);">수정</small>';
 					html += '<small class="text-muted cursor-pointer ms-2" onclick="updateBoard(\''+data.boardSeq+'\', \'del\', 9);">삭제</small>';
 				
 					$("#fn-area").html(html);
+					
+				}else if($("#uno").val() != 1 && $("#uno").val() == data.regNo && $("#ustat").val() == 8){
+					$("#fn-area").html('<small class="text-danger">* 계정이 정지되어 수정(삭제)권한이 없습니다.</small>');
 				}
 				
 				// 댓글 관련
@@ -1996,7 +1999,7 @@ function btnAddCmntChange(str){
 					        	<h1>글쓰기</h1>
 			            	</div>
 			            	<div>
-					            <button type="button" class="naver-button-temp" id="btn-addBoardTemp">임시저장</button>
+					            <button type="button" class="naver-button-temp <c:if test="${sessionScope.USERSTAT eq 8 }">invisible</c:if>" id="btn-addBoardTemp">임시저장</button>
 					            <button type="button" class="naver-button" id="btn-addBoard">등록</button>
 			            	</div>
 			            </div>
