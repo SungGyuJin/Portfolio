@@ -1218,7 +1218,12 @@ function getBoardList(num, style, myPg, card){
 
 			$("#board-footer").html(html);
 			
-			$("#append-cnt").html(boardListCnt+' 개의 글');
+			if($("#ustat").val() == 8){
+				$("#append-cnt").html(boardListCnt+' 개의 글 <small class="text-danger ms-2">* 현재 계정이 정지된 상태입니다. 관리자에게 문의하세요.</small>')
+			}else{
+				$("#append-cnt").html(boardListCnt+' 개의 글');
+			}
+			
 			$("#sel-amount").val(vo.amount);
 			$("#sel-bbs").val(vo.bbsSeq);
 			$("#searchKeyword").val(vo.searchKeyword);
@@ -1605,13 +1610,18 @@ function getCmntList(no){
 						html += 		'<span class="my-writer ms-2"><span>작성자</span></span>';
 					}
 					
-					if($("#uno").val().length > 0){
-						html += 		'<small class="text-muted ms-2 cursor-pointer cmnt-reply-btn" id="cmnt-replyBtn-'+i+'" onclick="replyCmntView(\''+cmntList[i].boardSeq+'\', \''+cmntList[i].ref+'\', \''+cmntList[i].step+'\', \''+cmntList[i].lvl+'\', \''+i+'\');">답글쓰기</small>';
-					}
-						
-					if(cmntList[i].regNo == $("#uno").val()){
-						html += 		'<small class="text-muted ms-2 cursor-pointer" onclick="updateCmnt('+cmntList[i].cmntSeq+', \'upd\', '+i+');">수정</small>';
-						html += 		'<small class="text-muted ms-2 cursor-pointer" onclick="updateCmnt('+cmntList[i].cmntSeq+', \'del\');">삭제</small>';
+					if($("#ustat").val() == 3 || $("#ustat").val() == 4 || $("#ustat").val() == 8){
+						$("#cmnt-warn").removeClass('d-none');
+						$("#frm-addCmnt").remove();
+					}else{
+						if($("#uno").val().length > 0){
+							html += 		'<small class="text-muted ms-2 cursor-pointer cmnt-reply-btn" id="cmnt-replyBtn-'+i+'" onclick="replyCmntView(\''+cmntList[i].boardSeq+'\', \''+cmntList[i].ref+'\', \''+cmntList[i].step+'\', \''+cmntList[i].lvl+'\', \''+i+'\');">답글쓰기</small>';
+						}
+							
+						if(cmntList[i].regNo == $("#uno").val()){
+							html += 		'<small class="text-muted ms-2 cursor-pointer" onclick="updateCmnt('+cmntList[i].cmntSeq+', \'upd\', '+i+');">수정</small>';
+							html += 		'<small class="text-muted ms-2 cursor-pointer" onclick="updateCmnt('+cmntList[i].cmntSeq+', \'del\');">삭제</small>';
+						}
 					}
 					
 					html += 		'</div>';
@@ -1956,7 +1966,10 @@ function btnAddCmntChange(str){
 
     			<!-- 댓글 -->
 			    <div class="comments-section text-start">
-			  		<h6 class="fw-bold mb-3">댓글 <span class="text-danger" id="cmnt-cmntCnt">0</span></h6>
+			    	<div class="d-flex">
+				  		<h6 class="fw-bold mb-2 me-2">댓글 <span class="text-danger" id="cmnt-cmntCnt">0</span></h6>
+				  		<small class="text-danger d-none" id="cmnt-warn">* 댓글(답글) 쓰기가 금지되었습니다. 관리자에게 문의하세요.</small>
+			    	</div>
 			    	<hr>
 			  		<ul class="list-unstyled mt-4" id="append-cmnt"></ul>
 			  		
