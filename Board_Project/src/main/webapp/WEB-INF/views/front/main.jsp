@@ -1219,7 +1219,13 @@ function getBoardList(num, style, myPg, card){
 			$("#board-footer").html(html);
 			
 			if($("#ustat").val() == 8){
-				$("#append-cnt").html(boardListCnt+' 개의 글 <small class="text-danger ms-2">* 현재 계정이 정지된 상태입니다. 관리자에게 문의하세요.</small>')
+				$("#append-cnt").html(boardListCnt+' 개의 글 <small class="text-danger ms-2">* 현재 계정이 정지된 상태입니다. 관리자에게 문의하세요.</small>');
+			}else if($("#ustat").val() == 2){
+				$("#append-cnt").html(boardListCnt+' 개의 글 <small class="text-danger ms-2">* 현재 글쓰기 금지상태입니다. 관리자에게 문의하세요.</small>');
+			}else if($("#ustat").val() == 3){
+				$("#append-cnt").html(boardListCnt+' 개의 글 <small class="text-danger ms-2">* 현재 댓글쓰기 금지상태입니다. 관리자에게 문의하세요.</small>');
+			}else if($("#ustat").val() == 4){
+				$("#append-cnt").html(boardListCnt+' 개의 글 <small class="text-danger ms-2">* 현재 글쓰기 및 댓글쓰기 금지상태입니다. 관리자에게 문의하세요.</small>');
 			}else{
 				$("#append-cnt").html(boardListCnt+' 개의 글');
 			}
@@ -2361,41 +2367,6 @@ function btnAddCmntChange(str){
 				</div>
 			</div>
 		</div>
-        
-        <%-- <div class="portfolio-modal modal fade" id="getUserInfoModal" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-my">
-                <div class="modal-content">
-                    <div class="close-modal" data-bs-dismiss="modal"><img src="${pageContext.request.contextPath}/resources/front/main/assets/img/close-icon.svg" alt="Close modal" /></div>
-                    <div class="container">
-                        <div class="row justify-content-center">
-                            <div class="col-lg-8">
-                                <div class="modal-body">
-                                    <!-- Project details-->
-                                    <h2 class="text-uppercase">계정정보</h2>
-                                    <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
-                                    <img class="img-fluid d-block mx-auto" src="${pageContext.request.contextPath}/resources/front/main/assets/img/portfolio/1-board-img.jpg" alt="..." />
-                                    <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
-                                    <ul class="list-inline">
-                                        <li>
-                                            <strong>Client:</strong>
-                                            Threads
-                                        </li>
-                                        <li>
-                                            <strong>Category:</strong>
-                                            Illustration
-                                        </li>
-                                    </ul>
-                                    <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">
-                                        <i class="fas fa-xmark me-1"></i>
-                                        Close Project
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> --%>
         
         <!-- OG -->
         <!-- Portfolio item 1 modal popup-->
