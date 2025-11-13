@@ -318,6 +318,39 @@ $(function(){
 			alert('비밀번호가 일치하지 않습니다.');
 		}
 	});
+
+	$("#btn-userDelete").on('click', function(){
+		
+		$.ajax({
+			url      : contextPath+"/main/updateUser.do",
+			method   : "POST",
+			data     : $("#frm-user").serialize(),
+			dataType : "json",
+			success  : function(res){
+				
+				if(res > 0){
+					alert('저장되었습니다.');
+					getBoardList($("#pageNum").val(), $("#listTyp").val(), $("#myPageYn").val());
+					
+					$("#user-nickname").html($("#uNm").val());
+					$("#btn-getUserInfoModal-close").trigger('click');
+					$("#profile-data").empty();
+
+					getUserInfo($("#uNo").val(), 'refresh');
+
+				}else{
+					alert('저장에러')
+				}
+				
+			},
+			error : function(request, status, error){
+				Swal.fire({
+					icon: "error",
+					title: "통신불가"
+				})
+			}
+		});
+	});
 	
 });
 
@@ -2314,6 +2347,7 @@ function btnAddCmntChange(str){
 						        	<h1>Information</h1>
 				            	</div>
 				            	<div class="d-flex gap-2">
+						            <button type="button" class="naver-button text-danger" id="btn-userDelete">탈퇴신청</button>
 						            <button type="button" class="naver-button" onclick="getUserInfo('${sessionScope.USERSEQ }', 'refresh');">
 						            	<img src="${pageContext.request.contextPath}/resources/front/main/assets/img/front-refresh.png" alt="profile img" />
 						            </button>
