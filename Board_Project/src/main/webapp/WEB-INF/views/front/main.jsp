@@ -2138,14 +2138,6 @@ function btnAddCmntChange(str){
 					            <div class="mb-3 mt-3">
 					            	<label for="brd-upd-select" class="form-label fw-bold">게시판</label>
 					              	<input type="text" class="form-control my-input" id="upd-bbs" disabled>
-					              	<%-- <select class="form-select" id="brd-upd-select" disabled>
-					              		<option value="">게시판을 선택해 주세요.</option>
-										<c:forEach var="list" items="${getBbsList }">
-											<c:if test="${list.bbsSeq ne 1 }">
-												<option value="${list.bbsSeq }">${list.nm }</option>
-											</c:if>
-										</c:forEach>
-					              	</select> --%>
 					            </div>
 					            <div class="mb-3">
 					            	<label for="brd-upd-title" class="form-label fw-bold">제목</label>
@@ -2314,10 +2306,7 @@ function btnAddCmntChange(str){
                     <div class="col-lg-12 col-sm-6 mb-4">
                         <!-- Portfolio item 1-->
                         <div class="portfolio-item">
-<!--                             <a href="#getBoardListModal" class="portfolio-link" data-bs-toggle="modal"> -->
                             <a href="javascript:getBoardList(1, 'L', null, 'click');" class="portfolio-link">
-<!--                             <a class="portfolio-link" href="/main.do/1"> -->
-<!--                                 <div class="portfolio-hover" id="" onclick="getBoardList();"> -->
                                 <div class="portfolio-hover">
                                     <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
                                 </div>

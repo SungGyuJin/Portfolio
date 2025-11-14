@@ -1,6 +1,5 @@
 package com.gyu.portfolio.controller;
 
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,11 +14,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.gyu.portfolio.model.BoardVO;
 import com.gyu.portfolio.model.UserVO;
 import com.gyu.portfolio.service.UserService;
 
@@ -63,19 +60,6 @@ public class UserController {
 			HttpServletRequest request,
 			HttpServletResponse response) throws Exception{
 
-		/* request 정보확인 START */
-		System.out.println();
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println("============ /getUser.do INFO  ===========");
-		Enumeration params = request.getParameterNames();
-		while(params.hasMoreElements()) {
-			String name= (String) params.nextElement();
-			System.out.println(name + ": " + request.getParameter(name));
-		}
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println();
-		/* request 정보확인 END */
-		
 	    Map<String, Object> resultMap = new HashMap<>();
 	    
 	    UserVO getUser = null;

@@ -1,6 +1,5 @@
 package com.gyu.portfolio.controller;
 
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -85,19 +84,6 @@ public class BbsController {
 			HttpServletRequest request,
 			HttpServletResponse response,
 			HttpSession session) throws Exception{
-
-		/* request 정보확인 START */
-		System.out.println();
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println("============ /addBbs.do INFO  ===========");
-		Enumeration params = request.getParameterNames();
-		while(params.hasMoreElements()) {
-			String name= (String) params.nextElement();
-			System.out.println(name + ": " + request.getParameter(name));
-		}
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println();
-		/* request 정보확인 END */
 		
 		bbsVO.setRegNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
 		int result = bbsService.addBbs(bbsVO);
