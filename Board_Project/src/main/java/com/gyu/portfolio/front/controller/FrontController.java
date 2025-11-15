@@ -296,6 +296,19 @@ public class FrontController {
 			@ModelAttribute("BoardVO") BoardVO boardVO,
 			HttpServletRequest request,
 			HttpServletResponse response) throws Exception{
+
+		/* request 정보확인 START */
+		System.out.println();
+		System.out.println("++++++++++++++++++++++++++++++");
+		System.out.println("============ /pwChk.do INFO  ===========");
+		Enumeration params = request.getParameterNames();
+		while(params.hasMoreElements()) {
+			String name= (String) params.nextElement();
+			System.out.println(name + ": " + request.getParameter(name));
+		}
+		System.out.println("++++++++++++++++++++++++++++++");
+		System.out.println();
+		/* request 정보확인 END */
 		
 	    Map<String, Object> resultMap = new HashMap<>();
 	    boardVO.setBoardSeq(Integer.parseInt(request.getParameter("no")));
@@ -457,5 +470,37 @@ public class FrontController {
 		return result;
 	}
 	
+
+	/* 사용자 탈퇴신청 비밀번호 CHK */
+	@PostMapping("/main/pwChkUser.do")
+	@ResponseBody
+	public Map<String, Object> aprvChkUser(ModelMap model,
+			@ModelAttribute("UserVO") UserVO userVO,
+			HttpServletRequest request,
+			HttpServletResponse response) throws Exception{
+
+		/* request 정보확인 START */
+		System.out.println();
+		System.out.println("++++++++++++++++++++++++++++++");
+		System.out.println("============ /pwChk.do INFO  ===========");
+		Enumeration params = request.getParameterNames();
+		while(params.hasMoreElements()) {
+			String name= (String) params.nextElement();
+			System.out.println(name + ": " + request.getParameter(name));
+		}
+		System.out.println("++++++++++++++++++++++++++++++");
+		System.out.println();
+		/* request 정보확인 END */
+		
+	    Map<String, Object> resultMap = new HashMap<>();
+	    userVO.setUserSeq(Integer.parseInt(request.getParameter("no")));
+	    userVO.setUserPwd(request.getParameter("pw"));
+	    resultMap = userService.chkPwdUser(userVO);
+	    
+		model.clear();
+		model.addAttribute("resultMap", resultMap);
+		
+		return resultMap;
+	}
 	
 }

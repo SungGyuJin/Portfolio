@@ -25,13 +25,14 @@ public class UserVO extends DefalutVO {
 	private long   fileSz 		=  0;  // 파일크기
 	private String filePath		= "";  // 파일경로
 	private String strgFileNm	= "";  // 파일이름(저장명)
+	private String rsMatch 	 	= "";
 	
 	@Override
 	public String toString() {
 		return "UserVO [userSeq=" + userSeq + ", userId=" + userId + ", userPwd=" + userPwd + ", userNm=" + userNm
 				+ ", userSe=" + userSe + ", stat=" + stat + ", aprvNum=" + aprvNum + ", inputPwd=" + inputPwd
 				+ ", fileNm=" + fileNm + ", fileExt=" + fileExt + ", fileSz=" + fileSz + ", filePath=" + filePath
-				+ ", strgFileNm=" + strgFileNm + "]";
+				+ ", strgFileNm=" + strgFileNm + ", rsMatch=" + rsMatch + "]";
 	}
 	
 }

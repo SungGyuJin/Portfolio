@@ -321,35 +321,39 @@ $(function(){
 
 	$("#btn-userDelete").on('click', function(){
 		
-		$.ajax({
-			url      : contextPath+"/main/updateUser.do",
-			method   : "POST",
-			data     : $("#frm-user").serialize(),
-			dataType : "json",
-			success  : function(res){
-				
-				if(res > 0){
-					alert('저장되었습니다.');
-					getBoardList($("#pageNum").val(), $("#listTyp").val(), $("#myPageYn").val());
-					
-					$("#user-nickname").html($("#uNm").val());
-					$("#btn-getUserInfoModal-close").trigger('click');
-					$("#profile-data").empty();
-
-					getUserInfo($("#uNo").val(), 'refresh');
-
-				}else{
-					alert('저장에러')
+		Swal.fire({
+			  title: '비밀번호를 입력하세요',
+			  text: '(탈퇴처리후 복구가 불가능합니다)',
+			  input: 'password',
+			  inputPlaceholder: '비밀번호 입력',
+			  showCancelButton: true,
+			  confirmButtonText: '확인',
+			  cancelButtonText: '취소',
+			  preConfirm: (password) => {
+			    return $.ajax({
+			      url: contextPath+"/main/pwChk.do",
+			      method: "POST",
+			      data: { "no" : no, "pw": password },
+			      dataType: "json"
+			    }).then(res => {
+			    	
+		    	if (res.result === 'S') {
+		    	      return password;
+		    	    } else {
+		    	      Swal.showValidationMessage('비밀번호가 틀렸습니다.');
+		    	      return false;
+		    	    }
+		    	  }).catch(() => {
+		    	    Swal.showValidationMessage('서버오류');
+		    	  });
+			  }
+			}).then((result) => {
+				if (result.isConfirmed) {
+					deleteBoard(no, num);
+//			    	getBoard(no, 'N');
 				}
-				
-			},
-			error : function(request, status, error){
-				Swal.fire({
-					icon: "error",
-					title: "통신불가"
-				})
-			}
-		});
+			});
+		
 	});
 	
 });
@@ -1295,8 +1299,8 @@ function getUserInfo(no, str){
 	if(str != 'refresh'){
 		var getUserInfoModal = new bootstrap.Modal($('#getUserInfoModal')[0], {
 			backdrop: 'static',
-		    keyboard: false
-	//		    focus: false
+		    keyboard: false,
+		    focus: false
 		});
 		getUserInfoModal.show();
 	}else{

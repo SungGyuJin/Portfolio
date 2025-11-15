@@ -25,5 +25,7 @@ public interface UserService {
 
 	// 사용자 정보조회(비밀번호 제외)
 	UserVO getUserInfo(UserVO userVO) throws Exception;
+
+	Map<String, Object> chkPwdUser(UserVO userVO) throws Exception;
 	
 }

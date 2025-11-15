@@ -26,5 +26,7 @@ public interface UserMapper {
 
 	// 사용자 정보조회(비밀번호 제외)
 	UserVO getUserInfo(UserVO userVO) throws Exception;
+
+	UserVO chkPwdUser(UserVO userVO) throws Exception;
     
 }

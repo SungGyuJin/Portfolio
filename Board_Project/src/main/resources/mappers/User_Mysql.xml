@@ -14,6 +14,7 @@
 		<result property="fileSz"		column="FILE_SZ" 	  />
 		<result property="filePath"		column="FILE_PATH" 	  />
 		<result property="strgFileNm"	column="STRG_FILE_NM" />
+		<result property="rsMatch"	    column="RS_MATCH"	/>
 		
 		<result property="stat"		column="STAT" 		/>
 		<result property="inputPwd"	column="INPUT_PWD" 	/>
@@ -132,5 +133,17 @@
 			AND USER_SEQ = #{userSeq}
 			AND USER_ID = #{userId}
 	</update>
+	
+	<select id="chkPwdUser" resultMap="userVO">
+		SELECT
+			CASE
+				WHEN USER_PWD = SHA2(#{pwd}, 256)
+				THEN 'S'
+				ELSE 'F'
+			END RS_MATCH		
+		FROM TB_USER
+		WHERE 1=1
+			AND USER_SEQ = #{userSeq}
+	</select>
 	
 </mapper>

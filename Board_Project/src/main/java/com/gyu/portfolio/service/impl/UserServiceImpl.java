@@ -123,5 +123,18 @@ public class UserServiceImpl implements UserService{
 	public int updateUserAdmin(UserVO userVO) throws Exception {
 		return userMapper.updateUserAdmin(userVO);
 	}
+
+	@Override
+	public Map<String, Object> chkPwdUser(UserVO userVO) throws Exception {
+
+	    Map<String, Object> resultMap = new HashMap<>();
+	    UserVO getUser = userMapper.chkPwdUser(userVO);
+
+	    String rsMatch = getUser.getRsMatch();
+	    
+	    resultMap.put("result", rsMatch);
+		
+		return resultMap;
+	}
 	
 }
