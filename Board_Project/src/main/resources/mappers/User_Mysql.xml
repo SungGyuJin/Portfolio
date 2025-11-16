@@ -115,6 +115,7 @@
 			TB_USER
 		SET
 			USER_NM	= #{userNm}
+			, STAT = #{stat}
 		<if test="userPwd != null and userPwd != ''">
 			, USER_PWD	= SHA2(#{userPwd}, 256)
 		</if>
@@ -137,7 +138,7 @@
 	<select id="chkPwdUser" resultMap="userVO">
 		SELECT
 			CASE
-				WHEN USER_PWD = SHA2(#{pwd}, 256)
+				WHEN USER_PWD = SHA2(#{userPwd}, 256)
 				THEN 'S'
 				ELSE 'F'
 			END RS_MATCH		

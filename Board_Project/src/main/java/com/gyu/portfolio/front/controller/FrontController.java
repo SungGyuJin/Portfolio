@@ -463,6 +463,20 @@ public class FrontController {
 			HttpServletResponse response,
 			HttpSession session) throws Exception{
 		
+
+		/* request 정보확인 START */
+		System.out.println();
+		System.out.println("++++++++++++++++++++++++++++++");
+		System.out.println("============ /updateUser.do INFO  ===========");
+		Enumeration params = request.getParameterNames();
+		while(params.hasMoreElements()) {
+			String name= (String) params.nextElement();
+			System.out.println(name + ": " + request.getParameter(name));
+		}
+		System.out.println("++++++++++++++++++++++++++++++");
+		System.out.println();
+		/* request 정보확인 END */
+		
 		session.setAttribute("USERNM", userVO.getUserNm());
 		
 		int result = userService.updateUser(userVO, attachVO);
@@ -482,7 +496,7 @@ public class FrontController {
 		/* request 정보확인 START */
 		System.out.println();
 		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println("============ /pwChk.do INFO  ===========");
+		System.out.println("============ /pwChkUser.do INFO  ===========");
 		Enumeration params = request.getParameterNames();
 		while(params.hasMoreElements()) {
 			String name= (String) params.nextElement();

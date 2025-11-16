@@ -331,9 +331,9 @@ $(function(){
 			  cancelButtonText: '취소',
 			  preConfirm: (password) => {
 			    return $.ajax({
-			      url: contextPath+"/main/pwChk.do",
+			      url: contextPath+"/main/pwChkUser.do",
 			      method: "POST",
-			      data: { "no" : no, "pw": password },
+			      data: { "no" : $("#uNo").val(), "pw": password },
 			      dataType: "json"
 			    }).then(res => {
 			    	
@@ -349,8 +349,30 @@ $(function(){
 			  }
 			}).then((result) => {
 				if (result.isConfirmed) {
-					deleteBoard(no, num);
-//			    	getBoard(no, 'N');
+					
+					$("#user-stat").remove();
+					var html = '<input type="hidden" name="stat" id="user-stat" value="9">';
+					$("#frm-user").append(html);
+
+					$.ajax({
+						url      : contextPath+"/main/updateUser.do",
+						method   : "POST",
+						data     : $("#frm-user").serialize(),
+						dataType : "json",
+						success  : function(res){
+							
+							if(res > 0){
+								alert('계정탈퇴가 신청되었습니다.');
+							}
+							
+						},
+						error : function(request, status, error){
+							Swal.fire({
+								icon: "error",
+								title: "통신불가"
+							})
+						}
+					});
 				}
 			});
 		
