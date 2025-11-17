@@ -33,10 +33,10 @@
 		WHERE 1=1
 			AND USER_SE = 'U'
 			<if test="listTyp.equals('list')">
-				AND STAT > 0
+				AND STAT IN (1, 2, 3, 4, 8)
 			</if>
 			<if test="listTyp.equals('leave')">
-				AND STAT = 0
+				AND STAT IN (7, 0)
 			</if>
 			<if test="searchKeyword != null and !searchKeyword.equals('')">
 				AND USER_NM LIKE CONCAT('%', #{searchKeyword}, '%')
@@ -52,10 +52,10 @@
 		WHERE 1=1
 			AND USER_SE = 'U'
 			<if test="listTyp.equals('list')">
-				AND STAT > 0
+				AND STAT IN (1, 2, 3, 4, 8)
 			</if>
 			<if test="listTyp.equals('leave')">
-				AND STAT = 0
+				AND STAT IN (7, 0)
 			</if>
 			<if test="searchKeyword != null and !searchKeyword.equals('')">
 				AND USER_NM LIKE CONCAT('%', #{searchKeyword}, '%')

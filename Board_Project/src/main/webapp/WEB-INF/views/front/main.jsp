@@ -351,7 +351,7 @@ $(function(){
 				if (result.isConfirmed) {
 					
 					$("#user-stat").remove();
-					var html = '<input type="hidden" name="stat" id="user-stat" value="9">';
+					var html = '<input type="hidden" name="stat" id="user-stat" value="7">';
 					$("#frm-user").append(html);
 
 					$.ajax({

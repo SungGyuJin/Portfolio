@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.net.URLConnection;
 import java.net.URLEncoder;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

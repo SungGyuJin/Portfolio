@@ -316,9 +316,16 @@
 												    	<th class="sorting sorting_asc text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 154px;">이름</th>
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">ID</th>
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">프로필 이미지</th>
-														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">계정</th>
-														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">글쓰기</th>
-														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">댓글</th>
+														<c:choose>
+															<c:when test="${userVO.listTyp eq 'list' }">
+																<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">계정</th>
+																<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">글쓰기</th>
+																<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">댓글</th>
+															</c:when>
+															<c:otherwise>
+																<th colspan="3" class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">상태</th>
+															</c:otherwise>
+														</c:choose>
 												    </tr>
 												</thead>
 												<tbody>
@@ -327,42 +334,57 @@
 														<td class="sorting_1" id="nm-${list.userSeq }" aria-label="${list.userSeq }">${list.userNm }</td>
 														<td>${list.userId }</td>
 														<td>${list.userId }</td>
-														<td>
-															<c:choose>
-																<c:when test="${list.stat eq 8 }">
-																	<strong class="ms-3"><span class="text-danger">금지</span></strong>
-																</c:when>
-																<c:otherwise>
-																	<strong class="ms-3"><span class="text-primary">사용가능</span></strong>
-																</c:otherwise>
-															</c:choose>
-														</td>
-														<td>
-															<c:choose>
-																<c:when test="${list.stat eq 2 || list.stat eq 4 }">
-																	<strong class="ms-3"><span class="text-danger">금지</span></strong>
-																</c:when>
-																<c:when test="${list.stat eq 8 }">
-																	<strong class="ms-3"><span class="text-danger">-</span></strong>
-																</c:when>
-																<c:otherwise>
-																	<strong class="ms-3"><span class="text-primary">사용가능</span></strong>
-																</c:otherwise>
-															</c:choose>
-														</td>
-														<td>
-															<c:choose>
-																<c:when test="${list.stat eq 3 || list.stat eq 4 }">
-																	<strong class="ms-3"><span class="text-danger">금지</span></strong>
-																</c:when>
-																<c:when test="${list.stat eq 8 }">
-																	<strong class="ms-3"><span class="text-danger">-</span></strong>
-																</c:when>
-																<c:otherwise>
-																	<strong class="ms-3"><span class="text-primary">사용가능</span></strong>
-																</c:otherwise>
-															</c:choose>
-													    </td>
+														<c:choose>
+															<c:when test="${list.stat eq 0 || list.stat eq 7 }">
+																<td colspan="3">
+																	<c:if test="${list.stat eq 0 }">
+																		<strong class="ms-3"><span class="text-danger">탈퇴처리 완료</span></strong>
+																	</c:if>
+																	<c:if test="${list.stat eq 7 }">
+																		<strong class="ms-3"><span class="text-danger">탈퇴신청 대기</span></strong>
+																	</c:if>
+																</td>
+															</c:when>
+															<c:otherwise>
+																<td>
+																	<c:choose>
+																		<c:when test="${list.stat eq 8 }">
+																			<strong class="ms-3"><span class="text-danger">금지</span></strong>
+																		</c:when>
+																		<c:otherwise>
+																			<strong class="ms-3"><span class="text-primary">사용가능</span></strong>
+																		</c:otherwise>
+																	</c:choose>
+																</td>
+																<td>
+																	<c:choose>
+																		<c:when test="${list.stat eq 2 || list.stat eq 4 }">
+																			<strong class="ms-3"><span class="text-danger">금지</span></strong>
+																		</c:when>
+																		<c:when test="${list.stat eq 8 }">
+																			<strong class="ms-3"><span class="text-danger">-</span></strong>
+																		</c:when>
+																		<c:otherwise>
+																			<strong class="ms-3"><span class="text-primary">사용가능</span></strong>
+																		</c:otherwise>
+																	</c:choose>
+																</td>
+																<td>
+																	<c:choose>
+																		<c:when test="${list.stat eq 3 || list.stat eq 4 }">
+																			<strong class="ms-3"><span class="text-danger">금지</span></strong>
+																		</c:when>
+																		<c:when test="${list.stat eq 8 }">
+																			<strong class="ms-3"><span class="text-danger">-</span></strong>
+																		</c:when>
+																		<c:otherwise>
+																			<strong class="ms-3"><span class="text-primary">사용가능</span></strong>
+																		</c:otherwise>
+																	</c:choose>
+															    </td>
+															</c:otherwise>
+														</c:choose>
+														
 													</tr>
 													</c:forEach>
 													<c:if test="${empty getUserList }">
@@ -460,7 +482,7 @@
 									</div>
 								</div> -->
 			                      
-		                      	<div class="form-group row">
+		                      	<div class="form-group row <c:if test="${userVO.listTyp eq 'leave' }">invisible</c:if>">
 									<div class="col-sm-4 mb-3 mb-sm-0">
 										<label class="toggle-wrapper">
 										  	<strong class="text-danger">계정사용 금지</strong>
@@ -487,27 +509,33 @@
 			  
 						<div class="text-center">
 							<div class="d-flex justify-content-between">
-								<div>
-									<div id="btn-divTag1">
-										<button class="btn btn-primary btn-icon-split init-class" id="btn-save" onclick="btnControl('save');" disabled>
-									    	<span class="text" id="btn-text-span">저장</span>
-										</button>
-										<button class="btn btn-secondary btn-icon-split init-class" id="btn-reset" disabled>
-						         			<span class="text">취소</span>
-						    			</button>
-									</div>
-								</div>
-								<div id="btn-divTag2">
-									<button class="btn btn-success btn-icon-split init-class d-none" id="btn-restore" onclick="btnControl('stat', '1');">
-					         			<span class="text">복구</span>
-					    			</button>
-									<button class="btn btn-danger btn-icon-split init-class d-none" id="btn-del" onclick="btnControl('stat', '0');">
-					         			<span class="text">삭제</span>
-					    			</button>
-									<button class="btn btn-danger btn-icon-split init-class d-none" id="btn-delPermnt" onclick="btnControl('stat', '9');">
-				         				<span class="text">영구삭제</span>
-				    				</button>
-			    				</div>
+								<c:choose>
+									<c:when test="${userVO.listTyp eq 'list' }">
+										<div>
+											<div id="btn-divTag1">
+												<button class="btn btn-primary btn-icon-split init-class" id="btn-save" onclick="btnControl('save');" disabled>
+											    	<span class="text" id="btn-text-span">저장</span>
+												</button>
+												<button class="btn btn-secondary btn-icon-split init-class" id="btn-reset" disabled>
+								         			<span class="text">취소</span>
+								    			</button>
+											</div>
+										</div>
+									</c:when>
+									<c:otherwise>
+										<div id="btn-divTag2">
+											<button class="btn btn-success btn-icon-split init-class" id="btn-restore" onclick="btnControl('stat', '1');" disabled>
+							         			<span class="text">계정복구</span>
+							    			</button>
+											<!-- <button class="btn btn-danger btn-icon-split init-class" id="btn-del" onclick="btnControl('stat', '0');">
+							         			<span class="text">삭제</span>
+							    			</button> -->
+											<button class="btn btn-danger btn-icon-split init-class" id="btn-delPermnt" onclick="btnControl('stat', '9');" disabled>
+						         				<span class="text">탈퇴처리</span>
+						    				</button>
+					    				</div>
+									</c:otherwise>
+								</c:choose>
 							</div>
 			    		</div>
 					</div>	<!-- .card-body END -->
