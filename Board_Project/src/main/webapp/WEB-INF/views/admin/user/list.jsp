@@ -40,14 +40,11 @@
 	function btnControl(e, num){
 		if(e == 'save'){
 			userSave();
+		}else if(e == 'reset'){
+			getUser();
 		}else{
 			changeStat_1(num);
 		}
-	}
-	
-	// 취소버튼
-	function btnReset(){
-		getUser();
 	}
 	
 	// 복구, 삭제, 영구삭제 버튼(상태변경)
@@ -55,7 +52,7 @@
 		
 		if(num == '9'){
 			Swal.fire({
-				title: '영구삭제 하시겠습니까?',
+				title: '탈퇴처리 하시겠습니까?',
 				html: "※삭제된 데이터는 복구가 불가합니다.",
 				icon: 'warning',
 				showCancelButton: true,
@@ -67,23 +64,20 @@
 
 		        if (result.isConfirmed) {
 		        	$("#stat").val(num);
-		        	changeStat_2(num, '영구삭제완료');
+		        	changeStat_2(num, '탈퇴처리 완료');
 		        }
 			})
 		}else if(num == '1'){
         	$("#stat").val(num);
-			changeStat_2(num, '복구완료');
-		}else{
-        	$("#stat").val(num);
-			changeStat_2(num, '삭제완료');
+			changeStat_2(num, '계정복구 완료');
 		}
 	}
 	
 	function changeStat_2(num, cmnt){
 		$.ajax({
-			url      : contextPath+"changeStat.do",
+			url      : contextPath+"updateUserAdmin.do",
 			method   : "POST",
-			data     : $("#frm-addBbs").serialize(),
+			data     : $("#frm-user").serialize(),
 			dataType : "json",
 			success  : function(res){
 				
@@ -516,7 +510,7 @@
 												<button class="btn btn-primary btn-icon-split init-class" id="btn-save" onclick="btnControl('save');" disabled>
 											    	<span class="text" id="btn-text-span">저장</span>
 												</button>
-												<button class="btn btn-secondary btn-icon-split init-class" id="btn-reset" disabled>
+												<button class="btn btn-secondary btn-icon-split init-class" id="btn-reset" onclick="btnControl('reset');" disabled>
 								         			<span class="text">취소</span>
 								    			</button>
 											</div>
@@ -524,13 +518,13 @@
 									</c:when>
 									<c:otherwise>
 										<div id="btn-divTag2">
-											<button class="btn btn-success btn-icon-split init-class" id="btn-restore" onclick="btnControl('stat', '1');" disabled>
+											<button class="btn btn-success btn-icon-split init-class" id="btn-restore" onclick="btnControl('restore', '1');" disabled>
 							         			<span class="text">계정복구</span>
 							    			</button>
 											<!-- <button class="btn btn-danger btn-icon-split init-class" id="btn-del" onclick="btnControl('stat', '0');">
 							         			<span class="text">삭제</span>
 							    			</button> -->
-											<button class="btn btn-danger btn-icon-split init-class" id="btn-delPermnt" onclick="btnControl('stat', '9');" disabled>
+											<button class="btn btn-danger btn-icon-split init-class" id="btn-delPermnt" onclick="btnControl('delete', '9');" disabled>
 						         				<span class="text">탈퇴처리</span>
 						    				</button>
 					    				</div>
