@@ -18,11 +18,16 @@
 </c:choose>
 
 $(function(){
-
+	
     var loginMsg = '${loginMsg}';
+    var loginNum = '${loginNum}';
     
     if (loginMsg && loginMsg.length > 0) {
         alert(loginMsg);
+    }
+    
+    if(loginNum == 0){
+		location.href = '/login.do';
     }
 	
 	getUserInfo($("#uno").val(), 'refresh');

@@ -98,9 +98,10 @@ public class FrontController {
 	
 		String msg = (String) session.getAttribute("loginMsg");
 		if (msg != null) {
-
+			
 		    mav.addObject("loginMsg", msg);
 		    session.removeAttribute("loginMsg");
+		    session.removeAttribute("loginNum");
 		}
 		
 		List<BbsVO> getBbsList = null;

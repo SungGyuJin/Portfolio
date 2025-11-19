@@ -50,10 +50,10 @@
 	// 복구, 삭제, 영구삭제 버튼(상태변경)
 	function changeStat_1(num){
 		
-		if(num == '9'){
+		if(num == '0'){
 			Swal.fire({
 				title: '탈퇴처리 하시겠습니까?',
-				html: "※삭제된 데이터는 복구가 불가합니다.",
+// 				html: "※삭제된 데이터는 복구가 불가합니다.",
 				icon: 'warning',
 				showCancelButton: true,
 				confirmButtonColor: '#3085d6',
@@ -233,6 +233,12 @@
 					$("#acntBan").prop('checked', false);
 					$("#writeBan").prop('checked', false);
 					$("#cmntBan").prop('checked', false);
+				}else if(getUser.stat == 0){
+					$("#btn-restore").prop('disabled', false);
+					$("#btn-delPermnt").prop('disabled', true);
+				}else if(getUser.stat == 7){
+					$("#btn-restore").prop('disabled', false);
+					$("#btn-delPermnt").prop('disabled', false);
 				}
 				
 			},
@@ -332,7 +338,7 @@
 															<c:when test="${list.stat eq 0 || list.stat eq 7 }">
 																<td colspan="3">
 																	<c:if test="${list.stat eq 0 }">
-																		<strong class="ms-3"><span class="text-danger">탈퇴처리 완료</span></strong>
+																		<strong class="ms-3"><span class="text-primary">탈퇴처리 완료</span></strong>
 																	</c:if>
 																	<c:if test="${list.stat eq 7 }">
 																		<strong class="ms-3"><span class="text-danger">탈퇴신청 대기</span></strong>
@@ -524,7 +530,7 @@
 											<!-- <button class="btn btn-danger btn-icon-split init-class" id="btn-del" onclick="btnControl('stat', '0');">
 							         			<span class="text">삭제</span>
 							    			</button> -->
-											<button class="btn btn-danger btn-icon-split init-class" id="btn-delPermnt" onclick="btnControl('delete', '9');" disabled>
+											<button class="btn btn-danger btn-icon-split init-class" id="btn-delPermnt" onclick="btnControl('delete', '0');" disabled>
 						         				<span class="text">탈퇴처리</span>
 						    				</button>
 					    				</div>
