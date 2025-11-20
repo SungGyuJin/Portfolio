@@ -27,7 +27,7 @@ $(function(){
     }
     
     if(loginNum == 0){
-		location.href = '/login.do';
+// 		location.href = '/login.do';
     }
 	
 	getUserInfo($("#uno").val(), 'refresh');
@@ -325,10 +325,19 @@ $(function(){
 	});
 
 	$("#btn-userDelete").on('click', function(){
+
+		var tempMsg = '';
+		var tempStr = $(this).val();
+		
+		if(tempStr == '7'){
+			tempMsg = '(탈퇴신청을 철회합니다.)';
+		}else{
+			tempMsg = '(탈퇴 처리전 취소 가능합니다.)';
+		}
 		
 		Swal.fire({
 			  title: '비밀번호를 입력하세요',
-			  text: '(탈퇴처리후 복구가 불가능합니다)',
+			  text: tempMsg,
 			  input: 'password',
 			  inputPlaceholder: '비밀번호 입력',
 			  showCancelButton: true,
@@ -356,7 +365,13 @@ $(function(){
 				if (result.isConfirmed) {
 					
 					$("#user-stat").remove();
-					var html = '<input type="hidden" name="stat" id="user-stat" value="7">';
+					
+					if(tempStr == '1'){
+						var html = '<input type="hidden" name="stat" id="user-stat" value="7">';
+					}else{
+						var html = '<input type="hidden" name="stat" id="user-stat" value="1">';
+					}
+					
 					$("#frm-user").append(html);
 
 					$.ajax({
@@ -365,9 +380,23 @@ $(function(){
 						data     : $("#frm-user").serialize(),
 						dataType : "json",
 						success  : function(res){
-							
+
 							if(res > 0){
-								alert('계정탈퇴가 신청되었습니다.');
+
+								if(tempStr == '7'){
+									alert('계정탈퇴가 철회되었습니다.');
+									$("#btn-userDelete").html('탈퇴신청');
+									$("#btn-userDelete").val('1');
+									$("#btn-userDelete").addClass('text-danger');
+									$("#btn-userDelete").removeClass('text-primary');
+								}else{
+									alert('계정탈퇴가 신청되었습니다.');
+									$("#btn-userDelete").html('탈퇴철회');
+									$("#btn-userDelete").val('7');
+									$("#btn-userDelete").addClass('text-primary');
+									$("#btn-userDelete").removeClass('text-danger');
+								}
+								
 							}
 							
 						},
@@ -1348,6 +1377,15 @@ function getUserInfo(no, str){
 				$("#uNo").val(res.uInfo.userSeq);
 				$("#uId").val(res.uInfo.userId);
 				$("#uNm").val(res.uInfo.userNm);
+				
+				if(res.uInfo.stat == '7'){
+					$("#btn-userDelete").val(res.uInfo.stat);
+					$("#btn-userDelete").html('탈퇴철회');
+				}else{
+					$("#btn-userDelete").val(res.uInfo.stat);
+					$("#btn-userDelete").html('탈퇴신청');
+				}
+				
 				
 				var dflt_profile = '<img class="img-fluid my-round" src="'+contextPath+'/resources/front/main/assets/img/profile.png" alt="profile img" style="width: 25px; height: 25px; object-fit: cover; border-radius: 50%;" />';
 				
