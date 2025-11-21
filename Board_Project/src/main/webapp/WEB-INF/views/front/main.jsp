@@ -388,12 +388,12 @@ $(function(){
 									$("#btn-userDelete").html('탈퇴신청');
 									$("#btn-userDelete").val('1');
 									$("#btn-userDelete").addClass('text-danger');
-									$("#btn-userDelete").removeClass('text-primary');
+									$("#btn-userDelete").removeClass('text-dark');
 								}else{
 									alert('계정탈퇴가 신청되었습니다.');
 									$("#btn-userDelete").html('탈퇴철회');
 									$("#btn-userDelete").val('7');
-									$("#btn-userDelete").addClass('text-primary');
+									$("#btn-userDelete").addClass('text-dark');
 									$("#btn-userDelete").removeClass('text-danger');
 								}
 								
@@ -1381,9 +1381,13 @@ function getUserInfo(no, str){
 				if(res.uInfo.stat == '7'){
 					$("#btn-userDelete").val(res.uInfo.stat);
 					$("#btn-userDelete").html('탈퇴철회');
+					$("#btn-userDelete").addClass('text-dark');
+					$("#btn-userDelete").removeClass('text-danger');
 				}else{
 					$("#btn-userDelete").val(res.uInfo.stat);
 					$("#btn-userDelete").html('탈퇴신청');
+					$("#btn-userDelete").addClass('text-danger');
+					$("#btn-userDelete").removeClass('text-dark');
 				}
 				
 				
