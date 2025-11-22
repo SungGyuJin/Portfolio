@@ -30,6 +30,7 @@ $(function(){
 // 		location.href = '/login.do';
     }
 	
+    
 	getUserInfo($("#uno").val(), 'refresh');
 	
 	$("#btn-addProfile").on('click', function(){
@@ -389,12 +390,14 @@ $(function(){
 									$("#btn-userDelete").val('1');
 									$("#btn-userDelete").addClass('text-danger');
 									$("#btn-userDelete").removeClass('text-dark');
+									userOptionInit(tempStr);
 								}else{
 									alert('계정탈퇴가 신청되었습니다.');
 									$("#btn-userDelete").html('탈퇴철회');
 									$("#btn-userDelete").val('7');
 									$("#btn-userDelete").addClass('text-dark');
 									$("#btn-userDelete").removeClass('text-danger');
+									userOptionInit(tempStr);
 								}
 								
 							}
@@ -1390,7 +1393,6 @@ function getUserInfo(no, str){
 					$("#btn-userDelete").removeClass('text-dark');
 				}
 				
-				
 				var dflt_profile = '<img class="img-fluid my-round" src="'+contextPath+'/resources/front/main/assets/img/profile.png" alt="profile img" style="width: 25px; height: 25px; object-fit: cover; border-radius: 50%;" />';
 				
 				if(res.uInfo.filePath.length > 0){
@@ -1404,9 +1406,12 @@ function getUserInfo(no, str){
 					var p_html = '<img src="'+ contextPath + res.uInfo.filePath+'/'+res.uInfo.strgFileNm+'" class="card-img-top" alt="thumbnail" onerror="this.onerror=null; this.src=\''+contextPath +'/resources/front/main/assets/img/profile.png\'" style="width: 25px; height: 25px; object-fit: cover; border-radius: 50%;">';
 					$("#user-profile").html(p_html);
 					
-				}else{
+				}else{ 
 					$("#user-profile").html(dflt_profile);
 				}
+				
+				userOptionInit(res.uInfo.stat);
+				
 			},
 			error : function(request, status, error){
 				Swal.fire({
@@ -1415,6 +1420,26 @@ function getUserInfo(no, str){
 				})
 			}
 		});
+	}
+}
+
+function userOptionInit(str){
+	if(str == 7){
+		$("#uNm").prop('disabled', true);
+		$("#uPwd").prop('disabled', true);
+		$("#uPwd-chk").prop('disabled', true);
+		$("#btn-addProfile").prop('disabled', true);
+		$("#btn-delProfile").prop('disabled', true);
+		$("#btn-userSave").addClass('d-none');
+		$("#btn-userRefresh").addClass('d-none');
+	}else{
+		$("#uNm").prop('disabled', false);
+		$("#uPwd").prop('disabled', false);
+		$("#uPwd-chk").prop('disabled', false);
+		$("#btn-addProfile").prop('disabled', false);
+		$("#btn-delProfile").prop('disabled', false);
+		$("#btn-userSave").removeClass('d-none');
+		$("#btn-userRefresh").removeClass('d-none');
 	}
 }
 
@@ -2410,7 +2435,7 @@ function btnAddCmntChange(str){
 				            	</div>
 				            	<div class="d-flex gap-2">
 						            <button type="button" class="naver-button text-danger" id="btn-userDelete">탈퇴신청</button>
-						            <button type="button" class="naver-button" onclick="getUserInfo('${sessionScope.USERSEQ }', 'refresh');">
+						            <button type="button" class="naver-button" id="btn-userRefresh" onclick="getUserInfo('${sessionScope.USERSEQ }', 'refresh');">
 						            	<img src="${pageContext.request.contextPath}/resources/front/main/assets/img/front-refresh.png" alt="profile img" />
 						            </button>
 						            <button type="button" class="naver-button" id="btn-userSave">저장</button>
