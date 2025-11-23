@@ -329,7 +329,7 @@ $(function(){
 
 		var tempMsg = '';
 		var tempStr = $(this).val();
-		
+
 		if(tempStr == '7'){
 			tempMsg = '(탈퇴신청을 철회합니다.)';
 		}else{
@@ -383,23 +383,22 @@ $(function(){
 						success  : function(res){
 
 							if(res > 0){
-
+								
 								if(tempStr == '7'){
 									alert('계정탈퇴가 철회되었습니다.');
 									$("#btn-userDelete").html('탈퇴신청');
 									$("#btn-userDelete").val('1');
 									$("#btn-userDelete").addClass('text-danger');
 									$("#btn-userDelete").removeClass('text-dark');
-									userOptionInit(tempStr);
 								}else{
 									alert('계정탈퇴가 신청되었습니다.');
 									$("#btn-userDelete").html('탈퇴철회');
 									$("#btn-userDelete").val('7');
 									$("#btn-userDelete").addClass('text-dark');
 									$("#btn-userDelete").removeClass('text-danger');
-									userOptionInit(tempStr);
 								}
 								
+								userOptionInit($("#btn-userDelete").val());
 							}
 							
 						},
@@ -1425,21 +1424,23 @@ function getUserInfo(no, str){
 
 function userOptionInit(str){
 	if(str == 7){
-		$("#uNm").prop('disabled', true);
-		$("#uPwd").prop('disabled', true);
-		$("#uPwd-chk").prop('disabled', true);
+		$("#uNm").prop('readonly', true);
+		$("#uPwd").prop('readonly', true);
+		$("#uPwd-chk").prop('readonly', true);
 		$("#btn-addProfile").prop('disabled', true);
 		$("#btn-delProfile").prop('disabled', true);
 		$("#btn-userSave").addClass('d-none');
 		$("#btn-userRefresh").addClass('d-none');
+		$("#uSttsMent").removeClass('d-none');
 	}else{
-		$("#uNm").prop('disabled', false);
-		$("#uPwd").prop('disabled', false);
-		$("#uPwd-chk").prop('disabled', false);
+		$("#uNm").prop('readonly', false);
+		$("#uPwd").prop('readonly', false);
+		$("#uPwd-chk").prop('readonly', false);
 		$("#btn-addProfile").prop('disabled', false);
 		$("#btn-delProfile").prop('disabled', false);
 		$("#btn-userSave").removeClass('d-none');
 		$("#btn-userRefresh").removeClass('d-none');
+		$("#uSttsMent").addClass('d-none');
 	}
 }
 
@@ -2434,6 +2435,7 @@ function btnAddCmntChange(str){
 						        	<h1>Information</h1>
 				            	</div>
 				            	<div class="d-flex gap-2">
+				            		<small class="text-danger mt-2" id="uSttsMent">* 현재 탈퇴신청 상태입니다.<br>수정을 원하시면 탈퇴를 철회하세요.</small>
 						            <button type="button" class="naver-button text-danger" id="btn-userDelete">탈퇴신청</button>
 						            <button type="button" class="naver-button" id="btn-userRefresh" onclick="getUserInfo('${sessionScope.USERSEQ }', 'refresh');">
 						            	<img src="${pageContext.request.contextPath}/resources/front/main/assets/img/front-refresh.png" alt="profile img" />

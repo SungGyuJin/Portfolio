@@ -114,8 +114,8 @@
 		UPDATE
 			TB_USER
 		SET
-			USER_NM	= #{userNm}
-			, STAT = #{stat}
+			STAT = #{stat}
+			, USER_NM	= #{userNm}
 		<if test="userPwd != null and userPwd != ''">
 			, USER_PWD	= SHA2(#{userPwd}, 256)
 		</if>
