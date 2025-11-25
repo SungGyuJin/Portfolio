@@ -44,6 +44,7 @@
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
 <!--                 <h6 class="collapse-header">Custom Components:</h6> -->
+                <a class="collapse-item" href="/admin/main/list.do">메인 관리</a>
                 <a class="collapse-item" href="/admin/bbs/list.do">게시판 관리</a>
                 <a class="collapse-item" href="/admin/board/list.do">게시물 관리</a>
                 <a class="collapse-item" href="/admin/user/list.do">회원 관리</a>
