@@ -18,7 +18,7 @@
                     <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0 fw-bolder">
                     
 						<c:if test="${sessionScope.USERSE eq 'A' }">
-                        	<li class="nav-item"><a class="nav-link admin-page" href="${pageContext.request.contextPath}/admin/main.do">Admin</a></li>
+                        	<li class="nav-item"><a class="nav-link admin-page" href="${pageContext.request.contextPath}/admin/main/home.do">Admin</a></li>
 						</c:if>
 						
                         <li class="nav-item"><a class="nav-link" href="#techStack">Tech Stack</a></li>
