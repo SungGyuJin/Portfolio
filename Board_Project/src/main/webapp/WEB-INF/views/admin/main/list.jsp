@@ -8,42 +8,6 @@
 
 	$(function(){
 		
-		$("#dataTable").sortable({
-            items:$('.sorting'),
-            start:function(event, ui){
-				
-            },
-            stop: function(event, ui) {
-            	
-            	var html = '';
-            	
-                $("#dataTable .sorting_1").each(function(index){
-					html += '<input type="hidden" name="bbsSeqArr" value="'+$(this).attr('aria-label')+'">';
-					html += '<input type="hidden" name="srtOrdArr" value="'+(index+1)+'">';
-                });
-                
-                $("#frm_sorting").html(html);
-                
-                $.ajax({
-        			url      : contextPath+"updateBbsSrtOrd.do",
-        			method   : "GET",
-        			data     : $("#frm_sorting").serialize(),
-        			dataType : "json",
-        			success  : function(res){
-						
-        				
-        			},
-        			error : function(request, status, error){
-        				Swal.fire({
-        					icon: "error",
-        					title: "통신불가"
-        				})
-        			}
-        		});
-            }
-			
-        });
-		
 		initBbs('init');
 		
 		// 신규등록 버튼
@@ -327,7 +291,7 @@
 
       	<!-- Page Heading -->
 		<div class="d-sm-flex align-items-center justify-content-between mb-4">
-         	<h1 class="h3 mb-0 text-gray-800 ml-1"><strong>게시판 관리</strong></h1>
+         	<h1 class="h3 mb-0 text-gray-800 ml-1"><strong>메인 관리</strong></h1>
 <!--          	<a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> -->
      	</div>
 
@@ -335,7 +299,7 @@
 			<div class="col-xl-9 col-lg-7">
     			<div class="card shadow mb-4">
 					<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-    					<h5 class="m-0 font-weight-bold text-primary"><span id="bbs-ttl">게시판 목록</span> (${total })</h5>
+    					<h5 class="m-0 font-weight-bold text-primary">배너 관리</h5>
     					<div class="dropdown no-arrow">
 	        				<!-- <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 	    						<i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
@@ -375,9 +339,9 @@
 												</colgroup>
 												<thead>
 												    <tr role="row">
-												    	<th class="sorting sorting_asc text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 154px;">게시판명</th>
-														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">등록일시</th>
-														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">수정일시</th>
+												    	<th class="sorting sorting_asc text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 154px;">배너명1</th>
+														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">배너명2</th>
+														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">배너 이미지</th>
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">상태</th>
 												    </tr>
 												</thead>
@@ -451,6 +415,245 @@
 						</form>
    					</div>
          		</div>
+         		
+         		<div class="card shadow mb-4">
+					<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+    					<h5 class="m-0 font-weight-bold text-primary">Tech Stack</h5>
+    					<div class="dropdown no-arrow">
+	        				<!-- <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	    						<i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+							</a> -->
+					        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+					            <div class="dropdown-header">Dropdown Header:</div>
+					            <a class="dropdown-item" href="#">Action</a>
+					            <a class="dropdown-item" href="#">Another action</a>
+					            <div class="dropdown-divider"></div>
+					            <a class="dropdown-item" href="#">Something else here</a>
+					        </div>
+	    					<button class="btn btn-primary btn-icon-split btn-list" id="btn-list" title="목록보기" value="list">
+	    						<span class="text"><i class="fas fa-fw fa-table"></i> 목록</span>
+			    			</button>
+	    					<button class="btn btn-danger btn-icon-split btn-list" id="btn-trash" title="휴지통" value="trash">
+	    						<span class="text"><i class="fas fa-trash"></i> 휴지통</span>
+			    			</button>
+    					</div>
+					</div>
+					
+					<!-- Card Body -->
+					<div class="card-body">
+<%-- 							<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum }" /> --%>
+<%-- 							<input type="hidden" name="amount" value="${pageMaker.cri.amount }"  /> --%>
+						<form id="frm-search" method="get">
+							<input type="hidden" name="listTyp" id="listTyp" value="${bbsVO.listTyp }" readonly="readonly">
+					    	<div class="table-responsive" style="overflow-x: hidden;">
+					  			<div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+									<div class="row">
+										<div class="col-sm-12">
+											<table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+												<colgroup>
+													<col width="30">	<!-- 게시판명 	-->
+													<col width="100"> 	<!-- 등록일시 	-->
+													<col width="100"> 	<!-- 수정일시 	-->
+													<col width="20"> 	<!-- 상태    	-->
+												</colgroup>
+												<thead>
+												    <tr role="row">
+												    	<th class="sorting sorting_asc text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 154px;">배너명1</th>
+														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">배너명2</th>
+														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">배너 이미지</th>
+														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">상태</th>
+												    </tr>
+												</thead>
+												<tbody>
+													<c:forEach var="list" varStatus="varStatus" items="${getBbsList }">
+													<tr class="text-center sorting" onclick="getBbs(${list.bbsSeq});" id="tr-${list.bbsSeq }">
+														<td class="sorting_1" id="nm-${list.bbsSeq }" aria-label="${list.bbsSeq }">${list.nm }</td>
+														<td>${list.regDt }</td>
+														<td>${list.updDt }</td>
+														<td>
+															<c:choose>
+																<c:when test="${list.stat eq 1 }">
+																	<strong class="ms-3"><span class="text-primary">사용중</span></strong>
+																</c:when>
+																<c:otherwise>
+																	<strong class="ms-3"><span class="text-danger">삭제됨</span></strong>
+																</c:otherwise>
+															</c:choose>
+													    </td>
+													</tr>
+													</c:forEach>
+													<c:if test="${empty getBbsList }">
+													<tr class="text-center">
+														<td colspan="5">
+															<c:if test="${bbsVO.listTyp eq 'list' }"><strong class="text-lg"><br>등록된 게시판이 없습니다.<br><br></strong></c:if>
+															<c:if test="${bbsVO.listTyp eq 'trash' }"><strong class="text-lg"><br>삭제된 게시판이 없습니다.<br><br></strong></c:if>
+														</td>
+													</tr>
+													</c:if>
+									        	</tbody>
+											</table>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-sm-12 col-md-7">
+											<div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
+										 		<ul class="pagination">
+										 			
+									 			 	<!-- 이전페이지 버튼 -->
+									 			 	<c:if test="${pageMaker.prev}">
+														<li class="paginate_button page-item previous" id="dataTable_previous"><a href="/admin/bbs/list.do?pageNum=${pageMaker.startPage-1}" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li>
+									 				</c:if>
+									 				
+									 				<!-- 페이지 번호 -->
+													<c:forEach var="num" begin="${pageMaker.startPage }" end="${pageMaker.endPage }">
+										 				<li class="paginate_button page-item <c:if test="${pageMaker.cri.pageNum eq num }"> active</c:if>"><a href="/admin/bbs/list.do?pageNum=${num }&amp;searchKeyword=${bbsVO.searchKeyword}" aria-controls="dataTable" data-dt-idx="${num }" tabindex="0" class="page-link">${num }</a></li>
+													</c:forEach>
+													
+													<!-- 다음페이지 버튼 -->
+													<c:if test="${pageMaker.next}">
+											  			<li class="pageInfo_btn page-item next" id="dataTable_next"><a href="/admin/bbs/list.do?pageNum=${pageMaker.endPage + 1 }" aria-controls="dataTable" data-dt-idx="${pageMaker.endPage + 1 }" tabindex="0" class="page-link">Next</a></li>
+													</c:if>
+										 		</ul>
+											</div>
+										</div>
+										<div class="col-sm-12 col-md-5 text-right">
+											<!-- <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div> -->
+											<div class="input-group w-75 mb-1" style="display: inline-flex; width: auto;">
+									    		<input type="text" class="form-control bg-light border-0 small" name="searchKeyword" placeholder="게시판명을 입력하세요." aria-label="Search" aria-describedby="basic-addon2" autocomplete="off" value="${bbsVO.searchKeyword }">
+									    		<div class="input-group-append">
+											        <button type="submit" class="btn btn-primary" type="button">
+											            <i class="fas fa-search"></i>
+											        </button>
+									    		</div>
+											</div>
+										</div>
+									</div>
+	      						</div>
+	       					</div>
+       					
+						</form>
+   					</div>
+         		</div>
+         		
+         		<div class="card shadow mb-4">
+					<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+    					<h5 class="m-0 font-weight-bold text-primary">포트폴리오</h5>
+    					<div class="dropdown no-arrow">
+	        				<!-- <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	    						<i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+							</a> -->
+					        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+					            <div class="dropdown-header">Dropdown Header:</div>
+					            <a class="dropdown-item" href="#">Action</a>
+					            <a class="dropdown-item" href="#">Another action</a>
+					            <div class="dropdown-divider"></div>
+					            <a class="dropdown-item" href="#">Something else here</a>
+					        </div>
+	    					<button class="btn btn-primary btn-icon-split btn-list" id="btn-list" title="목록보기" value="list">
+	    						<span class="text"><i class="fas fa-fw fa-table"></i> 목록</span>
+			    			</button>
+	    					<button class="btn btn-danger btn-icon-split btn-list" id="btn-trash" title="휴지통" value="trash">
+	    						<span class="text"><i class="fas fa-trash"></i> 휴지통</span>
+			    			</button>
+    					</div>
+					</div>
+					
+					<!-- Card Body -->
+					<div class="card-body">
+<%-- 							<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum }" /> --%>
+<%-- 							<input type="hidden" name="amount" value="${pageMaker.cri.amount }"  /> --%>
+						<form id="frm-search" method="get">
+							<input type="hidden" name="listTyp" id="listTyp" value="${bbsVO.listTyp }" readonly="readonly">
+					    	<div class="table-responsive" style="overflow-x: hidden;">
+					  			<div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+									<div class="row">
+										<div class="col-sm-12">
+											<table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+												<colgroup>
+													<col width="30">	<!-- 게시판명 	-->
+													<col width="100"> 	<!-- 등록일시 	-->
+													<col width="100"> 	<!-- 수정일시 	-->
+													<col width="20"> 	<!-- 상태    	-->
+												</colgroup>
+												<thead>
+												    <tr role="row">
+												    	<th class="sorting sorting_asc text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 154px;">배너명1</th>
+														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">배너명2</th>
+														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">배너 이미지</th>
+														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">상태</th>
+												    </tr>
+												</thead>
+												<tbody>
+													<c:forEach var="list" varStatus="varStatus" items="${getBbsList }">
+													<tr class="text-center sorting" onclick="getBbs(${list.bbsSeq});" id="tr-${list.bbsSeq }">
+														<td class="sorting_1" id="nm-${list.bbsSeq }" aria-label="${list.bbsSeq }">${list.nm }</td>
+														<td>${list.regDt }</td>
+														<td>${list.updDt }</td>
+														<td>
+															<c:choose>
+																<c:when test="${list.stat eq 1 }">
+																	<strong class="ms-3"><span class="text-primary">사용중</span></strong>
+																</c:when>
+																<c:otherwise>
+																	<strong class="ms-3"><span class="text-danger">삭제됨</span></strong>
+																</c:otherwise>
+															</c:choose>
+													    </td>
+													</tr>
+													</c:forEach>
+													<c:if test="${empty getBbsList }">
+													<tr class="text-center">
+														<td colspan="5">
+															<c:if test="${bbsVO.listTyp eq 'list' }"><strong class="text-lg"><br>등록된 게시판이 없습니다.<br><br></strong></c:if>
+															<c:if test="${bbsVO.listTyp eq 'trash' }"><strong class="text-lg"><br>삭제된 게시판이 없습니다.<br><br></strong></c:if>
+														</td>
+													</tr>
+													</c:if>
+									        	</tbody>
+											</table>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-sm-12 col-md-7">
+											<div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
+										 		<ul class="pagination">
+										 			
+									 			 	<!-- 이전페이지 버튼 -->
+									 			 	<c:if test="${pageMaker.prev}">
+														<li class="paginate_button page-item previous" id="dataTable_previous"><a href="/admin/bbs/list.do?pageNum=${pageMaker.startPage-1}" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li>
+									 				</c:if>
+									 				
+									 				<!-- 페이지 번호 -->
+													<c:forEach var="num" begin="${pageMaker.startPage }" end="${pageMaker.endPage }">
+										 				<li class="paginate_button page-item <c:if test="${pageMaker.cri.pageNum eq num }"> active</c:if>"><a href="/admin/bbs/list.do?pageNum=${num }&amp;searchKeyword=${bbsVO.searchKeyword}" aria-controls="dataTable" data-dt-idx="${num }" tabindex="0" class="page-link">${num }</a></li>
+													</c:forEach>
+													
+													<!-- 다음페이지 버튼 -->
+													<c:if test="${pageMaker.next}">
+											  			<li class="pageInfo_btn page-item next" id="dataTable_next"><a href="/admin/bbs/list.do?pageNum=${pageMaker.endPage + 1 }" aria-controls="dataTable" data-dt-idx="${pageMaker.endPage + 1 }" tabindex="0" class="page-link">Next</a></li>
+													</c:if>
+										 		</ul>
+											</div>
+										</div>
+										<div class="col-sm-12 col-md-5 text-right">
+											<!-- <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div> -->
+											<div class="input-group w-75 mb-1" style="display: inline-flex; width: auto;">
+									    		<input type="text" class="form-control bg-light border-0 small" name="searchKeyword" placeholder="게시판명을 입력하세요." aria-label="Search" aria-describedby="basic-addon2" autocomplete="off" value="${bbsVO.searchKeyword }">
+									    		<div class="input-group-append">
+											        <button type="submit" class="btn btn-primary" type="button">
+											            <i class="fas fa-search"></i>
+											        </button>
+									    		</div>
+											</div>
+										</div>
+									</div>
+	      						</div>
+	       					</div>
+       					
+						</form>
+   					</div>
+         		</div>
+         		
      		</div>
 
 			<div class="col-xl-3 col-lg-5">
