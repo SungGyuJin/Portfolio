@@ -10,9 +10,11 @@ import lombok.Setter;
 public class MainVO extends DefalutVO {
 	
 	private int    mainSeq 		=   0;  // 메인 일련번호
-	private String bannerTtl1 	=  ""; 	// 배너명1
-	private String bannerTtl2 	=  "";	// 배너명2
-	private String techNm 		= "N";	// 기술명
+	private String mainSe 		=  ""; 	// 메인 구분(B, T, P)
+	private String mainTtl 		=  ""; 	// 메인 제목
+	private String subTtl 		=  ""; 	// 서브 제목
+	private String techNm 		=  "";	// 기술명
+	private String poforNm 		=  "";	// 포트폴리오명
 	private int    regNo 		=   0;	// 등록자 번호
 	private String regDt 		=  "";	// 등록일자
 	private int    updNo 		=   0;	// 수정자 번호
@@ -21,9 +23,9 @@ public class MainVO extends DefalutVO {
 	
 	@Override
 	public String toString() {
-		return "MainVO [mainSeq=" + mainSeq + ", bannerTtl1=" + bannerTtl1 + ", bannerTtl2=" + bannerTtl2 + ", techNm="
-				+ techNm + ", regNo=" + regNo + ", regDt=" + regDt + ", updNo=" + updNo + ", updDt=" + updDt + ", stat="
-				+ stat + "]";
+		return "MainVO [mainSeq=" + mainSeq + ", mainSe=" + mainSe + ", mainTtl=" + mainTtl + ", subTtl=" + subTtl
+				+ ", techNm=" + techNm + ", poforNm=" + poforNm + ", regNo=" + regNo + ", regDt=" + regDt + ", updNo="
+				+ updNo + ", updDt=" + updDt + ", stat=" + stat + "]";
 	}
 	
 }

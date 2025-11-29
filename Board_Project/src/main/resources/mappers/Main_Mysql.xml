@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gyu.portfolio.service.mapper.MainMapper">
+	
+	<resultMap id="mainVO" type="mainVO">
+		<result property="userSeq"	column="USER_SEQ"	/>
+		<result property="userId"	column="USER_ID" 	/>
+		<result property="userPwd"	column="USER_PWD" 	/>
+		<result property="userNm"	column="USER_NM" 	/>
+		<result property="userSe"	column="USER_SE" 	/>
+		
+		<result property="fileNm"		column="FILE_NM" 	  />
+		<result property="fileExt"		column="FILE_EXT" 	  />
+		<result property="fileSz"		column="FILE_SZ" 	  />
+		<result property="filePath"		column="FILE_PATH" 	  />
+		<result property="strgFileNm"	column="STRG_FILE_NM" />
+		<result property="rsMatch"	    column="RS_MATCH"	/>
+		
+		<result property="stat"		column="STAT" 		/>
+		<result property="inputPwd"	column="INPUT_PWD" 	/>
+	</resultMap>
+	
+	
+</mapper>

@@ -8,6 +8,7 @@
 		<typeAlias type="com.gyu.portfolio.model.BoardVO" 	alias="boardVO"		/>
 		<typeAlias type="com.gyu.portfolio.model.CmntVO" 	alias="cmntVO"		/>
 		<typeAlias type="com.gyu.portfolio.model.UserVO" 	alias="userVO"		/>
+		<typeAlias type="com.gyu.portfolio.model.MainVO" 	alias="mainVO"		/>
 	</typeAliases>
 	
 	
@@ -30,6 +31,7 @@
 		<mapper resource="/mappers/Board_Mysql.xml"		/>
 		<mapper resource="/mappers/Cmnt_Mysql.xml"		/>
 		<mapper resource="/mappers/User_Mysql.xml"		/>
+		<mapper resource="/mappers/Main_Mysql.xml"		/>
 	</mappers>
 	
 </configuration>
