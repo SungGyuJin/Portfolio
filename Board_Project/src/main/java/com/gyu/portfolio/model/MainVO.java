@@ -15,6 +15,7 @@ public class MainVO extends DefalutVO {
 	private String subTtl 		=  ""; 	// 서브 제목
 	private String techNm 		=  "";	// 기술명
 	private String poforNm 		=  "";	// 포트폴리오명
+	private String expln 		=  "";	// 설명
 	private int    regNo 		=   0;	// 등록자 번호
 	private String regDt 		=  "";	// 등록일자
 	private int    updNo 		=   0;	// 수정자 번호
@@ -24,8 +25,8 @@ public class MainVO extends DefalutVO {
 	@Override
 	public String toString() {
 		return "MainVO [mainSeq=" + mainSeq + ", mainSe=" + mainSe + ", mainTtl=" + mainTtl + ", subTtl=" + subTtl
-				+ ", techNm=" + techNm + ", poforNm=" + poforNm + ", regNo=" + regNo + ", regDt=" + regDt + ", updNo="
-				+ updNo + ", updDt=" + updDt + ", stat=" + stat + "]";
+				+ ", techNm=" + techNm + ", poforNm=" + poforNm + ", expln=" + expln + ", regNo=" + regNo + ", regDt="
+				+ regDt + ", updNo=" + updNo + ", updDt=" + updDt + ", stat=" + stat + "]";
 	}
 	
 }

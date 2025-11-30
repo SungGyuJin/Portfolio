@@ -3,21 +3,19 @@
 <mapper namespace="com.gyu.portfolio.service.mapper.MainMapper">
 	
 	<resultMap id="mainVO" type="mainVO">
-		<result property="userSeq"	column="USER_SEQ"	/>
-		<result property="userId"	column="USER_ID" 	/>
-		<result property="userPwd"	column="USER_PWD" 	/>
-		<result property="userNm"	column="USER_NM" 	/>
-		<result property="userSe"	column="USER_SE" 	/>
+		<result property="mainSeq"	column="MAIN_SEQ"	/>
+		<result property="mainSe"	column="MAIN_SE" 	/>
+		<result property="mainTtl"	column="MAIN_TTL" 	/>
+		<result property="subTtl"	column="SUB_TTL" 	/>
+		<result property="techNm"	column="TECH_NM" 	/>
+		<result property="poforNm"	column="POFOR_NM" 	/>
+		<result property="expln"	column="EXPLN" 	  	/>
 		
-		<result property="fileNm"		column="FILE_NM" 	  />
-		<result property="fileExt"		column="FILE_EXT" 	  />
-		<result property="fileSz"		column="FILE_SZ" 	  />
-		<result property="filePath"		column="FILE_PATH" 	  />
-		<result property="strgFileNm"	column="STRG_FILE_NM" />
-		<result property="rsMatch"	    column="RS_MATCH"	/>
-		
+		<result property="regNo"	column="REG_NO" 	/>
+		<result property="regDt"	column="REG_DT" 	/>
+		<result property="updNo"	column="UPD_NO" 	/>
+		<result property="updDt"	column="UPD_DT" 	/>
 		<result property="stat"		column="STAT" 		/>
-		<result property="inputPwd"	column="INPUT_PWD" 	/>
 	</resultMap>
 	
 	
