@@ -308,6 +308,13 @@
 					            <div class="dropdown-divider"></div>
 					            <a class="dropdown-item" href="#">Something else here</a>
 					        </div>
+					        
+	    					<button class="btn btn-primary btn-icon-split btn-list" id="btn-list" title="목록보기" value="list">
+	    						<span class="text"><i class="fas fa-fw fa-table"></i> 목록</span>
+			    			</button>
+	    					<button class="btn btn-danger btn-icon-split btn-list" id="btn-trash" title="휴지통" value="trash">
+	    						<span class="text"><i class="fas fa-trash"></i> 휴지통</span>
+			    			</button>
     					</div>
 					</div>
 					
@@ -322,7 +329,6 @@
 										<div class="col-sm-12">
 											<table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
 												<colgroup>
-													<col width="60">	<!-- 배너이미지 -->
 													<col width="60"> 	<!-- 배너명1 	-->
 													<col width="60"> 	<!-- 배너명2 	-->
 													<col width="60"> 	<!-- 등록일 	-->
@@ -331,7 +337,6 @@
 												</colgroup>
 												<thead>
 												    <tr role="row">
-												    	<th class="sorting sorting_asc text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending">배너이미지</th>
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">배너명1</th>
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">배너명2</th>
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">등록일</th>
@@ -341,11 +346,6 @@
 												</thead>
 												<tbody>
 													<tr class="text-center sorting">
-														<td class="sorting_1" id="nm-${list.bbsSeq }" aria-label="">
-															<span class="mt-2">
-																등록된 배너 이미지가 없습니다.
-															</span>
-														</td>
 														<td><input type="text" class="form-control form-control-user text-center"></td>
 														<td><input type="text" class="form-control form-control-user text-center"></td>
 														<td>등록일시</td>
@@ -363,7 +363,7 @@
 													</tr>
 													<c:if test="${empty getBbsList }">
 													<tr class="text-center">
-														<td colspan="6">
+														<td colspan="5">
 															<strong class="text-lg"><br>등록된 배너데이터가 없습니다.<br><br></strong>
 														</td>
 													</tr>
@@ -637,46 +637,17 @@
 	                      			<label for="bbs-title"><strong>Banner</strong></label>
 	                          		<input type="email" class="form-control form-control-user init-class" name="nm" id="nm" placeholder="게시판명" autocomplete="off">
 	                      		</div>
+	                      		<div class="form-group">
+	                      			<label for="bbs-title"><strong>Image</strong></label>
+	                      			<div>
+	                      				등록된 이미지가 없습니다.
+	                      			</div>
+	                      		</div>
 	                    		<div class="form-group">
 		                      		<label for="bbs-title"><strong>설명</strong></label>
 		                         	<input type="email" class="form-control form-control-user init-class" name="expln" id="expln" placeholder="설명" autocomplete="off">
 	                      		</div>
 	                      		<hr>
-<!-- 	                      		<small class="text-danger"><strong>*게시판 옵션을 선택하세요.</strong></small> -->
-	                      		<small class="text-danger">* 게시판 옵션을 선택하세요.</small>
-				             	<div class="form-group row mt-2">
-									<div class="col-sm-6 mb-3 mb-sm-0">
-										<label class="toggle-wrapper">
-											<strong>답글</strong>
-										  	<input type="checkbox" class="tiny-toggle init-class" id="replyYn" name="replyYn" value="Y" />
-									  		<span class="tiny-slider"></span>
-										</label>
-									</div>
-		                      	 	<div class="col-sm-6 mb-3 mb-sm-0">
-										<label class="toggle-wrapper">
-										  <strong>첨부파일</strong>
-										  <input type="checkbox" class="tiny-toggle init-class" id="atchYn" name="atchYn" value="Y" />
-										  <span class="tiny-slider"></span>
-										</label>
-									</div>
-								</div>
-			                      
-		                      	<div class="form-group row">
-									<div class="col-sm-6 mb-3 mb-sm-0">
-										<label class="toggle-wrapper">
-										  	<strong>댓글</strong>
-										  	<input type="checkbox" class="tiny-toggle init-class" id="comentYn" name="comentYn" value="Y" />
-										  	<span class="tiny-slider"></span>
-										</label>
-									</div>
-									<div class="col-sm-6 mb-3 mb-sm-0">
-										<label class="toggle-wrapper">
-											<strong>비밀&nbsp;글</strong>
-											<input type="checkbox" class="tiny-toggle init-class" id="secrtYn" name="secrtYn" value="Y" />
-											<span class="tiny-slider"></span>
-										</label>
-			                        </div>
-		                      	</div>
 							</form>
 			  
 						<div class="text-center">
@@ -686,7 +657,7 @@
 <!-- 										<button class="btn btn-primary btn-icon-split init-class" id="btn-save" onclick="bbsPostFlag();"> -->
 										<button class="btn btn-primary btn-icon-split init-class" id="btn-save" onclick="btnControl('add');">
 <!-- 										    <span class="icon text-white-50"><i class="fas fa-check"></i></span> -->
-									    	<span class="text" id="btn-text-span">등록완료</span>
+									    	<span class="text" id="btn-text-span">저장</span>
 										</button>
 <!-- 										<button class="btn btn-secondary btn-icon-split init-class" id="btn-reset" onclick="btnReset();"> -->
 										<button class="btn btn-secondary btn-icon-split init-class" id="btn-reset" onclick="btnControl('reset');">
@@ -708,6 +679,9 @@
 									<button class="btn btn-danger btn-icon-split init-class d-none" id="btn-delPermnt" onclick="btnControl('stat', '9');">
 <!-- 										<span class="icon text-white-50"><i class="fas fa-trash"></i></span> -->
 				         				<span class="text">영구삭제</span>
+				    				</button>
+									<button class="btn btn-success btn-icon-split" id="btn-bannerImg" onclick="btnControl('img', '9');">
+				         				<span class="text">배너이미지 추가</span>
 				    				</button>
 			    				</div>
 							</div>
