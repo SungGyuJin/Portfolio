@@ -46,11 +46,96 @@
 			btnRegister();
 		}else if(e == 'reset'){
 			btnReset();
+		}else if(e == 'img'){
+			$("#banner-file").trigger('click');
 		}else{
 			changeStat_1(num);
 		}
 	}
 
+	function btnImg(){
+		
+	}
+
+	// 배너이미지
+	function bannerImgChk(e, event, gubun){
+
+	    console.log('진입!!')
+	    
+		var file = e.files;
+
+		if(file.length > 0){
+			var imgChk = file[0].type.substr(0,5);
+
+			if(imgChk != "image"){
+				alert("이미지파일만 첨부 가능합니다");
+				$("#"+gubun+"-file-thumb").val('');
+				$("#"+gubun+"-thumb-view").children().remove();
+				$("#"+gubun+"-file-thumbYn").val('N');
+				return false;
+			}
+			
+			var formData = new FormData();
+			
+		    formData.append("files", file[0]);
+			
+		    console.log(file)
+		    
+			$.ajax({
+				url      : contextPath+"/main/upload.do",
+				method   : "POST",
+				data     : formData,
+				processData: false,
+				contentType: false,
+				dataType : "json",
+				success  : function(res){
+
+					var reader = new FileReader();
+					
+					reader.onload = function(event) {
+						$("#banner-area").children().remove();
+						var img_html = '';
+						img_html += '<img src="'+ event.target.result +'" style="height: auto; width: 100%;">';
+						img_html += '<span class="thumb-close" onclick="removeThumb(\''+gubun+'\');">&times;</span>';
+						$("#banner-area").append(img_html);
+					};
+					
+					reader.readAsDataURL(file[0]);
+
+					$("#bannerYn").val('Y');
+
+		        	var html = '';
+					
+					for(var i=0; i < res.fileList.length; i++) {
+						html += '<div class="d-flex fileData-area">';
+						html += 	'<input type="text" name="thumbFileOrgNm" value="'+res.fileList[i].fileOrgNm+'">';
+						html += 	'<input type="text" name="thumbFileSvgNm" value="'+res.fileList[i].fileSvgNm+'">';
+						html += 	'<input type="text" name="thumbFileExt" value="'+res.fileList[i].fileExt+'">';
+						html += 	'<input type="text" name="thumbFilePath" value="'+res.fileList[i].filePath+'">';
+						html += 	'<input type="text" name="thumbFileSize" value="'+res.fileList[i].fileSz+'">';
+						html +=	'</div>';
+					}
+					
+					$("#banner-data").html(html);
+					
+				},
+				error : function(request, status, error){
+					Swal.fire({
+						icon: "error",
+						title: "통신불가"
+					})
+				}
+			});
+			
+		}else{
+			$("#banner-area").children().remove();
+			$("#bannerYn").val('N');
+			$("#banner-file").val('');
+			$("#banner-data").empty();
+		}
+	}
+	
+	
 	// 게시판 등록&수정
 	function btnRegister(){
 		if($("#frm-typ").val() == 'add'){
@@ -639,7 +724,7 @@
 	                      		</div>
 	                      		<div class="form-group">
 	                      			<label for="bbs-title"><strong>Image</strong></label>
-	                      			<div>
+	                      			<div id="banner-area">
 	                      				등록된 이미지가 없습니다.
 	                      			</div>
 	                      		</div>
@@ -647,6 +732,9 @@
 		                      		<label for="bbs-title"><strong>설명</strong></label>
 		                         	<input type="email" class="form-control form-control-user init-class" name="expln" id="expln" placeholder="설명" autocomplete="off">
 	                      		</div>
+			    				<input type="file" class="form-control d-none" id="banner-file" onchange="bannerImgChk(this, event, 'img');">
+	                      		<input type="text" name="thumbYn" class="" id="bannerYn">
+	                      		<div id="banner-data"></div>
 	                      		<hr>
 							</form>
 			  
@@ -654,30 +742,22 @@
 							<div class="d-flex justify-content-between">
 								<div>
 									<div id="btn-divTag1">
-<!-- 										<button class="btn btn-primary btn-icon-split init-class" id="btn-save" onclick="bbsPostFlag();"> -->
 										<button class="btn btn-primary btn-icon-split init-class" id="btn-save" onclick="btnControl('add');">
-<!-- 										    <span class="icon text-white-50"><i class="fas fa-check"></i></span> -->
 									    	<span class="text" id="btn-text-span">저장</span>
 										</button>
-<!-- 										<button class="btn btn-secondary btn-icon-split init-class" id="btn-reset" onclick="btnReset();"> -->
 										<button class="btn btn-secondary btn-icon-split init-class" id="btn-reset" onclick="btnControl('reset');">
-<!-- 											<span class="icon text-white-50"><i class="fas fa-arrow-left"></i></span> -->
 						         			<span class="text">취소</span>
 						    			</button>
 									</div>
 								</div>
 								<div id="btn-divTag2">
-<!-- 									<button class="btn btn-success btn-icon-split init-class d-none" id="btn-restore" onclick="btnDel(4);"> -->
 									<button class="btn btn-success btn-icon-split init-class d-none" id="btn-restore" onclick="btnControl('stat', '1');">
-<!-- 										<span class="icon text-white-50"><i class="fas fa-trash"></i></span> -->
 					         			<span class="text">복구</span>
 					    			</button>
 									<button class="btn btn-danger btn-icon-split init-class d-none" id="btn-del" onclick="btnControl('stat', '0');">
-<!-- 										<span class="icon text-white-50"><i class="fas fa-trash"></i></span> -->
 					         			<span class="text">삭제</span>
 					    			</button>
 									<button class="btn btn-danger btn-icon-split init-class d-none" id="btn-delPermnt" onclick="btnControl('stat', '9');">
-<!-- 										<span class="icon text-white-50"><i class="fas fa-trash"></i></span> -->
 				         				<span class="text">영구삭제</span>
 				    				</button>
 									<button class="btn btn-success btn-icon-split" id="btn-bannerImg" onclick="btnControl('img', '9');">
