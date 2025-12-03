@@ -96,7 +96,7 @@
 						$("#banner-area").children().remove();
 						var img_html = '';
 						img_html += '<img src="'+ event.target.result +'" style="height: auto; width: 100%;">';
-						img_html += '<span class="thumb-close" onclick="removeThumb(\''+gubun+'\');">&times;</span>';
+// 						img_html += '<span class="thumb-close" onclick="removeThumb(\''+gubun+'\');">&times;</span>';
 						$("#banner-area").append(img_html);
 					};
 					
@@ -117,6 +117,7 @@
 					}
 					
 					$("#banner-data").html(html);
+					$("#btn-bannerImgDel").prop('disabled', false);
 					
 				},
 				error : function(request, status, error){
@@ -132,6 +133,7 @@
 			$("#bannerYn").val('N');
 			$("#banner-file").val('');
 			$("#banner-data").empty();
+			$("#btn-bannerImgDel").prop('disabled', true);
 		}
 	}
 	
@@ -377,7 +379,6 @@
       	<!-- Page Heading -->
 		<div class="d-sm-flex align-items-center justify-content-between mb-4">
          	<h1 class="h3 mb-0 text-gray-800 ml-1"><strong>메인 관리</strong></h1>
-<!--          	<a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> -->
      	</div>
 
 		<div class="row">
@@ -393,19 +394,17 @@
 					            <div class="dropdown-divider"></div>
 					            <a class="dropdown-item" href="#">Something else here</a>
 					        </div>
-					        
-	    					<button class="btn btn-primary btn-icon-split btn-list" id="btn-list" title="목록보기" value="list">
-	    						<span class="text"><i class="fas fa-fw fa-table"></i> 목록</span>
+	    					<button class="btn btn-primary btn-icon-split" id="btn-addBanner" title="추가" value="add">
+	    						<span class="text">추가</span>
 			    			</button>
-	    					<button class="btn btn-danger btn-icon-split btn-list" id="btn-trash" title="휴지통" value="trash">
-	    						<span class="text"><i class="fas fa-trash"></i> 휴지통</span>
+	    					<button class="btn btn-danger btn-icon-split" id="btn-delBanner" title="삭제" value="del">
+	    						<span class="text">삭제</span>
 			    			</button>
     					</div>
 					</div>
 					
 					<!-- Card Body -->
 					<div class="card-body">
-<%-- 							<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum }" /> --%>
 						<form id="frm-banner" method="get">
 							<input type="hidden" name="listTyp" id="listTyp" value="${bbsVO.listTyp }" readonly="readonly">
 					    	<div class="table-responsive" style="overflow-x: hidden;">
@@ -414,14 +413,16 @@
 										<div class="col-sm-12">
 											<table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
 												<colgroup>
-													<col width="60"> 	<!-- 배너명1 	-->
-													<col width="60"> 	<!-- 배너명2 	-->
-													<col width="60"> 	<!-- 등록일 	-->
-													<col width="60"> 	<!-- 수정일 	-->
+													<col width="5"> 	<!-- checkbox 	-->
+													<col width="80"> 	<!-- 배너명1 	-->
+													<col width="80"> 	<!-- 배너명2 	-->
+													<col width="80"> 	<!-- 등록일 	-->
+													<col width="80"> 	<!-- 수정일 	-->
 													<col width="10"> 	<!-- 상태    	-->
 												</colgroup>
 												<thead>
 												    <tr role="row">
+														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending"><input type="checkbox" class="cursor-pointer custom-checkbox-lg"></th>
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">배너명1</th>
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">배너명2</th>
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">등록일</th>
@@ -431,6 +432,7 @@
 												</thead>
 												<tbody>
 													<tr class="text-center sorting">
+														<td><input type="checkbox" class="cursor-pointer custom-checkbox-lg"></td>
 														<td><input type="text" class="form-control form-control-user text-center"></td>
 														<td><input type="text" class="form-control form-control-user text-center"></td>
 														<td>등록일시</td>
@@ -448,7 +450,7 @@
 													</tr>
 													<c:if test="${empty getBbsList }">
 													<tr class="text-center">
-														<td colspan="5">
+														<td colspan="6">
 															<strong class="text-lg"><br>등록된 배너데이터가 없습니다.<br><br></strong>
 														</td>
 													</tr>
@@ -478,19 +480,17 @@
 					            <div class="dropdown-divider"></div>
 					            <a class="dropdown-item" href="#">Something else here</a>
 					        </div>
-	    					<button class="btn btn-primary btn-icon-split btn-list" id="btn-list" title="목록보기" value="list">
-	    						<span class="text"><i class="fas fa-fw fa-table"></i> 목록</span>
+	    					<button class="btn btn-primary btn-icon-split" id="btn-addBanner" title="추가" value="add">
+	    						<span class="text">추가</span>
 			    			</button>
-	    					<button class="btn btn-danger btn-icon-split btn-list" id="btn-trash" title="휴지통" value="trash">
-	    						<span class="text"><i class="fas fa-trash"></i> 휴지통</span>
+	    					<button class="btn btn-danger btn-icon-split" id="btn-delBanner" title="삭제" value="del">
+	    						<span class="text">삭제</span>
 			    			</button>
     					</div>
 					</div>
 					
 					<!-- Card Body -->
 					<div class="card-body">
-<%-- 							<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum }" /> --%>
-<%-- 							<input type="hidden" name="amount" value="${pageMaker.cri.amount }"  /> --%>
 						<form id="frm-tech" method="get">
 							<input type="hidden" name="listTyp" id="listTyp" value="${bbsVO.listTyp }" readonly="readonly">
 					    	<div class="table-responsive" style="overflow-x: hidden;">
@@ -542,40 +542,6 @@
 											</table>
 										</div>
 									</div>
-									<div class="row">
-										<div class="col-sm-12 col-md-7">
-											<div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
-										 		<ul class="pagination">
-										 			
-									 			 	<!-- 이전페이지 버튼 -->
-									 			 	<c:if test="${pageMaker.prev}">
-														<li class="paginate_button page-item previous" id="dataTable_previous"><a href="/admin/bbs/list.do?pageNum=${pageMaker.startPage-1}" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li>
-									 				</c:if>
-									 				
-									 				<!-- 페이지 번호 -->
-													<c:forEach var="num" begin="${pageMaker.startPage }" end="${pageMaker.endPage }">
-										 				<li class="paginate_button page-item <c:if test="${pageMaker.cri.pageNum eq num }"> active</c:if>"><a href="/admin/bbs/list.do?pageNum=${num }&amp;searchKeyword=${bbsVO.searchKeyword}" aria-controls="dataTable" data-dt-idx="${num }" tabindex="0" class="page-link">${num }</a></li>
-													</c:forEach>
-													
-													<!-- 다음페이지 버튼 -->
-													<c:if test="${pageMaker.next}">
-											  			<li class="pageInfo_btn page-item next" id="dataTable_next"><a href="/admin/bbs/list.do?pageNum=${pageMaker.endPage + 1 }" aria-controls="dataTable" data-dt-idx="${pageMaker.endPage + 1 }" tabindex="0" class="page-link">Next</a></li>
-													</c:if>
-										 		</ul>
-											</div>
-										</div>
-										<div class="col-sm-12 col-md-5 text-right">
-											<!-- <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div> -->
-											<div class="input-group w-75 mb-1" style="display: inline-flex; width: auto;">
-									    		<input type="text" class="form-control bg-light border-0 small" name="searchKeyword" placeholder="게시판명을 입력하세요." aria-label="Search" aria-describedby="basic-addon2" autocomplete="off" value="${bbsVO.searchKeyword }">
-									    		<div class="input-group-append">
-											        <button type="submit" class="btn btn-primary" type="button">
-											            <i class="fas fa-search"></i>
-											        </button>
-									    		</div>
-											</div>
-										</div>
-									</div>
 	      						</div>
 	       					</div>
        					
@@ -587,9 +553,6 @@
 					<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
     					<h5 class="m-0 font-weight-bold text-primary">포트폴리오</h5>
     					<div class="dropdown no-arrow">
-	        				<!-- <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	    						<i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-							</a> -->
 					        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
 					            <div class="dropdown-header">Dropdown Header:</div>
 					            <a class="dropdown-item" href="#">Action</a>
@@ -597,19 +560,17 @@
 					            <div class="dropdown-divider"></div>
 					            <a class="dropdown-item" href="#">Something else here</a>
 					        </div>
-	    					<button class="btn btn-primary btn-icon-split btn-list" id="btn-list" title="목록보기" value="list">
-	    						<span class="text"><i class="fas fa-fw fa-table"></i> 목록</span>
+	    					<button class="btn btn-primary btn-icon-split" id="btn-addBanner" title="추가" value="add">
+	    						<span class="text">추가</span>
 			    			</button>
-	    					<button class="btn btn-danger btn-icon-split btn-list" id="btn-trash" title="휴지통" value="trash">
-	    						<span class="text"><i class="fas fa-trash"></i> 휴지통</span>
+	    					<button class="btn btn-danger btn-icon-split" id="btn-delBanner" title="삭제" value="del">
+	    						<span class="text">삭제</span>
 			    			</button>
     					</div>
 					</div>
 					
 					<!-- Card Body -->
 					<div class="card-body">
-<%-- 							<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum }" /> --%>
-<%-- 							<input type="hidden" name="amount" value="${pageMaker.cri.amount }"  /> --%>
 						<form id="frm-pofor" method="get">
 							<input type="hidden" name="listTyp" id="listTyp" value="${bbsVO.listTyp }" readonly="readonly">
 					    	<div class="table-responsive" style="overflow-x: hidden;">
@@ -661,43 +622,8 @@
 											</table>
 										</div>
 									</div>
-									<div class="row">
-										<div class="col-sm-12 col-md-7">
-											<div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
-										 		<ul class="pagination">
-										 			
-									 			 	<!-- 이전페이지 버튼 -->
-									 			 	<c:if test="${pageMaker.prev}">
-														<li class="paginate_button page-item previous" id="dataTable_previous"><a href="/admin/bbs/list.do?pageNum=${pageMaker.startPage-1}" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li>
-									 				</c:if>
-									 				
-									 				<!-- 페이지 번호 -->
-													<c:forEach var="num" begin="${pageMaker.startPage }" end="${pageMaker.endPage }">
-										 				<li class="paginate_button page-item <c:if test="${pageMaker.cri.pageNum eq num }"> active</c:if>"><a href="/admin/bbs/list.do?pageNum=${num }&amp;searchKeyword=${bbsVO.searchKeyword}" aria-controls="dataTable" data-dt-idx="${num }" tabindex="0" class="page-link">${num }</a></li>
-													</c:forEach>
-													
-													<!-- 다음페이지 버튼 -->
-													<c:if test="${pageMaker.next}">
-											  			<li class="pageInfo_btn page-item next" id="dataTable_next"><a href="/admin/bbs/list.do?pageNum=${pageMaker.endPage + 1 }" aria-controls="dataTable" data-dt-idx="${pageMaker.endPage + 1 }" tabindex="0" class="page-link">Next</a></li>
-													</c:if>
-										 		</ul>
-											</div>
-										</div>
-										<div class="col-sm-12 col-md-5 text-right">
-											<!-- <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div> -->
-											<div class="input-group w-75 mb-1" style="display: inline-flex; width: auto;">
-									    		<input type="text" class="form-control bg-light border-0 small" name="searchKeyword" placeholder="게시판명을 입력하세요." aria-label="Search" aria-describedby="basic-addon2" autocomplete="off" value="${bbsVO.searchKeyword }">
-									    		<div class="input-group-append">
-											        <button type="submit" class="btn btn-primary" type="button">
-											            <i class="fas fa-search"></i>
-											        </button>
-									    		</div>
-											</div>
-										</div>
-									</div>
 	      						</div>
 	       					</div>
-       					
 						</form>
    					</div>
          		</div>
@@ -709,9 +635,6 @@
 			        	<!-- Card Header - Dropdown -->
 						<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
 						    <h5 class="m-0 font-weight-bold text-primary">메인화면 미리보기</h5>
-						    <button class="btn btn-primary btn-icon-split" id="btn-new">
-						        <span class="text">신규등록</span>
-						   	</button>
 						</div>
 						<!-- .card-body START -->
 	                    <div class="card-body">
@@ -719,13 +642,13 @@
 	                   			<input type="hidden" name="stat" id="stat" value="1" readonly="readonly"/>
 	                    		<input type="hidden" name="bbsSeq" id="bbsSeq" value="0" readonly="readonly" />
 	                      		<div class="form-group">
-	                      			<label for="bbs-title"><strong>Banner</strong></label>
+	                      			<label for="bbs-title"><strong>배너제목</strong></label>
 	                          		<input type="email" class="form-control form-control-user init-class" name="nm" id="nm" placeholder="게시판명" autocomplete="off">
 	                      		</div>
 	                      		<div class="form-group">
-	                      			<label for="bbs-title"><strong>Image</strong></label>
-	                      			<div id="banner-area">
-	                      				등록된 이미지가 없습니다.
+	                      			<label for="bbs-title"><strong>현재이미지</strong></label>
+	                      			<div class="text-center" id="banner-area">
+	                      				<strong>등록된 이미지가 없습니다.</strong>
 	                      			</div>
 	                      		</div>
 	                    		<div class="form-group">
@@ -757,11 +680,11 @@
 									<button class="btn btn-danger btn-icon-split init-class d-none" id="btn-del" onclick="btnControl('stat', '0');">
 					         			<span class="text">삭제</span>
 					    			</button>
-									<button class="btn btn-danger btn-icon-split init-class d-none" id="btn-delPermnt" onclick="btnControl('stat', '9');">
-				         				<span class="text">영구삭제</span>
-				    				</button>
 									<button class="btn btn-success btn-icon-split" id="btn-bannerImg" onclick="btnControl('img', '9');">
-				         				<span class="text">배너이미지 추가</span>
+				         				<span class="text">이미지 추가</span>
+				    				</button>
+									<button class="btn btn-danger btn-icon-split init-class" id="btn-bannerImgDel" onclick="btnControl('stat', '9');">
+				         				<span class="text">이미지 삭제</span>
 				    				</button>
 			    				</div>
 							</div>
