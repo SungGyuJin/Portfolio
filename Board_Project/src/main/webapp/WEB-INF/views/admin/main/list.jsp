@@ -46,15 +46,16 @@
 			btnRegister();
 		}else if(e == 'reset'){
 			btnReset();
-		}else if(e == 'img'){
+		}else if(e == 'addImg'){
 			$("#banner-file").trigger('click');
+		}else if(e == 'delImg'){
+			$("#banner-area").empty();
+			$("#banner-data").empty();
+			$("#bannerYn").val('N');
+			$("#btn-bannerImgDel").prop('disabled', true);
 		}else{
 			changeStat_1(num);
 		}
-	}
-
-	function btnImg(){
-		
 	}
 
 	// 배너이미지
@@ -397,7 +398,7 @@
 	    					<button class="btn btn-primary btn-icon-split" id="btn-addBanner" title="추가" value="add">
 	    						<span class="text">추가</span>
 			    			</button>
-	    					<button class="btn btn-danger btn-icon-split" id="btn-delBanner" title="삭제" value="del">
+	    					<button class="btn btn-danger btn-icon-split" id="btn-delBanner" title="삭제" value="del" disabled>
 	    						<span class="text">삭제</span>
 			    			</button>
     					</div>
@@ -414,8 +415,8 @@
 											<table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
 												<colgroup>
 													<col width="5"> 	<!-- checkbox 	-->
-													<col width="80"> 	<!-- 배너명1 	-->
-													<col width="80"> 	<!-- 배너명2 	-->
+													<col width="80"> 	<!-- 상단배너 	-->
+													<col width="80"> 	<!-- 하단배너 	-->
 													<col width="80"> 	<!-- 등록일 	-->
 													<col width="80"> 	<!-- 수정일 	-->
 													<col width="10"> 	<!-- 상태    	-->
@@ -423,8 +424,8 @@
 												<thead>
 												    <tr role="row">
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending"><input type="checkbox" class="cursor-pointer custom-checkbox-lg"></th>
-														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">배너명1</th>
-														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">배너명2</th>
+														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">상단배너</th>
+														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">하단배너</th>
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">등록일</th>
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">수정일</th>
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">상태</th>
@@ -483,7 +484,7 @@
 	    					<button class="btn btn-primary btn-icon-split" id="btn-addBanner" title="추가" value="add">
 	    						<span class="text">추가</span>
 			    			</button>
-	    					<button class="btn btn-danger btn-icon-split" id="btn-delBanner" title="삭제" value="del">
+	    					<button class="btn btn-danger btn-icon-split" id="btn-delBanner" title="삭제" value="del" disabled>
 	    						<span class="text">삭제</span>
 			    			</button>
     					</div>
@@ -563,7 +564,7 @@
 	    					<button class="btn btn-primary btn-icon-split" id="btn-addBanner" title="추가" value="add">
 	    						<span class="text">추가</span>
 			    			</button>
-	    					<button class="btn btn-danger btn-icon-split" id="btn-delBanner" title="삭제" value="del">
+	    					<button class="btn btn-danger btn-icon-split" id="btn-delBanner" title="삭제" value="del" disabled>
 	    						<span class="text">삭제</span>
 			    			</button>
     					</div>
@@ -586,14 +587,14 @@
 												</colgroup>
 												<thead>
 												    <tr role="row">
-												    	<th class="sorting sorting_asc text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 154px;">배너명1</th>
-														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">배너명2</th>
+												    	<th class="sorting sorting_asc text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 154px;">포트폴리오명</th>
+														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">포트폴리오명</th>
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">배너 이미지</th>
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">상태</th>
 												    </tr>
 												</thead>
 												<tbody>
-													<c:forEach var="list" varStatus="varStatus" items="${getBbsList }">
+<%-- 													<c:forEach var="list" varStatus="varStatus" items="${getBbsList }"> --%>
 													<tr class="text-center sorting" onclick="getBbs(${list.bbsSeq});" id="tr-${list.bbsSeq }">
 														<td class="sorting_1" id="nm-${list.bbsSeq }" aria-label="${list.bbsSeq }">${list.nm }</td>
 														<td>${list.regDt }</td>
@@ -609,12 +610,11 @@
 															</c:choose>
 													    </td>
 													</tr>
-													</c:forEach>
+<%-- 													</c:forEach> --%>
 													<c:if test="${empty getBbsList }">
 													<tr class="text-center">
 														<td colspan="5">
-															<c:if test="${bbsVO.listTyp eq 'list' }"><strong class="text-lg"><br>등록된 게시판이 없습니다.<br><br></strong></c:if>
-															<c:if test="${bbsVO.listTyp eq 'trash' }"><strong class="text-lg"><br>삭제된 게시판이 없습니다.<br><br></strong></c:if>
+															<strong class="text-lg"><br>등록된 포트폴리오가 없습니다.<br><br></strong>
 														</td>
 													</tr>
 													</c:if>
@@ -642,7 +642,11 @@
 	                   			<input type="hidden" name="stat" id="stat" value="1" readonly="readonly"/>
 	                    		<input type="hidden" name="bbsSeq" id="bbsSeq" value="0" readonly="readonly" />
 	                      		<div class="form-group">
-	                      			<label for="bbs-title"><strong>배너제목</strong></label>
+	                      			<label for="bbs-title"><strong>상단 배너명</strong></label>
+	                          		<input type="email" class="form-control form-control-user init-class" name="nm" id="nm" placeholder="게시판명" autocomplete="off">
+	                      		</div>
+	                      		<div class="form-group">
+	                      			<label for="bbs-title"><strong>하단 배너명</strong></label>
 	                          		<input type="email" class="form-control form-control-user init-class" name="nm" id="nm" placeholder="게시판명" autocomplete="off">
 	                      		</div>
 	                      		<div class="form-group">
@@ -680,10 +684,10 @@
 									<button class="btn btn-danger btn-icon-split init-class d-none" id="btn-del" onclick="btnControl('stat', '0');">
 					         			<span class="text">삭제</span>
 					    			</button>
-									<button class="btn btn-success btn-icon-split" id="btn-bannerImg" onclick="btnControl('img', '9');">
+									<button class="btn btn-success btn-icon-split" id="btn-bannerImg" onclick="btnControl('addImg', '9');">
 				         				<span class="text">이미지 추가</span>
 				    				</button>
-									<button class="btn btn-danger btn-icon-split init-class" id="btn-bannerImgDel" onclick="btnControl('stat', '9');">
+									<button class="btn btn-danger btn-icon-split init-class" id="btn-bannerImgDel" onclick="btnControl('delImg', '9');" disabled>
 				         				<span class="text">이미지 삭제</span>
 				    				</button>
 			    				</div>
