@@ -18,5 +18,52 @@
 		<result property="stat"			column="STAT" 			/>
 	</resultMap>
 	
+	<insert id="addMain">
+		INSERT INTO TB_MAIN(
+			MAIN_SE
+			, TOP_BN_TTL
+			, BOTTOM_BN_TTL
+			, TECH_NM
+			, POFOR_NM
+			, EXPLN
+			, REG_NO
+			, REG_DT
+			, UPD_NO
+			, UPD_DT
+			, STAT
+		)VALUES (
+			#{mainSe}
+			, #{topBnTtl}
+			, #{bottomBnTtl}
+			, #{techNm}
+			, #{poforNm}
+			, #{expln}
+			, #{regNo}
+			, NOW()
+			, #{regNo}
+			, NOW()
+			, #{stat}
+		)
+	</insert>
+	
+	<select id="getMainList" resultMap="mainVO">
+		SELECT
+			MAIN_SEQ
+			, MAIN_SE
+			, TOP_BN_TTL
+			, BOTTOM_BN_TTL
+			, TECH_NM
+			, POFOR_NM
+			, EXPLN
+			, REG_NO
+			, REG_DT
+			, UPD_NO
+			, UPD_DT
+			, STAT
+		FROM TB_MAIN
+		WHERE 1=1
+			AND MAIN_SEQ = #{mainSeq}
+			AND MAIN_SE = #{mainSe}
+	</select>
 	
 </mapper>

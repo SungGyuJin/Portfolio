@@ -415,17 +415,17 @@
 											<table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
 												<colgroup>
 													<col width="5"> 	<!-- checkbox 	-->
-													<col width="80"> 	<!-- 상단배너 	-->
-													<col width="80"> 	<!-- 하단배너 	-->
-													<col width="80"> 	<!-- 등록일 	-->
-													<col width="80"> 	<!-- 수정일 	-->
-													<col width="10"> 	<!-- 상태    	-->
+													<col width="80"> 	<!-- 상단 배너명 	-->
+													<col width="80"> 	<!-- 하단 배너명	-->
+													<col width="80"> 	<!-- 등록일 		-->
+													<col width="80"> 	<!-- 수정일 		-->
+													<col width="10"> 	<!-- 상태    		-->
 												</colgroup>
 												<thead>
 												    <tr role="row">
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending"><input type="checkbox" class="cursor-pointer custom-checkbox-lg"></th>
-														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">상단배너</th>
-														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">하단배너</th>
+														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">상단 배너명</th>
+														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">하단 배너명</th>
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">등록일</th>
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">수정일</th>
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">상태</th>
