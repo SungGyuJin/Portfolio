@@ -3,26 +3,27 @@
 <mapper namespace="com.gyu.portfolio.service.mapper.MainMapper">
 	
 	<resultMap id="mainVO" type="mainVO">
-		<result property="mainSeq"		column="MAIN_SEQ"		/>
-		<result property="mainSe"		column="MAIN_SE" 		/>
-		<result property="topBnTtl"		column="TOP_BN_TTL" 	/>
-		<result property="bottomBnTtl"	column="BOTTOM_BN_TTL" 	/>
-		<result property="techNm"		column="TECH_NM" 		/>
-		<result property="poforNm"		column="POFOR_NM" 		/>
-		<result property="expln"		column="EXPLN" 	  		/>
+		<result property="mainSeq"		column="MAIN_SEQ"	/>
+		<result property="mainSe"		column="MAIN_SE" 	/>
+		<result property="topBnNm"		column="TOP_BN_NM" 	/>
+		<result property="botmBnNm"		column="BOTM_BN_NM" />
+		<result property="techNm"		column="TECH_NM" 	/>
+		<result property="poforNm"		column="POFOR_NM" 	/>
+		<result property="expln"		column="EXPLN" 	  	/>
 		
-		<result property="regNo"		column="REG_NO" 		/>
-		<result property="regDt"		column="REG_DT" 		/>
-		<result property="updNo"		column="UPD_NO" 		/>
-		<result property="updDt"		column="UPD_DT" 		/>
-		<result property="stat"			column="STAT" 			/>
+		<result property="regNo"		column="REG_NO" 	/>
+		<result property="regDt"		column="REG_DT" 	/>
+		<result property="updNo"		column="UPD_NO" 	/>
+		<result property="updDt"		column="UPD_DT" 	/>
+		<result property="stat"			column="STAT" 		/>
 	</resultMap>
 	
-	<insert id="addMain">
+	<update id="addMain">
 		INSERT INTO TB_MAIN(
-			MAIN_SE
-			, TOP_BN_TTL
-			, BOTTOM_BN_TTL
+			MAIN_SEQ
+			, MAIN_SE
+			, TOP_BN_NM
+			, BOTM_BN_NM
 			, TECH_NM
 			, POFOR_NM
 			, EXPLN
@@ -32,9 +33,10 @@
 			, UPD_DT
 			, STAT
 		)VALUES (
-			#{mainSe}
-			, #{topBnTtl}
-			, #{bottomBnTtl}
+			#{mainSeq}
+			, #{mainSe}
+			, #{topBnNm}
+			, #{botmBnNm}
 			, #{techNm}
 			, #{poforNm}
 			, #{expln}
@@ -43,15 +45,24 @@
 			, #{regNo}
 			, NOW()
 			, #{stat}
-		)
-	</insert>
+		) ON DUPLICATE KEY UPDATE 
+			TOP_BN_NM    = #{topBnNm}
+			, BOTM_BN_NM = #{botmBnNm}
+			, TECH_NM    = #{techNm}
+			, POFOR_NM   = #{poforNm}
+			, EXPLN      = #{expln}
+			, UPD_NO     = #{regNo}
+			, UPD_DT 	 = NOW()
+			, STAT       = #{stat}
+		
+	</update>
 	
 	<select id="getMainList" resultMap="mainVO">
 		SELECT
 			MAIN_SEQ
 			, MAIN_SE
-			, TOP_BN_TTL
-			, BOTTOM_BN_TTL
+			, TOP_BN_NM
+			, BOTM_BN_NM
 			, TECH_NM
 			, POFOR_NM
 			, EXPLN

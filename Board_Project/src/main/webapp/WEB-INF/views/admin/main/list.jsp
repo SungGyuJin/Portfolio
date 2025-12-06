@@ -41,9 +41,9 @@
 	});
 	
 	// 버튼제어
-	function btnControl(e, num){
-		if(e == 'add'){
-			btnRegister();
+	function btnControl(e){
+		if(e == 'addBn'){
+			frmSubmit(e);
 		}else if(e == 'reset'){
 			btnReset();
 		}else if(e == 'addImg'){
@@ -56,6 +56,42 @@
 		}else{
 			changeStat_1(num);
 		}
+	}
+	
+	function frmSubmit(e){
+		
+		var frm = '';
+		
+		if(e == 'addBn'){
+			frm = '#frm-banner';
+		}else{
+			
+		}
+		
+		$.ajax({
+			url      : contextPath+"/admin/main/addMain.do",
+			method   : "POST",
+			data     : $(frm).serialize(),
+// 			processData: false,
+// 			contentType: false,
+			dataType : "json",
+			success  : function(res){
+				
+				if(res > 0){
+					alert("등록완료")
+				}else{
+					alert("실패")
+				}
+				
+			},
+			error : function(request, status, error){
+				Swal.fire({
+					icon: "error",
+					title: "통신불가"
+				})
+			}
+		});
+		
 	}
 
 	// 배너이미지
@@ -369,10 +405,6 @@
 	
 </script>
 
-<input type="hidden" id="frm-typ" value="add" />
-
-<form id="frm_sorting"></form>
-
 <div id="content">
 	<!-- Begin Page Content -->
 	<div class="container-fluid">
@@ -386,7 +418,7 @@
 			<div class="col-xl-9 col-lg-7">
     			<div class="card shadow mb-4">
 					<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-    					<h5 class="m-0 font-weight-bold text-primary">배너</h5>
+    					<h5 class="m-0 font-weight-bold text-primary">Banner</h5>
     					<div class="dropdown no-arrow">
 					        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
 					            <div class="dropdown-header">Dropdown Header:</div>
@@ -395,35 +427,35 @@
 					            <div class="dropdown-divider"></div>
 					            <a class="dropdown-item" href="#">Something else here</a>
 					        </div>
-	    					<button class="btn btn-primary btn-icon-split" id="btn-addBanner" title="추가" value="add">
+	    					<!-- <button class="btn btn-primary btn-icon-split" id="btn-addBanner" title="추가" value="add">
 	    						<span class="text">추가</span>
 			    			</button>
 	    					<button class="btn btn-danger btn-icon-split" id="btn-delBanner" title="삭제" value="del" disabled>
 	    						<span class="text">삭제</span>
-			    			</button>
+			    			</button> -->
     					</div>
 					</div>
 					
-					<!-- Card Body -->
+					<!-- Banner Card Body -->
 					<div class="card-body">
 						<form id="frm-banner" method="get">
-							<input type="hidden" name="listTyp" id="listTyp" value="${bbsVO.listTyp }" readonly="readonly">
+							<input type="hidden" name="mainSeq" value="1" readonly="readonly">
+							<input type="hidden" name="mainSe" id="mainSeBanner" value="B" readonly="readonly">
+							<input type="text" name="stat" id="bnStat" value="1">
 					    	<div class="table-responsive" style="overflow-x: hidden;">
 					  			<div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
 									<div class="row">
 										<div class="col-sm-12">
 											<table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
 												<colgroup>
-													<col width="5"> 	<!-- checkbox 	-->
-													<col width="80"> 	<!-- 상단 배너명 	-->
-													<col width="80"> 	<!-- 하단 배너명	-->
-													<col width="80"> 	<!-- 등록일 		-->
-													<col width="80"> 	<!-- 수정일 		-->
-													<col width="10"> 	<!-- 상태    		-->
+													<col width="80"> 	<!-- 상단 배너명 -->
+													<col width="80"> 	<!-- 하단 배너명 -->
+													<col width="80"> 	<!-- 등록일 -->
+													<col width="80"> 	<!-- 수정일 -->
+													<col width="10"> 	<!-- 상태 -->
 												</colgroup>
 												<thead>
 												    <tr role="row">
-														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending"><input type="checkbox" class="cursor-pointer custom-checkbox-lg"></th>
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">상단 배너명</th>
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">하단 배너명</th>
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">등록일</th>
@@ -433,9 +465,8 @@
 												</thead>
 												<tbody>
 													<tr class="text-center sorting">
-														<td><input type="checkbox" class="cursor-pointer custom-checkbox-lg"></td>
-														<td><input type="text" class="form-control form-control-user text-center"></td>
-														<td><input type="text" class="form-control form-control-user text-center"></td>
+														<td><input type="text" class="form-control form-control-user text-center" name="topBnNm"></td>
+														<td><input type="text" class="form-control form-control-user text-center" name="botmBnNm"></td>
 														<td>등록일시</td>
 														<td>수정일시</td>
 														<td>
@@ -449,20 +480,25 @@
 															</c:choose>
 													    </td>
 													</tr>
-													<c:if test="${empty getBbsList }">
-													<tr class="text-center">
+													<!-- <tr class="text-center">
 														<td colspan="6">
 															<strong class="text-lg"><br>등록된 배너데이터가 없습니다.<br><br></strong>
 														</td>
-													</tr>
-													</c:if>
+													</tr> -->
 									        	</tbody>
 											</table>
+											<div class="text-right">
+												<button type="button" class="btn btn-primary btn-icon-split" id="btn-bnSave" onclick="btnControl('addBn');">
+											    	<span class="text">저장</span>
+												</button>
+												<button class="btn btn-secondary btn-icon-split init-class" id="btn-bnReset" onclick="btnControl('reset');">
+								         			<span class="text">취소</span>
+								    			</button>
+						    				</div>
 										</div>
 									</div>
 	      						</div>
 	       					</div>
-       					
 						</form>
    					</div>
          		</div>
@@ -552,7 +588,7 @@
          		
          		<div class="card shadow mb-4">
 					<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-    					<h5 class="m-0 font-weight-bold text-primary">포트폴리오</h5>
+    					<h5 class="m-0 font-weight-bold text-primary">Portfolio</h5>
     					<div class="dropdown no-arrow">
 					        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
 					            <div class="dropdown-header">Dropdown Header:</div>
@@ -667,15 +703,13 @@
 			  
 						<div class="text-center">
 							<div class="d-flex justify-content-between">
-								<div>
-									<div id="btn-divTag1">
-										<button class="btn btn-primary btn-icon-split init-class" id="btn-save" onclick="btnControl('add');">
-									    	<span class="text" id="btn-text-span">저장</span>
-										</button>
-										<button class="btn btn-secondary btn-icon-split init-class" id="btn-reset" onclick="btnControl('reset');">
-						         			<span class="text">취소</span>
-						    			</button>
-									</div>
+								<div id="btn-divTag1">
+									<button class="btn btn-primary btn-icon-split init-class" id="btn-save" onclick="btnControl('add');">
+								    	<span class="text" id="btn-text-span">저장</span>
+									</button>
+									<button class="btn btn-secondary btn-icon-split init-class" id="btn-reset" onclick="btnControl('reset');">
+					         			<span class="text">취소</span>
+					    			</button>
 								</div>
 								<div id="btn-divTag2">
 									<button class="btn btn-success btn-icon-split init-class d-none" id="btn-restore" onclick="btnControl('stat', '1');">

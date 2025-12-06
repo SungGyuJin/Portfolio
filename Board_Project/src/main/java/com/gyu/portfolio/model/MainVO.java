@@ -11,8 +11,8 @@ public class MainVO extends DefalutVO {
 	
 	private int    mainSeq 		=   0;  // 메인 일련번호
 	private String mainSe 		=  ""; 	// 메인 구분(B, T, P)
-	private String topBnTtl 	=  ""; 	// 상단 배너명
-	private String bottomBnTtl 	=  ""; 	// 하단 배너명
+	private String topBnNm 		=  ""; 	// 상단 배너명
+	private String botmBnNm 	=  ""; 	// 하단 배너명
 	private String techNm 		=  "";	// 기술명
 	private String poforNm 		=  "";	// 포트폴리오명
 	private String expln 		=  "";	// 설명
@@ -24,9 +24,9 @@ public class MainVO extends DefalutVO {
 	
 	@Override
 	public String toString() {
-		return "MainVO [mainSeq=" + mainSeq + ", mainSe=" + mainSe + ", topBnTtl=" + topBnTtl + ", bottomBnTtl="
-				+ bottomBnTtl + ", techNm=" + techNm + ", poforNm=" + poforNm + ", expln=" + expln + ", regNo=" + regNo
-				+ ", regDt=" + regDt + ", updNo=" + updNo + ", updDt=" + updDt + ", stat=" + stat + "]";
+		return "MainVO [mainSeq=" + mainSeq + ", mainSe=" + mainSe + ", topBnNm=" + topBnNm + ", botmBnNm=" + botmBnNm
+				+ ", techNm=" + techNm + ", poforNm=" + poforNm + ", expln=" + expln + ", regNo=" + regNo + ", regDt="
+				+ regDt + ", updNo=" + updNo + ", updDt=" + updDt + ", stat=" + stat + "]";
 	}
 	
 }
