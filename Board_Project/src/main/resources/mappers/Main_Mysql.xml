@@ -77,4 +77,24 @@
 			AND MAIN_SE = #{mainSe}
 	</select>
 	
+	<select id="getMain" resultMap="mainVO">
+		SELECT
+			MAIN_SEQ
+			, MAIN_SE
+			, TOP_BN_NM
+			, BOTM_BN_NM
+			, TECH_NM
+			, POFOR_NM
+			, EXPLN
+			, REG_NO
+			, REG_DT
+			, UPD_NO
+			, UPD_DT
+			, STAT
+		FROM TB_MAIN
+		WHERE 1=1
+			AND MAIN_SEQ = #{mainSeq}
+			AND MAIN_SE = #{mainSe}
+	</select>
+	
 </mapper>

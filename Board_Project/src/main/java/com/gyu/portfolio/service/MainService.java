@@ -16,7 +16,4 @@ public interface MainService {
 	// 메인 목록
 	Map<String, Object> getMainList(MainVO mainVO) throws Exception;
 	
-	// 메인 조회
-	Map<String, Object> getMain(MainVO mainVO) throws Exception;
-	
 }

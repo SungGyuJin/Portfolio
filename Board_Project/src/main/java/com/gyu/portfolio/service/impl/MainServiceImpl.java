@@ -1,5 +1,7 @@
 package com.gyu.portfolio.service.impl;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,15 +34,25 @@ public class MainServiceImpl implements MainService {
 
 	@Override
 	public Map<String, Object> getMainList(MainVO mainVO) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	@Override
-	public Map<String, Object> getMain(MainVO mainVO) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	    Map<String, Object> resultMap = new HashMap<>();
+	    
+	    // banner Data
+	    mainVO.setMainSe("B");
+	    List<MainVO> getBanner = mainMapper.getMain(mainVO);
+	    resultMap.put("getBanner", getBanner);
+	    
+	    // tech stack Data
+	    mainVO.setMainSe("T");
+	    List<MainVO> getTechList = mainMapper.getMain(mainVO);
+	    resultMap.put("getTechList", getTechList);
+	    
+	    // portfolio Data
+	    mainVO.setMainSe("P");
+	    List<MainVO> getPoList = mainMapper.getMain(mainVO);
+	    resultMap.put("getPoList", getPoList);
+		
+		return resultMap;
 	}
-	
 
 }

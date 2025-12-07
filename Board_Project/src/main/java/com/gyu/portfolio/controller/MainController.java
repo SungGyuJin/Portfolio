@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.gyu.portfolio.model.BbsVO;
 import com.gyu.portfolio.model.MainVO;
 import com.gyu.portfolio.service.MainService;
 
@@ -67,10 +66,10 @@ public class MainController {
 		return mav;
 	}
 	
-	/* 메인 (배너, Tech Stack, Portfolio)*/
+	/* 메인 (banner, Tech Stack, Portfolio)*/
 	@GetMapping("/list.do")
 	public ModelAndView bbsList(ModelMap model,
-			@ModelAttribute("BbsVO") BbsVO bbsVO,
+			@ModelAttribute("MainVO") MainVO mainVO,
 			HttpServletRequest request,
 			HttpSession session,
 			HttpServletResponse response) throws Exception{
@@ -82,17 +81,16 @@ public class MainController {
 		ModelAndView mav = null;
 		mav = new ModelAndView("admin/main/list");
 		
-//		bbsVO.setAmount(5);	// 페이지당 데이터 갯수
+//		mainVO.setAmount(5);	// 페이지당 데이터 갯수
 
 		// 게시판 목록
 	    Map<String, Object> resultMap = new HashMap<>();
-//	    resultMap = bbsService.getBbsList(bbsVO);
+	    resultMap = mainService.getMainList(mainVO);
 
 		model.clear();
-//		model.addAttribute("getBbsList", resultMap.get("getBbsList"));
-//		model.addAttribute("pageMaker", resultMap.get("pageMaker"));
-//		model.addAttribute("total", resultMap.get("total"));
-//		model.addAttribute("bbsVO", resultMap.get("bbsVO"));
+		model.addAttribute("getBanner", resultMap.get("getBanner"));
+		model.addAttribute("getTechList", resultMap.get("getTechList"));
+		model.addAttribute("getPoList", resultMap.get("getPoList"));
 
 		return mav;
 	}

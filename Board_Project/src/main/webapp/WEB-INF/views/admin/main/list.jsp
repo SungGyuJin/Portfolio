@@ -427,12 +427,6 @@
 					            <div class="dropdown-divider"></div>
 					            <a class="dropdown-item" href="#">Something else here</a>
 					        </div>
-	    					<!-- <button class="btn btn-primary btn-icon-split" id="btn-addBanner" title="추가" value="add">
-	    						<span class="text">추가</span>
-			    			</button>
-	    					<button class="btn btn-danger btn-icon-split" id="btn-delBanner" title="삭제" value="del" disabled>
-	    						<span class="text">삭제</span>
-			    			</button> -->
     					</div>
 					</div>
 					
