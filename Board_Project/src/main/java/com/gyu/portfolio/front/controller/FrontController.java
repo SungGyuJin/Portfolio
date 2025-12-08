@@ -34,11 +34,13 @@ import com.gyu.portfolio.model.AttachVO;
 import com.gyu.portfolio.model.BbsVO;
 import com.gyu.portfolio.model.BoardVO;
 import com.gyu.portfolio.model.CmntVO;
+import com.gyu.portfolio.model.MainVO;
 import com.gyu.portfolio.model.UserVO;
 import com.gyu.portfolio.service.AttachService;
 import com.gyu.portfolio.service.BbsService;
 import com.gyu.portfolio.service.BoardService;
 import com.gyu.portfolio.service.CmntService;
+import com.gyu.portfolio.service.MainService;
 import com.gyu.portfolio.service.UserService;
 
 @Controller
@@ -66,6 +68,9 @@ public class FrontController {
 
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private MainService mainService;
 	
 	
 	@GetMapping(value={"/", "/main"})
@@ -104,10 +109,19 @@ public class FrontController {
 		    session.removeAttribute("loginNum");
 		}
 		
-		List<BbsVO> getBbsList = null;
-		getBbsList = bbsService.getSelectBbsList();
-		
+		List<BbsVO> getBbsList = bbsService.getSelectBbsList();;
+
+		MainVO mainVO = new MainVO();
+		mainVO.setMainSe("B");
+		Map<String, Object> getBanner =  mainService.getMainList(mainVO);;
+
+		System.out.println();
+		System.out.println("여기: "+getBanner);
+		System.out.println("여기123: "+getBanner.get("getBanner"));
+		System.out.println();
+
 		mav.addObject("getBbsList", getBbsList);
+		mav.addObject("getBanner", getBanner.get("getBanner"));
 		
 		return mav;
 	}

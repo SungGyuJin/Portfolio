@@ -14,8 +14,9 @@ public interface MainMapper {
 
 	// 메인 수정
 	int updateMain(MainVO mainVO) throws Exception;
-
+	
 	// 메인 목록
 	List<MainVO> getMain(MainVO mainVO) throws Exception;
+	
 	
 }

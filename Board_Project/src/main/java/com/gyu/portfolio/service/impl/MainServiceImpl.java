@@ -51,7 +51,26 @@ public class MainServiceImpl implements MainService {
 	    mainVO.setMainSe("P");
 	    List<MainVO> getPoList = mainMapper.getMain(mainVO);
 	    resultMap.put("getPoList", getPoList);
-		
+
+	    System.out.println();
+	    System.out.println("getBanner");
+	    for(int i=0; i < getBanner.size(); i++) {
+	    	System.out.println(getBanner.get(i));
+	    }
+	    System.out.println();
+	    System.out.println();
+	    System.out.println("getTechList");
+	    for(int i=0; i < getTechList.size(); i++) {
+	    	System.out.println(getTechList.get(i));
+	    }
+	    System.out.println();
+	    System.out.println();
+	    System.out.println("getPoList");
+	    for(int i=0; i < getPoList.size(); i++) {
+	    	System.out.println(getPoList.get(i));
+	    }
+	    System.out.println();
+	    System.out.println();
 		return resultMap;
 	}
 

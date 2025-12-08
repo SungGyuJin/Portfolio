@@ -2332,11 +2332,8 @@ function btnAddCmntChange(str){
 	 <!-- Masthead-->
         <header class="masthead mb-4">
             <div class="container">
-<!--                 <div class="masthead-subheading">Welcome To Our Studio!</div> -->
-                <div class="masthead-subheading">Welcome To Me Portfolio!</div>
-<!--                 <div class="masthead-heading text-uppercase">It's Nice To Meet You</div> -->
-                <div class="masthead-heading text-uppercase">Nice To Meet You</div>
-<!--                 <a class="btn btn-primary btn-xl text-uppercase" href="#services">Tell Me More</a> -->
+                <div class="masthead-subheading">${getBanner[0].topBnNm}</div>
+                <div class="masthead-heading text-uppercase">${getBanner[0].botmBnNm}</div>
             </div>
         </header>
         

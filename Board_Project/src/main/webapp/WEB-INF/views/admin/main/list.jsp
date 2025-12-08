@@ -78,9 +78,12 @@
 			success  : function(res){
 				
 				if(res > 0){
-					alert("등록완료")
-				}else{
-					alert("실패")
+					Swal.fire({
+						icon: "success",
+						title: "저장완료"
+					}).then(function(){
+						location.reload();
+					});
 				}
 				
 			},
@@ -433,9 +436,8 @@
 					<!-- Banner Card Body -->
 					<div class="card-body">
 						<form id="frm-banner" method="get">
-							<input type="hidden" name="mainSeq" value="1" readonly="readonly">
 							<input type="hidden" name="mainSe" id="mainSeBanner" value="B" readonly="readonly">
-							<input type="text" name="stat" id="bnStat" value="1">
+							<input type="hidden" name="stat" id="bnStat" value="1">
 					    	<div class="table-responsive" style="overflow-x: hidden;">
 					  			<div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
 									<div class="row">
@@ -452,17 +454,19 @@
 												    <tr role="row">
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">상단 배너명</th>
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">하단 배너명</th>
-														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">등록일</th>
-														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">수정일</th>
+														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">등록일시</th>
+														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">수정일시</th>
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">상태</th>
 												    </tr>
 												</thead>
 												<tbody>
+													<c:forEach var="list" items="${getBanner}">
+													<input type="hidden" name="mainSeq" value="${list.mainSeq }" readonly="readonly">
 													<tr class="text-center sorting">
-														<td><input type="text" class="form-control form-control-user text-center" name="topBnNm"></td>
-														<td><input type="text" class="form-control form-control-user text-center" name="botmBnNm"></td>
-														<td>등록일시</td>
-														<td>수정일시</td>
+														<td><input type="text" class="form-control form-control-user text-center" name="topBnNm" value="${list.topBnNm }"></td>
+														<td><input type="text" class="form-control form-control-user text-center" name="botmBnNm" value="${list.botmBnNm }"></td>
+														<td>${list.regDt }</td>
+														<td>${list.updDt }</td>
 														<td>
 															<c:choose>
 																<c:when test="${list.stat eq 1 }">
@@ -474,11 +478,14 @@
 															</c:choose>
 													    </td>
 													</tr>
-													<!-- <tr class="text-center">
+													</c:forEach>
+													<c:if test="${empty getBanner }">
+													<tr class="text-center">
 														<td colspan="6">
 															<strong class="text-lg"><br>등록된 배너데이터가 없습니다.<br><br></strong>
 														</td>
-													</tr> -->
+													</tr>
+													</c:if>
 									        	</tbody>
 											</table>
 											<div class="text-right">
@@ -673,11 +680,11 @@
 	                    		<input type="hidden" name="bbsSeq" id="bbsSeq" value="0" readonly="readonly" />
 	                      		<div class="form-group">
 	                      			<label for="bbs-title"><strong>상단 배너명</strong></label>
-	                          		<input type="email" class="form-control form-control-user init-class" name="nm" id="nm" placeholder="게시판명" autocomplete="off">
+	                          		<input type="email" class="form-control form-control-user init-class" placeholder="상단 배너명 없음" value="${getBanner[0].topBnNm }">
 	                      		</div>
 	                      		<div class="form-group">
 	                      			<label for="bbs-title"><strong>하단 배너명</strong></label>
-	                          		<input type="email" class="form-control form-control-user init-class" name="nm" id="nm" placeholder="게시판명" autocomplete="off">
+	                          		<input type="email" class="form-control form-control-user init-class" placeholder="하단 배너명 없음" value="${getBanner[0].botmBnNm }">
 	                      		</div>
 	                      		<div class="form-group">
 	                      			<label for="bbs-title"><strong>현재이미지</strong></label>
