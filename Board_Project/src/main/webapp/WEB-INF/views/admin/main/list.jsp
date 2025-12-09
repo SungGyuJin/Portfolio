@@ -38,7 +38,55 @@
 			$("#btn-trash").prop('disabled', true);
 		}
 		
+		// add Tech Stack
+		$("#btn-addTech").on('click', function(){
+			var html = '';
+
+			html += '<tr class="text-center sorting">';
+			html +=		'<td class="sorting_1"><input type="checkbox" class="tech-check cursor-pointer custom-checkbox-lg mt-2" onclick="techCheck();"></td>';
+			html +=		'<td></td>';
+			html +=		'<td><input type="text" class="form-control form-control-user text-center" name="techNm"></td>';
+			html +=		'<td><strong>-</strong></td>';
+			html +=		'<td><strong>-</strong></td>';
+			html +=		'<td><span class="text-primary">생성중</span></td>';
+			html += '</tr>';
+			
+			if($(".tech-check").length == 0){
+				$("#tech-area").empty();
+			}
+			
+			$("#tech-area").append(html);
+		});
+		
+		$("#all-chk-tech").on('click', function(){
+			
+			if($(this).prop('checked')){
+				$(".tech-check").prop("checked", true);
+			}else{
+				$(".tech-check").prop("checked", false);
+			}
+		});
+		
+		// delete Tech Stack
+		$("#btn-delTech").on('click', function(){
+			$(".tech-check:checked").parent().parent().remove();
+		});
+
 	});
+	
+	function techCheck(){
+		if($(".tech-check:checked").length > 0){
+			$("#btn-delTech").prop('disabled', false);
+		}else{
+			$("#btn-delTech").prop('disabled', true);
+		}
+
+		if($(".tech-check").length == $(".tech-check:checked").length){
+			$("#all-chk-tech").prop('checked', true);
+		}else{
+			$("#all-chk-tech").prop('checked', false);
+		}
+	}
 	
 	// 버튼제어
 	function btnControl(e){
@@ -518,10 +566,10 @@
 					            <div class="dropdown-divider"></div>
 					            <a class="dropdown-item" href="#">Something else here</a>
 					        </div>
-	    					<button class="btn btn-primary btn-icon-split" id="btn-addBanner" title="추가" value="add">
+	    					<button class="btn btn-primary btn-icon-split" id="btn-addTech" title="추가" value="add">
 	    						<span class="text">추가</span>
 			    			</button>
-	    					<button class="btn btn-danger btn-icon-split" id="btn-delBanner" title="삭제" value="del" disabled>
+	    					<button class="btn btn-danger btn-icon-split" id="btn-delTech" title="삭제" value="del" disabled>
 	    						<span class="text">삭제</span>
 			    			</button>
     					</div>
@@ -537,14 +585,16 @@
 										<div class="col-sm-12">
 											<table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
 												<colgroup>
-													<col width="10">	<!-- 게시판명 	-->
-													<col width="50"> 	<!-- 등록일시 	-->
+													<col width="10">	<!-- all check 	-->
+													<col width="10">	<!-- 아이콘 	-->
+													<col width="50"> 	<!-- 기술명 	-->
 													<col width="50"> 	<!-- 등록일 	-->
-													<col width="50"> 	<!-- 상태    	-->
+													<col width="50"> 	<!-- 수정일  	-->
 													<col width="10"> 	<!-- 상태    	-->
 												</colgroup>
 												<thead>
 												    <tr role="row">
+												    	<th class="sorting sorting_asc text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending"><input type="checkbox" class="cursor-pointer custom-checkbox-lg" id="all-chk-tech"></th>
 												    	<th class="sorting sorting_asc text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending">아이콘</th>
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">기술명</th>
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">등록일시</th>
@@ -552,12 +602,13 @@
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">상태</th>
 												    </tr>
 												</thead>
-												<tbody>
+												<tbody id="tech-area">
+													<c:forEach var="list" items="${getTechList}">
 													<tr class="text-center sorting" onclick="getBbs(${list.bbsSeq});" id="tr-${list.bbsSeq }">
-														<td class="sorting_1" id="nm-${list.bbsSeq }" aria-label="${list.bbsSeq }">${list.nm }</td>
+														<td class="sorting_1" id="nm-${list.bbsSeq }" aria-label="${list.bbsSeq }"><input type="checkbox" class="cursor-pointer custom-checkbox-lg" value="${list.mainSeq }"></td>
+														<td>${list.techNm }</td>
 														<td>${list.regDt }</td>
-														<td>등록일시</td>
-														<td>수정일시</td>
+														<td>${list.updDt }</td>
 														<td>
 															<c:choose>
 																<c:when test="${list.stat eq 1 }">
@@ -569,9 +620,10 @@
 															</c:choose>
 													    </td>
 													</tr>
-													<c:if test="${empty getBbsList }">
+													</c:forEach>
+													<c:if test="${empty getTechList }">
 													<tr class="text-center">
-														<td colspan="5">
+														<td colspan="6">
 															<strong class="text-lg"><br>등록된 기술이 없습니다.<br><br></strong>
 														</td>
 													</tr>
@@ -631,7 +683,7 @@
 												    </tr>
 												</thead>
 												<tbody>
-<%-- 													<c:forEach var="list" varStatus="varStatus" items="${getBbsList }"> --%>
+													<c:forEach var="list" items="${getPoList}">
 													<tr class="text-center sorting" onclick="getBbs(${list.bbsSeq});" id="tr-${list.bbsSeq }">
 														<td class="sorting_1" id="nm-${list.bbsSeq }" aria-label="${list.bbsSeq }">${list.nm }</td>
 														<td>${list.regDt }</td>
@@ -647,8 +699,8 @@
 															</c:choose>
 													    </td>
 													</tr>
-<%-- 													</c:forEach> --%>
-													<c:if test="${empty getBbsList }">
+													</c:forEach>
+													<c:if test="${empty getPoList }">
 													<tr class="text-center">
 														<td colspan="5">
 															<strong class="text-lg"><br>등록된 포트폴리오가 없습니다.<br><br></strong>
