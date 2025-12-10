@@ -48,28 +48,48 @@
 			html +=		'<td><input type="text" class="form-control form-control-user text-center" name="techNm"></td>';
 			html +=		'<td><strong>-</strong></td>';
 			html +=		'<td><strong>-</strong></td>';
-			html +=		'<td><span class="text-primary">생성중</span></td>';
+			html +=		'<td><strong><span class="text-success">생성중</span></strong></td>';
 			html += '</tr>';
 			
 			if($(".tech-check").length == 0){
 				$("#tech-area").empty();
 			}
 			
+			$("#all-chk-tech").prop('disabled', false);
 			$("#tech-area").append(html);
 		});
 		
 		$("#all-chk-tech").on('click', function(){
-			
 			if($(this).prop('checked')){
 				$(".tech-check").prop("checked", true);
+				$("#btn-delTech").prop('disabled', false);
 			}else{
 				$(".tech-check").prop("checked", false);
+				$("#btn-delTech").prop('disabled', true);
 			}
 		});
 		
 		// delete Tech Stack
 		$("#btn-delTech").on('click', function(){
 			$(".tech-check:checked").parent().parent().remove();
+
+			if($(".tech-check").length == 0){
+				var html = '';
+
+				html += '<tr class="text-center">';
+				html += 	'<td colspan="6">';
+				html += 		'<strong class="text-lg"><br>등록된 기술이 없습니다.<br><br></strong>';
+				html += 	'</td>';
+				html += '</tr>';
+			
+				$("#tech-area").html(html);
+				$("#all-chk-tech").prop('disabled', true);
+				$("#btn-delTech").prop('disabled', true);
+				$("#all-chk-tech").prop('checked', false);
+			}else{
+				$("#all-chk-tech").prop('disabled', false);
+				$("#btn-delTech").prop('disabled', false);
+			}
 		});
 
 	});
@@ -594,7 +614,7 @@
 												</colgroup>
 												<thead>
 												    <tr role="row">
-												    	<th class="sorting sorting_asc text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending"><input type="checkbox" class="cursor-pointer custom-checkbox-lg" id="all-chk-tech"></th>
+												    	<th class="sorting sorting_asc text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending"><input type="checkbox" class="cursor-pointer custom-checkbox-lg" id="all-chk-tech" disabled></th>
 												    	<th class="sorting sorting_asc text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending">아이콘</th>
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">기술명</th>
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">등록일시</th>
