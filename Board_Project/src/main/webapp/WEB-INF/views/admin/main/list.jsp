@@ -40,23 +40,40 @@
 		
 		// add Tech Stack
 		$("#btn-addTech").on('click', function(){
+			
 			var html = '';
-
-			html += '<tr class="text-center sorting">';
-			html +=		'<td class="sorting_1"><input type="checkbox" class="tech-check cursor-pointer custom-checkbox-lg mt-2" onclick="techCheck();"></td>';
-			html +=		'<td></td>';
-			html +=		'<td><input type="text" class="form-control form-control-user text-center" name="techNm"></td>';
-			html +=		'<td><strong>-</strong></td>';
-			html +=		'<td><strong>-</strong></td>';
-			html +=		'<td><strong><span class="text-success">생성중</span></strong></td>';
-			html += '</tr>';
 			
-			if($(".tech-check").length == 0){
-				$("#tech-area").empty();
-			}
+			html += '<div class="col-lg-3 col-md-4 col-sm-6 mb-4">';
+			html += 	'<div class="card border-left-success shadow h-100 py-2">';
+			html +=     	'<div class="card-body">';
+			html +=					'<div>';
+			html +=              		'<input type="checkbox" class="cursor-pointer custom-checkbox-lg item-chk ml-1">';
+			html +=					'</div>';
+			html +=					'<div class="text-center" id="">';
+			html +=              		'<img src="'+contextPath+'/resources/admin/assets/img/no-image.png" class="w-25">';
+			html +=					'</div>';
+			html +=            	'<div class="text-xs mb-2"><input type="text" class="form-control form-control-user mt-3" placeholder="기술명을 입력하세요." name="techNm"></div>';
+			html +=           	'<div class="d-flex justify-content-between">';
+			html +=					'<div>';
+			html +=           			'<button type="button" class="btn btn-sm btn-success btn-icon-split" onclick="btnControl(\'addTech\');">';
+	    	html +=							'<span class="text">이미지 추가</span>';
+			html += 					'</button>';
+			html +=           			'<button type="button" class="btn btn-sm btn-danger btn-icon-split ml-1" onclick="btnControl(\'addTech\');">';
+	    	html +=							'<span class="text">이미지 삭제</span>';
+			html += 					'</button>';
+			html +=						'</div>';
+			html +=					'<div>';
+			html +=           			'<button type="button" class="btn btn-sm btn-danger btn-icon-split" onclick="btnControl(\'addTech\');">';
+	    	html +=							'<span class="text">삭제</span>';
+			html += 					'</button>';
+			html +=					'</div>';
+			html +=        		'</div>';
+			html +=     	'</div>';
+			html += 	'</div>';
+			html += '</div>';			
 			
-			$("#all-chk-tech").prop('disabled', false);
-			$("#tech-area").append(html);
+			$("#tech-card-area").append(html);
+			
 		});
 		
 		$("#all-chk-tech").on('click', function(){
@@ -114,8 +131,10 @@
 			frmSubmit(e);
 		}else if(e == 'reset'){
 			btnReset();
-		}else if(e == 'addImg'){
+		}else if(e == 'addBner'){
 			$("#banner-file").trigger('click');
+		}else if(e == 'addTech'){
+			$("#tech-file").trigger('click');
 		}else if(e == 'delImg'){
 			$("#banner-area").empty();
 			$("#banner-data").empty();
@@ -165,11 +184,85 @@
 		
 	}
 
-	// 배너이미지
-	function bannerImgChk(e, event, gubun){
+	// 기술 아이콘 추가
+	function addTechIcon(e, event){
 
-	    console.log('진입!!')
-	    
+		var file = e.files;
+
+		if(file.length > 0){
+			var imgChk = file[0].type.substr(0,5);
+
+			if(imgChk != "image"){
+				alert("이미지파일만 첨부 가능합니다");
+// 				$("#"+gubun+"-file-thumb").val('');
+// 				$("#"+gubun+"-thumb-view").children().remove();
+// 				$("#"+gubun+"-file-thumbYn").val('N');
+				return false;
+			}
+			
+			var formData = new FormData();
+			
+		    formData.append("files", file[0]);
+			
+			$.ajax({
+				url      : contextPath+"/main/upload.do",
+				method   : "POST",
+				data     : formData,
+				processData: false,
+				contentType: false,
+				dataType : "json",
+				success  : function(res){
+
+					var reader = new FileReader();
+					
+					reader.onload = function(event) {
+						$("#banner-area").children().remove();
+						var img_html = '';
+						img_html += '<img src="'+ event.target.result +'" style="height: auto; width: 100%;">';
+// 						img_html += '<span class="thumb-close" onclick="removeThumb(\''+gubun+'\');">&times;</span>';
+						$("#banner-area").append(img_html);
+					};
+					
+					reader.readAsDataURL(file[0]);
+
+					$("#bannerYn").val('Y');
+
+		        	var html = '';
+					
+					for(var i=0; i < res.fileList.length; i++) {
+						html += '<div class="d-flex fileData-area">';
+						html += 	'<input type="text" name="thumbFileOrgNm" value="'+res.fileList[i].fileOrgNm+'">';
+						html += 	'<input type="text" name="thumbFileSvgNm" value="'+res.fileList[i].fileSvgNm+'">';
+						html += 	'<input type="text" name="thumbFileExt" value="'+res.fileList[i].fileExt+'">';
+						html += 	'<input type="text" name="thumbFilePath" value="'+res.fileList[i].filePath+'">';
+						html += 	'<input type="text" name="thumbFileSize" value="'+res.fileList[i].fileSz+'">';
+						html +=	'</div>';
+					}
+					
+					$("#banner-data").html(html);
+					$("#btn-bannerImgDel").prop('disabled', false);
+					
+				},
+				error : function(request, status, error){
+					Swal.fire({
+						icon: "error",
+						title: "통신불가"
+					})
+				}
+			});
+			
+		}else{
+			$("#banner-area").children().remove();
+			$("#bannerYn").val('N');
+			$("#banner-file").val('');
+			$("#banner-data").empty();
+			$("#btn-bannerImgDel").prop('disabled', true);
+		}
+	}
+	
+	// 배너이미지 추가
+	function addBanner(e, event, gubun){
+
 		var file = e.files;
 
 		if(file.length > 0){
@@ -187,8 +280,6 @@
 			
 		    formData.append("files", file[0]);
 			
-		    console.log(file)
-		    
 			$.ajax({
 				url      : contextPath+"/main/upload.do",
 				method   : "POST",
@@ -339,7 +430,6 @@
 				$(".init-class").prop("disabled", false);
 				$(".init-class").prop("checked", false);
 			}else{
-// 				$("#ttl-typ").html('수정 / <span class="text-success">복구</span> / <span class="text-danger">삭제</span>');
 				$("#ttl-typ").html('수정');
 				$(".init-class").prop("disabled", false);
 			}
@@ -414,67 +504,9 @@
 		});
 	}
 	
-	// 게시만 조회
-	function getBbs(no){
-		
-
-		$("table tr").removeClass('table-active');
-		$("#tr-"+no).addClass('table-active');
-		
-		$("#frm-typ").val('upd');
-		initBbs('click');
-		$("#btn-new").prop("disabled", false);
-		$("#btn-text-span").html('수정완료');
-		
-		$.ajax({
-			url      : contextPath+"getBbs.do",
-			method   : "GET",
-			data     : {"no" : no},
-			dataType : "json",
-			success  : function(res){
-				
-				var getBbs = res.getBbs;
-				
-				$("#temp-stat").val(getBbs.stat);
-
-				// 버튼변화
-				if(getBbs.stat == '1'){
-					$("#btn-del").removeClass('d-none');	// 삭제버튼 추가
-					$("#btn-restore").addClass('d-none');	// 복구버튼 제거
-					$("#btn-delPermnt").addClass('d-none');	// 영구삭제버튼 제거
-				}else{
-					
-					if(getBbs.stat == '0'){
-						$("#btn-del").addClass('d-none');			// 삭제버튼 삭제
-						$("#btn-restore").removeClass('d-none');	// 복구버튼 추가
-						$("#btn-delPermnt").removeClass('d-none');	// 영구삭제버튼 추가
-					}else{
-						
-					}
-				}
-				
-				$("#bbsSeq").val(getBbs.bbsSeq);
-				$("#nm").val(getBbs.nm);
-				$("#expln").val(getBbs.expln);
-				$("#stat").val(getBbs.stat);
-
-				getBbs.replyYn 	== 'Y' ? $("#replyYn").prop('checked',  true) : $("#replyYn").prop('checked',  false);
-				getBbs.comentYn == 'Y' ? $("#comentYn").prop('checked', true) : $("#comentYn").prop('checked', false);
-				getBbs.atchYn 	== 'Y' ? $("#atchYn").prop('checked',   true) : $("#atchYn").prop('checked',   false);
-				getBbs.secrtYn 	== 'Y' ? $("#secrtYn").prop('checked',  true) : $("#secrtYn").prop('checked',  false);
-					
-				
-			},
-			error : function(request, status, error){
-				Swal.fire({
-					icon: "error",
-					title: "통신불가"
-				})
-			}
-		});
-	}
-	
 </script>
+
+<input type="file" class="d-none" id="tech-file" onchange="addTechIcon(this, event);">
 
 <div id="content">
 	<!-- Begin Page Content -->
@@ -572,7 +604,7 @@
    					</div>
          		</div>
          		
-         		<div class="card shadow mb-4">
+         		<%-- <div class="card shadow mb-4">
 					<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
     					<h5 class="m-0 font-weight-bold text-primary">Tech Stack</h5>
     					<div class="dropdown no-arrow">
@@ -605,8 +637,8 @@
 										<div class="col-sm-12">
 											<table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
 												<colgroup>
-													<col width="10">	<!-- all check 	-->
-													<col width="10">	<!-- 아이콘 	-->
+													<col width="5">		<!-- all check 	-->
+													<col width="30">	<!-- 아이콘 	-->
 													<col width="50"> 	<!-- 기술명 	-->
 													<col width="50"> 	<!-- 등록일 	-->
 													<col width="50"> 	<!-- 수정일  	-->
@@ -624,7 +656,7 @@
 												</thead>
 												<tbody id="tech-area">
 													<c:forEach var="list" items="${getTechList}">
-													<tr class="text-center sorting" onclick="getBbs(${list.bbsSeq});" id="tr-${list.bbsSeq }">
+													<tr class="text-center sorting" onclick="getTech(${list.mainSeq});" id="tr-${list.mainSeq }">
 														<td class="sorting_1" id="nm-${list.bbsSeq }" aria-label="${list.bbsSeq }"><input type="checkbox" class="cursor-pointer custom-checkbox-lg" value="${list.mainSeq }"></td>
 														<td>${list.techNm }</td>
 														<td>${list.regDt }</td>
@@ -657,7 +689,58 @@
        					
 						</form>
    					</div>
-         		</div>
+         		</div> --%>
+         		
+         		<div class="card shadow mb-4">
+				    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+				        <h5 class="m-0 font-weight-bold text-primary">Tech Stack</h5>
+				        <div>
+				            <button class="btn btn-primary btn-icon-split" id="btn-addTech" title="추가" value="add">
+				                <span class="text">추가</span>
+				            </button>
+				            <button class="btn btn-danger btn-icon-split" id="btn-delTech" title="삭제" value="del" disabled>
+				                <span class="text">삭제</span>
+				            </button>
+				        </div>
+				    </div>
+				
+				    <div class="card-body">
+				        <form id="frm-tech" method="get">
+				            <input type="hidden" name="listTyp" id="listTyp" value="" readonly>
+				
+				            <!-- 카드 리스트 영역 -->
+				            <div class="row" id="tech-card-area">
+				
+				                <!-- 데이터 없을 때 -->
+				                <!-- <div class="col-12 text-center py-5">
+				                    <strong class="text-lg"><br>등록된 기술이 없습니다.<br><br></strong>
+				                </div> -->
+				
+				                <!-- 예시 카드 -->
+				                <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+				                    <div class="card border-left-primary shadow h-100 py-2">
+				                        <div class="card-body">
+				                            <div class="d-flex justify-content-between">
+				                                <input type="checkbox" class="cursor-pointer custom-checkbox-lg item-chk">
+<!-- 				                                <img src="/icons/java.png" width="40" height="40"> -->
+				                            </div>
+				
+				                            <h6 class="mt-3 mb-2 font-weight-bold text-primary">Java</h6>
+				
+				                            <div class="text-xs mb-1">등록일: 2024-05-01</div>
+				                            <div class="text-xs mb-1">수정일: 2024-05-02</div>
+				                            <div>
+				                                <span class="badge badge-success">생성중</span>
+				                            </div>
+				                        </div>
+				                    </div>
+				                </div>
+				
+				            </div>
+				
+				        </form>
+				    </div>
+				</div>
          		
          		<div class="card shadow mb-4">
 					<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -768,7 +851,7 @@
 		                      		<label for="bbs-title"><strong>설명</strong></label>
 		                         	<input type="email" class="form-control form-control-user init-class" name="expln" id="expln" placeholder="설명" autocomplete="off">
 	                      		</div>
-			    				<input type="file" class="form-control d-none" id="banner-file" onchange="bannerImgChk(this, event, 'img');">
+			    				<input type="file" class="form-control d-none" id="banner-file" onchange="addBanner(this, event, 'img');">
 	                      		<input type="text" name="thumbYn" class="" id="bannerYn">
 	                      		<div id="banner-data"></div>
 	                      		<hr>
@@ -791,7 +874,7 @@
 									<button class="btn btn-danger btn-icon-split init-class d-none" id="btn-del" onclick="btnControl('stat', '0');">
 					         			<span class="text">삭제</span>
 					    			</button>
-									<button class="btn btn-success btn-icon-split" id="btn-bannerImg" onclick="btnControl('addImg', '9');">
+									<button class="btn btn-success btn-icon-split" id="btn-bannerImg" onclick="btnControl('addBner', '9');">
 				         				<span class="text">이미지 추가</span>
 				    				</button>
 									<button class="btn btn-danger btn-icon-split init-class" id="btn-bannerImgDel" onclick="btnControl('delImg', '9');" disabled>
