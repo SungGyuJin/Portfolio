@@ -41,29 +41,32 @@
 		// add Tech Stack
 		$("#btn-addTech").on('click', function(){
 			
+			var i = 0;
+			
 			var html = '';
 			
-			html += '<div class="col-lg-3 col-md-4 col-sm-6 mb-4">';
+			html += '<div class="col-lg-3 col-md-4 col-sm-6 mb-4" id="tempDiv-'+i+'">';
+			html +=		'<input type="file" class="d-none" id="temp-tech-file-'+i+'" onchange="addTechIcon(this, event, '+i+');">';
 			html += 	'<div class="card border-left-success shadow h-100 py-2">';
 			html +=     	'<div class="card-body">';
 			html +=					'<div>';
 			html +=              		'<input type="checkbox" class="cursor-pointer custom-checkbox-lg item-chk ml-1">';
 			html +=					'</div>';
-			html +=					'<div class="text-center" id="">';
-			html +=              		'<img src="'+contextPath+'/resources/admin/assets/img/no-image.png" class="w-25">';
+			html +=					'<div class="text-center" id="tempImg-'+i+'">';
+			html +=              		'<img src="'+contextPath+'/resources/admin/assets/img/no-image.png" class="w-50">';
 			html +=					'</div>';
 			html +=            	'<div class="text-xs mb-2"><input type="text" class="form-control form-control-user mt-3" placeholder="기술명을 입력하세요." name="techNm"></div>';
 			html +=           	'<div class="d-flex justify-content-between">';
 			html +=					'<div>';
-			html +=           			'<button type="button" class="btn btn-sm btn-success btn-icon-split" onclick="btnControl(\'addTech\');">';
+			html +=           			'<button type="button" class="btn btn-sm btn-success btn-icon-split" onclick="btnControl(\'addTech\', '+i+');">';
 	    	html +=							'<span class="text">이미지 추가</span>';
 			html += 					'</button>';
-			html +=           			'<button type="button" class="btn btn-sm btn-danger btn-icon-split ml-1" onclick="btnControl(\'addTech\');">';
+			html +=           			'<button type="button" class="btn btn-sm btn-danger btn-icon-split ml-1" onclick="delTechImg('+i+');" disabled>';
 	    	html +=							'<span class="text">이미지 삭제</span>';
 			html += 					'</button>';
 			html +=						'</div>';
 			html +=					'<div>';
-			html +=           			'<button type="button" class="btn btn-sm btn-danger btn-icon-split" onclick="btnControl(\'addTech\');">';
+			html +=           			'<button type="button" class="btn btn-sm btn-danger btn-icon-split" onclick="btnControl(\'delTech\', '+i+');">';
 	    	html +=							'<span class="text">삭제</span>';
 			html += 					'</button>';
 			html +=					'</div>';
@@ -74,6 +77,7 @@
 			
 			$("#tech-card-area").append(html);
 			
+			i++;
 		});
 		
 		$("#all-chk-tech").on('click', function(){
@@ -126,7 +130,7 @@
 	}
 	
 	// 버튼제어
-	function btnControl(e){
+	function btnControl(e, num){
 		if(e == 'addBn'){
 			frmSubmit(e);
 		}else if(e == 'reset'){
@@ -134,7 +138,9 @@
 		}else if(e == 'addBner'){
 			$("#banner-file").trigger('click');
 		}else if(e == 'addTech'){
-			$("#tech-file").trigger('click');
+			$("#temp-tech-file-"+num).trigger('click');
+		}else if(e == 'delTech'){
+			
 		}else if(e == 'delImg'){
 			$("#banner-area").empty();
 			$("#banner-data").empty();
@@ -143,6 +149,10 @@
 		}else{
 			changeStat_1(num);
 		}
+	}
+	
+	function delTechImg(num){
+		$("#tempImg-"+num).html('<img src="'+contextPath+'/resources/admin/assets/img/no-image.png" class="w-50">');
 	}
 	
 	function frmSubmit(e){
@@ -185,7 +195,7 @@
 	}
 
 	// 기술 아이콘 추가
-	function addTechIcon(e, event){
+	function addTechIcon(e, event, num){
 
 		var file = e.files;
 
@@ -218,9 +228,9 @@
 					reader.onload = function(event) {
 						$("#banner-area").children().remove();
 						var img_html = '';
-						img_html += '<img src="'+ event.target.result +'" style="height: auto; width: 100%;">';
-// 						img_html += '<span class="thumb-close" onclick="removeThumb(\''+gubun+'\');">&times;</span>';
-						$("#banner-area").append(img_html);
+// 						img_html += '<img src="'+ event.target.result +'" style="height: auto; width: 100%;">';
+						img_html += '<img src="'+ event.target.result +'" class="w-50">';
+						$("#tempImg-"+num).html(img_html);
 					};
 					
 					reader.readAsDataURL(file[0]);
@@ -505,8 +515,6 @@
 	}
 	
 </script>
-
-<input type="file" class="d-none" id="tech-file" onchange="addTechIcon(this, event);">
 
 <div id="content">
 	<!-- Begin Page Content -->
