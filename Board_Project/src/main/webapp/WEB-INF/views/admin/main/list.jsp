@@ -38,21 +38,24 @@
 			$("#btn-trash").prop('disabled', true);
 		}
 		
+		var i = 0;
+		
 		// add Tech Stack
 		$("#btn-addTech").on('click', function(){
-			
-			var i = 0;
-			
 			var html = '';
 			
 			html += '<div class="col-lg-3 col-md-4 col-sm-6 mb-4" id="tempDiv-'+i+'">';
 			html +=		'<input type="file" class="d-none" id="temp-tech-file-'+i+'" onchange="addTechIcon(this, event, '+i+');">';
 			html += 	'<div class="card border-left-success shadow h-100 py-2">';
 			html +=     	'<div class="card-body">';
+			html +=           	'<div class="d-flex justify-content-between">';
+			html +=					'<div></div>';
 			html +=					'<div>';
-			html +=              		'<input type="checkbox" class="cursor-pointer custom-checkbox-lg item-chk ml-1">';
+// 			html +=              		'<input type="checkbox" class="cursor-pointer custom-checkbox-lg item-chk ml-1">';
+			html +=              		'<img src="'+contextPath+'/resources/admin/assets/img/x_button.png" id="techImg-delBtn-'+i+'" class="invisible cursor-pointer" onclick="techImgDel(\'temp\', '+i+');" style="width: 25px;">';
 			html +=					'</div>';
-			html +=					'<div class="text-center" id="tempImg-'+i+'">';
+			html +=           	'</div>';
+			html +=					'<div class="text-center" id="techImg-temp-'+i+'">';
 			html +=              		'<img src="'+contextPath+'/resources/admin/assets/img/no-image.png" class="w-50">';
 			html +=					'</div>';
 			html +=            	'<div class="text-xs mb-2"><input type="text" class="form-control form-control-user mt-3" placeholder="기술명을 입력하세요." name="techNm"></div>';
@@ -64,7 +67,7 @@
 			html +=           			'<button type="button" class="btn btn-sm btn-danger btn-icon-split ml-1" onclick="delTechImg('+i+');" disabled>';
 	    	html +=							'<span class="text">이미지 삭제</span>';
 			html += 					'</button>';
-			html +=						'</div>';
+			html +=					'</div>';
 			html +=					'<div>';
 			html +=           			'<button type="button" class="btn btn-sm btn-danger btn-icon-split" onclick="btnControl(\'delTech\', '+i+');">';
 	    	html +=							'<span class="text">삭제</span>';
@@ -73,6 +76,7 @@
 			html +=        		'</div>';
 			html +=     	'</div>';
 			html += 	'</div>';
+			html +=		'<div id="techImg-data-'+i+'"></div>';
 			html += '</div>';			
 			
 			$("#tech-card-area").append(html);
@@ -152,7 +156,7 @@
 	}
 	
 	function delTechImg(num){
-		$("#tempImg-"+num).html('<img src="'+contextPath+'/resources/admin/assets/img/no-image.png" class="w-50">');
+		$("#techImg-temp-"+num).html('<img src="'+contextPath+'/resources/admin/assets/img/no-image.png" class="w-50">');
 	}
 	
 	function frmSubmit(e){
@@ -230,7 +234,7 @@
 						var img_html = '';
 // 						img_html += '<img src="'+ event.target.result +'" style="height: auto; width: 100%;">';
 						img_html += '<img src="'+ event.target.result +'" class="w-50">';
-						$("#tempImg-"+num).html(img_html);
+						$("#techImg-temp-"+num).html(img_html);
 					};
 					
 					reader.readAsDataURL(file[0]);
@@ -249,8 +253,10 @@
 						html +=	'</div>';
 					}
 					
-					$("#banner-data").html(html);
+					$("#techImg-data-"+num).html(html);
 					$("#btn-bannerImgDel").prop('disabled', false);
+					
+					$("#techImg-delBtn-"+num).removeClass('invisible');
 					
 				},
 				error : function(request, status, error){
@@ -268,6 +274,20 @@
 			$("#banner-data").empty();
 			$("#btn-bannerImgDel").prop('disabled', true);
 		}
+	}
+	
+	function techImgDel(str, num){
+		
+		if(str == 'temp'){
+			
+			$("#techImg-data-"+num).empty();
+			$("#techImg-temp-"+num).html('<img src="'+contextPath+'/resources/admin/assets/img/no-image.png" class="w-50">');
+			$("#techImg-delBtn").addClass('invisible');
+			
+		}else{
+			
+		}
+		
 	}
 	
 	// 배너이미지 추가
