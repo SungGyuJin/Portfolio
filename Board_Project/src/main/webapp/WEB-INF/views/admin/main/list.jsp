@@ -8,8 +8,6 @@
 
 	$(function(){
 		
-		initBbs('init');
-		
 		// 신규등록 버튼
 		$("#btn-new").on('click', function(){
 			$("#frm-typ").val('add');
@@ -28,16 +26,6 @@
 			location.href = 'list.do?listTyp='+$(this).val();
 		});
 		
-		if($("#listTyp").val() == 'list'){
-			$("#bbs-ttl").html('게시판 목록');
-			$("#btn-list").prop('disabled', true);
-			$("#btn-trash").prop('disabled', false);
-		}else{
-			$("#bbs-ttl").html('휴지통');
-			$("#btn-list").prop('disabled', false);
-			$("#btn-trash").prop('disabled', true);
-		}
-		
 		var i = 0;
 		
 		// add Tech Stack
@@ -51,8 +39,7 @@
 			html +=           	'<div class="d-flex justify-content-between">';
 			html +=					'<div></div>';
 			html +=					'<div>';
-// 			html +=              		'<input type="checkbox" class="cursor-pointer custom-checkbox-lg item-chk ml-1">';
-			html +=              		'<img src="'+contextPath+'/resources/admin/assets/img/x_button.png" id="techImg-delBtn-'+i+'" class="invisible cursor-pointer" onclick="techImgDel(\'temp\', '+i+');" style="width: 25px;">';
+			html +=              		'<img src="'+contextPath+'/resources/admin/assets/img/x_button.png" id="techImg-delBtn-'+i+'" class="invisible cursor-pointer" title="이미지 삭제" onclick="techImgDel(\'temp\', '+i+');" style="width: 25px;">';
 			html +=					'</div>';
 			html +=           	'</div>';
 			html +=					'<div class="text-center" id="techImg-temp-'+i+'">';
@@ -64,12 +51,9 @@
 			html +=           			'<button type="button" class="btn btn-sm btn-success btn-icon-split" onclick="btnControl(\'addTech\', '+i+');">';
 	    	html +=							'<span class="text">이미지 추가</span>';
 			html += 					'</button>';
-			html +=           			'<button type="button" class="btn btn-sm btn-danger btn-icon-split ml-1" onclick="delTechImg('+i+');" disabled>';
-	    	html +=							'<span class="text">이미지 삭제</span>';
-			html += 					'</button>';
 			html +=					'</div>';
 			html +=					'<div>';
-			html +=           			'<button type="button" class="btn btn-sm btn-danger btn-icon-split" onclick="btnControl(\'delTech\', '+i+');">';
+			html +=           			'<button type="button" class="btn btn-sm btn-danger btn-icon-split" onclick="btnControl(\'delTech\', '+i+', \'temp\');">';
 	    	html +=							'<span class="text">삭제</span>';
 			html += 					'</button>';
 			html +=					'</div>';
@@ -83,58 +67,16 @@
 			
 			i++;
 		});
-		
-		$("#all-chk-tech").on('click', function(){
-			if($(this).prop('checked')){
-				$(".tech-check").prop("checked", true);
-				$("#btn-delTech").prop('disabled', false);
-			}else{
-				$(".tech-check").prop("checked", false);
-				$("#btn-delTech").prop('disabled', true);
-			}
+
+		// 기술 저장(submit)
+		$("#btn-techSave").on('click', function(){
+
 		});
 		
-		// delete Tech Stack
-		$("#btn-delTech").on('click', function(){
-			$(".tech-check:checked").parent().parent().remove();
-
-			if($(".tech-check").length == 0){
-				var html = '';
-
-				html += '<tr class="text-center">';
-				html += 	'<td colspan="6">';
-				html += 		'<strong class="text-lg"><br>등록된 기술이 없습니다.<br><br></strong>';
-				html += 	'</td>';
-				html += '</tr>';
-			
-				$("#tech-area").html(html);
-				$("#all-chk-tech").prop('disabled', true);
-				$("#btn-delTech").prop('disabled', true);
-				$("#all-chk-tech").prop('checked', false);
-			}else{
-				$("#all-chk-tech").prop('disabled', false);
-				$("#btn-delTech").prop('disabled', false);
-			}
-		});
-
 	});
 	
-	function techCheck(){
-		if($(".tech-check:checked").length > 0){
-			$("#btn-delTech").prop('disabled', false);
-		}else{
-			$("#btn-delTech").prop('disabled', true);
-		}
-
-		if($(".tech-check").length == $(".tech-check:checked").length){
-			$("#all-chk-tech").prop('checked', true);
-		}else{
-			$("#all-chk-tech").prop('checked', false);
-		}
-	}
-	
 	// 버튼제어
-	function btnControl(e, num){
+	function btnControl(e, num, gubun){
 		if(e == 'addBn'){
 			frmSubmit(e);
 		}else if(e == 'reset'){
@@ -144,6 +86,12 @@
 		}else if(e == 'addTech'){
 			$("#temp-tech-file-"+num).trigger('click');
 		}else if(e == 'delTech'){
+			
+			if(gubun == 'temp'){
+				$("#tempDiv-"+num).remove();
+			}else{
+				
+			}
 			
 		}else if(e == 'delImg'){
 			$("#banner-area").empty();
@@ -245,11 +193,19 @@
 					
 					for(var i=0; i < res.fileList.length; i++) {
 						html += '<div class="d-flex fileData-area">';
+						
 						html += 	'<input type="text" name="thumbFileOrgNm" value="'+res.fileList[i].fileOrgNm+'">';
 						html += 	'<input type="text" name="thumbFileSvgNm" value="'+res.fileList[i].fileSvgNm+'">';
 						html += 	'<input type="text" name="thumbFileExt" value="'+res.fileList[i].fileExt+'">';
 						html += 	'<input type="text" name="thumbFilePath" value="'+res.fileList[i].filePath+'">';
 						html += 	'<input type="text" name="thumbFileSize" value="'+res.fileList[i].fileSz+'">';
+						
+// 						html += 	'<input type="hidden" name="thumbFileOrgNm" value="'+res.fileList[i].fileOrgNm+'">';
+// 						html += 	'<input type="hidden" name="thumbFileSvgNm" value="'+res.fileList[i].fileSvgNm+'">';
+// 						html += 	'<input type="hidden" name="thumbFileExt" value="'+res.fileList[i].fileExt+'">';
+// 						html += 	'<input type="hidden" name="thumbFilePath" value="'+res.fileList[i].filePath+'">';
+// 						html += 	'<input type="hidden" name="thumbFileSize" value="'+res.fileList[i].fileSz+'">';
+						
 						html +=	'</div>';
 					}
 					
@@ -282,7 +238,7 @@
 			
 			$("#techImg-data-"+num).empty();
 			$("#techImg-temp-"+num).html('<img src="'+contextPath+'/resources/admin/assets/img/no-image.png" class="w-50">');
-			$("#techImg-delBtn").addClass('invisible');
+			$("#techImg-delBtn-"+num).addClass('invisible');
 			
 		}else{
 			
@@ -448,25 +404,6 @@
 		});
 	}
 	
-	// 게시판 form 옵션변화 (ex.초기화면 세팅)
-	function initBbs(e){
-		if(e == 'init'){
-			$(".init-class").prop("disabled", true);
-		}else{
-			if($("#frm-typ").val() == 'add'){
-				$("#nm").val('');
-				$("#expln").val('');
-				$("#ttl-typ").html('등록');
-				$(".init-class").prop("disabled", false);
-				$(".init-class").prop("checked", false);
-			}else{
-				$("#ttl-typ").html('수정');
-				$(".init-class").prop("disabled", false);
-			}
-			$("#nm").focus();
-		}
-	}
-	
 	// 게시판 등록
 	function addBbs(){
 		
@@ -620,7 +557,7 @@
 												<button type="button" class="btn btn-primary btn-icon-split" id="btn-bnSave" onclick="btnControl('addBn');">
 											    	<span class="text">저장</span>
 												</button>
-												<button class="btn btn-secondary btn-icon-split init-class" id="btn-bnReset" onclick="btnControl('reset');">
+												<button class="btn btn-secondary btn-icon-split" id="btn-bnReset" onclick="btnControl('reset');">
 								         			<span class="text">취소</span>
 								    			</button>
 						    				</div>
@@ -632,102 +569,12 @@
    					</div>
          		</div>
          		
-         		<%-- <div class="card shadow mb-4">
-					<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-    					<h5 class="m-0 font-weight-bold text-primary">Tech Stack</h5>
-    					<div class="dropdown no-arrow">
-	        				<!-- <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	    						<i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-							</a> -->
-					        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-					            <div class="dropdown-header">Dropdown Header:</div>
-					            <a class="dropdown-item" href="#">Action</a>
-					            <a class="dropdown-item" href="#">Another action</a>
-					            <div class="dropdown-divider"></div>
-					            <a class="dropdown-item" href="#">Something else here</a>
-					        </div>
-	    					<button class="btn btn-primary btn-icon-split" id="btn-addTech" title="추가" value="add">
-	    						<span class="text">추가</span>
-			    			</button>
-	    					<button class="btn btn-danger btn-icon-split" id="btn-delTech" title="삭제" value="del" disabled>
-	    						<span class="text">삭제</span>
-			    			</button>
-    					</div>
-					</div>
-					
-					<!-- Card Body -->
-					<div class="card-body">
-						<form id="frm-tech" method="get">
-							<input type="hidden" name="listTyp" id="listTyp" value="${bbsVO.listTyp }" readonly="readonly">
-					    	<div class="table-responsive" style="overflow-x: hidden;">
-					  			<div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
-									<div class="row">
-										<div class="col-sm-12">
-											<table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
-												<colgroup>
-													<col width="5">		<!-- all check 	-->
-													<col width="30">	<!-- 아이콘 	-->
-													<col width="50"> 	<!-- 기술명 	-->
-													<col width="50"> 	<!-- 등록일 	-->
-													<col width="50"> 	<!-- 수정일  	-->
-													<col width="10"> 	<!-- 상태    	-->
-												</colgroup>
-												<thead>
-												    <tr role="row">
-												    	<th class="sorting sorting_asc text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending"><input type="checkbox" class="cursor-pointer custom-checkbox-lg" id="all-chk-tech" disabled></th>
-												    	<th class="sorting sorting_asc text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending">아이콘</th>
-														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">기술명</th>
-														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">등록일시</th>
-														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">수정일시</th>
-														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">상태</th>
-												    </tr>
-												</thead>
-												<tbody id="tech-area">
-													<c:forEach var="list" items="${getTechList}">
-													<tr class="text-center sorting" onclick="getTech(${list.mainSeq});" id="tr-${list.mainSeq }">
-														<td class="sorting_1" id="nm-${list.bbsSeq }" aria-label="${list.bbsSeq }"><input type="checkbox" class="cursor-pointer custom-checkbox-lg" value="${list.mainSeq }"></td>
-														<td>${list.techNm }</td>
-														<td>${list.regDt }</td>
-														<td>${list.updDt }</td>
-														<td>
-															<c:choose>
-																<c:when test="${list.stat eq 1 }">
-																	<strong class="ms-3"><span class="text-primary">사용중</span></strong>
-																</c:when>
-																<c:otherwise>
-																	<strong class="ms-3"><span class="text-danger">삭제됨</span></strong>
-																</c:otherwise>
-															</c:choose>
-													    </td>
-													</tr>
-													</c:forEach>
-													<c:if test="${empty getTechList }">
-													<tr class="text-center">
-														<td colspan="6">
-															<strong class="text-lg"><br>등록된 기술이 없습니다.<br><br></strong>
-														</td>
-													</tr>
-													</c:if>
-									        	</tbody>
-											</table>
-										</div>
-									</div>
-	      						</div>
-	       					</div>
-       					
-						</form>
-   					</div>
-         		</div> --%>
-         		
          		<div class="card shadow mb-4">
 				    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
 				        <h5 class="m-0 font-weight-bold text-primary">Tech Stack</h5>
 				        <div>
 				            <button class="btn btn-primary btn-icon-split" id="btn-addTech" title="추가" value="add">
 				                <span class="text">추가</span>
-				            </button>
-				            <button class="btn btn-danger btn-icon-split" id="btn-delTech" title="삭제" value="del" disabled>
-				                <span class="text">삭제</span>
 				            </button>
 				        </div>
 				    </div>
@@ -750,7 +597,6 @@
 				                        <div class="card-body">
 				                            <div class="d-flex justify-content-between">
 				                                <input type="checkbox" class="cursor-pointer custom-checkbox-lg item-chk">
-<!-- 				                                <img src="/icons/java.png" width="40" height="40"> -->
 				                            </div>
 				
 				                            <h6 class="mt-3 mb-2 font-weight-bold text-primary">Java</h6>
@@ -763,9 +609,15 @@
 				                        </div>
 				                    </div>
 				                </div>
-				
 				            </div>
-				
+							<div class="text-right">
+								<button class="btn btn-primary btn-icon-split" id="btn-techSave">
+							    	<span class="text" id="btn-text-span">저장</span>
+								</button>
+								<button class="btn btn-secondary btn-icon-split" id="btn-reset" onclick="btnControl('reset');">
+				         			<span class="text">취소</span>
+				    			</button>
+							</div>
 				        </form>
 				    </div>
 				</div>
