@@ -32,20 +32,19 @@
 		$("#btn-addTech").on('click', function(){
 			var html = '';
 			
-			html += '<div class="col-lg-3 col-md-4 col-sm-6 mb-4" id="tempDiv-'+i+'">';
+			html += '<div class="col-lg-3 col-md-4 col-sm-6 mb-4 tech-card" id="tempTechDiv-'+i+'">';
 			html +=		'<input type="file" class="d-none" id="temp-tech-file-'+i+'" onchange="addTechIcon(this, event, '+i+');">';
 			html += 	'<div class="card border-left-success shadow h-100 py-2">';
 			html +=     	'<div class="card-body">';
-			html +=           	'<div class="d-flex justify-content-between">';
-			html +=					'<div></div>';
-			html +=					'<div>';
-			html +=              		'<img src="'+contextPath+'/resources/admin/assets/img/x_button.png" id="techImg-delBtn-'+i+'" class="invisible cursor-pointer" title="이미지 삭제" onclick="techImgDel(\'temp\', '+i+');" style="width: 25px;">';
-			html +=					'</div>';
+			html +=           	'<div class="text-right">';
+			html +=              	'<img src="'+contextPath+'/resources/admin/assets/img/x_button.png" id="techImg-delBtn-'+i+'" class="invisible cursor-pointer" title="이미지 삭제" onclick="techImgDel(\'temp\', '+i+');" style="width: 25px;">';
 			html +=           	'</div>';
-			html +=					'<div class="text-center" id="techImg-temp-'+i+'">';
-			html +=              		'<img src="'+contextPath+'/resources/admin/assets/img/no-image.png" class="w-50">';
-			html +=					'</div>';
-			html +=            	'<div class="text-xs mb-2"><input type="text" class="form-control form-control-user mt-3" placeholder="기술명을 입력하세요." name="techNm"></div>';
+			html +=				'<div class="text-center" id="techImg-temp-'+i+'">';
+			html +=              	'<img src="'+contextPath+'/resources/admin/assets/img/no-image.png" class="w-50">';
+			html +=				'</div>';
+			html +=            	'<div class="mb-2"><input type="text" class="form-control text-center" placeholder="기술명을 입력하세요." name="techNm" autocomplete="off"></div>';
+            html += 			'<div class="mb-1">등록일시: -</div>';
+            html += 			'<div class="mb-1">수정일시: -</div>';
 			html +=           	'<div class="d-flex justify-content-between">';
 			html +=					'<div>';
 			html +=           			'<button type="button" class="btn btn-sm btn-success btn-icon-split" onclick="btnControl(\'addTech\', '+i+');">';
@@ -63,6 +62,10 @@
 			html +=		'<div id="techImg-data-'+i+'"></div>';
 			html += '</div>';			
 			
+			if($(".tech-card").length == 0){
+				$("#tech-card-area").empty();
+			}
+			
 			$("#tech-card-area").append(html);
 			
 			i++;
@@ -71,6 +74,40 @@
 		// 기술 저장(submit)
 		$("#btn-techSave").on('click', function(){
 
+			if($(".tech-card").length > 0){
+				
+				$.ajax({
+					url      : contextPath+"/admin/main/addMain.do",
+					method   : "POST",
+					data     : $($("#frm-tech")).serialize(),
+	//	 			processData: false,
+	//	 			contentType: false,
+					dataType : "json",
+					success  : function(res){
+						
+						alert('진입')
+						
+						if(res > 0){
+							Swal.fire({
+								icon: "success",
+								title: "저장완료"
+							}).then(function(){
+								location.reload();
+							});
+						}
+						
+					},
+					error : function(request, status, error){
+						Swal.fire({
+							icon: "error",
+							title: "통신불가"
+						})
+					}
+				});
+			}else{
+				alert('등록할 기술을 추가해주세요.');
+			}
+			
 		});
 		
 	});
@@ -88,7 +125,7 @@
 		}else if(e == 'delTech'){
 			
 			if(gubun == 'temp'){
-				$("#tempDiv-"+num).remove();
+				$("#tempTechDiv-"+num).remove();
 			}else{
 				
 			}
@@ -581,37 +618,90 @@
 				
 				    <div class="card-body">
 				        <form id="frm-tech" method="get">
-				            <input type="hidden" name="listTyp" id="listTyp" value="" readonly>
-				
-				            <!-- 카드 리스트 영역 -->
+				        	<input type="hidden" name="mainSe" value="T">
+				        
+				            <!-- 기술 목록 영역 -->
 				            <div class="row" id="tech-card-area">
+								
+								<c:if test="${empty getTechList }">
+					                <!-- 데이터 없을 때 -->
+					                <div class="col-12 text-center py-5">
+					                    <strong class="text-lg"><br>등록된 기술이 없습니다.<br><br></strong>
+					                </div>
+								</c:if>
 				
-				                <!-- 데이터 없을 때 -->
-				                <!-- <div class="col-12 text-center py-5">
-				                    <strong class="text-lg"><br>등록된 기술이 없습니다.<br><br></strong>
-				                </div> -->
+								<c:forEach var="list" items="${getTechList}">
+					                <div class="col-lg-3 col-md-4 col-sm-6 mb-4 tech-card" id="dataTechDiv-${list.mainSeq }">
+					                    <div class="card border-left-primary shadow h-100 py-2">
+					                        <div class="card-body">
+					                            <div class="text-right">
+							              			<img src="${pageContext.request.contextPath }/resources/admin/assets/img/x_button.png" id="techImg-delBtn-${list.mainSeq }" class="cursor-pointer invisible" title="이미지 삭제" onclick="techImgDel('data', ${list.mainSeq})" style="width: 20px">
+									           	</div>
+									           	<div class="text-center" id="techImg-temp-${list.mainSeq }">
+							              			<img src="${pageContext.request.contextPath }/resources/admin/assets/img/no-image.png" class="w-50">
+												</div>
+					                            <div class="mb-2"><input type="text" class="form-control text-center" name="techNm" placeholder="기술명을 입력하세요." value="${list.techNm }" autocomplete="off"></div>
+					                            <div class="mb-1">등록일시: ${list.regDt }</div>
+					                            <div class="mb-1">수정일시: ${list.updDt }</div>
+					                            <div class="d-flex justify-content-between">
+					                            	<div class="mt-1">
+					                                	<button type="button" class="btn btn-sm btn-success btn-icon-split" onclick="btnControl(\addTech\, +i+)">
+							    							<span class="text">이미지 추가</span>
+									 					</button>
+					                            	</div>
+					                            	<div>
+									           			<%-- <button type="button" class="btn btn-sm btn-success btn-icon-split" onclick="btnControl(updateTech, '${list.mainSeq}', 'data')">
+							    							<span class="text">수정</span>
+									 					</button> --%>
+									           			<button type="button" class="btn btn-sm btn-danger btn-icon-split" onclick="btnControl(delTech, '${list.mainSeq}', 'data')">
+							    							<span class="text">삭제</span>
+									 					</button>
+					                            	</div>
+					                            </div>
+					                        </div>
+					                    </div>
+					                </div>
+					                
+					                <%-- <div class="col-lg-3 col-md-4 col-sm-6 mb-4 tech-card" id="tempTechDiv-+i+">
+										<input type="file" class="d-none" id="temp-tech-file-+i+" onchange="addTechIcon(this, event, +i+)">
+								 		<div class="card border-left-success shadow h-100 py-2">
+									     	<div class="card-body">
+									           	<div class="d-flex justify-content-between">
+														<div></div>
+														<div>
+									              		<img src="${pageContext.request.contextPath }/resources/admin/assets/img/x_button.png" id="techImg-delBtn-+i+" class="invisible cursor-pointer" title="이미지 삭제" onclick="techImgDel(\temp\, +i+)" style="width: 25px">
+														</div>
+									           	</div>
+														<div class="text-center" id="techImg-temp-+i+">
+									              		<img src="${pageContext.request.contextPath }/resources/admin/assets/img/no-image.png" class="w-50">
+														</div>
+									            	<div class="text-xs mb-2"><input type="text" class="form-control form-control-user mt-3" placeholder="기술명을 입력하세요." name="techNm"></div>
+									           	<div class="d-flex justify-content-between">
+													<div>
+									           			<button type="button" class="btn btn-sm btn-success btn-icon-split" onclick="btnControl(\addTech\, +i+)">
+							    							<span class="text">이미지 추가</span>
+									 					</button>
+													</div>
+													<div>
+									           			<button type="button" class="btn btn-sm btn-danger btn-icon-split" onclick="btnControl(\delTech\, +i+, \temp\)">
+							    							<span class="text">삭제</span>
+									 					</button>
+													</div>
+								        		</div>
+									     	</div>
+									 	</div>
+										<div id="techImg-data-+i+"></div>
+			 						</div> --%>
+					                
+								</c:forEach>
 				
-				                <!-- 예시 카드 -->
-				                <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-				                    <div class="card border-left-primary shadow h-100 py-2">
-				                        <div class="card-body">
-				                            <div class="d-flex justify-content-between">
-				                                <input type="checkbox" class="cursor-pointer custom-checkbox-lg item-chk">
-				                            </div>
-				
-				                            <h6 class="mt-3 mb-2 font-weight-bold text-primary">Java</h6>
-				
-				                            <div class="text-xs mb-1">등록일: 2024-05-01</div>
-				                            <div class="text-xs mb-1">수정일: 2024-05-02</div>
-				                            <div>
-				                                <span class="badge badge-success">생성중</span>
-				                            </div>
-				                        </div>
-				                    </div>
-				                </div>
+				                
+				                
+				                
+				                
 				            </div>
 							<div class="text-right">
-								<button class="btn btn-primary btn-icon-split" id="btn-techSave">
+								<button type="button" class="btn btn-primary btn-icon-split" id="btn-techSave">
 							    	<span class="text" id="btn-text-span">저장</span>
 								</button>
 								<button class="btn btn-secondary btn-icon-split" id="btn-reset" onclick="btnControl('reset');">
@@ -740,12 +830,12 @@
 						<div class="text-center">
 							<div class="d-flex justify-content-between">
 								<div id="btn-divTag1">
-									<button class="btn btn-primary btn-icon-split init-class" id="btn-save" onclick="btnControl('add');">
+									<!-- <button class="btn btn-primary btn-icon-split init-class" id="btn-save" onclick="btnControl('add');">
 								    	<span class="text" id="btn-text-span">저장</span>
 									</button>
 									<button class="btn btn-secondary btn-icon-split init-class" id="btn-reset" onclick="btnControl('reset');">
 					         			<span class="text">취소</span>
-					    			</button>
+					    			</button> -->
 								</div>
 								<div id="btn-divTag2">
 									<button class="btn btn-success btn-icon-split init-class d-none" id="btn-restore" onclick="btnControl('stat', '1');">

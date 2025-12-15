@@ -46,10 +46,6 @@ public class MainController {
 	@RequestMapping(value = "/home.do", method = RequestMethod.GET)
 	public ModelAndView home(Locale locale, Model model) {
 
-//		System.out.println("++++++++++++++++++++++++++++");
-//		System.out.println("++++++ MainController ++++++");
-//		System.out.println("++++++++++++++++++++++++++++");
-		
 		ModelAndView mav = null;
 		mav = new ModelAndView("admin/main");
 		
@@ -81,9 +77,7 @@ public class MainController {
 		ModelAndView mav = null;
 		mav = new ModelAndView("admin/main/list");
 		
-//		mainVO.setAmount(5);	// 페이지당 데이터 갯수
-
-		// 게시판 목록
+		// 메인 목록 Data
 	    Map<String, Object> resultMap = new HashMap<>();
 	    resultMap = mainService.getMainList(mainVO);
 
