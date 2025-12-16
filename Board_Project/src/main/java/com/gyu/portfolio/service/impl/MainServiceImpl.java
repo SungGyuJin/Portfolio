@@ -23,6 +23,9 @@ public class MainServiceImpl implements MainService {
 
 	@Override
 	public int addMain(MainVO mainVO) throws Exception {
+		
+		
+		
 		return mainMapper.addMain(mainVO);
 	}
 

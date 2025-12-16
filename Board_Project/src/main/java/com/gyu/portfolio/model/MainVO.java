@@ -22,11 +22,16 @@ public class MainVO extends DefalutVO {
 	private String updDt 		=  "";	// 수정일자
 	private int    stat 		=   0;	// 상태 ex) 미사용(삭제)[0] / 사용[1]
 	
-	@Override
-	public String toString() {
-		return "MainVO [mainSeq=" + mainSeq + ", mainSe=" + mainSe + ", topBnNm=" + topBnNm + ", botmBnNm=" + botmBnNm
-				+ ", techNm=" + techNm + ", poforNm=" + poforNm + ", expln=" + expln + ", regNo=" + regNo + ", regDt="
-				+ regDt + ", updNo=" + updNo + ", updDt=" + updDt + ", stat=" + stat + "]";
-	}
+
+	/* 그 외 필드 */
+	private String[] arrMainSeq    = null;
+	private String[] arrTechNm     = null;
+	private String[] arrFileOrgNm  = null;	// 파일이름(원본명)
+	private String[] arrFileSvgNm  = null;	// 파일이름(저장명)
+	private String[] arrFileExt    = null;	// 파일확장자
+	private String[] arrFilePath   = null;	// 파일경로
+	private long[]   arrFileSize   = null;	// 파일크기(Byte)
+	private String[] arrThumbYn    = null;  // 썸네일여부(Y, N)
+	
 	
 }

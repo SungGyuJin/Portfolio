@@ -33,25 +33,28 @@
 			var html = '';
 			
 			html += '<div class="col-lg-3 col-md-4 col-sm-6 mb-4 tech-card" id="tempTechDiv-'+i+'">';
-			html +=		'<input type="file" class="d-none" id="temp-tech-file-'+i+'" onchange="addTechIcon(this, event, '+i+');">';
+			html +=		'<input type="file" class="d-none" id="temp-tech-file-'+i+'" onchange="addTechIcon(this, event, '+i+', \'temp\');">';
 			html += 	'<div class="card border-left-success shadow h-100 py-2">';
 			html +=     	'<div class="card-body">';
 			html +=           	'<div class="text-right">';
-			html +=              	'<img src="'+contextPath+'/resources/admin/assets/img/x_button.png" id="techImg-delBtn-'+i+'" class="invisible cursor-pointer" title="이미지 삭제" onclick="techImgDel(\'temp\', '+i+');" style="width: 25px;">';
+			html +=              	'<img src="'+contextPath+'/resources/admin/assets/img/x_button.png" id="techImg-delBtn-temp-'+i+'" class="invisible cursor-pointer" title="이미지 삭제" onclick="techImgDel(\'temp\', '+i+');" style="width: 20px;">';
 			html +=           	'</div>';
 			html +=				'<div class="text-center" id="techImg-temp-'+i+'">';
 			html +=              	'<img src="'+contextPath+'/resources/admin/assets/img/no-image.png" class="w-50">';
 			html +=				'</div>';
-			html +=            	'<div class="mb-2"><input type="text" class="form-control text-center" placeholder="기술명을 입력하세요." name="techNm" autocomplete="off"></div>';
+			html +=            	'<div class="mb-2"><input type="text" class="form-control text-center mt-2" placeholder="기술명을 입력하세요." name="techNm" autocomplete="off"></div>';
             html += 			'<div class="mb-1">등록일시: -</div>';
             html += 			'<div class="mb-1">수정일시: -</div>';
 			html +=           	'<div class="d-flex justify-content-between">';
 			html +=					'<div>';
-			html +=           			'<button type="button" class="btn btn-sm btn-success btn-icon-split" onclick="btnControl(\'addTech\', '+i+');">';
+			html +=           			'<button type="button" class="btn btn-sm btn-success btn-icon-split" onclick="btnControl(\'addTechImg\', '+i+', \'temp\');">';
 	    	html +=							'<span class="text">이미지 추가</span>';
 			html += 					'</button>';
 			html +=					'</div>';
 			html +=					'<div>';
+			html +=           			'<button type="button" class="btn btn-sm btn-primary btn-icon-split mr-1" onclick="btnControl(\'addTech\', '+i+', \'temp\');">';
+	    	html +=							'<span class="text">저장</span>';
+			html += 					'</button>';
 			html +=           			'<button type="button" class="btn btn-sm btn-danger btn-icon-split" onclick="btnControl(\'delTech\', '+i+', \'temp\');">';
 	    	html +=							'<span class="text">삭제</span>';
 			html += 					'</button>';
@@ -59,8 +62,8 @@
 			html +=        		'</div>';
 			html +=     	'</div>';
 			html += 	'</div>';
-			html +=		'<div id="techImg-data-'+i+'"></div>';
-			html += '</div>';			
+			html +=		'<div id="techImgAreaData-temp-'+i+'"></div>';
+			html += '</div>';	
 			
 			if($(".tech-card").length == 0){
 				$("#tech-card-area").empty();
@@ -84,8 +87,6 @@
 	//	 			contentType: false,
 					dataType : "json",
 					success  : function(res){
-						
-						alert('진입')
 						
 						if(res > 0){
 							Swal.fire({
@@ -114,27 +115,41 @@
 	
 	// 버튼제어
 	function btnControl(e, num, gubun){
+		
+		// 배너 등록처리
 		if(e == 'addBn'){
 			frmSubmit(e);
-		}else if(e == 'reset'){
-			btnReset();
-		}else if(e == 'addBner'){
-			$("#banner-file").trigger('click');
-		}else if(e == 'addTech'){
-			$("#temp-tech-file-"+num).trigger('click');
-		}else if(e == 'delTech'){
 			
+		// 배너 이미지 추가 버튼
+		}else if(e == 'addBnerImg'){
+			$("#banner-file").trigger('click');
+		
+		// 기술 이미지 추가 버튼
+		}else if(e == 'addTechImg'){
 			if(gubun == 'temp'){
-				$("#tempTechDiv-"+num).remove();
+				$("#temp-tech-file-"+num).trigger('click');
 			}else{
-				
+				$("#data-tech-file-"+num).trigger('click');
 			}
 			
+		// 기술 이미지 삭제 버튼
 		}else if(e == 'delImg'){
 			$("#banner-area").empty();
 			$("#banner-data").empty();
 			$("#bannerYn").val('N');
 			$("#btn-bannerImgDel").prop('disabled', true);
+
+		// 기술 데이터 삭제
+		}else if(e == 'delTech'){
+			if(gubun == 'temp'){
+				$("#tempTechDiv-"+num).remove();
+			}else{
+				$("#dataTechDiv-"+num).remove();
+				$("#techDelSeq-area").append('<input type="text" value="'+num+'">');
+			}
+			
+		}else if(e == 'reset'){
+			btnReset();
 		}else{
 			changeStat_1(num);
 		}
@@ -184,7 +199,7 @@
 	}
 
 	// 기술 아이콘 추가
-	function addTechIcon(e, event, num){
+	function addTechIcon(e, event, num, gubun){
 
 		var file = e.files;
 
@@ -211,45 +226,36 @@
 				contentType: false,
 				dataType : "json",
 				success  : function(res){
-
+					
 					var reader = new FileReader();
 					
 					reader.onload = function(event) {
-						$("#banner-area").children().remove();
 						var img_html = '';
-// 						img_html += '<img src="'+ event.target.result +'" style="height: auto; width: 100%;">';
-						img_html += '<img src="'+ event.target.result +'" class="w-50">';
+						img_html += '<img src="'+ event.target.result +'" class="mt-2" style="height: auto; width: 100%;">';
 						$("#techImg-temp-"+num).html(img_html);
 					};
 					
 					reader.readAsDataURL(file[0]);
-
-					$("#bannerYn").val('Y');
 
 		        	var html = '';
 					
 					for(var i=0; i < res.fileList.length; i++) {
 						html += '<div class="d-flex fileData-area">';
 						
-						html += 	'<input type="text" name="thumbFileOrgNm" value="'+res.fileList[i].fileOrgNm+'">';
-						html += 	'<input type="text" name="thumbFileSvgNm" value="'+res.fileList[i].fileSvgNm+'">';
-						html += 	'<input type="text" name="thumbFileExt" value="'+res.fileList[i].fileExt+'">';
-						html += 	'<input type="text" name="thumbFilePath" value="'+res.fileList[i].filePath+'">';
-						html += 	'<input type="text" name="thumbFileSize" value="'+res.fileList[i].fileSz+'">';
-						
-// 						html += 	'<input type="hidden" name="thumbFileOrgNm" value="'+res.fileList[i].fileOrgNm+'">';
-// 						html += 	'<input type="hidden" name="thumbFileSvgNm" value="'+res.fileList[i].fileSvgNm+'">';
-// 						html += 	'<input type="hidden" name="thumbFileExt" value="'+res.fileList[i].fileExt+'">';
-// 						html += 	'<input type="hidden" name="thumbFilePath" value="'+res.fileList[i].filePath+'">';
-// 						html += 	'<input type="hidden" name="thumbFileSize" value="'+res.fileList[i].fileSz+'">';
+						html += 	'<input type="text" name="arrFileOrgNm" value="'+res.fileList[i].fileOrgNm+'">';
+						html += 	'<input type="text" name="arrFileSvgNm" value="'+res.fileList[i].fileSvgNm+'">';
+						html += 	'<input type="text" name="arrFileExt" value="'+res.fileList[i].fileExt+'">';
+						html += 	'<input type="text" name="arrFilePath" value="'+res.fileList[i].filePath+'">';
+						html += 	'<input type="text" name="arrFileSize" value="'+res.fileList[i].fileSz+'">';
+						html += 	'<input type="text" name="arrThumbYn" value="Y">';
 						
 						html +=	'</div>';
 					}
 					
-					$("#techImg-data-"+num).html(html);
-					$("#btn-bannerImgDel").prop('disabled', false);
+					$("#techImgAreaData-"+gubun+"-"+num).html(html);
 					
-					$("#techImg-delBtn-"+num).removeClass('invisible');
+					$("#techImg-delBtn-"+gubun+"-"+num).removeClass('invisible');
+					$("#btn-bannerImgDel").prop('disabled', false);
 					
 				},
 				error : function(request, status, error){
@@ -270,17 +276,9 @@
 	}
 	
 	function techImgDel(str, num){
-		
-		if(str == 'temp'){
-			
-			$("#techImg-data-"+num).empty();
-			$("#techImg-temp-"+num).html('<img src="'+contextPath+'/resources/admin/assets/img/no-image.png" class="w-50">');
-			$("#techImg-delBtn-"+num).addClass('invisible');
-			
-		}else{
-			
-		}
-		
+		$("#techImgAreaData-"+str+"-"+num).empty();
+		$("#techImg-"+str+"-"+num).html('<img src="'+contextPath+'/resources/admin/assets/img/no-image.png" class="w-50">');
+		$("#techImg-delBtn-"+str+"-"+num).addClass('invisible');
 	}
 	
 	// 배너이미지 추가
@@ -441,73 +439,6 @@
 		});
 	}
 	
-	// 게시판 등록
-	function addBbs(){
-		
-		$.ajax({
-			url      : contextPath+"addBbs.do",
-			method   : "POST",
-			data     : $("#frm-addBbs").serialize(),
-			dataType : "json",
-			success  : function(res){
-				
-				if(res > 0){
-					Swal.fire({
-						icon: "success",
-						title: "등록완료"
-					}).then(function(){
-						location.href = 'list.do';
-					});
-				}else{
-					Swal.fire({
-						icon: "error",
-						title: "저장 오류"
-					})
-				}
-			},
-			error : function(request, status, error){
-				Swal.fire({
-					icon: "error",
-					title: "통신불가"
-				})
-			}
-		});
-	}
-	
-	// 게시판 수정
-	function updateBbs(){
-		
-		$.ajax({
-			url      : contextPath+"updateBbs.do",
-			method   : "POST",
-			data     : $("#frm-addBbs").serialize(),
-			dataType : "json",
-			success  : function(res){
-				
-				if(res > 0){
-					Swal.fire({
-						icon: "success",
-						title: "수정완료"
-					}).then(function(){
-// 						location.reload();
-						$("#nm-"+$("#bbsSeq").val()).text($("#nm").val());
-					});
-				}else{
-					Swal.fire({
-						icon: "error",
-						title: "저장 오류"
-					})
-				}
-			},
-			error : function(request, status, error){
-				Swal.fire({
-					icon: "error",
-					title: "통신불가"
-				})
-			}
-		});
-	}
-	
 </script>
 
 <div id="content">
@@ -618,6 +549,7 @@
 				
 				    <div class="card-body">
 				        <form id="frm-tech" method="get">
+				        	<div id="techDelSeq-area"></div>
 				        	<input type="hidden" name="mainSe" value="T">
 				        
 				            <!-- 기술 목록 영역 -->
@@ -632,20 +564,22 @@
 				
 								<c:forEach var="list" items="${getTechList}">
 					                <div class="col-lg-3 col-md-4 col-sm-6 mb-4 tech-card" id="dataTechDiv-${list.mainSeq }">
+										<input type="file" class="d-none" id="data-tech-file-${list.mainSeq }" onchange="addTechIcon(this, event, '${list.mainSeq }', 'data');">					                    
+					                    <input type="hidden" name="mainSeq" value="${list.mainSeq }">
 					                    <div class="card border-left-primary shadow h-100 py-2">
 					                        <div class="card-body">
 					                            <div class="text-right">
-							              			<img src="${pageContext.request.contextPath }/resources/admin/assets/img/x_button.png" id="techImg-delBtn-${list.mainSeq }" class="cursor-pointer invisible" title="이미지 삭제" onclick="techImgDel('data', ${list.mainSeq})" style="width: 20px">
+							              			<img src="${pageContext.request.contextPath }/resources/admin/assets/img/x_button.png" id="techImg-delBtn-data-${list.mainSeq }" class="cursor-pointer invisible" title="이미지 삭제" onclick="techImgDel('data', ${list.mainSeq})" style="width: 20px">
 									           	</div>
 									           	<div class="text-center" id="techImg-temp-${list.mainSeq }">
 							              			<img src="${pageContext.request.contextPath }/resources/admin/assets/img/no-image.png" class="w-50">
 												</div>
-					                            <div class="mb-2"><input type="text" class="form-control text-center" name="techNm" placeholder="기술명을 입력하세요." value="${list.techNm }" autocomplete="off"></div>
+					                            <div class="mb-2"><input type="text" class="form-control text-center mt-2" name="techNm" placeholder="기술명을 입력하세요." value="${list.techNm }" autocomplete="off"></div>
 					                            <div class="mb-1">등록일시: ${list.regDt }</div>
 					                            <div class="mb-1">수정일시: ${list.updDt }</div>
 					                            <div class="d-flex justify-content-between">
 					                            	<div class="mt-1">
-					                                	<button type="button" class="btn btn-sm btn-success btn-icon-split" onclick="btnControl(\addTech\, +i+)">
+					                                	<button type="button" class="btn btn-sm btn-success btn-icon-split" onclick="btnControl('addTechImg', '${list.mainSeq}')">
 							    							<span class="text">이미지 추가</span>
 									 					</button>
 					                            	</div>
@@ -653,13 +587,14 @@
 									           			<%-- <button type="button" class="btn btn-sm btn-success btn-icon-split" onclick="btnControl(updateTech, '${list.mainSeq}', 'data')">
 							    							<span class="text">수정</span>
 									 					</button> --%>
-									           			<button type="button" class="btn btn-sm btn-danger btn-icon-split" onclick="btnControl(delTech, '${list.mainSeq}', 'data')">
+									           			<button type="button" class="btn btn-sm btn-danger btn-icon-split" onclick="btnControl('delTech', '${list.mainSeq}', 'data')">
 							    							<span class="text">삭제</span>
 									 					</button>
 					                            	</div>
 					                            </div>
 					                        </div>
 					                    </div>
+					                    <div id="techImgAreaData-data-${list.mainSeq }"></div>
 					                </div>
 					                
 					                <%-- <div class="col-lg-3 col-md-4 col-sm-6 mb-4 tech-card" id="tempTechDiv-+i+">
@@ -669,7 +604,7 @@
 									           	<div class="d-flex justify-content-between">
 														<div></div>
 														<div>
-									              		<img src="${pageContext.request.contextPath }/resources/admin/assets/img/x_button.png" id="techImg-delBtn-+i+" class="invisible cursor-pointer" title="이미지 삭제" onclick="techImgDel(\temp\, +i+)" style="width: 25px">
+									              		<img src="${pageContext.request.contextPath }/resources/admin/assets/img/x_button.png" id="techImg-delBtn-temp-+i+" class="invisible cursor-pointer" title="이미지 삭제" onclick="techImgDel(\temp\, +i+)" style="width: 25px">
 														</div>
 									           	</div>
 														<div class="text-center" id="techImg-temp-+i+">
@@ -690,7 +625,7 @@
 								        		</div>
 									     	</div>
 									 	</div>
-										<div id="techImg-data-+i+"></div>
+										<div id="techImgAreaData-temp-+i+"></div>
 			 						</div> --%>
 					                
 								</c:forEach>
@@ -844,7 +779,7 @@
 									<button class="btn btn-danger btn-icon-split init-class d-none" id="btn-del" onclick="btnControl('stat', '0');">
 					         			<span class="text">삭제</span>
 					    			</button>
-									<button class="btn btn-success btn-icon-split" id="btn-bannerImg" onclick="btnControl('addBner', '9');">
+									<button class="btn btn-success btn-icon-split" id="btn-bannerImg" onclick="btnControl('addBnerImg', '9');">
 				         				<span class="text">이미지 추가</span>
 				    				</button>
 									<button class="btn btn-danger btn-icon-split init-class" id="btn-bannerImgDel" onclick="btnControl('delImg', '9');" disabled>
