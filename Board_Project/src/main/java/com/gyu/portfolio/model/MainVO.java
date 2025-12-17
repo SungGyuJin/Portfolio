@@ -1,5 +1,7 @@
 package com.gyu.portfolio.model;
 
+import java.util.Arrays;
+
 import com.gyu.portfolio.common.DefalutVO;
 
 import lombok.Getter;
@@ -32,6 +34,19 @@ public class MainVO extends DefalutVO {
 	private String[] arrFilePath   = null;	// 파일경로
 	private long[]   arrFileSize   = null;	// 파일크기(Byte)
 	private String[] arrThumbYn    = null;  // 썸네일여부(Y, N)
-	
+
+	private String[] delSeqArr 	   = null;
+
+	@Override
+	public String toString() {
+		return "MainVO [mainSeq=" + mainSeq + ", mainSe=" + mainSe + ", topBnNm=" + topBnNm + ", botmBnNm=" + botmBnNm
+				+ ", techNm=" + techNm + ", poforNm=" + poforNm + ", expln=" + expln + ", regNo=" + regNo + ", regDt="
+				+ regDt + ", updNo=" + updNo + ", updDt=" + updDt + ", stat=" + stat + ", arrMainSeq="
+				+ Arrays.toString(arrMainSeq) + ", arrTechNm=" + Arrays.toString(arrTechNm) + ", arrFileOrgNm="
+				+ Arrays.toString(arrFileOrgNm) + ", arrFileSvgNm=" + Arrays.toString(arrFileSvgNm) + ", arrFileExt="
+				+ Arrays.toString(arrFileExt) + ", arrFilePath=" + Arrays.toString(arrFilePath) + ", arrFileSize="
+				+ Arrays.toString(arrFileSize) + ", arrThumbYn=" + Arrays.toString(arrThumbYn) + ", delSeqArr="
+				+ Arrays.toString(delSeqArr) + "]";
+	}
 	
 }

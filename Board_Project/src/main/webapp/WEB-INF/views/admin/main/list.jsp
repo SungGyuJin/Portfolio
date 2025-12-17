@@ -34,6 +34,7 @@
 			
 			html += '<div class="col-lg-3 col-md-4 col-sm-6 mb-4 tech-card" id="tempTechDiv-'+i+'">';
 			html +=		'<input type="file" class="d-none" id="temp-tech-file-'+i+'" onchange="addTechIcon(this, event, '+i+', \'temp\');">';
+			html +=		'<input type="hidden" name="arrMainSeq" value="0">';
 			html += 	'<div class="card border-left-success shadow h-100 py-2">';
 			html +=     	'<div class="card-body">';
 			html +=           	'<div class="text-right">';
@@ -42,7 +43,7 @@
 			html +=				'<div class="text-center" id="techImg-temp-'+i+'">';
 			html +=              	'<img src="'+contextPath+'/resources/admin/assets/img/no-image.png" class="w-50">';
 			html +=				'</div>';
-			html +=            	'<div class="mb-2"><input type="text" class="form-control text-center mt-2" placeholder="기술명을 입력하세요." name="techNm" autocomplete="off"></div>';
+			html +=            	'<div class="mb-2"><input type="text" class="form-control text-center mt-2" placeholder="기술명을 입력하세요." name="arrTechNm" autocomplete="off"></div>';
             html += 			'<div class="mb-1">등록일시: -</div>';
             html += 			'<div class="mb-1">수정일시: -</div>';
 			html +=           	'<div class="d-flex justify-content-between">';
@@ -52,9 +53,9 @@
 			html += 					'</button>';
 			html +=					'</div>';
 			html +=					'<div>';
-			html +=           			'<button type="button" class="btn btn-sm btn-primary btn-icon-split mr-1" onclick="btnControl(\'addTech\', '+i+', \'temp\');">';
-	    	html +=							'<span class="text">저장</span>';
-			html += 					'</button>';
+// 			html +=           			'<button type="button" class="btn btn-sm btn-primary btn-icon-split mr-1" onclick="btnControl(\'addTech\', '+i+', \'temp\');">';
+// 	    	html +=							'<span class="text">저장</span>';
+// 			html += 					'</button>';
 			html +=           			'<button type="button" class="btn btn-sm btn-danger btn-icon-split" onclick="btnControl(\'delTech\', '+i+', \'temp\');">';
 	    	html +=							'<span class="text">삭제</span>';
 			html += 					'</button>';
@@ -87,6 +88,8 @@
 	//	 			contentType: false,
 					dataType : "json",
 					success  : function(res){
+						
+						console.log(res)
 						
 						if(res > 0){
 							Swal.fire({
@@ -145,7 +148,7 @@
 				$("#tempTechDiv-"+num).remove();
 			}else{
 				$("#dataTechDiv-"+num).remove();
-				$("#techDelSeq-area").append('<input type="text" value="'+num+'">');
+				$("#techDelSeq-area").append('<input type="text" name="delSeqArr" value="'+num+'">');
 			}
 			
 		}else if(e == 'reset'){
@@ -548,9 +551,9 @@
 				    </div>
 				
 				    <div class="card-body">
-				        <form id="frm-tech" method="get">
+				        <form id="frm-tech">
+	                    	<input type="hidden" name="mainSe" value="T">
 				        	<div id="techDelSeq-area"></div>
-				        	<input type="hidden" name="mainSe" value="T">
 				        
 				            <!-- 기술 목록 영역 -->
 				            <div class="row" id="tech-card-area">
@@ -565,7 +568,7 @@
 								<c:forEach var="list" items="${getTechList}">
 					                <div class="col-lg-3 col-md-4 col-sm-6 mb-4 tech-card" id="dataTechDiv-${list.mainSeq }">
 										<input type="file" class="d-none" id="data-tech-file-${list.mainSeq }" onchange="addTechIcon(this, event, '${list.mainSeq }', 'data');">					                    
-					                    <input type="hidden" name="mainSeq" value="${list.mainSeq }">
+					                    <input type="hidden" name="arrMainSeq" value="${list.mainSeq }">
 					                    <div class="card border-left-primary shadow h-100 py-2">
 					                        <div class="card-body">
 					                            <div class="text-right">
@@ -574,7 +577,7 @@
 									           	<div class="text-center" id="techImg-temp-${list.mainSeq }">
 							              			<img src="${pageContext.request.contextPath }/resources/admin/assets/img/no-image.png" class="w-50">
 												</div>
-					                            <div class="mb-2"><input type="text" class="form-control text-center mt-2" name="techNm" placeholder="기술명을 입력하세요." value="${list.techNm }" autocomplete="off"></div>
+					                            <div class="mb-2"><input type="text" class="form-control text-center mt-2" name="arrTechNm" placeholder="기술명을 입력하세요." value="${list.techNm }" autocomplete="off"></div>
 					                            <div class="mb-1">등록일시: ${list.regDt }</div>
 					                            <div class="mb-1">수정일시: ${list.updDt }</div>
 					                            <div class="d-flex justify-content-between">

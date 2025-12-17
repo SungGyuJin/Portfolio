@@ -53,7 +53,6 @@
 			, EXPLN      = #{expln}
 			, UPD_NO     = #{regNo}
 			, UPD_DT 	 = NOW()
-		
 	</update>
 	
 	<select id="getMainList" resultMap="mainVO">
@@ -92,8 +91,17 @@
 			, STAT
 		FROM TB_MAIN
 		WHERE 1=1
-<!-- 			AND MAIN_SEQ = #{mainSeq} -->
 			AND MAIN_SE = #{mainSe}
 	</select>
+	
+	<delete id="deleteMain">
+		DELETE FROM TB_MAIN
+		WHERE 1=1
+			AND MAIN_SEQ IN(
+		 	<foreach collection="delSeqArr" item="seq" separator=",">
+		 		#{seq}
+		 	</foreach>
+			)
+	</delete>
 	
 </mapper>

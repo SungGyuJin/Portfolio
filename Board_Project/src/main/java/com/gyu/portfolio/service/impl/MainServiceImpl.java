@@ -7,6 +7,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.gyu.portfolio.model.MainVO;
 import com.gyu.portfolio.service.MainService;
@@ -23,10 +26,43 @@ public class MainServiceImpl implements MainService {
 
 	@Override
 	public int addMain(MainVO mainVO) throws Exception {
+
+		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
 		
+		TransactionStatus status = transactionManager.getTransaction(def);
 		
-		
-		return mainMapper.addMain(mainVO);
+			int result = 0;
+			
+			try{
+				
+				for(int i=0; i < mainVO.getArrMainSeq().length; i++) {
+					MainVO vo = new MainVO();
+					vo.setMainSeq(Integer.parseInt(mainVO.getArrMainSeq()[i]));
+					vo.setMainSe(mainVO.getMainSe());
+					vo.setTechNm(mainVO.getArrTechNm()[i]);
+					vo.setRegNo(mainVO.getRegNo());
+					vo.setUpdNo(mainVO.getRegNo());
+					vo.setStat(1);
+
+					result = mainMapper.addMain(vo);
+				}
+				
+				
+				if(mainVO.getDelSeqArr().length > 0) {
+					mainMapper.deleteMain(mainVO);
+				}
+
+				transactionManager.commit(status);
+				
+			}catch(Exception e){
+				transactionManager.rollback(status);
+				System.out.println();
+				System.out.println(e.getMessage());
+				System.out.println();
+			}
+			
+		return result;
 	}
 
 	@Override

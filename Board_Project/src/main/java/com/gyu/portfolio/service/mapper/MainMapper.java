@@ -17,6 +17,8 @@ public interface MainMapper {
 	
 	// 메인 목록
 	List<MainVO> getMain(MainVO mainVO) throws Exception;
-	
+
+	// 메인 삭제
+	int deleteMain(MainVO mainVO) throws Exception;
 	
 }
