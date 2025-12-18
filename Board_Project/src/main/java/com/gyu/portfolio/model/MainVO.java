@@ -34,7 +34,7 @@ public class MainVO extends DefalutVO {
 	private String[] arrFilePath   = null;	// 파일경로
 	private long[]   arrFileSize   = null;	// 파일크기(Byte)
 	private String[] arrThumbYn    = null;  // 썸네일여부(Y, N)
-
+	
 	private String[] delSeqArr 	   = null;
 
 	@Override

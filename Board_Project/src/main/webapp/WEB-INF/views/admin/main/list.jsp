@@ -53,9 +53,6 @@
 			html += 					'</button>';
 			html +=					'</div>';
 			html +=					'<div>';
-// 			html +=           			'<button type="button" class="btn btn-sm btn-primary btn-icon-split mr-1" onclick="btnControl(\'addTech\', '+i+', \'temp\');">';
-// 	    	html +=							'<span class="text">저장</span>';
-// 			html += 					'</button>';
 			html +=           			'<button type="button" class="btn btn-sm btn-danger btn-icon-split" onclick="btnControl(\'delTech\', '+i+', \'temp\');">';
 	    	html +=							'<span class="text">삭제</span>';
 			html += 					'</button>';
@@ -148,7 +145,7 @@
 				$("#tempTechDiv-"+num).remove();
 			}else{
 				$("#dataTechDiv-"+num).remove();
-				$("#techDelSeq-area").append('<input type="text" name="delSeqArr" value="'+num+'">');
+				$("#techDelSeq-area").append('<input type="hidden" name="delSeqArr" value="'+num+'">');
 			}
 			
 		}else if(e == 'reset'){
@@ -587,9 +584,6 @@
 									 					</button>
 					                            	</div>
 					                            	<div>
-									           			<%-- <button type="button" class="btn btn-sm btn-success btn-icon-split" onclick="btnControl(updateTech, '${list.mainSeq}', 'data')">
-							    							<span class="text">수정</span>
-									 					</button> --%>
 									           			<button type="button" class="btn btn-sm btn-danger btn-icon-split" onclick="btnControl('delTech', '${list.mainSeq}', 'data')">
 							    							<span class="text">삭제</span>
 									 					</button>

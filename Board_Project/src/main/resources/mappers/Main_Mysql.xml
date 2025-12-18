@@ -18,10 +18,9 @@
 		<result property="stat"			column="STAT" 		/>
 	</resultMap>
 	
-	<update id="addMain">
+	<insert id="addMain">
 		INSERT INTO TB_MAIN(
-			MAIN_SEQ
-			, MAIN_SE
+			MAIN_SE
 			, TOP_BN_NM
 			, BOTM_BN_NM
 			, TECH_NM
@@ -33,8 +32,7 @@
 			, UPD_DT
 			, STAT
 		)VALUES (
-			#{mainSeq}
-			, #{mainSe}
+			#{mainSe}
 			, #{topBnNm}
 			, #{botmBnNm}
 			, #{techNm}
@@ -45,14 +43,25 @@
 			, #{regNo}
 			, NOW()
 			, 1
-		) ON DUPLICATE KEY UPDATE 
+		)
+		<selectKey keyProperty="mainSeq" resultType="integer" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	
+	<update id="updateMain">
+		 UPDATE
+		 	TB_MAIN
+		 SET
 			TOP_BN_NM    = #{topBnNm}
 			, BOTM_BN_NM = #{botmBnNm}
 			, TECH_NM    = #{techNm}
 			, POFOR_NM   = #{poforNm}
 			, EXPLN      = #{expln}
-			, UPD_NO     = #{regNo}
+			, UPD_NO     = #{updNo}
 			, UPD_DT 	 = NOW()
+		WHERE 1=1
+			AND MAIN_SEQ = #{mainSeq}
 	</update>
 	
 	<select id="getMainList" resultMap="mainVO">

@@ -11,8 +11,10 @@ import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
+import com.gyu.portfolio.model.AttachVO;
 import com.gyu.portfolio.model.MainVO;
 import com.gyu.portfolio.service.MainService;
+import com.gyu.portfolio.service.mapper.AttachMapper;
 import com.gyu.portfolio.service.mapper.MainMapper;
 
 @Service
@@ -20,6 +22,9 @@ public class MainServiceImpl implements MainService {
 
 	@Autowired
 	private MainMapper mainMapper;
+	
+	@Autowired
+	private AttachMapper attachMapper;
 
 	@Autowired
 	private DataSourceTransactionManager transactionManager;
@@ -36,21 +41,91 @@ public class MainServiceImpl implements MainService {
 			
 			try{
 				
-				for(int i=0; i < mainVO.getArrMainSeq().length; i++) {
-					MainVO vo = new MainVO();
-					vo.setMainSeq(Integer.parseInt(mainVO.getArrMainSeq()[i]));
-					vo.setMainSe(mainVO.getMainSe());
-					vo.setTechNm(mainVO.getArrTechNm()[i]);
-					vo.setRegNo(mainVO.getRegNo());
-					vo.setUpdNo(mainVO.getRegNo());
-					vo.setStat(1);
+				// Banner
+				if(mainVO.getMainSe().equals("B")) {
+					
+					result = mainMapper.updateMain(mainVO);
+					
+				// Tech Stack
+				}else if(mainVO.getMainSe().equals("T")) {
 
-					result = mainMapper.addMain(vo);
-				}
-				
-				
-				if(mainVO.getDelSeqArr().length > 0) {
-					mainMapper.deleteMain(mainVO);
+					System.out.println();
+					System.out.println("mainVO.getArrMainSeq():: "+mainVO.getArrMainSeq().length);
+					System.out.println();
+					
+
+					System.out.println("+++++");
+					System.out.println("+++++");
+					System.out.println("+++++");
+					for(int i=0; i < mainVO.getArrMainSeq().length; i++) {
+						System.out.println();
+						System.out.println("getArrMainSeq:: "+mainVO.getArrMainSeq()[i]);
+						System.out.println();
+					}
+					System.out.println("+++++");
+					System.out.println("+++++");
+					System.out.println("+++++");
+					
+
+					
+					for(int i=0; i < mainVO.getArrMainSeq().length; i++) {
+						
+						if(mainVO.getArrMainSeq()[i].equals("0")) {
+							
+							MainVO vo = new MainVO();
+							vo.setMainSeq(Integer.parseInt(mainVO.getArrMainSeq()[i]));
+							vo.setMainSe(mainVO.getMainSe());
+							vo.setTechNm(mainVO.getArrTechNm()[i]);
+							vo.setRegNo(mainVO.getRegNo());
+							vo.setUpdNo(mainVO.getRegNo());
+							vo.setStat(1);
+							
+							result = mainMapper.addMain(vo);
+							
+							if(mainVO.getArrThumbYn() != null) {
+								
+								if(mainVO.getArrThumbYn()[i].equals("Y")) {
+									
+									AttachVO atchVO = new AttachVO();
+									
+									atchVO.setBoardSeq(mainVO.getMainSeq());
+									atchVO.setThumbYn("Y");
+									atchVO.setFileNm(mainVO.getArrFileOrgNm()[i]);
+									atchVO.setFileExt(mainVO.getArrFileExt()[i]);
+									atchVO.setFileSz(mainVO.getArrFileSize()[i]);
+									atchVO.setFilePath(mainVO.getArrFilePath()[i]);
+									atchVO.setStrgFileNm(mainVO.getArrFileSvgNm()[i]);
+									atchVO.setRegNo(mainVO.getRegNo());
+									atchVO.setUpdNo(mainVO.getRegNo());
+									atchVO.setStat(11);
+									
+									attachMapper.addAttach(atchVO);
+									
+								}else if(mainVO.getArrThumbYn()[i].equals("N")) {
+									
+								}
+								
+							}
+//							
+						}else {
+
+							MainVO vo = new MainVO();
+							vo.setMainSeq(Integer.parseInt(mainVO.getArrMainSeq()[i]));
+							vo.setTechNm(mainVO.getArrTechNm()[i]);
+							vo.setUpdNo(mainVO.getRegNo());
+							
+							result = mainMapper.updateMain(vo);
+						}
+					}
+					
+					if(mainVO.getDelSeqArr() != null) {
+						
+						result = mainMapper.deleteMain(mainVO);
+					}
+					
+				// Pofor
+				}else {
+					
 				}
 
 				transactionManager.commit(status);
@@ -58,7 +133,7 @@ public class MainServiceImpl implements MainService {
 			}catch(Exception e){
 				transactionManager.rollback(status);
 				System.out.println();
-				System.out.println(e.getMessage());
+				e.printStackTrace();
 				System.out.println();
 			}
 			
