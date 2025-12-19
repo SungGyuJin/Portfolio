@@ -24,8 +24,15 @@ public class MainVO extends DefalutVO {
 	private String updDt 		=  "";	// 수정일자
 	private int    stat 		=   0;	// 상태 ex) 미사용(삭제)[0] / 사용[1]
 	
-
 	/* 그 외 필드 */
+	private int    boardSeq 	=  0;  // 게시물 번호
+	private String fileNm 		= "";  // 파일이름(원본명)
+	private String fileExt		= "";  // 파일확장자
+	private long   fileSz 		=  0;  // 파일크기
+	private String filePath		= "";  // 파일경로
+	private String strgFileNm	= "";  // 파일이름(저장명)
+	private String thumbYn 		= "";  // 썸네일여부(Y, N)
+	
 	private String[] arrMainSeq    = null;
 	private String[] arrTechNm     = null;
 	private String[] arrFileOrgNm  = null;	// 파일이름(원본명)
@@ -34,19 +41,19 @@ public class MainVO extends DefalutVO {
 	private String[] arrFilePath   = null;	// 파일경로
 	private long[]   arrFileSize   = null;	// 파일크기(Byte)
 	private String[] arrThumbYn    = null;  // 썸네일여부(Y, N)
-	
 	private String[] delSeqArr 	   = null;
-
+	
 	@Override
 	public String toString() {
 		return "MainVO [mainSeq=" + mainSeq + ", mainSe=" + mainSe + ", topBnNm=" + topBnNm + ", botmBnNm=" + botmBnNm
 				+ ", techNm=" + techNm + ", poforNm=" + poforNm + ", expln=" + expln + ", regNo=" + regNo + ", regDt="
-				+ regDt + ", updNo=" + updNo + ", updDt=" + updDt + ", stat=" + stat + ", arrMainSeq="
-				+ Arrays.toString(arrMainSeq) + ", arrTechNm=" + Arrays.toString(arrTechNm) + ", arrFileOrgNm="
-				+ Arrays.toString(arrFileOrgNm) + ", arrFileSvgNm=" + Arrays.toString(arrFileSvgNm) + ", arrFileExt="
-				+ Arrays.toString(arrFileExt) + ", arrFilePath=" + Arrays.toString(arrFilePath) + ", arrFileSize="
-				+ Arrays.toString(arrFileSize) + ", arrThumbYn=" + Arrays.toString(arrThumbYn) + ", delSeqArr="
-				+ Arrays.toString(delSeqArr) + "]";
+				+ regDt + ", updNo=" + updNo + ", updDt=" + updDt + ", stat=" + stat + ", boardSeq=" + boardSeq
+				+ ", fileNm=" + fileNm + ", fileExt=" + fileExt + ", fileSz=" + fileSz + ", filePath=" + filePath
+				+ ", strgFileNm=" + strgFileNm + ", thumbYn=" + thumbYn + ", arrMainSeq=" + Arrays.toString(arrMainSeq)
+				+ ", arrTechNm=" + Arrays.toString(arrTechNm) + ", arrFileOrgNm=" + Arrays.toString(arrFileOrgNm)
+				+ ", arrFileSvgNm=" + Arrays.toString(arrFileSvgNm) + ", arrFileExt=" + Arrays.toString(arrFileExt)
+				+ ", arrFilePath=" + Arrays.toString(arrFilePath) + ", arrFileSize=" + Arrays.toString(arrFileSize)
+				+ ", arrThumbYn=" + Arrays.toString(arrThumbYn) + ", delSeqArr=" + Arrays.toString(delSeqArr) + "]";
 	}
 	
 }

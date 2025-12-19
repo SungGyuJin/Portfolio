@@ -35,12 +35,13 @@
 			html += '<div class="col-lg-3 col-md-4 col-sm-6 mb-4 tech-card" id="tempTechDiv-'+i+'">';
 			html +=		'<input type="file" class="d-none" id="temp-tech-file-'+i+'" onchange="addTechIcon(this, event, '+i+', \'temp\');">';
 			html +=		'<input type="hidden" name="arrMainSeq" value="0">';
+			html +=		'<input type="text" name="arrThumbYn" id="techImgYn-temp-'+i+'" value="D">';
 			html += 	'<div class="card border-left-success shadow h-100 py-2">';
 			html +=     	'<div class="card-body">';
 			html +=           	'<div class="text-right">';
 			html +=              	'<img src="'+contextPath+'/resources/admin/assets/img/x_button.png" id="techImg-delBtn-temp-'+i+'" class="invisible cursor-pointer" title="이미지 삭제" onclick="techImgDel(\'temp\', '+i+');" style="width: 20px;">';
 			html +=           	'</div>';
-			html +=				'<div class="text-center" id="techImg-temp-'+i+'">';
+			html +=				'<div class="text-center" id="techImgArea-temp-'+i+'">';
 			html +=              	'<img src="'+contextPath+'/resources/admin/assets/img/no-image.png" class="w-50">';
 			html +=				'</div>';
 			html +=            	'<div class="mb-2"><input type="text" class="form-control text-center mt-2" placeholder="기술명을 입력하세요." name="arrTechNm" autocomplete="off"></div>';
@@ -60,7 +61,7 @@
 			html +=        		'</div>';
 			html +=     	'</div>';
 			html += 	'</div>';
-			html +=		'<div id="techImgAreaData-temp-'+i+'"></div>';
+			html +=		'<div id="techImgData-temp-'+i+'"></div>';
 			html += '</div>';	
 			
 			if($(".tech-card").length == 0){
@@ -74,40 +75,33 @@
 
 		// 기술 저장(submit)
 		$("#btn-techSave").on('click', function(){
-
-			if($(".tech-card").length > 0){
 				
-				$.ajax({
-					url      : contextPath+"/admin/main/addMain.do",
-					method   : "POST",
-					data     : $($("#frm-tech")).serialize(),
-	//	 			processData: false,
-	//	 			contentType: false,
-					dataType : "json",
-					success  : function(res){
-						
-						console.log(res)
-						
-						if(res > 0){
-							Swal.fire({
-								icon: "success",
-								title: "저장완료"
-							}).then(function(){
-								location.reload();
-							});
-						}
-						
-					},
-					error : function(request, status, error){
+			$.ajax({
+				url      : contextPath+"/admin/main/addMain.do",
+				method   : "POST",
+				data     : $($("#frm-tech")).serialize(),
+				dataType : "json",
+				success  : function(res){
+					
+					console.log(res)
+					
+					if(res > 0){
 						Swal.fire({
-							icon: "error",
-							title: "통신불가"
-						})
+							icon: "success",
+							title: "저장완료"
+						}).then(function(){
+							location.reload();
+						});
 					}
-				});
-			}else{
-				alert('등록할 기술을 추가해주세요.');
-			}
+					
+				},
+				error : function(request, status, error){
+					Swal.fire({
+						icon: "error",
+						title: "통신불가"
+					})
+				}
+			});
 			
 		});
 		
@@ -155,9 +149,9 @@
 		}
 	}
 	
-	function delTechImg(num){
-		$("#techImg-temp-"+num).html('<img src="'+contextPath+'/resources/admin/assets/img/no-image.png" class="w-50">');
-	}
+// 	function delTechImg(num){
+// 		$("#techImg-temp-"+num).html('<img src="'+contextPath+'/resources/admin/assets/img/no-image.png" class="w-50">');
+// 	}
 	
 	function frmSubmit(e){
 		
@@ -232,7 +226,7 @@
 					reader.onload = function(event) {
 						var img_html = '';
 						img_html += '<img src="'+ event.target.result +'" class="mt-2" style="height: auto; width: 100%;">';
-						$("#techImg-temp-"+num).html(img_html);
+						$("#techImgArea-"+gubun+"-"+num).html(img_html);
 					};
 					
 					reader.readAsDataURL(file[0]);
@@ -252,7 +246,8 @@
 						html +=	'</div>';
 					}
 					
-					$("#techImgAreaData-"+gubun+"-"+num).html(html);
+					$("#techImgData-"+gubun+"-"+num).html(html);
+					$("#techImgYn-"+gubun+"-"+num).val("Y");
 					
 					$("#techImg-delBtn-"+gubun+"-"+num).removeClass('invisible');
 					$("#btn-bannerImgDel").prop('disabled', false);
@@ -267,18 +262,25 @@
 			});
 			
 		}else{
-			$("#banner-area").children().remove();
-			$("#bannerYn").val('N');
-			$("#banner-file").val('');
-			$("#banner-data").empty();
-			$("#btn-bannerImgDel").prop('disabled', true);
+// 			$("#banner-area").children().remove();
+// 			$("#bannerYn").val('N');
+// 			$("#banner-file").val('');
+// 			$("#banner-data").empty();
+// 			$("#btn-bannerImgDel").prop('disabled', true);
 		}
 	}
 	
-	function techImgDel(str, num){
-		$("#techImgAreaData-"+str+"-"+num).empty();
-		$("#techImg-"+str+"-"+num).html('<img src="'+contextPath+'/resources/admin/assets/img/no-image.png" class="w-50">');
-		$("#techImg-delBtn-"+str+"-"+num).addClass('invisible');
+	function techImgDel(gubun, num){
+		$("#techImgData-"+gubun+"-"+num).empty();
+		$("#techImgArea-"+gubun+"-"+num).html('<img src="'+contextPath+'/resources/admin/assets/img/no-image.png" class="w-50">');
+		$("#techImg-delBtn-"+gubun+"-"+num).addClass('invisible');
+		
+		if(gubun == 'data'){
+			$("#techImgYn-"+gubun+"-"+num).val('N');
+		}else{
+			$("#techImgYn-"+gubun+"-"+num).val('D');
+		}
+		
 	}
 	
 	// 배너이미지 추가
@@ -566,14 +568,21 @@
 					                <div class="col-lg-3 col-md-4 col-sm-6 mb-4 tech-card" id="dataTechDiv-${list.mainSeq }">
 										<input type="file" class="d-none" id="data-tech-file-${list.mainSeq }" onchange="addTechIcon(this, event, '${list.mainSeq }', 'data');">					                    
 					                    <input type="hidden" name="arrMainSeq" value="${list.mainSeq }">
+					                    <input type="text" name="arrThumbYn" id="techImgYn-data-${list.mainSeq }" value="D">
 					                    <div class="card border-left-primary shadow h-100 py-2">
 					                        <div class="card-body">
 					                            <div class="text-right">
-							              			<img src="${pageContext.request.contextPath }/resources/admin/assets/img/x_button.png" id="techImg-delBtn-data-${list.mainSeq }" class="cursor-pointer invisible" title="이미지 삭제" onclick="techImgDel('data', ${list.mainSeq})" style="width: 20px">
+							              			<img src="${pageContext.request.contextPath }/resources/admin/assets/img/x_button.png" id="techImg-delBtn-data-${list.mainSeq }" class="cursor-pointer <c:if test="${empty list.filePath }">invisible</c:if>" title="이미지 삭제" onclick="techImgDel('data', ${list.mainSeq})" style="width: 20px">
 									           	</div>
-									           	<div class="text-center" id="techImg-temp-${list.mainSeq }">
-							              			<img src="${pageContext.request.contextPath }/resources/admin/assets/img/no-image.png" class="w-50">
+									           	
+									           	<div class="text-center" id="techImgArea-data-${list.mainSeq }">
+									           	
+									           		<c:choose>
+									           			<c:when test="${not empty list.filePath }"><img src="${pageContext.request.contextPath }${list.filePath }/${list.strgFileNm}" class="w-50"></c:when>
+									           			<c:otherwise><img src="${pageContext.request.contextPath }/resources/admin/assets/img/no-image.png" class="w-50"></c:otherwise>
+									           		</c:choose>
 												</div>
+												
 					                            <div class="mb-2"><input type="text" class="form-control text-center mt-2" name="arrTechNm" placeholder="기술명을 입력하세요." value="${list.techNm }" autocomplete="off"></div>
 					                            <div class="mb-1">등록일시: ${list.regDt }</div>
 					                            <div class="mb-1">수정일시: ${list.updDt }</div>
@@ -591,46 +600,10 @@
 					                            </div>
 					                        </div>
 					                    </div>
-					                    <div id="techImgAreaData-data-${list.mainSeq }"></div>
+					                    <div id="techImgData-data-${list.mainSeq }"></div>
 					                </div>
-					                
-					                <%-- <div class="col-lg-3 col-md-4 col-sm-6 mb-4 tech-card" id="tempTechDiv-+i+">
-										<input type="file" class="d-none" id="temp-tech-file-+i+" onchange="addTechIcon(this, event, +i+)">
-								 		<div class="card border-left-success shadow h-100 py-2">
-									     	<div class="card-body">
-									           	<div class="d-flex justify-content-between">
-														<div></div>
-														<div>
-									              		<img src="${pageContext.request.contextPath }/resources/admin/assets/img/x_button.png" id="techImg-delBtn-temp-+i+" class="invisible cursor-pointer" title="이미지 삭제" onclick="techImgDel(\temp\, +i+)" style="width: 25px">
-														</div>
-									           	</div>
-														<div class="text-center" id="techImg-temp-+i+">
-									              		<img src="${pageContext.request.contextPath }/resources/admin/assets/img/no-image.png" class="w-50">
-														</div>
-									            	<div class="text-xs mb-2"><input type="text" class="form-control form-control-user mt-3" placeholder="기술명을 입력하세요." name="techNm"></div>
-									           	<div class="d-flex justify-content-between">
-													<div>
-									           			<button type="button" class="btn btn-sm btn-success btn-icon-split" onclick="btnControl(\addTech\, +i+)">
-							    							<span class="text">이미지 추가</span>
-									 					</button>
-													</div>
-													<div>
-									           			<button type="button" class="btn btn-sm btn-danger btn-icon-split" onclick="btnControl(\delTech\, +i+, \temp\)">
-							    							<span class="text">삭제</span>
-									 					</button>
-													</div>
-								        		</div>
-									     	</div>
-									 	</div>
-										<div id="techImgAreaData-temp-+i+"></div>
-			 						</div> --%>
-					                
 								</c:forEach>
-				
-				                
-				                
-				                
-				                
+								
 				            </div>
 							<div class="text-right">
 								<button type="button" class="btn btn-primary btn-icon-split" id="btn-techSave">

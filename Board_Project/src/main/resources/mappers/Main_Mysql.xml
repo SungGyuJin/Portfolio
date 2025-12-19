@@ -3,19 +3,27 @@
 <mapper namespace="com.gyu.portfolio.service.mapper.MainMapper">
 	
 	<resultMap id="mainVO" type="mainVO">
-		<result property="mainSeq"		column="MAIN_SEQ"	/>
-		<result property="mainSe"		column="MAIN_SE" 	/>
-		<result property="topBnNm"		column="TOP_BN_NM" 	/>
-		<result property="botmBnNm"		column="BOTM_BN_NM" />
-		<result property="techNm"		column="TECH_NM" 	/>
-		<result property="poforNm"		column="POFOR_NM" 	/>
-		<result property="expln"		column="EXPLN" 	  	/>
+		<result property="mainSeq"		column="MAIN_SEQ"		/>
+		<result property="mainSe"		column="MAIN_SE" 		/>
+		<result property="topBnNm"		column="TOP_BN_NM" 		/>
+		<result property="botmBnNm"		column="BOTM_BN_NM" 	/>
+		<result property="techNm"		column="TECH_NM" 		/>
+		<result property="poforNm"		column="POFOR_NM" 		/>
+		<result property="expln"		column="EXPLN" 	  		/>
 		
-		<result property="regNo"		column="REG_NO" 	/>
-		<result property="regDt"		column="REG_DT" 	/>
-		<result property="updNo"		column="UPD_NO" 	/>
-		<result property="updDt"		column="UPD_DT" 	/>
-		<result property="stat"			column="STAT" 		/>
+		<result property="boardSeq"		column="BOARD_SEQ"		/>
+		<result property="fileNm"		column="FILE_NM" 	  	/>
+		<result property="fileExt"		column="FILE_EXT" 	  	/>
+		<result property="fileSz"		column="FILE_SZ" 	  	/>
+		<result property="filePath"		column="FILE_PATH" 	  	/>
+		<result property="strgFileNm"	column="STRG_FILE_NM" 	/>
+		<result property="thumbYn"		column="THUMB_YN" 	  	/>
+		
+		<result property="regNo"		column="REG_NO" 		/>
+		<result property="regDt"		column="REG_DT" 		/>
+		<result property="updNo"		column="UPD_NO" 		/>
+		<result property="updDt"		column="UPD_DT" 		/>
+		<result property="stat"			column="STAT" 			/>
 	</resultMap>
 	
 	<insert id="addMain">
@@ -86,6 +94,30 @@
 	
 	<select id="getMain" resultMap="mainVO">
 		SELECT
+			TM.MAIN_SEQ
+			, TM.MAIN_SE
+			, TM.TOP_BN_NM
+			, TM.BOTM_BN_NM
+			, TM.TECH_NM
+			, TM.POFOR_NM
+			, TM.EXPLN
+			, TM.REG_NO
+			, TM.REG_DT
+			, TM.UPD_NO
+			, TM.UPD_DT
+			, TM.STAT
+			, TA.BOARD_SEQ
+			, TA.FILE_NM
+			, TA.FILE_EXT
+			, TA.FILE_SZ
+			, TA.FILE_PATH
+			, TA.STRG_FILE_NM
+			, TA.THUMB_YN
+		FROM TB_MAIN TM LEFT JOIN TB_ATTACH TA ON TM.MAIN_SEQ = TA.BOARD_SEQ 
+		WHERE 1=1
+			AND MAIN_SE = #{mainSe}
+	
+		<!-- SELECT
 			MAIN_SEQ
 			, MAIN_SE
 			, TOP_BN_NM
@@ -100,7 +132,7 @@
 			, STAT
 		FROM TB_MAIN
 		WHERE 1=1
-			AND MAIN_SE = #{mainSe}
+			AND MAIN_SE = #{mainSe} -->
 	</select>
 	
 	<delete id="deleteMain">

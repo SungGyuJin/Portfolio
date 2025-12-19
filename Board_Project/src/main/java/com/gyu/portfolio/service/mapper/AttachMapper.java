@@ -21,8 +21,9 @@ public interface AttachMapper {
 	/* 첨부파일 조회 */
 	AttachVO getAttach(AttachVO attachVO) throws Exception;
 
-	
-	
+	/* 기술아이콘 삭제 */
+	int deleteTechImg(AttachVO attachVO) throws Exception;
+
 	// Front
 
 	List<AttachVO> getFrontAttachList(AttachVO attachVO) throws Exception;

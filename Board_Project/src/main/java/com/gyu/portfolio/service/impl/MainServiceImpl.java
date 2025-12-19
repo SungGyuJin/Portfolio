@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.aop.framework.AbstractAdvisingBeanPostProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Service;
@@ -49,72 +50,136 @@ public class MainServiceImpl implements MainService {
 				// Tech Stack
 				}else if(mainVO.getMainSe().equals("T")) {
 
-					System.out.println();
-					System.out.println("mainVO.getArrMainSeq():: "+mainVO.getArrMainSeq().length);
-					System.out.println();
 					
-
-					System.out.println("+++++");
-					System.out.println("+++++");
-					System.out.println("+++++");
-					for(int i=0; i < mainVO.getArrMainSeq().length; i++) {
-						System.out.println();
-						System.out.println("getArrMainSeq:: "+mainVO.getArrMainSeq()[i]);
-						System.out.println();
-					}
-					System.out.println("+++++");
-					System.out.println("+++++");
-					System.out.println("+++++");
-					
-
-					
-					for(int i=0; i < mainVO.getArrMainSeq().length; i++) {
+					if(mainVO.getArrMainSeq() != null) {
 						
-						if(mainVO.getArrMainSeq()[i].equals("0")) {
-							
-							MainVO vo = new MainVO();
-							vo.setMainSeq(Integer.parseInt(mainVO.getArrMainSeq()[i]));
-							vo.setMainSe(mainVO.getMainSe());
-							vo.setTechNm(mainVO.getArrTechNm()[i]);
-							vo.setRegNo(mainVO.getRegNo());
-							vo.setUpdNo(mainVO.getRegNo());
-							vo.setStat(1);
-							
-							result = mainMapper.addMain(vo);
-							
-							if(mainVO.getArrThumbYn() != null) {
+//						System.out.println();
+//						System.out.println("mainVO.getArrMainSeq():: "+mainVO.getArrMainSeq().length);
+//						System.out.println();
+//						
+//	
+//						System.out.println("+++++");
+//						System.out.println("+++++");
+//						System.out.println("+++++");
+//						for(int i=0; i < mainVO.getArrMainSeq().length; i++) {
+//							System.out.println();
+//							System.out.println("getArrMainSeq:: "+mainVO.getArrMainSeq()[i]);
+//							System.out.println();
+//						}
+//						System.out.println("+++++");
+//						System.out.println("+++++");
+//						System.out.println("+++++");
+					
+						System.out.println("seq 길이: "+mainVO.getArrMainSeq().length);
+						
+
+						
 								
-								if(mainVO.getArrThumbYn()[i].equals("Y")) {
+						if(mainVO.getArrFileOrgNm() != null) {
+							System.out.println("파일 유무 진입 Null 아님");
+							System.out.println("CNT:: "+mainVO.getArrFileOrgNm().length);
+							
+							for(int i=0; i < mainVO.getArrFileOrgNm().length; i++) {
+								System.out.println("fileNm:: "+mainVO.getArrFileOrgNm()[i]);
+							}
+							
+						}
+								
+						
+						for(int i=0; i < mainVO.getArrMainSeq().length; i++) {
+							
+							// 등록
+							if(mainVO.getArrMainSeq()[i].equals("0")) {
+
+								System.out.println();
+								System.out.println("+++++++++++++++ 등록 +++++++++++++++");
+								System.out.println();
+								
+								MainVO vo = new MainVO();
+								vo.setMainSeq(Integer.parseInt(mainVO.getArrMainSeq()[i]));
+								vo.setMainSe(mainVO.getMainSe());
+								vo.setTechNm(mainVO.getArrTechNm()[i]);
+								vo.setRegNo(mainVO.getRegNo());
+								vo.setUpdNo(mainVO.getRegNo());
+								vo.setStat(1);
+								
+								result = mainMapper.addMain(vo);
+								
+								if(mainVO.getArrThumbYn() != null) {
 									
-									AttachVO atchVO = new AttachVO();
+									if(mainVO.getArrThumbYn()[i].equals("Y")) {
+										
+										AttachVO atchVO = new AttachVO();
+										
+										atchVO.setBoardSeq(vo.getMainSeq());
+										atchVO.setThumbYn("Y");
+										atchVO.setFileNm(mainVO.getArrFileOrgNm()[i]);
+										atchVO.setFileExt(mainVO.getArrFileExt()[i]);
+										atchVO.setFileSz(mainVO.getArrFileSize()[i]);
+										atchVO.setFilePath(mainVO.getArrFilePath()[i]);
+										atchVO.setStrgFileNm(mainVO.getArrFileSvgNm()[i]);
+										atchVO.setRegNo(mainVO.getRegNo());
+										atchVO.setUpdNo(mainVO.getRegNo());
+										atchVO.setStat(11);
+										
+										attachMapper.addAttach(atchVO);
+									}
+								}
+
+							// 수정
+							}else {
+
+								System.out.println();
+								System.out.println("+++++++++++++++ 수정 +++++++++++++++");
+								System.out.println();
+								
+								MainVO vo = new MainVO();
+								vo.setMainSeq(Integer.parseInt(mainVO.getArrMainSeq()[i]));
+
+								System.out.println();
+								System.out.println(i+"번째 반복: mainVO.getArrTechNm().length: "+mainVO.getArrTechNm().length);
+								System.out.println();
+								
+								vo.setTechNm(mainVO.getArrTechNm()[i]);
+								vo.setUpdNo(mainVO.getRegNo());
+								
+								result = mainMapper.updateMain(vo);
+								
+								if(mainVO.getArrThumbYn() != null) {
 									
-									atchVO.setBoardSeq(mainVO.getMainSeq());
-									atchVO.setThumbYn("Y");
-									atchVO.setFileNm(mainVO.getArrFileOrgNm()[i]);
-									atchVO.setFileExt(mainVO.getArrFileExt()[i]);
-									atchVO.setFileSz(mainVO.getArrFileSize()[i]);
-									atchVO.setFilePath(mainVO.getArrFilePath()[i]);
-									atchVO.setStrgFileNm(mainVO.getArrFileSvgNm()[i]);
-									atchVO.setRegNo(mainVO.getRegNo());
-									atchVO.setUpdNo(mainVO.getRegNo());
-									atchVO.setStat(11);
-									
-									attachMapper.addAttach(atchVO);
-									
-								}else if(mainVO.getArrThumbYn()[i].equals("N")) {
+									if(mainVO.getArrThumbYn()[i].equals("Y")) {
+										
+										AttachVO atchVO = new AttachVO();
+										
+										atchVO.setBoardSeq(Integer.parseInt(mainVO.getArrMainSeq()[i]));
+										atchVO.setThumbYn("Y");
+										atchVO.setFileNm(mainVO.getArrFileOrgNm()[i]);
+										atchVO.setFileExt(mainVO.getArrFileExt()[i]);
+										atchVO.setFileSz(mainVO.getArrFileSize()[i]);
+										atchVO.setFilePath(mainVO.getArrFilePath()[i]);
+										atchVO.setStrgFileNm(mainVO.getArrFileSvgNm()[i]);
+										atchVO.setRegNo(mainVO.getRegNo());
+										atchVO.setUpdNo(mainVO.getRegNo());
+										atchVO.setStat(11);
+										
+										attachMapper.addAttach(atchVO);
+										
+									}else if(mainVO.getArrThumbYn()[i].equals("N")) {
+										AttachVO atchVO = new AttachVO();
+										atchVO.setBoardSeq(Integer.parseInt(mainVO.getArrMainSeq()[i]));
+
+										System.out.println("atchVO.getBoardSeq:: "+atchVO.getBoardSeq());
+										System.out.println("atchVO.getBoardSeq:: "+atchVO.getBoardSeq());
+										System.out.println("atchVO.getBoardSeq:: "+atchVO.getBoardSeq());
+										
+										result = attachMapper.deleteTechImg(atchVO);
+									}else {
+										
+									}
 									
 								}
 								
 							}
-//							
-						}else {
-
-							MainVO vo = new MainVO();
-							vo.setMainSeq(Integer.parseInt(mainVO.getArrMainSeq()[i]));
-							vo.setTechNm(mainVO.getArrTechNm()[i]);
-							vo.setUpdNo(mainVO.getRegNo());
-							
-							result = mainMapper.updateMain(vo);
 						}
 					}
 					
