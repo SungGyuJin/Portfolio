@@ -49,52 +49,13 @@ public class MainServiceImpl implements MainService {
 					
 				// Tech Stack
 				}else if(mainVO.getMainSe().equals("T")) {
-
 					
 					if(mainVO.getArrMainSeq() != null) {
-						
-//						System.out.println();
-//						System.out.println("mainVO.getArrMainSeq():: "+mainVO.getArrMainSeq().length);
-//						System.out.println();
-//						
-//	
-//						System.out.println("+++++");
-//						System.out.println("+++++");
-//						System.out.println("+++++");
-//						for(int i=0; i < mainVO.getArrMainSeq().length; i++) {
-//							System.out.println();
-//							System.out.println("getArrMainSeq:: "+mainVO.getArrMainSeq()[i]);
-//							System.out.println();
-//						}
-//						System.out.println("+++++");
-//						System.out.println("+++++");
-//						System.out.println("+++++");
-					
-						System.out.println("seq 길이: "+mainVO.getArrMainSeq().length);
-						
-
-						
-								
-						if(mainVO.getArrFileOrgNm() != null) {
-							System.out.println("파일 유무 진입 Null 아님");
-							System.out.println("CNT:: "+mainVO.getArrFileOrgNm().length);
-							
-							for(int i=0; i < mainVO.getArrFileOrgNm().length; i++) {
-								System.out.println("fileNm:: "+mainVO.getArrFileOrgNm()[i]);
-							}
-							
-						}
-								
 						
 						for(int i=0; i < mainVO.getArrMainSeq().length; i++) {
 							
 							// 등록
 							if(mainVO.getArrMainSeq()[i].equals("0")) {
-
-								System.out.println();
-								System.out.println("+++++++++++++++ 등록 +++++++++++++++");
-								System.out.println();
-								
 								MainVO vo = new MainVO();
 								vo.setMainSeq(Integer.parseInt(mainVO.getArrMainSeq()[i]));
 								vo.setMainSe(mainVO.getMainSe());
@@ -128,18 +89,9 @@ public class MainServiceImpl implements MainService {
 
 							// 수정
 							}else {
-
-								System.out.println();
-								System.out.println("+++++++++++++++ 수정 +++++++++++++++");
-								System.out.println();
 								
 								MainVO vo = new MainVO();
 								vo.setMainSeq(Integer.parseInt(mainVO.getArrMainSeq()[i]));
-
-								System.out.println();
-								System.out.println(i+"번째 반복: mainVO.getArrTechNm().length: "+mainVO.getArrTechNm().length);
-								System.out.println();
-								
 								vo.setTechNm(mainVO.getArrTechNm()[i]);
 								vo.setUpdNo(mainVO.getRegNo());
 								
@@ -148,7 +100,6 @@ public class MainServiceImpl implements MainService {
 								if(mainVO.getArrThumbYn() != null) {
 									
 									if(mainVO.getArrThumbYn()[i].equals("Y")) {
-										
 										AttachVO atchVO = new AttachVO();
 										
 										atchVO.setBoardSeq(Integer.parseInt(mainVO.getArrMainSeq()[i]));
@@ -167,11 +118,6 @@ public class MainServiceImpl implements MainService {
 									}else if(mainVO.getArrThumbYn()[i].equals("N")) {
 										AttachVO atchVO = new AttachVO();
 										atchVO.setBoardSeq(Integer.parseInt(mainVO.getArrMainSeq()[i]));
-
-										System.out.println("atchVO.getBoardSeq:: "+atchVO.getBoardSeq());
-										System.out.println("atchVO.getBoardSeq:: "+atchVO.getBoardSeq());
-										System.out.println("atchVO.getBoardSeq:: "+atchVO.getBoardSeq());
-										
 										result = attachMapper.deleteTechImg(atchVO);
 									}else {
 										
@@ -186,6 +132,13 @@ public class MainServiceImpl implements MainService {
 					if(mainVO.getDelSeqArr() != null) {
 						
 						result = mainMapper.deleteMain(mainVO);
+						
+						for(int i=0; i < mainVO.getDelSeqArr().length; i++) {
+							AttachVO atchVO = new AttachVO();
+							
+							atchVO.setBoardSeq(Integer.parseInt(mainVO.getDelSeqArr()[i]));
+							result = attachMapper.deleteTechImg(atchVO);
+						}
 					}
 					
 				// Pofor

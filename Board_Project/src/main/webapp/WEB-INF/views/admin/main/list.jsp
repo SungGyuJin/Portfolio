@@ -35,7 +35,7 @@
 			html += '<div class="col-lg-3 col-md-4 col-sm-6 mb-4 tech-card" id="tempTechDiv-'+i+'">';
 			html +=		'<input type="file" class="d-none" id="temp-tech-file-'+i+'" onchange="addTechIcon(this, event, '+i+', \'temp\');">';
 			html +=		'<input type="hidden" name="arrMainSeq" value="0">';
-			html +=		'<input type="text" name="arrThumbYn" id="techImgYn-temp-'+i+'" value="D">';
+			html +=		'<input type="hidden" name="arrThumbYn" id="techImgYn-temp-'+i+'" value="D">';
 			html += 	'<div class="card border-left-success shadow h-100 py-2">';
 			html +=     	'<div class="card-body">';
 			html +=           	'<div class="text-right">';
@@ -61,7 +61,15 @@
 			html +=        		'</div>';
 			html +=     	'</div>';
 			html += 	'</div>';
-			html +=		'<div id="techImgData-temp-'+i+'"></div>';
+			html +=		'<div id="techImgData-temp-'+i+'">';
+			
+			html += 		'<input type="hidden" name="arrFileOrgNm" value="N">';
+			html += 		'<input type="hidden" name="arrFileSvgNm" value="N">';
+			html += 		'<input type="hidden" name="arrFileExt" value="N">';
+			html += 		'<input type="hidden" name="arrFilePath" value="N">';
+			html += 		'<input type="hidden" name="arrFileSize" value="0">';
+			
+			html +=		'</div>';
 			html += '</div>';	
 			
 			if($(".tech-card").length == 0){
@@ -236,12 +244,11 @@
 					for(var i=0; i < res.fileList.length; i++) {
 						html += '<div class="d-flex fileData-area">';
 						
-						html += 	'<input type="text" name="arrFileOrgNm" value="'+res.fileList[i].fileOrgNm+'">';
-						html += 	'<input type="text" name="arrFileSvgNm" value="'+res.fileList[i].fileSvgNm+'">';
-						html += 	'<input type="text" name="arrFileExt" value="'+res.fileList[i].fileExt+'">';
-						html += 	'<input type="text" name="arrFilePath" value="'+res.fileList[i].filePath+'">';
-						html += 	'<input type="text" name="arrFileSize" value="'+res.fileList[i].fileSz+'">';
-						html += 	'<input type="text" name="arrThumbYn" value="Y">';
+						html += 	'<input type="hidden" name="arrFileOrgNm" value="'+res.fileList[i].fileOrgNm+'">';
+						html += 	'<input type="hidden" name="arrFileSvgNm" value="'+res.fileList[i].fileSvgNm+'">';
+						html += 	'<input type="hidden" name="arrFileExt" value="'+res.fileList[i].fileExt+'">';
+						html += 	'<input type="hidden" name="arrFilePath" value="'+res.fileList[i].filePath+'">';
+						html += 	'<input type="hidden" name="arrFileSize" value="'+res.fileList[i].fileSz+'">';
 						
 						html +=	'</div>';
 					}
@@ -568,7 +575,7 @@
 					                <div class="col-lg-3 col-md-4 col-sm-6 mb-4 tech-card" id="dataTechDiv-${list.mainSeq }">
 										<input type="file" class="d-none" id="data-tech-file-${list.mainSeq }" onchange="addTechIcon(this, event, '${list.mainSeq }', 'data');">					                    
 					                    <input type="hidden" name="arrMainSeq" value="${list.mainSeq }">
-					                    <input type="text" name="arrThumbYn" id="techImgYn-data-${list.mainSeq }" value="D">
+					                    <input type="hidden" name="arrThumbYn" id="techImgYn-data-${list.mainSeq }" value="D">
 					                    <div class="card border-left-primary shadow h-100 py-2">
 					                        <div class="card-body">
 					                            <div class="text-right">
@@ -578,7 +585,7 @@
 									           	<div class="text-center" id="techImgArea-data-${list.mainSeq }">
 									           	
 									           		<c:choose>
-									           			<c:when test="${not empty list.filePath }"><img src="${pageContext.request.contextPath }${list.filePath }/${list.strgFileNm}" class="w-50"></c:when>
+									           			<c:when test="${not empty list.filePath }"><img src="${pageContext.request.contextPath }${list.filePath }/${list.strgFileNm}" class="mt-2" style="height: auto; width: 100%;"></c:when>
 									           			<c:otherwise><img src="${pageContext.request.contextPath }/resources/admin/assets/img/no-image.png" class="w-50"></c:otherwise>
 									           		</c:choose>
 												</div>
@@ -600,12 +607,18 @@
 					                            </div>
 					                        </div>
 					                    </div>
-					                    <div id="techImgData-data-${list.mainSeq }"></div>
+					                    <div id="techImgData-data-${list.mainSeq }">
+					                    	<input type="hidden" name="arrFileOrgNm" value="N">
+					                    	<input type="hidden" name="arrFileSvgNm" value="N">
+					                    	<input type="hidden" name="arrFileExt" value="N">
+					                    	<input type="hidden" name="arrFilePath" value="N">
+					                    	<input type="hidden" name="arrFileSize" value="0">
+					                    </div>
 					                </div>
 								</c:forEach>
 								
 				            </div>
-							<div class="text-right">
+							<div class="text-right mt-4">
 								<button type="button" class="btn btn-primary btn-icon-split" id="btn-techSave">
 							    	<span class="text" id="btn-text-span">저장</span>
 								</button>

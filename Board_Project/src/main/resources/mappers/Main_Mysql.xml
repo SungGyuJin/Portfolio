@@ -116,23 +116,6 @@
 		FROM TB_MAIN TM LEFT JOIN TB_ATTACH TA ON TM.MAIN_SEQ = TA.BOARD_SEQ 
 		WHERE 1=1
 			AND MAIN_SE = #{mainSe}
-	
-		<!-- SELECT
-			MAIN_SEQ
-			, MAIN_SE
-			, TOP_BN_NM
-			, BOTM_BN_NM
-			, TECH_NM
-			, POFOR_NM
-			, EXPLN
-			, REG_NO
-			, REG_DT
-			, UPD_NO
-			, UPD_DT
-			, STAT
-		FROM TB_MAIN
-		WHERE 1=1
-			AND MAIN_SE = #{mainSe} -->
 	</select>
 	
 	<delete id="deleteMain">
