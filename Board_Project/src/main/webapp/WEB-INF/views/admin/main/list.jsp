@@ -233,7 +233,7 @@
 					
 					reader.onload = function(event) {
 						var img_html = '';
-						img_html += '<img src="'+ event.target.result +'" class="mt-2" style="height: auto; width: 100%;">';
+						img_html += '<img src="'+ event.target.result +'" class="mt-2" style="height: auto; width: 50%;">';
 						$("#techImgArea-"+gubun+"-"+num).html(img_html);
 					};
 					
@@ -585,7 +585,7 @@
 									           	<div class="text-center" id="techImgArea-data-${list.mainSeq }">
 									           	
 									           		<c:choose>
-									           			<c:when test="${not empty list.filePath }"><img src="${pageContext.request.contextPath }${list.filePath }/${list.strgFileNm}" class="mt-2" style="height: auto; width: 100%;"></c:when>
+									           			<c:when test="${not empty list.filePath }"><img src="${pageContext.request.contextPath }${list.filePath }/${list.strgFileNm}" class="mt-2" style="height: auto; width: 50%;"></c:when>
 									           			<c:otherwise><img src="${pageContext.request.contextPath }/resources/admin/assets/img/no-image.png" class="w-50"></c:otherwise>
 									           		</c:choose>
 												</div>

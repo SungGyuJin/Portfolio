@@ -2346,11 +2346,19 @@ function btnAddCmntChange(str){
                     <h3 class="section-subheading text-muted">Tools & Technologies</h3>
                 </div>
                 <div class="row text-center">
-                    <div class="col-md-3">
+                	<c:forEach var="list" items="${getTechList }">
+	                    <div class="col-md-3">
+	                        <span class="fa-stack fa-4x">
+								<img class="img-fluid my-round" src="${pageContext.request.contextPath}${list.filePath}/${list.strgFileNm}" alt="${list.techNm }" onerror="this.src='${pageContext.request.contextPath }/resources/admin/assets/img/no-image.png'" />
+	                        </span>
+	                        <p class="text-muted my-5">${list.techNm }</p>
+	                    </div>
+                	</c:forEach>
+                
+                    <%-- <div class="col-md-3">
                         <span class="fa-stack fa-4x">
 							<img class="img-fluid my-round" src="${pageContext.request.contextPath}/resources/front/main/assets/img/lnglogos/java.png" alt="javaLogo" />
                         </span>
-<!--                         <h5 class="my-5"></h5> -->
                         <p class="text-muted my-5">Java</p>
                     </div>
                     <div class="col-md-3">
@@ -2394,7 +2402,8 @@ function btnAddCmntChange(str){
 							<img class="img-fluid my-round" src="${pageContext.request.contextPath}/resources/front/main/assets/img/lnglogos/git.png" alt="gitLogo" />
                         </span>
                         <p class="text-muted my-5">Git</p>
-                    </div>
+                    </div> --%>
+                    
                 </div>
             </div>
         </section>

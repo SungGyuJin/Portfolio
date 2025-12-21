@@ -102,8 +102,8 @@ public class FrontController {
 		mav = new ModelAndView("front/main");
 	
 		String msg = (String) session.getAttribute("loginMsg");
+		
 		if (msg != null) {
-			
 		    mav.addObject("loginMsg", msg);
 		    session.removeAttribute("loginMsg");
 		    session.removeAttribute("loginNum");
@@ -115,13 +115,9 @@ public class FrontController {
 		mainVO.setMainSe("B");
 		Map<String, Object> getBanner =  mainService.getMainList(mainVO);;
 
-		System.out.println();
-		System.out.println("여기: "+getBanner);
-		System.out.println("여기123: "+getBanner.get("getBanner"));
-		System.out.println();
-
 		mav.addObject("getBbsList", getBbsList);
 		mav.addObject("getBanner", getBanner.get("getBanner"));
+		mav.addObject("getTechList", getBanner.get("getTechList"));
 		
 		return mav;
 	}
