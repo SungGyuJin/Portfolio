@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.gyu.portfolio.model.BbsVO;
 import com.gyu.portfolio.model.MainVO;
 import com.gyu.portfolio.service.MainService;
 
@@ -116,6 +117,20 @@ public class MainController {
 		
 		return result;
 	}
-	
+
+	/* 메인순서변경 */
+	@GetMapping("/updateMainSrtOrd.do")
+	@ResponseBody
+	public int updateMainSrtOrd(ModelMap model,
+			@ModelAttribute("MainVO") MainVO mainVO,
+			HttpServletRequest request,
+			HttpServletResponse response,
+			HttpSession session) throws Exception{
+		
+		mainVO.setUpdNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
+		int result = mainService.updateMainSrtOrd(mainVO);
+
+		return result;
+	}
 	
 }

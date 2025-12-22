@@ -10,6 +10,7 @@
 		<result property="techNm"		column="TECH_NM" 		/>
 		<result property="poforNm"		column="POFOR_NM" 		/>
 		<result property="expln"		column="EXPLN" 	  		/>
+		<result property="srtOrd"		column="SRT_ORD" 	  	/>
 		
 		<result property="boardSeq"		column="BOARD_SEQ"		/>
 		<result property="fileNm"		column="FILE_NM" 	  	/>
@@ -34,6 +35,7 @@
 			, TECH_NM
 			, POFOR_NM
 			, EXPLN
+			, SRT_ORD
 			, REG_NO
 			, REG_DT
 			, UPD_NO
@@ -46,6 +48,10 @@
 			, #{techNm}
 			, #{poforNm}
 			, #{expln}
+			<choose>
+				<when test='mainSe.equals("T")'>, (SELECT MAX(SRT_ORD)+1 FROM (SELECT SRT_ORD FROM TB_MAIN WHERE MAIN_SE = 'T') AS TMP)</when>
+				<otherwise>, 0</otherwise>
+			</choose>
 			, #{regNo}
 			, NOW()
 			, #{regNo}
@@ -81,6 +87,7 @@
 			, TECH_NM
 			, POFOR_NM
 			, EXPLN
+			, SRT_ORD
 			, REG_NO
 			, REG_DT
 			, UPD_NO
@@ -101,6 +108,7 @@
 			, TM.TECH_NM
 			, TM.POFOR_NM
 			, TM.EXPLN
+			, TM.SRT_ORD
 			, TM.REG_NO
 			, TM.REG_DT
 			, TM.UPD_NO
@@ -116,6 +124,7 @@
 		FROM TB_MAIN TM LEFT JOIN TB_ATTACH TA ON TM.MAIN_SEQ = TA.BOARD_SEQ 
 		WHERE 1=1
 			AND MAIN_SE = #{mainSe}
+		ORDER BY SRT_ORD ASC
 	</select>
 	
 	<delete id="deleteMain">
@@ -127,5 +136,16 @@
 		 	</foreach>
 			)
 	</delete>
+	
+	<update id="updateMainSrtOrd">
+		UPDATE
+			TB_MAIN
+		SET
+			SRT_ORD		= #{srtOrd}
+			, UPD_NO    = #{updNo}
+			, UPD_DT 	= NOW()
+		WHERE 1=1
+			AND MAIN_SEQ = #{mainSeq}
+	</update>
 	
 </mapper>

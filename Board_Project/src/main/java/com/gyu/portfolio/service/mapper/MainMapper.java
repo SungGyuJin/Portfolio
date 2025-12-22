@@ -20,5 +20,8 @@ public interface MainMapper {
 
 	// 메인 삭제
 	int deleteMain(MainVO mainVO) throws Exception;
+
+	// 정렬순서 변경
+	int updateMainSrtOrd(MainVO mainVO) throws Exception;
 	
 }

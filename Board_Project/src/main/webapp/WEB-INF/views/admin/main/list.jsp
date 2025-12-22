@@ -7,6 +7,43 @@
 <script>
 
 	$(function(){
+
+		$("#tech-card-area").sortable({
+            items:$('.sorting'),
+            start:function(event, ui){
+				
+            },
+            stop: function(event, ui) {
+            	
+            	var html = '';
+            	
+                $("#tech-card-area .sorting_1").each(function(index){
+                	console.log($(this).attr('aria-label'));
+					html += '<input type="hidden" name="mainSeqArr" value="'+$(this).attr('aria-label')+'">';
+					html += '<input type="hidden" name="srtOrdArr" value="'+(index+1)+'">';
+                });
+                
+                $("#frm_sorting").html(html);
+                
+                $.ajax({
+        			url      : contextPath+"updateMainSrtOrd.do",
+        			method   : "GET",
+        			data     : $("#frm_sorting").serialize(),
+        			dataType : "json",
+        			success  : function(res){
+						
+        				
+        			},
+        			error : function(request, status, error){
+        				Swal.fire({
+        					icon: "error",
+        					title: "통신불가"
+        				})
+        			}
+        		});
+            }
+			
+        });
 		
 		// 신규등록 버튼
 		$("#btn-new").on('click', function(){
@@ -450,6 +487,8 @@
 	
 </script>
 
+<form id="frm_sorting"></form>
+
 <div id="content">
 	<!-- Begin Page Content -->
 	<div class="container-fluid">
@@ -572,7 +611,7 @@
 								</c:if>
 				
 								<c:forEach var="list" items="${getTechList}">
-					                <div class="col-lg-3 col-md-4 col-sm-6 mb-4 tech-card" id="dataTechDiv-${list.mainSeq }">
+					                <div class="col-lg-3 col-md-4 col-sm-6 mb-4 tech-card sorting cursor-pointer" id="dataTechDiv-${list.mainSeq }">
 										<input type="file" class="d-none" id="data-tech-file-${list.mainSeq }" onchange="addTechIcon(this, event, '${list.mainSeq }', 'data');">					                    
 					                    <input type="hidden" name="arrMainSeq" value="${list.mainSeq }">
 					                    <input type="hidden" name="arrThumbYn" id="techImgYn-data-${list.mainSeq }" value="D">
@@ -581,15 +620,12 @@
 					                            <div class="text-right">
 							              			<img src="${pageContext.request.contextPath }/resources/admin/assets/img/x_button.png" id="techImg-delBtn-data-${list.mainSeq }" class="cursor-pointer <c:if test="${empty list.filePath }">invisible</c:if>" title="이미지 삭제" onclick="techImgDel('data', ${list.mainSeq})" style="width: 20px">
 									           	</div>
-									           	
-									           	<div class="text-center" id="techImgArea-data-${list.mainSeq }">
-									           	
+									           	<div class="text-center sorting_1" id="techImgArea-data-${list.mainSeq }" aria-label="${list.mainSeq }">
 									           		<c:choose>
 									           			<c:when test="${not empty list.filePath }"><img src="${pageContext.request.contextPath }${list.filePath }/${list.strgFileNm}" class="mt-2" style="height: auto; width: 50%;"></c:when>
 									           			<c:otherwise><img src="${pageContext.request.contextPath }/resources/admin/assets/img/no-image.png" class="w-50"></c:otherwise>
 									           		</c:choose>
 												</div>
-												
 					                            <div class="mb-2"><input type="text" class="form-control text-center mt-2" name="arrTechNm" placeholder="기술명을 입력하세요." value="${list.techNm }" autocomplete="off"></div>
 					                            <div class="mb-1">등록일시: ${list.regDt }</div>
 					                            <div class="mb-1">수정일시: ${list.updDt }</div>

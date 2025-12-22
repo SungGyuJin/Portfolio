@@ -15,5 +15,7 @@ public interface MainService {
 
 	// 메인 목록
 	Map<String, Object> getMainList(MainVO mainVO) throws Exception;
-	
+
+	// 정렬순서 변경
+	int updateMainSrtOrd(MainVO mainVO) throws Exception;
 }

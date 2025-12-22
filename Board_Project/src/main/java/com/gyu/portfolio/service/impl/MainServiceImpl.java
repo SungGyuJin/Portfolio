@@ -13,6 +13,7 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.gyu.portfolio.model.AttachVO;
+import com.gyu.portfolio.model.BbsVO;
 import com.gyu.portfolio.model.MainVO;
 import com.gyu.portfolio.service.MainService;
 import com.gyu.portfolio.service.mapper.AttachMapper;
@@ -133,12 +134,17 @@ public class MainServiceImpl implements MainService {
 						
 						result = mainMapper.deleteMain(mainVO);
 						
+
+						System.out.println("result111: "+result);
+						
 						for(int i=0; i < mainVO.getDelSeqArr().length; i++) {
 							AttachVO atchVO = new AttachVO();
 							
 							atchVO.setBoardSeq(Integer.parseInt(mainVO.getDelSeqArr()[i]));
 							result = attachMapper.deleteTechImg(atchVO);
 						}
+
+						System.out.println("result222: "+result);
 					}
 					
 				// Pofor
@@ -146,6 +152,8 @@ public class MainServiceImpl implements MainService {
 					
 				}
 
+				System.out.println();
+				
 				transactionManager.commit(status);
 				
 			}catch(Exception e){
@@ -204,6 +212,39 @@ public class MainServiceImpl implements MainService {
 	    System.out.println();
 	    System.out.println();
 		return resultMap;
+	}
+
+	@Override
+	public int updateMainSrtOrd(MainVO mainVO) throws Exception {
+
+		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+		
+		TransactionStatus status = transactionManager.getTransaction(def);
+		
+			int result = 0;
+			
+			try{
+				
+				MainVO vo = new MainVO();
+				vo.setUpdNo(mainVO.getUpdNo());
+				
+				for(int i=0; i < mainVO.getMainSeqArr().length; i++) {
+					vo.setSrtOrd(Integer.parseInt(mainVO.getSrtOrdArr()[i]));
+					vo.setMainSeq(Integer.parseInt(mainVO.getMainSeqArr()[i]));
+					
+					result = mainMapper.updateMainSrtOrd(vo);
+				}
+				
+				transactionManager.commit(status);
+			}catch(Exception e){
+				transactionManager.rollback(status);
+				System.out.println();
+				System.out.println(e.getMessage());
+				System.out.println();
+			}
+			
+		return result;
 	}
 
 }
