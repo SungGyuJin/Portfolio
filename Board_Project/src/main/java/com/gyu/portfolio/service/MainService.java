@@ -10,9 +10,6 @@ public interface MainService {
 	// 메인 등록
 	int addMain(MainVO mainVO) throws Exception;
 
-	// 메인 수정
-	int updateMain(MainVO mainVO) throws Exception;
-
 	// 메인 목록
 	Map<String, Object> getMainList(MainVO mainVO) throws Exception;
 

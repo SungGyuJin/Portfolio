@@ -119,7 +119,7 @@ public class MainServiceImpl implements MainService {
 									}else if(mainVO.getArrThumbYn()[i].equals("N")) {
 										AttachVO atchVO = new AttachVO();
 										atchVO.setBoardSeq(Integer.parseInt(mainVO.getArrMainSeq()[i]));
-										result = attachMapper.deleteTechImg(atchVO);
+										result += attachMapper.deleteTechImg(atchVO);
 									}else {
 										
 									}
@@ -134,17 +134,12 @@ public class MainServiceImpl implements MainService {
 						
 						result = mainMapper.deleteMain(mainVO);
 						
-
-						System.out.println("result111: "+result);
-						
 						for(int i=0; i < mainVO.getDelSeqArr().length; i++) {
 							AttachVO atchVO = new AttachVO();
 							
 							atchVO.setBoardSeq(Integer.parseInt(mainVO.getDelSeqArr()[i]));
-							result = attachMapper.deleteTechImg(atchVO);
+							result += attachMapper.deleteTechImg(atchVO);
 						}
-
-						System.out.println("result222: "+result);
 					}
 					
 				// Pofor
@@ -167,12 +162,6 @@ public class MainServiceImpl implements MainService {
 	}
 
 	@Override
-	public int updateMain(MainVO mainVO) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	public Map<String, Object> getMainList(MainVO mainVO) throws Exception {
 
 	    Map<String, Object> resultMap = new HashMap<>();
@@ -192,25 +181,6 @@ public class MainServiceImpl implements MainService {
 	    List<MainVO> getPoList = mainMapper.getMain(mainVO);
 	    resultMap.put("getPoList", getPoList);
 
-	    System.out.println();
-	    System.out.println("getBanner");
-	    for(int i=0; i < getBanner.size(); i++) {
-	    	System.out.println(getBanner.get(i));
-	    }
-	    System.out.println();
-	    System.out.println();
-	    System.out.println("getTechList");
-	    for(int i=0; i < getTechList.size(); i++) {
-	    	System.out.println(getTechList.get(i));
-	    }
-	    System.out.println();
-	    System.out.println();
-	    System.out.println("getPoList");
-	    for(int i=0; i < getPoList.size(); i++) {
-	    	System.out.println(getPoList.get(i));
-	    }
-	    System.out.println();
-	    System.out.println();
 		return resultMap;
 	}
 
