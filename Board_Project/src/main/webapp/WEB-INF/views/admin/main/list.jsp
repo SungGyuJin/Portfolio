@@ -82,8 +82,9 @@
 			html +=              	'<img src="'+contextPath+'/resources/admin/assets/img/no-image.png" class="w-50">';
 			html +=				'</div>';
 			html +=            	'<div class="mb-2"><input type="text" class="form-control text-center mt-2" placeholder="기술명을 입력하세요." name="arrTechNm" autocomplete="off"></div>';
-            html += 			'<div class="mb-1">등록일시: -</div>';
-            html += 			'<div class="mb-1">수정일시: -</div>';
+            html += 			'<div class="font-weight-bold mb-1">등록일시: -</div>';
+            html += 			'<div class="font-weight-bold mb-1">수정일시: -</div>';
+            html += 			'<div class="font-weight-bold mb-1">상태: <span class="text-success">생성중</span></div>';
 			html +=           	'<div class="d-flex justify-content-between">';
 			html +=					'<div>';
 			html +=           			'<button type="button" class="btn btn-sm btn-success btn-icon-split" onclick="btnControl(\'addTechImg\', '+i+', \'temp\');">';
@@ -627,8 +628,16 @@
 									           		</c:choose>
 												</div>
 					                            <div class="mb-2"><input type="text" class="form-control text-center mt-2" name="arrTechNm" placeholder="기술명을 입력하세요." value="${list.techNm }" autocomplete="off"></div>
-					                            <div class="mb-1">등록일시: ${list.regDt }</div>
-					                            <div class="mb-1">수정일시: ${list.updDt }</div>
+					                            <div class="font-weight-bold mb-1">등록일시: ${list.regDt }</div>
+					                            <div class="font-weight-bold mb-1">수정일시: ${list.updDt }</div>
+												<c:choose>
+													<c:when test="${list.stat eq 0 }">
+							                            <div class="font-weight-bold mb-1">상태: <span class="text-danger">삭제됨</span></div>
+													</c:when>
+													<c:otherwise>
+							                            <div class="font-weight-bold mb-1">상태: <span class="text-primary">사용중</span></div>
+													</c:otherwise>
+								           		</c:choose>
 					                            <div class="d-flex justify-content-between">
 					                            	<div class="mt-1">
 					                                	<button type="button" class="btn btn-sm btn-success btn-icon-split" onclick="btnControl('addTechImg', '${list.mainSeq}')">
