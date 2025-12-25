@@ -129,8 +129,6 @@
 				dataType : "json",
 				success  : function(res){
 					
-					console.log(res)
-					
 					if(res > 0){
 						Swal.fire({
 							icon: "success",
@@ -154,7 +152,7 @@
 	});
 	
 	// 버튼제어
-	function btnControl(e, num, gubun){
+	function btnControl(e, num, gubun, stat){
 		
 		// 배너 등록처리
 		if(e == 'addBn'){
@@ -179,25 +177,15 @@
 			$("#bannerYn").val('N');
 			$("#btn-bannerImgDel").prop('disabled', true);
 
-		// 기술 데이터 삭제
-		}else if(e == 'delTech'){
-			if(gubun == 'temp'){
-				$("#tempTechDiv-"+num).remove();
-			}else{
-				$("#dataTechDiv-"+num).remove();
-				$("#techDelSeq-area").append('<input type="hidden" name="delSeqArr" value="'+num+'">');
-			}
-			
+		// 기술 데이터 삭제(전체방식)
 		}else if(e == 'reset'){
 			btnReset();
+
+		// 기술 데이터 복구,삭제
 		}else{
-			changeStat_1(num);
+			changeStat_1(num, stat);
 		}
 	}
-	
-// 	function delTechImg(num){
-// 		$("#techImg-temp-"+num).html('<img src="'+contextPath+'/resources/admin/assets/img/no-image.png" class="w-50">');
-// 	}
 	
 	function frmSubmit(e){
 		
@@ -426,9 +414,12 @@
 	}
 	
 	// 복구, 삭제, 영구삭제 버튼(상태변경)
-	function changeStat_1(num){
+	function changeStat_1(num, stat){
 		
-		if(num == '9'){
+		$("#changeSeq").val(num);
+    	$("#changeStat").val(stat);
+		
+		if(stat == '9'){
 			Swal.fire({
 				title: '영구삭제 하시겠습니까?',
 				html: "※삭제된 데이터는 복구가 불가합니다.",
@@ -441,24 +432,22 @@
 			}).then(function(result){
 
 		        if (result.isConfirmed) {
-		        	$("#stat").val(num);
-		        	changeStat_2(num, '영구삭제완료');
+		        	changeStat_2('영구삭제완료');
 		        }
 			})
-		}else if(num == '1'){
-        	$("#stat").val(num);
-			changeStat_2(num, '복구완료');
+		}else if(stat == '1'){
+			changeStat_2('복구완료');
 		}else{
-        	$("#stat").val(num);
-			changeStat_2(num, '삭제완료');
+			changeStat_2('삭제완료');
 		}
 	}
 	
-	function changeStat_2(num, cmnt){
+	function changeStat_2(cmnt){
+		
 		$.ajax({
-			url      : contextPath+"changeStat.do",
+			url      : contextPath+"updateStat.do",
 			method   : "POST",
-			data     : $("#frm-addBbs").serialize(),
+			data     : $("#frm-changeStat").serialize(),
 			dataType : "json",
 			success  : function(res){
 				
@@ -489,6 +478,10 @@
 </script>
 
 <form id="frm_sorting"></form>
+<form id="frm-changeStat">
+	<input type="hidden" name="mainSeq" id="changeSeq">
+	<input type="hidden" name="stat" id="changeStat">
+</form>
 
 <div id="content">
 	<!-- Begin Page Content -->
@@ -599,7 +592,6 @@
 				    <div class="card-body">
 				        <form id="frm-tech">
 	                    	<input type="hidden" name="mainSe" value="T">
-				        	<div id="techDelSeq-area"></div>
 				        
 				            <!-- 기술 목록 영역 -->
 				            <div class="row" id="tech-card-area">
@@ -616,7 +608,7 @@
 										<input type="file" class="d-none" id="data-tech-file-${list.mainSeq }" onchange="addTechIcon(this, event, '${list.mainSeq }', 'data');">					                    
 					                    <input type="hidden" name="arrMainSeq" value="${list.mainSeq }">
 					                    <input type="hidden" name="arrThumbYn" id="techImgYn-data-${list.mainSeq }" value="D">
-					                    <div class="card border-left-primary shadow h-100 py-2">
+					                    <div class="card <c:if test="${list.stat eq 0 }">border-left-danger</c:if><c:if test="${list.stat eq 1 }">border-left-primary</c:if> shadow h-100 py-2">
 					                        <div class="card-body">
 					                            <div class="text-right">
 							              			<img src="${pageContext.request.contextPath }/resources/admin/assets/img/x_button.png" id="techImg-delBtn-data-${list.mainSeq }" class="cursor-pointer <c:if test="${empty list.filePath }">invisible</c:if>" title="이미지 삭제" onclick="techImgDel('data', ${list.mainSeq})" style="width: 20px">
@@ -639,16 +631,32 @@
 													</c:otherwise>
 								           		</c:choose>
 					                            <div class="d-flex justify-content-between">
+												<c:choose>
+													<c:when test="${list.stat eq 1 }">
 					                            	<div class="mt-1">
 					                                	<button type="button" class="btn btn-sm btn-success btn-icon-split" onclick="btnControl('addTechImg', '${list.mainSeq}')">
 							    							<span class="text">이미지 추가</span>
 									 					</button>
 					                            	</div>
 					                            	<div>
-									           			<button type="button" class="btn btn-sm btn-danger btn-icon-split" onclick="btnControl('delTech', '${list.mainSeq}', 'data')">
+									           			<button type="button" class="btn btn-sm btn-danger btn-icon-split" onclick="btnControl('changeStat', '${list.mainSeq}', 'data', '0')">
 							    							<span class="text">삭제</span>
 									 					</button>
 					                            	</div>
+													</c:when>
+													<c:otherwise>
+					                            	<div>
+									           			<button type="button" class="btn btn-sm btn-success btn-icon-split" onclick="btnControl('changeStat', '${list.mainSeq}', 'data', '1')">
+							    							<span class="text">복구</span>
+									 					</button>
+					                            	</div>
+					                            	<div>
+									           			<button type="button" class="btn btn-sm btn-danger btn-icon-split" onclick="btnControl('changeStat', '${list.mainSeq}', 'data', '9')">
+							    							<span class="text">영구삭제</span>
+									 					</button>
+					                            	</div>
+													</c:otherwise>
+								           		</c:choose>
 					                            </div>
 					                        </div>
 					                    </div>

@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.gyu.portfolio.model.BbsVO;
 import com.gyu.portfolio.model.MainVO;
 import com.gyu.portfolio.service.MainService;
 
@@ -65,7 +64,7 @@ public class MainController {
 	
 	/* 메인 (banner, Tech Stack, Portfolio)*/
 	@GetMapping("/list.do")
-	public ModelAndView bbsList(ModelMap model,
+	public ModelAndView mainList(ModelMap model,
 			@ModelAttribute("MainVO") MainVO mainVO,
 			HttpServletRequest request,
 			HttpSession session,
@@ -90,7 +89,7 @@ public class MainController {
 		return mav;
 	}
 
-	/* 메인(Banner, Tech, Portfolio) 등록처리(Ajax) */
+	/* 메인(Banner, Tech Stack, Portfolio) 등록처리(Ajax) */
 	@PostMapping("/addMain.do")
 	@ResponseBody
 	public int addMain(ModelMap model,
@@ -98,19 +97,6 @@ public class MainController {
 			HttpServletRequest request,
 			HttpServletResponse response,
 			HttpSession session) throws Exception{
-		
-		/* request 정보확인 START */
-		System.out.println();
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println("============ /addMain.do INFO  ===========");
-		Enumeration params = request.getParameterNames();
-		while(params.hasMoreElements()) {
-			String name= (String) params.nextElement();
-			System.out.println(name + ": " + request.getParameter(name));
-		}
-		System.out.println("++++++++++++++++++++++++++++++");
-		System.out.println();
-		/* request 정보확인 END */
 		
 		mainVO.setRegNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
 		int result = mainService.addMain(mainVO);
@@ -130,6 +116,21 @@ public class MainController {
 		mainVO.setUpdNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
 		int result = mainService.updateMainSrtOrd(mainVO);
 
+		return result;
+	}
+
+	/* Tech Stack 상태변경 */
+	@PostMapping("/updateStat.do")
+	@ResponseBody
+	public int updateStat(ModelMap model,
+			@ModelAttribute("MainVO") MainVO mainVO,
+			HttpServletRequest request,
+			HttpServletResponse response,
+			HttpSession session) throws Exception{
+		
+		mainVO.setUpdNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
+		int result = mainService.updateStat(mainVO);
+		
 		return result;
 	}
 	

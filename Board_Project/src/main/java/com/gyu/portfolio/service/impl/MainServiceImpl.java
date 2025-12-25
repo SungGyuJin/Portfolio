@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.aop.framework.AbstractAdvisingBeanPostProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Service;
@@ -13,7 +12,6 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.gyu.portfolio.model.AttachVO;
-import com.gyu.portfolio.model.BbsVO;
 import com.gyu.portfolio.model.MainVO;
 import com.gyu.portfolio.service.MainService;
 import com.gyu.portfolio.service.mapper.AttachMapper;
@@ -181,25 +179,6 @@ public class MainServiceImpl implements MainService {
 	    List<MainVO> getPoList = mainMapper.getMain(mainVO);
 	    resultMap.put("getPoList", getPoList);
 
-	    System.out.println();
-	    System.out.println("getBanner");
-	    for(int i=0; i < getBanner.size(); i++) {
-	    	System.out.println(getBanner.get(i));
-	    }
-	    System.out.println();
-	    System.out.println();
-	    System.out.println("getTechList");
-	    for(int i=0; i < getTechList.size(); i++) {
-	    	System.out.println(getTechList.get(i));
-	    }
-	    System.out.println();
-	    System.out.println();
-	    System.out.println("getPoList");
-	    for(int i=0; i < getPoList.size(); i++) {
-	    	System.out.println(getPoList.get(i));
-	    }
-	    System.out.println();
-	    System.out.println();
 		return resultMap;
 	}
 
@@ -234,6 +213,11 @@ public class MainServiceImpl implements MainService {
 			}
 			
 		return result;
+	}
+
+	@Override
+	public int updateStat(MainVO mainVO) throws Exception {
+		return mainMapper.updateStat(mainVO);
 	}
 
 }

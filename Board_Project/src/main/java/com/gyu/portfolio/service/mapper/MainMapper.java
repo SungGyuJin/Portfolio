@@ -23,5 +23,8 @@ public interface MainMapper {
 
 	// 정렬순서 변경
 	int updateMainSrtOrd(MainVO mainVO) throws Exception;
+
+	// 정렬순서 변경
+	int updateStat(MainVO mainVO) throws Exception;
 	
 }

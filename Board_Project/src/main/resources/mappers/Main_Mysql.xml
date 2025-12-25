@@ -123,9 +123,21 @@
 			, TA.THUMB_YN
 		FROM TB_MAIN TM LEFT JOIN TB_ATTACH TA ON TM.MAIN_SEQ = TA.BOARD_SEQ 
 		WHERE 1=1
-			AND MAIN_SE = #{mainSe}
+			AND TM.MAIN_SE = #{mainSe}
+			AND TM.STAT NOT IN('9')
 		ORDER BY SRT_ORD ASC
 	</select>
+	
+	<update id="updateStat">
+		UPDATE
+			TB_MAIN
+		SET
+			UPD_NO = #{updNo}
+			, UPD_DT = NOW()
+			, STAT = #{stat}
+		WHERE 1=1
+			AND MAIN_SEQ = #{mainSeq}
+	</update>
 	
 	<delete id="deleteMain">
 		DELETE FROM TB_MAIN
