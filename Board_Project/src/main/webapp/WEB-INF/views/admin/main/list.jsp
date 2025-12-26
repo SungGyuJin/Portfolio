@@ -92,6 +92,9 @@
 			html += 					'</button>';
 			html +=					'</div>';
 			html +=					'<div>';
+			html +=           			'<button type="button" class="btn btn-sm btn-primary btn-icon-split mr-1" onclick="btnControl(\'svgTech\', '+i+', \'temp\');">';
+	    	html +=							'<span class="text">저장</span>';
+			html += 					'</button>';
 			html +=           			'<button type="button" class="btn btn-sm btn-danger btn-icon-split" onclick="btnControl(\'delTech\', '+i+', \'temp\');">';
 	    	html +=							'<span class="text">삭제</span>';
 			html += 					'</button>';
@@ -639,6 +642,9 @@
 									 					</button>
 					                            	</div>
 					                            	<div>
+									           			<button type="button" class="btn btn-sm btn-primary btn-icon-split" onclick="btnControl('svgTech', '${list.mainSeq}', 'data', '0')">
+							    							<span class="text">저장</span>
+									 					</button>
 									           			<button type="button" class="btn btn-sm btn-danger btn-icon-split" onclick="btnControl('changeStat', '${list.mainSeq}', 'data', '0')">
 							    							<span class="text">삭제</span>
 									 					</button>
@@ -672,9 +678,9 @@
 								
 				            </div>
 							<div class="text-right mt-4">
-								<button type="button" class="btn btn-primary btn-icon-split" id="btn-techSave">
+								<!-- <button type="button" class="btn btn-primary btn-icon-split" id="btn-techSave">
 							    	<span class="text" id="btn-text-span">저장</span>
-								</button>
+								</button> -->
 								<button class="btn btn-secondary btn-icon-split" id="btn-reset" onclick="btnControl('reset');">
 				         			<span class="text">취소</span>
 				    			</button>
