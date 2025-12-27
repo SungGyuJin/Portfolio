@@ -70,6 +70,7 @@
 			var html = '';
 			
 			html += '<div class="col-lg-3 col-md-4 col-sm-6 mb-4 tech-card" id="tempTechDiv-'+i+'">';
+			html +=		'<form id="frm-tech-temp-'+i+'">';
 			html +=		'<input type="file" class="d-none" id="temp-tech-file-'+i+'" onchange="addTechIcon(this, event, '+i+', \'temp\');">';
 			html +=		'<input type="hidden" name="arrMainSeq" value="0">';
 			html +=		'<input type="hidden" name="arrThumbYn" id="techImgYn-temp-'+i+'" value="D">';
@@ -92,7 +93,7 @@
 			html += 					'</button>';
 			html +=					'</div>';
 			html +=					'<div>';
-			html +=           			'<button type="button" class="btn btn-sm btn-primary btn-icon-split mr-1" onclick="btnControl(\'svgTech\', '+i+', \'temp\');">';
+			html +=           			'<button type="button" class="btn btn-sm btn-primary btn-icon-split mr-1" id="btnAddTech-temp-'+i+'" onclick="btnControl(\'addTech\', '+i+', \'temp\');">';
 	    	html +=							'<span class="text">저장</span>';
 			html += 					'</button>';
 			html +=           			'<button type="button" class="btn btn-sm btn-danger btn-icon-split" onclick="btnControl(\'delTech\', '+i+', \'temp\');">';
@@ -111,7 +112,8 @@
 			html += 		'<input type="hidden" name="arrFileSize" value="0">';
 			
 			html +=		'</div>';
-			html += '</div>';	
+			html +=		'</form>'
+			html += '</div>';
 			
 			if($(".tech-card").length == 0){
 				$("#tech-card-area").empty();
@@ -124,7 +126,7 @@
 
 		// 기술 저장(submit)
 		$("#btn-techSave").on('click', function(){
-				
+			
 			$.ajax({
 				url      : contextPath+"/admin/main/addMain.do",
 				method   : "POST",
@@ -180,13 +182,45 @@
 			$("#bannerYn").val('N');
 			$("#btn-bannerImgDel").prop('disabled', true);
 
-		// 기술 데이터 삭제(전체방식)
+		// 기술 삭제(전체방식)
 		}else if(e == 'reset'){
 			btnReset();
 
-		// 기술 데이터 복구,삭제
+		// 기술 등록(수정)
+		}else if(e == 'addTech'){
+			
+			$.ajax({
+				url      : contextPath+"/admin/main/addMain.do",
+				method   : "POST",
+				data     : $("#frm-tech-"+gubun+"-"+num).serialize(),
+				dataType : "json",
+				success  : function(res){
+					
+					if(res > 0){
+						Swal.fire({
+							icon: "success",
+							title: "저장완료"
+						}).then(function(){
+							location.reload();
+						});
+					}
+					
+				},
+				error : function(request, status, error){
+					Swal.fire({
+						icon: "error",
+						title: "통신불가"
+					})
+				}
+			});
+			
+		// 기술 복구,삭제
 		}else{
-			changeStat_1(num, stat);
+			if(gubun == 'temp'){
+				$("#tempTechDiv-"+num).remove();
+			}else{
+				changeStat_1(num, stat);
+			}
 		}
 	}
 	
@@ -593,22 +627,21 @@
 				    </div>
 				
 				    <div class="card-body">
-				        <form id="frm-tech">
-	                    	<input type="hidden" name="mainSe" value="T">
-				        
-				            <!-- 기술 목록 영역 -->
-				            <div class="row" id="tech-card-area">
-								
-								<c:if test="${empty getTechList }">
-					                <!-- 데이터 없을 때 -->
-					                <div class="col-12 text-center py-5">
-					                    <strong class="text-lg"><br>등록된 기술이 없습니다.<br><br></strong>
-					                </div>
-								</c:if>
-				
-								<c:forEach var="list" items="${getTechList}">
-					                <div class="col-lg-3 col-md-4 col-sm-6 mb-4 tech-card sorting cursor-pointer" id="dataTechDiv-${list.mainSeq }">
+			            <!-- 기술 목록 영역 -->
+			            <div class="row" id="tech-card-area">
+							
+							<c:if test="${empty getTechList }">
+				                <!-- 데이터 없을 때 -->
+				                <div class="col-12 text-center py-5">
+				                    <strong class="text-lg"><br>등록된 기술이 없습니다.<br><br></strong>
+				                </div>
+							</c:if>
+			
+							<c:forEach var="list" items="${getTechList}">
+				                <div class="col-lg-3 col-md-4 col-sm-6 mb-4 tech-card sorting cursor-pointer" id="dataTechDiv-${list.mainSeq }">
+			        				<form id="frm-tech-data-${list.mainSeq }">
 										<input type="file" class="d-none" id="data-tech-file-${list.mainSeq }" onchange="addTechIcon(this, event, '${list.mainSeq }', 'data');">					                    
+	                    				<input type="hidden" name="mainSe" value="T">
 					                    <input type="hidden" name="arrMainSeq" value="${list.mainSeq }">
 					                    <input type="hidden" name="arrThumbYn" id="techImgYn-data-${list.mainSeq }" value="D">
 					                    <div class="card <c:if test="${list.stat eq 0 }">border-left-danger</c:if><c:if test="${list.stat eq 1 }">border-left-primary</c:if> shadow h-100 py-2">
@@ -642,7 +675,7 @@
 									 					</button>
 					                            	</div>
 					                            	<div>
-									           			<button type="button" class="btn btn-sm btn-primary btn-icon-split" onclick="btnControl('svgTech', '${list.mainSeq}', 'data', '0')">
+									           			<button type="button" class="btn btn-sm btn-primary btn-icon-split" id="btnAddTech-data-${list.mainSeq }" onclick="btnControl('addTech', '${list.mainSeq}', 'data')">
 							    							<span class="text">저장</span>
 									 					</button>
 									           			<button type="button" class="btn btn-sm btn-danger btn-icon-split" onclick="btnControl('changeStat', '${list.mainSeq}', 'data', '0')">
@@ -673,19 +706,19 @@
 					                    	<input type="hidden" name="arrFilePath" value="N">
 					                    	<input type="hidden" name="arrFileSize" value="0">
 					                    </div>
-					                </div>
-								</c:forEach>
-								
-				            </div>
-							<div class="text-right mt-4">
-								<!-- <button type="button" class="btn btn-primary btn-icon-split" id="btn-techSave">
-							    	<span class="text" id="btn-text-span">저장</span>
-								</button> -->
-								<button class="btn btn-secondary btn-icon-split" id="btn-reset" onclick="btnControl('reset');">
-				         			<span class="text">취소</span>
-				    			</button>
-							</div>
-				        </form>
+				                	</form>
+				                </div>
+							</c:forEach>
+							
+			            </div>
+						<div class="text-right mt-4">
+							<!-- <button type="button" class="btn btn-primary btn-icon-split" id="btn-techSave">
+						    	<span class="text" id="btn-text-span">저장</span>
+							</button> -->
+							<button class="btn btn-secondary btn-icon-split" id="btn-reset" onclick="btnControl('reset');">
+			         			<span class="text">취소</span>
+			    			</button>
+						</div>
 				    </div>
 				</div>
          		
