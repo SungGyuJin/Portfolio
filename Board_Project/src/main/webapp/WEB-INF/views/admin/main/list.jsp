@@ -575,8 +575,8 @@
 													<c:forEach var="list" items="${getBanner}">
 													<input type="hidden" name="mainSeq" value="${list.mainSeq }" readonly="readonly">
 													<tr class="text-center sorting">
-														<td><input type="text" class="form-control form-control-user text-center" name="topBnNm" value="${list.topBnNm }"></td>
-														<td><input type="text" class="form-control form-control-user text-center" name="botmBnNm" value="${list.botmBnNm }"></td>
+														<td><input type="text" class="form-control form-control-user text-center" name="topBnNm" value="${list.topBnNm }" autocomplete="off"></td>
+														<td><input type="text" class="form-control form-control-user text-center" name="botmBnNm" value="${list.botmBnNm }" autocomplete="off"></td>
 														<td>${list.regDt }</td>
 														<td>${list.updDt }</td>
 														<td>

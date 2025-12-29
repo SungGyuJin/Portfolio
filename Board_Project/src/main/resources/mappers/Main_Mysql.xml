@@ -64,18 +64,22 @@
 	</insert>
 	
 	<update id="updateMain">
-		 UPDATE
-		 	TB_MAIN
-		 SET
-			TOP_BN_NM    = #{topBnNm}
-			, BOTM_BN_NM = #{botmBnNm}
-			, TECH_NM    = #{techNm}
-			, POFOR_NM   = #{poforNm}
-			, EXPLN      = #{expln}
-			, UPD_NO     = #{updNo}
-			, UPD_DT 	 = NOW()
-		WHERE 1=1
-			AND MAIN_SEQ = #{mainSeq}
+		UPDATE
+			TB_MAIN A JOIN TB_MAIN B ON A.MAIN_SEQ = B.MAIN_SEQ
+		SET
+		    A.TOP_BN_NM  = #{topBnNm}
+		    , A.BOTM_BN_NM = #{botmBnNm}
+		    , A.TECH_NM    = #{techNm}
+		    , A.POFOR_NM   = #{poforNm}
+		    , A.EXPLN      = #{expln}
+		    , A.UPD_NO     = #{updNo}
+		    , A.UPD_DT	   =
+			<choose>
+				<when test='mainSe.equals("B")'>CASE WHEN B.TOP_BN_NM != #{topBnNm} OR B.BOTM_BN_NM != #{botmBnNm} THEN NOW() ELSE A.UPD_DT END</when>
+				<when test='mainSe.equals("P")'>CASE WHEN B.POFOR_NM = #{poforNm} THEN A.UPD_DT ELSE NOW() END</when>
+				<otherwise>CASE WHEN B.TECH_NM = #{techNm} THEN A.UPD_DT ELSE NOW() END</otherwise>
+			</choose>
+		WHERE A.MAIN_SEQ = #{mainSeq}
 	</update>
 	
 	<select id="getMainList" resultMap="mainVO">
@@ -150,14 +154,7 @@
 	</delete>
 	
 	<update id="updateMainSrtOrd">
-		UPDATE
-			TB_MAIN
-		SET
-			SRT_ORD		= #{srtOrd}
-			, UPD_NO    = #{updNo}
-			, UPD_DT 	= NOW()
-		WHERE 1=1
-			AND MAIN_SEQ = #{mainSeq}
+		UPDATE TB_MAIN SET SRT_ORD = #{srtOrd} WHERE MAIN_SEQ = #{mainSeq}
 	</update>
 	
 </mapper>
