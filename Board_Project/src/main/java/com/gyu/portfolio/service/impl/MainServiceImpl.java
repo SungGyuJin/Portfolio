@@ -45,6 +45,33 @@ public class MainServiceImpl implements MainService {
 				if(mainVO.getMainSe().equals("B")) {
 					
 					result = mainMapper.updateMain(mainVO);
+
+					for(int i=0; i < mainVO.getArrMainSeq().length; i++) {
+						
+						MainVO vo = new MainVO();
+						
+						if(mainVO.getArrThumbYn() != null) {
+							
+							if(mainVO.getArrThumbYn()[i].equals("Y")) {
+								
+								AttachVO atchVO = new AttachVO();
+								
+								atchVO.setBoardSeq(vo.getMainSeq());
+								atchVO.setThumbYn("Y");
+								atchVO.setFileNm(mainVO.getArrFileOrgNm()[i]);
+								atchVO.setFileExt(mainVO.getArrFileExt()[i]);
+								atchVO.setFileSz(mainVO.getArrFileSize()[i]);
+								atchVO.setFilePath(mainVO.getArrFilePath()[i]);
+								atchVO.setStrgFileNm(mainVO.getArrFileSvgNm()[i]);
+								atchVO.setRegNo(mainVO.getRegNo());
+								atchVO.setUpdNo(mainVO.getRegNo());
+								atchVO.setStat(22);
+								
+								attachMapper.addAttach(atchVO);
+							}
+						}
+					}
+					
 					
 				// Tech Stack
 				}else if(mainVO.getMainSe().equals("T")) {
@@ -93,15 +120,6 @@ public class MainServiceImpl implements MainService {
 								vo.setMainSeq(Integer.parseInt(mainVO.getArrMainSeq()[i]));
 								vo.setTechNm(mainVO.getArrTechNm()[i]);
 								vo.setUpdNo(mainVO.getRegNo());
-
-								System.out.println();
-								System.out.println("se:: "+mainVO.getMainSe());
-								System.out.println("se:: "+mainVO.getMainSe());
-								System.out.println("se:: "+mainVO.getMainSe());
-								System.out.println("se:: "+mainVO.getMainSe());
-								System.out.println("se:: "+mainVO.getMainSe());
-								System.out.println("se:: "+mainVO.getMainSe());
-								System.out.println();
 								
 								result = mainMapper.updateMain(vo);
 								

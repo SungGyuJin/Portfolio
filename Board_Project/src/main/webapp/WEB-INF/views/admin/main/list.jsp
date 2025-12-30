@@ -70,7 +70,6 @@
 			var html = '';
 			
 			html += '<div class="col-lg-3 col-md-4 col-sm-6 mb-4 tech-card" id="tempTechDiv-'+i+'">';
-// 			html +=		'<form id="frm-tech-temp-'+i+'">';
 			html +=		'<input type="file" class="d-none" id="temp-tech-file-'+i+'" onchange="addTechIcon(this, event, '+i+', \'temp\');">';
 			html +=		'<input type="hidden" name="arrMainSeq" value="0">';
 			html +=		'<input type="hidden" name="arrThumbYn" id="techImgYn-temp-'+i+'" value="D">';
@@ -104,15 +103,12 @@
 			html +=     	'</div>';
 			html += 	'</div>';
 			html +=		'<div id="techImgData-temp-'+i+'">';
-			
 			html += 		'<input type="hidden" name="arrFileOrgNm" value="N">';
 			html += 		'<input type="hidden" name="arrFileSvgNm" value="N">';
 			html += 		'<input type="hidden" name="arrFileExt" value="N">';
 			html += 		'<input type="hidden" name="arrFilePath" value="N">';
 			html += 		'<input type="hidden" name="arrFileSize" value="0">';
-			
 			html +=		'</div>';
-// 			html +=		'</form>'
 			html += '</div>';
 			
 			if($(".tech-card").length == 0){
@@ -123,43 +119,13 @@
 			
 			i++;
 		});
-
-		// 기술 저장(submit)
-		$("#btn-techSave").on('click', function(){
-			
-			$.ajax({
-				url      : contextPath+"/admin/main/addMain.do",
-				method   : "POST",
-				data     : $("#frm-tech").serialize(),
-				dataType : "json",
-				success  : function(res){
-					
-					if(res > 0){
-						Swal.fire({
-							icon: "success",
-							title: "저장완료"
-						}).then(function(){
-							location.reload();
-						});
-					}
-					
-				},
-				error : function(request, status, error){
-					Swal.fire({
-						icon: "error",
-						title: "통신불가"
-					})
-				}
-			});
-			
-		});
 		
 	});
 	
 	// 버튼제어
 	function btnControl(e, num, gubun, stat){
 		
-		// 배너 등록처리
+		// 배너 등록(수정) 처리
 		if(e == 'addBn'){
 			frmSubmit(e);
 			
@@ -182,38 +148,13 @@
 			$("#bannerYn").val('N');
 			$("#btn-bannerImgDel").prop('disabled', true);
 
+		// 기술 등록(수정) 처리
+		}else if(e == 'addTech'){
+			frmSubmit(e);
 		// 기술 삭제(전체방식)
 		}else if(e == 'reset'){
 			btnReset();
 
-		// 기술 등록(수정)
-		}else if(e == 'addTech'){
-			
-			/* $.ajax({
-				url      : contextPath+"/admin/main/addMain.do",
-				method   : "POST",
-				data     : $("#frm-tech-"+gubun+"-"+num).serialize(),
-				dataType : "json",
-				success  : function(res){
-					
-					if(res > 0){
-						Swal.fire({
-							icon: "success",
-							title: "저장완료"
-						}).then(function(){
-							location.reload();
-						});
-					}
-					
-				},
-				error : function(request, status, error){
-					Swal.fire({
-						icon: "error",
-						title: "통신불가"
-					})
-				}
-			}); */
-			
 		// 기술 복구,삭제
 		}else{
 			if(gubun == 'temp'){
@@ -230,8 +171,8 @@
 		
 		if(e == 'addBn'){
 			frm = '#frm-banner';
-		}else{
-			
+		}else if(e == 'addTech'){
+			frm = '#frm-tech';
 		}
 		
 		$.ajax({
@@ -369,56 +310,75 @@
 				return false;
 			}
 			
+			
+			
 			var formData = new FormData();
 			
 		    formData.append("files", file[0]);
-			
-			$.ajax({
-				url      : contextPath+"/main/upload.do",
-				method   : "POST",
-				data     : formData,
-				processData: false,
-				contentType: false,
-				dataType : "json",
-				success  : function(res){
 
-					var reader = new FileReader();
-					
-					reader.onload = function(event) {
-						$("#banner-area").children().remove();
-						var img_html = '';
-						img_html += '<img src="'+ event.target.result +'" style="height: auto; width: 100%;">';
-// 						img_html += '<span class="thumb-close" onclick="removeThumb(\''+gubun+'\');">&times;</span>';
-						$("#banner-area").append(img_html);
-					};
-					
-					reader.readAsDataURL(file[0]);
+			Swal.fire({
+				title: '배경을 적용하시겠습니까?',
+				html: "※확인 즉시 배경이 적용됩니다.",
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				confirmButtonText: '확인',
+				cancelButtonText: '취소'
+			}).then(function(result){
 
-					$("#bannerYn").val('Y');
-
-		        	var html = '';
-					
-					for(var i=0; i < res.fileList.length; i++) {
-						html += '<div class="d-flex fileData-area">';
-						html += 	'<input type="text" name="thumbFileOrgNm" value="'+res.fileList[i].fileOrgNm+'">';
-						html += 	'<input type="text" name="thumbFileSvgNm" value="'+res.fileList[i].fileSvgNm+'">';
-						html += 	'<input type="text" name="thumbFileExt" value="'+res.fileList[i].fileExt+'">';
-						html += 	'<input type="text" name="thumbFilePath" value="'+res.fileList[i].filePath+'">';
-						html += 	'<input type="text" name="thumbFileSize" value="'+res.fileList[i].fileSz+'">';
-						html +=	'</div>';
-					}
-					
-					$("#banner-data").html(html);
-					$("#btn-bannerImgDel").prop('disabled', false);
-					
-				},
-				error : function(request, status, error){
-					Swal.fire({
-						icon: "error",
-						title: "통신불가"
-					})
-				}
-			});
+		        if (result.isConfirmed) {
+		        	
+					$.ajax({
+						url      : contextPath+"/main/upload.do",
+						method   : "POST",
+						data     : formData,
+						processData: false,
+						contentType: false,
+						dataType : "json",
+						success  : function(res){
+		
+							var reader = new FileReader();
+							
+							reader.onload = function(event) {
+								$("#banner-area").children().remove();
+								var img_html = '';
+								img_html += '<img src="'+ event.target.result +'" style="height: auto; width: 100%;">';
+								$("#banner-area").append(img_html);
+							};
+							
+							reader.readAsDataURL(file[0]);
+		
+							$("#bannerYn").val('Y');
+		
+				        	var html = '';
+							
+							for(var i=0; i < res.fileList.length; i++) {
+								html += '<div class="d-flex fileData-area">';
+								html += 	'<input type="text" name="thumbFileOrgNm" value="'+res.fileList[i].fileOrgNm+'">';
+								html += 	'<input type="text" name="thumbFileSvgNm" value="'+res.fileList[i].fileSvgNm+'">';
+								html += 	'<input type="text" name="thumbFileExt" value="'+res.fileList[i].fileExt+'">';
+								html += 	'<input type="text" name="thumbFilePath" value="'+res.fileList[i].filePath+'">';
+								html += 	'<input type="text" name="thumbFileSize" value="'+res.fileList[i].fileSz+'">';
+								html +=	'</div>';
+							}
+							
+							$("#banner-data").html(html);
+							$("#btn-bannerImgDel").prop('disabled', false);
+							
+							frmSubmit('addBn');
+							
+						},
+						error : function(request, status, error){
+							Swal.fire({
+								icon: "error",
+								title: "통신불가"
+							})
+						}
+					});
+		        }
+			})
+		    
 			
 		}else{
 			$("#banner-area").children().remove();
@@ -548,6 +508,9 @@
 					<!-- Banner Card Body -->
 					<div class="card-body">
 						<form id="frm-banner" method="get">
+                      		<div id="banner-data"></div>
+							<input type="file" class="form-control d-none" id="banner-file" onchange="addBanner(this, event, 'img');">
+                      		<input type="text" name="thumbYn" class="" id="bannerYn">
 							<input type="hidden" name="mainSe" id="mainSeBanner" value="B" readonly="readonly">
 							<input type="hidden" name="stat" id="bnStat" value="1">
 					    	<div class="table-responsive" style="overflow-x: hidden;">
@@ -711,7 +674,7 @@
 								
 				            </div>
 							<div class="text-right mt-4">
-								<button type="button" class="btn btn-primary btn-icon-split" id="btn-techSave">
+								<button type="button" class="btn btn-primary btn-icon-split" id="btn-techSave" onclick="btnControl('addTech');">
 							    	<span class="text" id="btn-text-span">저장</span>
 								</button>
 								<button class="btn btn-secondary btn-icon-split" id="btn-reset" onclick="btnControl('reset');">
@@ -815,14 +778,14 @@
 	                    		<input type="hidden" name="bbsSeq" id="bbsSeq" value="0" readonly="readonly" />
 	                      		<div class="form-group">
 	                      			<label for="bbs-title"><strong>상단 배너명</strong></label>
-	                          		<input type="email" class="form-control form-control-user init-class" placeholder="상단 배너명 없음" value="${getBanner[0].topBnNm }">
+	                          		<input type="text" class="form-control form-control-user init-class" placeholder="상단 배너명 없음" value="${getBanner[0].topBnNm }" readonly="readonly">
 	                      		</div>
 	                      		<div class="form-group">
 	                      			<label for="bbs-title"><strong>하단 배너명</strong></label>
-	                          		<input type="email" class="form-control form-control-user init-class" placeholder="하단 배너명 없음" value="${getBanner[0].botmBnNm }">
+	                          		<input type="text" class="form-control form-control-user init-class" placeholder="하단 배너명 없음" value="${getBanner[0].botmBnNm }" readonly="readonly">
 	                      		</div>
 	                      		<div class="form-group">
-	                      			<label for="bbs-title"><strong>현재이미지</strong></label>
+	                      			<label for="bbs-title"><strong>현재 배경</strong></label>
 	                      			<div class="text-center" id="banner-area">
 	                      				<strong>등록된 이미지가 없습니다.</strong>
 	                      			</div>
@@ -831,9 +794,6 @@
 		                      		<label for="bbs-title"><strong>설명</strong></label>
 		                         	<input type="email" class="form-control form-control-user init-class" name="expln" id="expln" placeholder="설명" autocomplete="off">
 	                      		</div>
-			    				<input type="file" class="form-control d-none" id="banner-file" onchange="addBanner(this, event, 'img');">
-	                      		<input type="text" name="thumbYn" class="" id="bannerYn">
-	                      		<div id="banner-data"></div>
 	                      		<hr>
 							</form>
 			  
@@ -855,10 +815,10 @@
 					         			<span class="text">삭제</span>
 					    			</button>
 									<button class="btn btn-success btn-icon-split" id="btn-bannerImg" onclick="btnControl('addBnerImg', '9');">
-				         				<span class="text">이미지 추가</span>
+				         				<span class="text">배경 추가</span>
 				    				</button>
 									<button class="btn btn-danger btn-icon-split init-class" id="btn-bannerImgDel" onclick="btnControl('delImg', '9');" disabled>
-				         				<span class="text">이미지 삭제</span>
+				         				<span class="text">배경 삭제</span>
 				    				</button>
 			    				</div>
 							</div>

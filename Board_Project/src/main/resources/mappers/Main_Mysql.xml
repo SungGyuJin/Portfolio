@@ -136,9 +136,9 @@
 		UPDATE
 			TB_MAIN
 		SET
-			UPD_NO = #{updNo}
-			, UPD_DT = NOW()
-			, STAT = #{stat}
+			UPD_NO 		= #{updNo}
+			, UPD_DT 	= NOW()
+			, STAT 		= #{stat}
 		WHERE 1=1
 			AND MAIN_SEQ = #{mainSeq}
 	</update>

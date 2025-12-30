@@ -23,6 +23,9 @@ public interface AttachMapper {
 
 	/* 기술아이콘 삭제 */
 	int deleteTechImg(AttachVO attachVO) throws Exception;
+	
+	/* 배경 삭제 */
+	int deleteBnerImg(AttachVO attachVO) throws Exception;
 
 	// Front
 

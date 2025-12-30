@@ -193,4 +193,8 @@
 			AND STAT = 11
 	</delete>
 	
+	<delete id="deleteBnerImg">
+		DELETE FROM TB_ATTACH WHERE BOARD_SEQ = 1 AND STAT = 22
+	</delete>
+	
 </mapper>
