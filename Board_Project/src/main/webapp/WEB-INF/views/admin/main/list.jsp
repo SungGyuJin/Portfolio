@@ -355,11 +355,11 @@
 							
 							for(var i=0; i < res.fileList.length; i++) {
 								html += '<div class="d-flex fileData-area">';
-								html += 	'<input type="text" name="thumbFileOrgNm" value="'+res.fileList[i].fileOrgNm+'">';
-								html += 	'<input type="text" name="thumbFileSvgNm" value="'+res.fileList[i].fileSvgNm+'">';
-								html += 	'<input type="text" name="thumbFileExt" value="'+res.fileList[i].fileExt+'">';
-								html += 	'<input type="text" name="thumbFilePath" value="'+res.fileList[i].filePath+'">';
-								html += 	'<input type="text" name="thumbFileSize" value="'+res.fileList[i].fileSz+'">';
+								html += 	'<input type="text" name="arrFileOrgNm" value="'+res.fileList[i].fileOrgNm+'">';
+								html += 	'<input type="text" name="arrFileSvgNm" value="'+res.fileList[i].fileSvgNm+'">';
+								html += 	'<input type="text" name="arrFileExt" value="'+res.fileList[i].fileExt+'">';
+								html += 	'<input type="text" name="arrFilePath" value="'+res.fileList[i].filePath+'">';
+								html += 	'<input type="text" name="arrFileSize" value="'+res.fileList[i].fileSz+'">';
 								html +=	'</div>';
 							}
 							
@@ -786,8 +786,11 @@
 	                      		</div>
 	                      		<div class="form-group">
 	                      			<label for="bbs-title"><strong>현재 배경</strong></label>
-	                      			<div class="text-center" id="banner-area">
-	                      				<strong>등록된 이미지가 없습니다.</strong>
+	                      			<div class="text-center m-5" id="banner-area">
+	                      				<c:choose>
+						           			<c:when test="${not empty getBanner[0].filePath }"><img src="${pageContext.request.contextPath }${getBanner[0].filePath }/${getBanner[0].strgFileNm }" class="w-50"></c:when>
+						           			<c:otherwise><strong>등록된 이미지가 없습니다.</strong></c:otherwise>
+						           		</c:choose>
 	                      			</div>
 	                      		</div>
 	                    		<div class="form-group">
@@ -800,10 +803,10 @@
 						<div class="text-center">
 							<div class="d-flex justify-content-between">
 								<div id="btn-divTag1">
-									<!-- <button class="btn btn-primary btn-icon-split init-class" id="btn-save" onclick="btnControl('add');">
-								    	<span class="text" id="btn-text-span">저장</span>
+									<button class="btn btn-primary btn-icon-split init-class" id="btn-save" onclick="btnControl('add');">
+								    	<span class="text" id="btn-text-span">배경 저장</span>
 									</button>
-									<button class="btn btn-secondary btn-icon-split init-class" id="btn-reset" onclick="btnControl('reset');">
+									<!-- <button class="btn btn-secondary btn-icon-split init-class" id="btn-reset" onclick="btnControl('reset');">
 					         			<span class="text">취소</span>
 					    			</button> -->
 								</div>
@@ -817,7 +820,7 @@
 									<button class="btn btn-success btn-icon-split" id="btn-bannerImg" onclick="btnControl('addBnerImg', '9');">
 				         				<span class="text">배경 추가</span>
 				    				</button>
-									<button class="btn btn-danger btn-icon-split init-class" id="btn-bannerImgDel" onclick="btnControl('delImg', '9');" disabled>
+									<button class="btn btn-danger btn-icon-split init-class" id="btn-bannerImgDel" onclick="btnControl('delBnerImg', '9');"  <c:if test="${empty getBanner[0].filePath }">disabled</c:if>>
 				         				<span class="text">배경 삭제</span>
 				    				</button>
 			    				</div>

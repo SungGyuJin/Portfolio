@@ -46,32 +46,41 @@ public class MainServiceImpl implements MainService {
 					
 					result = mainMapper.updateMain(mainVO);
 
-					for(int i=0; i < mainVO.getArrMainSeq().length; i++) {
+					if(mainVO.getThumbYn().equals("Y")) {
 						
-						MainVO vo = new MainVO();
+
+						System.out.println();
+						System.out.println("if: "+mainVO.getThumbYn());
+						System.out.println();
+								
+						AttachVO atchVO = new AttachVO();
 						
-						if(mainVO.getArrThumbYn() != null) {
+						if(mainVO.getThumbYn().equals("Y")) {
+							attachMapper.deleteBnerImg(atchVO);
 							
-							if(mainVO.getArrThumbYn()[i].equals("Y")) {
-								
-								AttachVO atchVO = new AttachVO();
-								
-								atchVO.setBoardSeq(vo.getMainSeq());
-								atchVO.setThumbYn("Y");
-								atchVO.setFileNm(mainVO.getArrFileOrgNm()[i]);
-								atchVO.setFileExt(mainVO.getArrFileExt()[i]);
-								atchVO.setFileSz(mainVO.getArrFileSize()[i]);
-								atchVO.setFilePath(mainVO.getArrFilePath()[i]);
-								atchVO.setStrgFileNm(mainVO.getArrFileSvgNm()[i]);
-								atchVO.setRegNo(mainVO.getRegNo());
-								atchVO.setUpdNo(mainVO.getRegNo());
-								atchVO.setStat(22);
-								
-								attachMapper.addAttach(atchVO);
-							}
+							atchVO.setBoardSeq(mainVO.getMainSeq());
+							atchVO.setThumbYn("Y");
+							atchVO.setFileNm(mainVO.getArrFileOrgNm()[0]);
+							atchVO.setFileExt(mainVO.getArrFileExt()[0]);
+							atchVO.setFileSz(mainVO.getArrFileSize()[0]);
+							atchVO.setFilePath(mainVO.getArrFilePath()[0]);
+							atchVO.setStrgFileNm(mainVO.getArrFileSvgNm()[0]);
+							atchVO.setRegNo(mainVO.getRegNo());
+							atchVO.setUpdNo(mainVO.getRegNo());
+							atchVO.setStat(22);
+							
+							attachMapper.addAttach(atchVO);
+							
+						}else if(mainVO.getThumbYn().equals("N")) {
+							attachMapper.deleteBnerImg(atchVO);
 						}
-					}
 					
+					}else {
+
+						System.out.println();
+						System.out.println("else");
+						System.out.println();
+					}
 					
 				// Tech Stack
 				}else if(mainVO.getMainSe().equals("T")) {
