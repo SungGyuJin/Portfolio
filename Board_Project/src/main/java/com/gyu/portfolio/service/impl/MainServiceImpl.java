@@ -48,38 +48,25 @@ public class MainServiceImpl implements MainService {
 
 					if(mainVO.getThumbYn().equals("Y")) {
 						
-
-						System.out.println();
-						System.out.println("if: "+mainVO.getThumbYn());
-						System.out.println();
-								
+						attachMapper.deleteBnerImg();
+						
 						AttachVO atchVO = new AttachVO();
 						
-						if(mainVO.getThumbYn().equals("Y")) {
-							attachMapper.deleteBnerImg(atchVO);
-							
-							atchVO.setBoardSeq(mainVO.getMainSeq());
-							atchVO.setThumbYn("Y");
-							atchVO.setFileNm(mainVO.getArrFileOrgNm()[0]);
-							atchVO.setFileExt(mainVO.getArrFileExt()[0]);
-							atchVO.setFileSz(mainVO.getArrFileSize()[0]);
-							atchVO.setFilePath(mainVO.getArrFilePath()[0]);
-							atchVO.setStrgFileNm(mainVO.getArrFileSvgNm()[0]);
-							atchVO.setRegNo(mainVO.getRegNo());
-							atchVO.setUpdNo(mainVO.getRegNo());
-							atchVO.setStat(22);
-							
-							attachMapper.addAttach(atchVO);
-							
-						}else if(mainVO.getThumbYn().equals("N")) {
-							attachMapper.deleteBnerImg(atchVO);
-						}
-					
-					}else {
+						atchVO.setBoardSeq(mainVO.getMainSeq());
+						atchVO.setThumbYn("Y");
+						atchVO.setFileNm(mainVO.getArrFileOrgNm()[0]);
+						atchVO.setFileExt(mainVO.getArrFileExt()[0]);
+						atchVO.setFileSz(mainVO.getArrFileSize()[0]);
+						atchVO.setFilePath(mainVO.getArrFilePath()[0]);
+						atchVO.setStrgFileNm(mainVO.getArrFileSvgNm()[0]);
+						atchVO.setRegNo(mainVO.getRegNo());
+						atchVO.setUpdNo(mainVO.getRegNo());
+						atchVO.setStat(22);
+						
+						attachMapper.addAttach(atchVO);
 
-						System.out.println();
-						System.out.println("else");
-						System.out.println();
+					}else if(mainVO.getThumbYn().equals("N")) {
+						attachMapper.deleteBnerImg();
 					}
 					
 				// Tech Stack

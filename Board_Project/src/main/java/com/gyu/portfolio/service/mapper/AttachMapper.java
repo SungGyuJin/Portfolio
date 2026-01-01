@@ -25,7 +25,7 @@ public interface AttachMapper {
 	int deleteTechImg(AttachVO attachVO) throws Exception;
 	
 	/* 배경 삭제 */
-	int deleteBnerImg(AttachVO attachVO) throws Exception;
+	int deleteBnerImg() throws Exception;
 
 	// Front
 

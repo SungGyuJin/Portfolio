@@ -140,6 +140,24 @@
 			}else{
 				$("#data-tech-file-"+num).trigger('click');
 			}
+		}else if(e == 'delBnerImg'){
+
+			Swal.fire({
+				title: '배경을 삭제하시겠습니까?',
+				html: "※확인 즉시 배경이 삭제됩니다.",
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				confirmButtonText: '확인',
+				cancelButtonText: '취소'
+			}).then(function(result){
+
+		        if (result.isConfirmed) {
+					$("#bannerYn").val('N');
+					frmSubmit('addBn', e);
+		        }
+			})
 			
 		// 기술 이미지 삭제 버튼
 		}else if(e == 'delImg'){
@@ -165,7 +183,7 @@
 		}
 	}
 	
-	function frmSubmit(e){
+	function frmSubmit(e, str){
 		
 		var frm = '';
 		
@@ -185,12 +203,23 @@
 			success  : function(res){
 				
 				if(res > 0){
-					Swal.fire({
-						icon: "success",
-						title: "저장완료"
-					}).then(function(){
-						location.reload();
-					});
+					if(str == 'delBnerImg'){
+	
+						Swal.fire({
+							icon: "success",
+							title: "삭제완료"
+						}).then(function(){
+							location.reload();
+						});
+					}else{
+
+						Swal.fire({
+							icon: "success",
+							title: "저장완료"
+						}).then(function(){
+							location.reload();
+						});
+					}
 				}
 				
 			},
@@ -377,7 +406,7 @@
 						}
 					});
 		        }
-			})
+			});
 		    
 			
 		}else{

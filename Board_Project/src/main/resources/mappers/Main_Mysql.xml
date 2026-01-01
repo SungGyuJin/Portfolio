@@ -97,10 +97,6 @@
 			, UPD_NO
 			, UPD_DT
 			, STAT
-<!-- 			<if test='maINSE.EQUALS("B")'> -->
-<!-- 				, (SELECT FILE_PATH FROM TB_ATTACH WHERE BOARD_SEQ = 1 AND STAT = 22) FILE_PATH -->
-<!-- 				, (SELECT STRG_FILE_NM FROM TB_ATTACH WHERE BOARD_SEQ = 1 AND STAT = 22) STRG_FILE_NM -->
-<!-- 			</IF> -->
 		FROM TB_MAIN
 		WHERE 1=1
 			AND MAIN_SEQ = #{mainSeq}
