@@ -141,24 +141,33 @@
 				$("#data-tech-file-"+num).trigger('click');
 			}
 		}else if(e == 'delBnerImg'){
-
-			Swal.fire({
-				title: '배경을 삭제하시겠습니까?',
-				html: "※확인 즉시 배경이 삭제됩니다.",
-				icon: 'warning',
-				showCancelButton: true,
-				confirmButtonColor: '#3085d6',
-				cancelButtonColor: '#d33',
-				confirmButtonText: '확인',
-				cancelButtonText: '취소'
-			}).then(function(result){
-
-		        if (result.isConfirmed) {
-					$("#bannerYn").val('N');
-					frmSubmit('addBn', e);
-		        }
-			})
 			
+			if(gubun == 'data'){
+				Swal.fire({
+					title: '배경을 삭제하시겠습니까?',
+					html: "※확인 즉시 배경이 삭제됩니다.",
+					icon: 'warning',
+					showCancelButton: true,
+					confirmButtonColor: '#3085d6',
+					cancelButtonColor: '#d33',
+					confirmButtonText: '확인',
+					cancelButtonText: '취소'
+				}).then(function(result){
+	
+			        if (result.isConfirmed) {
+						$("#bannerYn").val('N');
+						frmSubmit('addBn', e);
+			        }
+				})
+			}else{
+				$("#banner-area").children().remove();
+				$("#bannerYn").val('');
+				$("#banner-file").val('');
+				$("#banner-data").empty();
+				$("#btn-bannerImgDel").prop('disabled', true);
+				
+				$("#banner-area").html('<strong>등록된 이미지가 없습니다.</strong>');
+			}
 		// 기술 이미지 삭제 버튼
 		}else if(e == 'delImg'){
 			$("#banner-area").empty();
@@ -320,7 +329,6 @@
 		}else{
 			$("#techImgYn-"+gubun+"-"+num).val('D');
 		}
-		
 	}
 	
 	// 배너이미지 추가
@@ -339,75 +347,57 @@
 				return false;
 			}
 			
-			
-			
 			var formData = new FormData();
 			
 		    formData.append("files", file[0]);
-
-			Swal.fire({
-				title: '배경을 적용하시겠습니까?',
-				html: "※확인 즉시 배경이 적용됩니다.",
-				icon: 'warning',
-				showCancelButton: true,
-				confirmButtonColor: '#3085d6',
-				cancelButtonColor: '#d33',
-				confirmButtonText: '확인',
-				cancelButtonText: '취소'
-			}).then(function(result){
-
-		        if (result.isConfirmed) {
-		        	
-					$.ajax({
-						url      : contextPath+"/main/upload.do",
-						method   : "POST",
-						data     : formData,
-						processData: false,
-						contentType: false,
-						dataType : "json",
-						success  : function(res){
-		
-							var reader = new FileReader();
-							
-							reader.onload = function(event) {
-								$("#banner-area").children().remove();
-								var img_html = '';
-								img_html += '<img src="'+ event.target.result +'" style="height: auto; width: 100%;">';
-								$("#banner-area").append(img_html);
-							};
-							
-							reader.readAsDataURL(file[0]);
-		
-							$("#bannerYn").val('Y');
-		
-				        	var html = '';
-							
-							for(var i=0; i < res.fileList.length; i++) {
-								html += '<div class="d-flex fileData-area">';
-								html += 	'<input type="text" name="arrFileOrgNm" value="'+res.fileList[i].fileOrgNm+'">';
-								html += 	'<input type="text" name="arrFileSvgNm" value="'+res.fileList[i].fileSvgNm+'">';
-								html += 	'<input type="text" name="arrFileExt" value="'+res.fileList[i].fileExt+'">';
-								html += 	'<input type="text" name="arrFilePath" value="'+res.fileList[i].filePath+'">';
-								html += 	'<input type="text" name="arrFileSize" value="'+res.fileList[i].fileSz+'">';
-								html +=	'</div>';
-							}
-							
-							$("#banner-data").html(html);
-							$("#btn-bannerImgDel").prop('disabled', false);
-							
-							frmSubmit('addBn');
-							
-						},
-						error : function(request, status, error){
-							Swal.fire({
-								icon: "error",
-								title: "통신불가"
-							})
-						}
-					});
-		        }
-			});
 		    
+		    $.ajax({
+				url      : contextPath+"/main/upload.do",
+				method   : "POST",
+				data     : formData,
+				processData: false,
+				contentType: false,
+				dataType : "json",
+				success  : function(res){
+
+					var reader = new FileReader();
+					
+					reader.onload = function(event) {
+						$("#banner-area").children().remove();
+						var img_html = '';
+						img_html += '<img src="'+ event.target.result +'" style="height: auto; width: 100%;">';
+						$("#banner-area").append(img_html);
+					};
+					
+					reader.readAsDataURL(file[0]);
+
+					$("#bannerYn").val('Y');
+
+		        	var html = '';
+					
+					for(var i=0; i < res.fileList.length; i++) {
+						html += '<div class="d-flex fileData-area">';
+						html += 	'<input type="text" name="arrFileOrgNm" value="'+res.fileList[i].fileOrgNm+'">';
+						html += 	'<input type="text" name="arrFileSvgNm" value="'+res.fileList[i].fileSvgNm+'">';
+						html += 	'<input type="text" name="arrFileExt" value="'+res.fileList[i].fileExt+'">';
+						html += 	'<input type="text" name="arrFilePath" value="'+res.fileList[i].filePath+'">';
+						html += 	'<input type="text" name="arrFileSize" value="'+res.fileList[i].fileSz+'">';
+						html +=	'</div>';
+					}
+					
+					$("#banner-data").html(html);
+					$("#btn-bannerImgDel").prop('disabled', false);
+					
+					$("#btn-bnerImgsave").prop('disabled', false);
+					
+				},
+				error : function(request, status, error){
+					Swal.fire({
+						icon: "error",
+						title: "통신불가"
+					})
+				}
+			});
 			
 		}else{
 			$("#banner-area").children().remove();
@@ -539,7 +529,7 @@
 						<form id="frm-banner" method="get">
                       		<div id="banner-data"></div>
 							<input type="file" class="form-control d-none" id="banner-file" onchange="addBanner(this, event, 'img');">
-                      		<input type="text" name="thumbYn" class="" id="bannerYn">
+                      		<input type="hidden" name="thumbYn" class="" id="bannerYn">
 							<input type="hidden" name="mainSe" id="mainSeBanner" value="B" readonly="readonly">
 							<input type="hidden" name="stat" id="bnStat" value="1">
 					    	<div class="table-responsive" style="overflow-x: hidden;">
@@ -832,7 +822,7 @@
 						<div class="text-center">
 							<div class="d-flex justify-content-between">
 								<div id="btn-divTag1">
-									<button class="btn btn-primary btn-icon-split init-class" id="btn-save" onclick="btnControl('add');">
+									<button class="btn btn-primary btn-icon-split init-class" id="btn-bnerImgsave" onclick="btnControl('addBn');" <c:if test="${empty getBanner[0].filePath }">disabled</c:if>>
 								    	<span class="text" id="btn-text-span">배경 저장</span>
 									</button>
 									<!-- <button class="btn btn-secondary btn-icon-split init-class" id="btn-reset" onclick="btnControl('reset');">
@@ -849,9 +839,19 @@
 									<button class="btn btn-success btn-icon-split" id="btn-bannerImg" onclick="btnControl('addBnerImg', '9');">
 				         				<span class="text">배경 추가</span>
 				    				</button>
-									<button class="btn btn-danger btn-icon-split init-class" id="btn-bannerImgDel" onclick="btnControl('delBnerImg', '9');"  <c:if test="${empty getBanner[0].filePath }">disabled</c:if>>
-				         				<span class="text">배경 삭제</span>
-				    				</button>
+				    				<c:choose>
+					           			<c:when test="${not empty getBanner[0].filePath }">
+											<button class="btn btn-danger btn-icon-split init-class" id="btn-bannerImgDel" onclick="btnControl('delBnerImg', '9', 'data');">
+						         				<span class="text">배경 삭제</span>
+						    				</button>
+					           			</c:when>
+					           			<c:otherwise>
+											<button class="btn btn-danger btn-icon-split init-class" id="btn-bannerImgDel" onclick="btnControl('delBnerImg', '9', 'temp');" disabled>
+						         				<span class="text">배경 삭제</span>
+						    				</button>
+					           			</c:otherwise>
+					           		</c:choose>
+				    				
 			    				</div>
 							</div>
 			    		</div>
