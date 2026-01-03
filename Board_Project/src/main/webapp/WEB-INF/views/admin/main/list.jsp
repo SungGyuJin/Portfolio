@@ -365,7 +365,8 @@
 					reader.onload = function(event) {
 						$("#banner-area").children().remove();
 						var img_html = '';
-						img_html += '<img src="'+ event.target.result +'" style="height: auto; width: 100%;">';
+// 						img_html += '<img src="'+ event.target.result +'" style="height: auto; width: 100%;">';
+						img_html += '<img src="'+ event.target.result +'">';
 						$("#banner-area").append(img_html);
 					};
 					
@@ -377,11 +378,11 @@
 					
 					for(var i=0; i < res.fileList.length; i++) {
 						html += '<div class="d-flex fileData-area">';
-						html += 	'<input type="text" name="arrFileOrgNm" value="'+res.fileList[i].fileOrgNm+'">';
-						html += 	'<input type="text" name="arrFileSvgNm" value="'+res.fileList[i].fileSvgNm+'">';
-						html += 	'<input type="text" name="arrFileExt" value="'+res.fileList[i].fileExt+'">';
-						html += 	'<input type="text" name="arrFilePath" value="'+res.fileList[i].filePath+'">';
-						html += 	'<input type="text" name="arrFileSize" value="'+res.fileList[i].fileSz+'">';
+						html += 	'<input type="hidden" name="arrFileOrgNm" value="'+res.fileList[i].fileOrgNm+'">';
+						html += 	'<input type="hidden" name="arrFileSvgNm" value="'+res.fileList[i].fileSvgNm+'">';
+						html += 	'<input type="hidden" name="arrFileExt" value="'+res.fileList[i].fileExt+'">';
+						html += 	'<input type="hidden" name="arrFilePath" value="'+res.fileList[i].filePath+'">';
+						html += 	'<input type="hidden" name="arrFileSize" value="'+res.fileList[i].fileSz+'">';
 						html +=	'</div>';
 					}
 					
@@ -401,6 +402,7 @@
 			
 		}else{
 			$("#banner-area").children().remove();
+			$("#banner-area").html('<strong>등록된 이미지가 없습니다.</strong>');
 			$("#bannerYn").val('N');
 			$("#banner-file").val('');
 			$("#banner-data").empty();
@@ -796,18 +798,20 @@
 	                   			<input type="hidden" name="stat" id="stat" value="1" readonly="readonly"/>
 	                    		<input type="hidden" name="bbsSeq" id="bbsSeq" value="0" readonly="readonly" />
 	                      		<div class="form-group">
-	                      			<label for="bbs-title"><strong>상단 배너명</strong></label>
+	                      			<label for="topBnNm"><strong>상단 배너명</strong></label>
 	                          		<input type="text" class="form-control form-control-user init-class" placeholder="상단 배너명 없음" value="${getBanner[0].topBnNm }" readonly="readonly">
 	                      		</div>
 	                      		<div class="form-group">
-	                      			<label for="bbs-title"><strong>하단 배너명</strong></label>
+	                      			<label for="botmNmNm"><strong>하단 배너명</strong></label>
 	                          		<input type="text" class="form-control form-control-user init-class" placeholder="하단 배너명 없음" value="${getBanner[0].botmBnNm }" readonly="readonly">
 	                      		</div>
 	                      		<div class="form-group">
-	                      			<label for="bbs-title"><strong>현재 배경</strong></label>
-	                      			<div class="text-center m-5" id="banner-area">
+	                      			<label for="bannerImg">
+									  <strong>현재 배경</strong> <c:if test="${not empty getBanner[0].filePath }"><span class="small"> (등록일시: ${getBanner[0].taRegDt })</span></c:if>
+									</label>
+	                      			<div class="text-center banner-preview" id="banner-area">
 	                      				<c:choose>
-						           			<c:when test="${not empty getBanner[0].filePath }"><img src="${pageContext.request.contextPath }${getBanner[0].filePath }/${getBanner[0].strgFileNm }" class="w-50"></c:when>
+						           			<c:when test="${not empty getBanner[0].filePath }"><img src="${pageContext.request.contextPath }${getBanner[0].filePath }/${getBanner[0].strgFileNm }"></c:when>
 						           			<c:otherwise><strong>등록된 이미지가 없습니다.</strong></c:otherwise>
 						           		</c:choose>
 	                      			</div>

@@ -33,6 +33,9 @@ public class MainVO extends DefalutVO {
 	private String filePath		= "";  // 파일경로
 	private String strgFileNm	= "";  // 파일이름(저장명)
 	private String thumbYn 		= "";  // 썸네일여부(Y, N)
+
+	private String taRegDt 		=  "";	// 이미지 등록일자
+	private String taUpdDt 		=  "";	// 이미지 수정일자
 	
 	private String[] arrMainSeq    = null;
 	private String[] arrTechNm     = null;
@@ -52,13 +55,13 @@ public class MainVO extends DefalutVO {
 				+ ", techNm=" + techNm + ", poforNm=" + poforNm + ", expln=" + expln + ", srtOrd=" + srtOrd + ", regNo="
 				+ regNo + ", regDt=" + regDt + ", updNo=" + updNo + ", updDt=" + updDt + ", stat=" + stat
 				+ ", boardSeq=" + boardSeq + ", fileNm=" + fileNm + ", fileExt=" + fileExt + ", fileSz=" + fileSz
-				+ ", filePath=" + filePath + ", strgFileNm=" + strgFileNm + ", thumbYn=" + thumbYn + ", arrMainSeq="
-				+ Arrays.toString(arrMainSeq) + ", arrTechNm=" + Arrays.toString(arrTechNm) + ", arrFileOrgNm="
-				+ Arrays.toString(arrFileOrgNm) + ", arrFileSvgNm=" + Arrays.toString(arrFileSvgNm) + ", arrFileExt="
-				+ Arrays.toString(arrFileExt) + ", arrFilePath=" + Arrays.toString(arrFilePath) + ", arrFileSize="
-				+ Arrays.toString(arrFileSize) + ", arrThumbYn=" + Arrays.toString(arrThumbYn) + ", delSeqArr="
-				+ Arrays.toString(delSeqArr) + ", mainSeqArr=" + Arrays.toString(mainSeqArr) + ", srtOrdArr="
-				+ Arrays.toString(srtOrdArr) + "]";
+				+ ", filePath=" + filePath + ", strgFileNm=" + strgFileNm + ", thumbYn=" + thumbYn + ", taRegDt="
+				+ taRegDt + ", taUpdDt=" + taUpdDt + ", arrMainSeq=" + Arrays.toString(arrMainSeq) + ", arrTechNm="
+				+ Arrays.toString(arrTechNm) + ", arrFileOrgNm=" + Arrays.toString(arrFileOrgNm) + ", arrFileSvgNm="
+				+ Arrays.toString(arrFileSvgNm) + ", arrFileExt=" + Arrays.toString(arrFileExt) + ", arrFilePath="
+				+ Arrays.toString(arrFilePath) + ", arrFileSize=" + Arrays.toString(arrFileSize) + ", arrThumbYn="
+				+ Arrays.toString(arrThumbYn) + ", delSeqArr=" + Arrays.toString(delSeqArr) + ", mainSeqArr="
+				+ Arrays.toString(mainSeqArr) + ", srtOrdArr=" + Arrays.toString(srtOrdArr) + "]";
 	}
 	
 }

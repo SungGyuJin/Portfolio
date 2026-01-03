@@ -2329,14 +2329,25 @@ function btnAddCmntChange(str){
         
 
 
-	 <!-- Masthead-->
-        <header class="masthead mb-4">
-            <div class="container">
-                <div class="masthead-subheading">${getBanner[0].topBnNm}</div>
-                <div class="masthead-heading text-uppercase">${getBanner[0].botmBnNm}</div>
-            </div>
-        </header>
-        
+		<!-- Masthead-->
+	 	<c:choose>
+	 		<c:when test="${not empty getBanner[0].filePath }">
+				<header class="masthead mb-4" style="background-image: url('${pageContext.request.contextPath}${getBanner[0].filePath}/${getBanner[0].strgFileNm}');">
+		            <div class="container">
+		                <div class="masthead-subheading">${getBanner[0].topBnNm}</div>
+		                <div class="masthead-heading text-uppercase">${getBanner[0].botmBnNm}</div>
+		            </div>
+		        </header>
+	 		</c:when>
+	 		<c:otherwise>
+				<header class="masthead mb-4" style="background-image: url('${pageContext.request.contextPath}/resources/front/main/assets/img/header-bg.jpg');">
+		            <div class="container">
+		                <div class="masthead-subheading">${getBanner[0].topBnNm}</div>
+		                <div class="masthead-heading text-uppercase">${getBanner[0].botmBnNm}</div>
+		            </div>
+		        </header>
+	 		</c:otherwise>
+	 	</c:choose>
         
         <!-- Tech Stack -->
         <section class="page-section" id="techStack">

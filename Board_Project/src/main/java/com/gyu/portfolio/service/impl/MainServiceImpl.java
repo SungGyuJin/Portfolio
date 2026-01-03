@@ -167,8 +167,6 @@ public class MainServiceImpl implements MainService {
 				}else {
 					
 				}
-
-				System.out.println();
 				
 				transactionManager.commit(status);
 				
