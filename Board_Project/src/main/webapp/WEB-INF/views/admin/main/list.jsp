@@ -156,7 +156,7 @@
 	
 			        if (result.isConfirmed) {
 						$("#bannerYn").val('N');
-						frmSubmit('addBn', e);
+						frmSubmit('addBn', e, '삭제');
 			        }
 				})
 			}else{
@@ -194,41 +194,67 @@
 	
 	function frmSubmit(e, str){
 		
+		
 		var frm = '';
 		
 		if(e == 'addBn'){
+			
 			frm = '#frm-banner';
+			
+			if($("#topBnNm").val() == ''){
+				alert("상단 배너명을 입력하세요.");
+				$("#topBnNm").focus();
+				return false;
+			}else if($("#botmBnNm").val() == ''){
+				alert("하단 배너명을 입력하세요.");
+				$("#botmBnNm").focus();
+				return false;
+			}
+			
 		}else if(e == 'addTech'){
+			
 			frm = '#frm-tech';
+			
+			var idx = 0;
+			var cnt = 0;
+			
+			$(".techNm").each(function(index){
+				if($(this).val().length == 0){
+					idx = index;
+					cnt++;
+					return false;
+				}
+			});
+			
+			if(cnt > 0){
+				alert((idx+1)+"번 기술명을 입력하세요.");
+				$('[name="arrTechNm"]').eq(idx).focus();
+				return false;
+			}
+			
 		}
 		
 		$.ajax({
 			url      : contextPath+"/admin/main/addMain.do",
 			method   : "POST",
 			data     : $(frm).serialize(),
-// 			processData: false,
-// 			contentType: false,
 			dataType : "json",
 			success  : function(res){
 				
 				if(res > 0){
-					if(str == 'delBnerImg'){
-	
-						Swal.fire({
-							icon: "success",
-							title: "삭제완료"
-						}).then(function(){
-							location.reload();
-						});
-					}else{
 
-						Swal.fire({
-							icon: "success",
-							title: "저장완료"
-						}).then(function(){
-							location.reload();
-						});
+					var ment = '저장완료';
+					
+					if(str == 'delBnerImg'){
+						ment = '삭제완료';
 					}
+
+					Swal.fire({
+						icon: "success",
+						title: ment,
+					}).then(function(){
+						location.reload();
+					});
 				}
 				
 			},
@@ -559,8 +585,8 @@
 													<c:forEach var="list" items="${getBanner}">
 													<input type="hidden" name="mainSeq" value="${list.mainSeq }" readonly="readonly">
 													<tr class="text-center sorting">
-														<td><input type="text" class="form-control form-control-user text-center" name="topBnNm" value="${list.topBnNm }" autocomplete="off"></td>
-														<td><input type="text" class="form-control form-control-user text-center" name="botmBnNm" value="${list.botmBnNm }" autocomplete="off"></td>
+														<td><input type="text" class="form-control form-control-user text-center" name="topBnNm" id="topBnNm" value="${list.topBnNm }" autocomplete="off"></td>
+														<td><input type="text" class="form-control form-control-user text-center" name="botmBnNm" id="botmBnNm" value="${list.botmBnNm }" autocomplete="off"></td>
 														<td>${list.regDt }</td>
 														<td>${list.updDt }</td>
 														<td>
@@ -639,7 +665,7 @@
 									           			<c:otherwise><img src="${pageContext.request.contextPath }/resources/admin/assets/img/no-image.png" class="w-50"></c:otherwise>
 									           		</c:choose>
 												</div>
-					                            <div class="mb-2"><input type="text" class="form-control text-center mt-2" name="arrTechNm" placeholder="기술명을 입력하세요." value="${list.techNm }" autocomplete="off"></div>
+					                            <div class="mb-2"><input type="text" class="form-control text-center techNm mt-2" name="arrTechNm" placeholder="기술명을 입력하세요." value="${list.techNm }" autocomplete="off"></div>
 					                            <div class="font-weight-bold mb-1">등록일시: ${list.regDt }</div>
 					                            <div class="font-weight-bold mb-1">수정일시: ${list.updDt }</div>
 												<c:choose>
@@ -659,9 +685,6 @@
 									 					</button>
 					                            	</div>
 					                            	<div>
-<%-- 									           			<button type="button" class="btn btn-sm btn-primary btn-icon-split" id="btnAddTech-data-${list.mainSeq }" onclick="btnControl('addTech', '${list.mainSeq}', 'data')"> --%>
-<!-- 							    							<span class="text">저장</span> -->
-<!-- 									 					</button> -->
 									           			<button type="button" class="btn btn-sm btn-danger btn-icon-split" onclick="btnControl('changeStat', '${list.mainSeq}', 'data', '0')">
 							    							<span class="text">삭제</span>
 									 					</button>
@@ -815,10 +838,6 @@
 						           			<c:otherwise><strong>등록된 이미지가 없습니다.</strong></c:otherwise>
 						           		</c:choose>
 	                      			</div>
-	                      		</div>
-	                    		<div class="form-group">
-		                      		<label for="bbs-title"><strong>설명</strong></label>
-		                         	<input type="email" class="form-control form-control-user init-class" name="expln" id="expln" placeholder="설명" autocomplete="off">
 	                      		</div>
 	                      		<hr>
 							</form>

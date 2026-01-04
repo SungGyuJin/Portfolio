@@ -9,7 +9,6 @@
 		<result property="botmBnNm"		column="BOTM_BN_NM" 	/>
 		<result property="techNm"		column="TECH_NM" 		/>
 		<result property="poforNm"		column="POFOR_NM" 		/>
-		<result property="expln"		column="EXPLN" 	  		/>
 		<result property="srtOrd"		column="SRT_ORD" 	  	/>
 		
 		<result property="boardSeq"		column="BOARD_SEQ"		/>
@@ -38,7 +37,6 @@
 			, BOTM_BN_NM
 			, TECH_NM
 			, POFOR_NM
-			, EXPLN
 			, SRT_ORD
 			, REG_NO
 			, REG_DT
@@ -51,7 +49,6 @@
 			, #{botmBnNm}
 			, #{techNm}
 			, #{poforNm}
-			, #{expln}
 			<choose>
 				<when test='mainSe.equals("T")'>, (SELECT MAX(SRT_ORD)+1 FROM (SELECT SRT_ORD FROM TB_MAIN WHERE MAIN_SE = 'T') AS TMP)</when>
 				<otherwise>, 0</otherwise>
@@ -75,7 +72,6 @@
 		    , A.BOTM_BN_NM = #{botmBnNm}
 		    , A.TECH_NM    = #{techNm}
 		    , A.POFOR_NM   = #{poforNm}
-		    , A.EXPLN      = #{expln}
 		    , A.UPD_NO     = #{updNo}
 		    , A.UPD_DT	   =
 			<choose>
@@ -94,7 +90,6 @@
 			, BOTM_BN_NM
 			, TECH_NM
 			, POFOR_NM
-			, EXPLN
 			, SRT_ORD
 			, REG_NO
 			, REG_DT
@@ -115,7 +110,6 @@
 			, TM.BOTM_BN_NM
 			, TM.TECH_NM
 			, TM.POFOR_NM
-			, TM.EXPLN
 			, TM.SRT_ORD
 			, TM.REG_NO
 			, TM.REG_DT
