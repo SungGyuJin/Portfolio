@@ -145,7 +145,7 @@
 			if(gubun == 'data'){
 				Swal.fire({
 					title: '배경을 삭제하시겠습니까?',
-					html: "※확인 즉시 배경이 삭제됩니다.",
+					html: "※확인 즉시 배경이 삭제됩니다. (복구불가)",
 					icon: 'warning',
 					showCancelButton: true,
 					confirmButtonColor: '#3085d6',
@@ -649,7 +649,9 @@
 					                </div>
 								</c:if>
 				
+								<c:set var="techCnt" value="0" />
 								<c:forEach var="list" items="${getTechList}">
+									<c:set var="techCnt" value="${techCnt + 1}" />
 					                <div class="col-lg-3 col-md-4 col-sm-6 mb-4 tech-card sorting cursor-pointer" id="dataTechDiv-${list.mainSeq }">
 										<input type="file" class="d-none" id="data-tech-file-${list.mainSeq }" onchange="addTechIcon(this, event, '${list.mainSeq }', 'data');">					                    
 					                    <input type="hidden" name="arrMainSeq" value="${list.mainSeq }">
@@ -773,6 +775,7 @@
 												    </tr>
 												</thead>
 												<tbody>
+													<c:set var="poCnt" value="0" />
 													<c:forEach var="list" items="${getPoList}">
 													<tr class="text-center sorting" onclick="getBbs(${list.bbsSeq});" id="tr-${list.bbsSeq }">
 														<td class="sorting_1" id="nm-${list.bbsSeq }" aria-label="${list.bbsSeq }">${list.nm }</td>
@@ -827,6 +830,14 @@
 	                      		<div class="form-group">
 	                      			<label for="botmNmNm"><strong>하단 배너명</strong></label>
 	                          		<input type="text" class="form-control form-control-user init-class" placeholder="하단 배너명 없음" value="${getBanner[0].botmBnNm }" readonly="readonly">
+	                      		</div>
+	                      		<div class="form-group">
+	                      			<label for=""><strong>Tech Stack</strong></label>
+	                          		<input type="text" class="form-control form-control-user init-class" value="${techCnt} 개" readonly="readonly">
+	                      		</div>
+	                      		<div class="form-group">
+	                      			<label for=""><strong>Portfolio</strong></label>
+	                          		<input type="text" class="form-control form-control-user init-class" value="${poCnt} 개" readonly="readonly">
 	                      		</div>
 	                      		<div class="form-group">
 	                      			<label for="bannerImg">
