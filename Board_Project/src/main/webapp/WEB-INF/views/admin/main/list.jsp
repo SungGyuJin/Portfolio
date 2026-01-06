@@ -751,63 +751,99 @@
     					</div>
 					</div>
 					
-					<!-- Card Body -->
 					<div class="card-body">
-						<form id="frm-pofor" method="get">
-							<input type="hidden" name="listTyp" id="listTyp" value="${bbsVO.listTyp }" readonly="readonly">
-					    	<div class="table-responsive" style="overflow-x: hidden;">
-					  			<div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
-									<div class="row">
-										<div class="col-sm-12">
-											<table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
-												<colgroup>
-													<col width="30">	<!-- 게시판명 	-->
-													<col width="100"> 	<!-- 등록일시 	-->
-													<col width="100"> 	<!-- 수정일시 	-->
-													<col width="20"> 	<!-- 상태    	-->
-												</colgroup>
-												<thead>
-												    <tr role="row">
-												    	<th class="sorting sorting_asc text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 154px;">포트폴리오명</th>
-														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">포트폴리오명</th>
-														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">배너 이미지</th>
-														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">상태</th>
-												    </tr>
-												</thead>
-												<tbody>
-													<c:set var="poCnt" value="0" />
-													<c:forEach var="list" items="${getPoList}">
-													<tr class="text-center sorting" onclick="getBbs(${list.bbsSeq});" id="tr-${list.bbsSeq }">
-														<td class="sorting_1" id="nm-${list.bbsSeq }" aria-label="${list.bbsSeq }">${list.nm }</td>
-														<td>${list.regDt }</td>
-														<td>${list.updDt }</td>
-														<td>
-															<c:choose>
-																<c:when test="${list.stat eq 1 }">
-																	<strong class="ms-3"><span class="text-primary">사용중</span></strong>
-																</c:when>
-																<c:otherwise>
-																	<strong class="ms-3"><span class="text-danger">삭제됨</span></strong>
-																</c:otherwise>
-															</c:choose>
-													    </td>
-													</tr>
-													</c:forEach>
-													<c:if test="${empty getPoList }">
-													<tr class="text-center">
-														<td colspan="5">
-															<strong class="text-lg"><br>등록된 포트폴리오가 없습니다.<br><br></strong>
-														</td>
-													</tr>
-													</c:if>
-									        	</tbody>
-											</table>
-										</div>
-									</div>
-	      						</div>
-	       					</div>
+				    	<form id="frm-tech">
+               				<input type="hidden" name="mainSe" value="P">
+				            <!-- 포트폴리오 영역 -->
+				            <div class="row" id="tech-card-area">
+								
+								<c:if test="${empty getPoList }">
+					                <!-- 데이터 없을 때 -->
+					                <div class="col-12 text-center py-5">
+					                    <strong class="text-lg"><br>등록된 포트폴리오가 없습니다.<br><br></strong>
+					                </div>
+								</c:if>
+				
+								<c:set var="poCnt" value="0" />
+								<c:forEach var="list" items="${getPoList}">
+									<c:set var="poCnt" value="${poCnt + 1}" />
+					                <div class="col-lg-3 col-md-4 col-sm-6 mb-4 tech-card sorting cursor-pointer" id="dataTechDiv-${list.mainSeq }">
+										<input type="file" class="d-none" id="data-tech-file-${list.mainSeq }" onchange="addTechIcon(this, event, '${list.mainSeq }', 'data');">					                    
+					                    <input type="hidden" name="arrMainSeq" value="${list.mainSeq }">
+					                    <input type="hidden" name="arrThumbYn" id="techImgYn-data-${list.mainSeq }" value="D">
+					                    <div class="card <c:if test="${list.stat eq 0 }">border-left-danger</c:if><c:if test="${list.stat eq 1 }">border-left-primary</c:if> shadow h-100 py-2">
+					                        <div class="card-body">
+					                            <div class="text-right">
+							              			<img src="${pageContext.request.contextPath }/resources/admin/assets/img/x_button.png" id="techImg-delBtn-data-${list.mainSeq }" class="cursor-pointer <c:if test="${empty list.filePath }">invisible</c:if>" title="이미지 삭제" onclick="techImgDel('data', ${list.mainSeq})" style="width: 20px">
+									           	</div>
+									           	<div class="text-center sorting_1" id="techImgArea-data-${list.mainSeq }" aria-label="${list.mainSeq }">
+									           		<c:choose>
+									           			<c:when test="${not empty list.filePath }"><img src="${pageContext.request.contextPath }${list.filePath }/${list.strgFileNm}" class="mt-2" style="height: auto; width: 50%;"></c:when>
+									           			<c:otherwise><img src="${pageContext.request.contextPath }/resources/admin/assets/img/no-image.png" class="w-50"></c:otherwise>
+									           		</c:choose>
+												</div>
+					                            <div class="mb-2"><input type="text" class="form-control text-center techNm mt-2" name="arrTechNm" placeholder="기술명을 입력하세요." value="${list.techNm }" autocomplete="off"></div>
+					                            <div class="font-weight-bold mb-1">등록일시: ${list.regDt }</div>
+					                            <div class="font-weight-bold mb-1">수정일시: ${list.updDt }</div>
+												<c:choose>
+													<c:when test="${list.stat eq 0 }">
+							                            <div class="font-weight-bold mb-1">상태: <span class="text-danger">삭제됨</span></div>
+													</c:when>
+													<c:otherwise>
+							                            <div class="font-weight-bold mb-1">상태: <span class="text-primary">사용중</span></div>
+													</c:otherwise>
+								           		</c:choose>
+					                            <div class="d-flex justify-content-between">
+												<c:choose>
+													<c:when test="${list.stat eq 1 }">
+					                            	<div class="mt-1">
+					                                	<button type="button" class="btn btn-sm btn-success btn-icon-split" onclick="btnControl('addTechImg', '${list.mainSeq}')">
+							    							<span class="text">이미지 추가</span>
+									 					</button>
+					                            	</div>
+					                            	<div>
+									           			<button type="button" class="btn btn-sm btn-danger btn-icon-split" onclick="btnControl('changeStat', '${list.mainSeq}', 'data', '0')">
+							    							<span class="text">삭제</span>
+									 					</button>
+					                            	</div>
+													</c:when>
+													<c:otherwise>
+					                            	<div>
+									           			<button type="button" class="btn btn-sm btn-success btn-icon-split" onclick="btnControl('changeStat', '${list.mainSeq}', 'data', '1')">
+							    							<span class="text">복구</span>
+									 					</button>
+					                            	</div>
+					                            	<div>
+									           			<button type="button" class="btn btn-sm btn-danger btn-icon-split" onclick="btnControl('changeStat', '${list.mainSeq}', 'data', '9')">
+							    							<span class="text">영구삭제</span>
+									 					</button>
+					                            	</div>
+													</c:otherwise>
+								           		</c:choose>
+					                            </div>
+					                        </div>
+					                    </div>
+					                    <div id="techImgData-data-${list.mainSeq }">
+					                    	<input type="hidden" name="arrFileOrgNm" value="N">
+					                    	<input type="hidden" name="arrFileSvgNm" value="N">
+					                    	<input type="hidden" name="arrFileExt" value="N">
+					                    	<input type="hidden" name="arrFilePath" value="N">
+					                    	<input type="hidden" name="arrFileSize" value="0">
+					                    </div>
+					                </div>
+								</c:forEach>
+								
+				            </div>
+							<div class="text-right mt-4">
+								<button type="button" class="btn btn-primary btn-icon-split" id="btn-techSave" onclick="btnControl('addTech');">
+							    	<span class="text" id="btn-text-span">저장</span>
+								</button>
+								<button class="btn btn-secondary btn-icon-split" id="btn-reset" onclick="btnControl('reset');">
+				         			<span class="text">취소</span>
+				    			</button>
+							</div>
 						</form>
-   					</div>
+				    </div>
          		</div>
          		
      		</div>
