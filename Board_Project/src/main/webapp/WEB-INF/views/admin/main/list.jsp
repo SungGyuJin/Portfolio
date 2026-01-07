@@ -120,6 +120,64 @@
 			i++;
 		});
 		
+
+		var j = 0;
+		
+		// add Po
+		$("#btn-addPo").on('click', function(){
+			var html = '';
+			
+			html += '<div class="col-lg-3 col-md-4 col-sm-6 mb-4 tech-card" id="tempTechDiv-'+j+'">';
+			html +=		'<input type="file" class="d-none" id="temp-tech-file-'+j+'" onchange="addTechIcon(this, event, '+j+', \'temp\');">';
+			html +=		'<input type="hidden" name="arrMainSeq" value="0">';
+			html +=		'<input type="hidden" name="arrThumbYn" id="techImgYn-temp-'+j+'" value="D">';
+			html += 	'<div class="card border-left-success shadow h-100 py-2">';
+			html +=     	'<div class="card-body">';
+			html +=           	'<div class="text-right">';
+			html +=              	'<img src="'+contextPath+'/resources/admin/assets/img/x_button.png" id="techImg-delBtn-temp-'+j+'" class="invisible cursor-pointer" title="이미지 삭제" onclick="techImgDel(\'temp\', '+j+');" style="width: 20px;">';
+			html +=           	'</div>';
+			html +=				'<div class="text-center" id="techImgArea-temp-'+j+'">';
+			html +=              	'<img src="'+contextPath+'/resources/admin/assets/img/no-image.png" class="w-50">';
+			html +=				'</div>';
+			html +=            	'<div class="mb-2"><input type="text" class="form-control text-center mt-2" placeholder="기술명을 입력하세요." name="arrTechNm" autocomplete="off"></div>';
+            html += 			'<div class="font-weight-bold mb-1">등록일시: -</div>';
+            html += 			'<div class="font-weight-bold mb-1">수정일시: -</div>';
+            html += 			'<div class="font-weight-bold mb-1">상태: <span class="text-success">생성중</span></div>';
+			html +=           	'<div class="d-flex justify-content-between">';
+			html +=					'<div>';
+			html +=           			'<button type="button" class="btn btn-sm btn-success btn-icon-split" onclick="btnControl(\'addTechImg\', '+j+', \'temp\');">';
+	    	html +=							'<span class="text">이미지 추가</span>';
+			html += 					'</button>';
+			html +=					'</div>';
+			html +=					'<div>';
+// 			html +=           			'<button type="button" class="btn btn-sm btn-primary btn-icon-split mr-1" id="btnAddTech-temp-'+i+'" onclick="btnControl(\'addTech\', '+i+', \'temp\');">';
+// 	    	html +=							'<span class="text">저장</span>';
+// 			html += 					'</button>';
+			html +=           			'<button type="button" class="btn btn-sm btn-danger btn-icon-split" onclick="btnControl(\'delTech\', '+j+', \'temp\');">';
+	    	html +=							'<span class="text">삭제</span>';
+			html += 					'</button>';
+			html +=					'</div>';
+			html +=        		'</div>';
+			html +=     	'</div>';
+			html += 	'</div>';
+			html +=		'<div id="techImgData-temp-'+j+'">';
+			html += 		'<input type="hidden" name="arrFileOrgNm" value="N">';
+			html += 		'<input type="hidden" name="arrFileSvgNm" value="N">';
+			html += 		'<input type="hidden" name="arrFileExt" value="N">';
+			html += 		'<input type="hidden" name="arrFilePath" value="N">';
+			html += 		'<input type="hidden" name="arrFileSize" value="0">';
+			html +=		'</div>';
+			html += '</div>';
+			
+			if($(".po-card").length == 0){
+				$("#po-card-area").empty();
+			}
+			
+			$("#po-card-area").append(html);
+			
+			j++;
+		});
+		
 	});
 	
 	// 버튼제어
@@ -742,10 +800,10 @@
 					            <div class="dropdown-divider"></div>
 					            <a class="dropdown-item" href="#">Something else here</a>
 					        </div>
-	    					<button class="btn btn-primary btn-icon-split" id="btn-addBanner" title="추가" value="add">
+	    					<button class="btn btn-primary btn-icon-split" id="btn-addPo" title="추가" value="add">
 	    						<span class="text">추가</span>
 			    			</button>
-	    					<button class="btn btn-danger btn-icon-split" id="btn-delBanner" title="삭제" value="del" disabled>
+	    					<button class="btn btn-danger btn-icon-split" id="btn-delPo" title="삭제" value="del" disabled>
 	    						<span class="text">삭제</span>
 			    			</button>
     					</div>
@@ -755,7 +813,7 @@
 				    	<form id="frm-tech">
                				<input type="hidden" name="mainSe" value="P">
 				            <!-- 포트폴리오 영역 -->
-				            <div class="row" id="tech-card-area">
+				            <div class="row" id="po-card-area">
 								
 								<c:if test="${empty getPoList }">
 					                <!-- 데이터 없을 때 -->
@@ -767,7 +825,7 @@
 								<c:set var="poCnt" value="0" />
 								<c:forEach var="list" items="${getPoList}">
 									<c:set var="poCnt" value="${poCnt + 1}" />
-					                <div class="col-lg-3 col-md-4 col-sm-6 mb-4 tech-card sorting cursor-pointer" id="dataTechDiv-${list.mainSeq }">
+					                <div class="col-lg-3 col-md-4 col-sm-6 mb-4 po-card sorting cursor-pointer" id="dataTechDiv-${list.mainSeq }">
 										<input type="file" class="d-none" id="data-tech-file-${list.mainSeq }" onchange="addTechIcon(this, event, '${list.mainSeq }', 'data');">					                    
 					                    <input type="hidden" name="arrMainSeq" value="${list.mainSeq }">
 					                    <input type="hidden" name="arrThumbYn" id="techImgYn-data-${list.mainSeq }" value="D">
