@@ -70,7 +70,7 @@
 			var html = '';
 			
 			html += '<div class="col-lg-3 col-md-4 col-sm-6 mb-4 tech-card" id="tempTechDiv-'+i+'">';
-			html +=		'<input type="file" class="d-none" id="temp-tech-file-'+i+'" onchange="addTechIcon(this, event, '+i+', \'temp\');">';
+			html +=		'<input type="file" class="d-none" id="temp-tech-file-'+i+'" onchange="addThumbImg(this, event, '+i+', \'temp\', \'tech\');">';
 			html +=		'<input type="hidden" name="arrMainSeq" value="0">';
 			html +=		'<input type="hidden" name="arrThumbYn" id="techImgYn-temp-'+i+'" value="D">';
 			html += 	'<div class="card border-left-success shadow h-100 py-2">';
@@ -92,9 +92,6 @@
 			html += 					'</button>';
 			html +=					'</div>';
 			html +=					'<div>';
-// 			html +=           			'<button type="button" class="btn btn-sm btn-primary btn-icon-split mr-1" id="btnAddTech-temp-'+i+'" onclick="btnControl(\'addTech\', '+i+', \'temp\');">';
-// 	    	html +=							'<span class="text">저장</span>';
-// 			html += 					'</button>';
 			html +=           			'<button type="button" class="btn btn-sm btn-danger btn-icon-split" onclick="btnControl(\'delTech\', '+i+', \'temp\');">';
 	    	html +=							'<span class="text">삭제</span>';
 			html += 					'</button>';
@@ -127,8 +124,8 @@
 		$("#btn-addPo").on('click', function(){
 			var html = '';
 			
-			html += '<div class="col-lg-3 col-md-4 col-sm-6 mb-4 tech-card" id="tempTechDiv-'+j+'">';
-			html +=		'<input type="file" class="d-none" id="temp-tech-file-'+j+'" onchange="addTechIcon(this, event, '+j+', \'temp\');">';
+			html += '<div class="col-lg-3 col-md-4 col-sm-6 mb-4 po-card" id="tempPoDiv-'+j+'">';
+			html +=		'<input type="file" class="d-none" id="temp-po-file-'+j+'" onchange="addThumbImg(this, event, '+j+', \'temp\', \'po\');">';
 			html +=		'<input type="hidden" name="arrMainSeq" value="0">';
 			html +=		'<input type="hidden" name="arrThumbYn" id="techImgYn-temp-'+j+'" value="D">';
 			html += 	'<div class="card border-left-success shadow h-100 py-2">';
@@ -139,7 +136,7 @@
 			html +=				'<div class="text-center" id="techImgArea-temp-'+j+'">';
 			html +=              	'<img src="'+contextPath+'/resources/admin/assets/img/no-image.png" class="w-50">';
 			html +=				'</div>';
-			html +=            	'<div class="mb-2"><input type="text" class="form-control text-center mt-2" placeholder="기술명을 입력하세요." name="arrTechNm" autocomplete="off"></div>';
+			html +=            	'<div class="mb-2"><input type="text" class="form-control text-center mt-2" placeholder="포트폴리오명을 입력하세요." name="arrTechNm" autocomplete="off"></div>';
             html += 			'<div class="font-weight-bold mb-1">등록일시: -</div>';
             html += 			'<div class="font-weight-bold mb-1">수정일시: -</div>';
             html += 			'<div class="font-weight-bold mb-1">상태: <span class="text-success">생성중</span></div>';
@@ -150,9 +147,6 @@
 			html += 					'</button>';
 			html +=					'</div>';
 			html +=					'<div>';
-// 			html +=           			'<button type="button" class="btn btn-sm btn-primary btn-icon-split mr-1" id="btnAddTech-temp-'+i+'" onclick="btnControl(\'addTech\', '+i+', \'temp\');">';
-// 	    	html +=							'<span class="text">저장</span>';
-// 			html += 					'</button>';
 			html +=           			'<button type="button" class="btn btn-sm btn-danger btn-icon-split" onclick="btnControl(\'delTech\', '+j+', \'temp\');">';
 	    	html +=							'<span class="text">삭제</span>';
 			html += 					'</button>';
@@ -236,6 +230,11 @@
 		// 기술 등록(수정) 처리
 		}else if(e == 'addTech'){
 			frmSubmit(e);
+		
+		// 포트폴리오 등록(수정) 처리
+		}else if(e == 'addPo'){
+			
+			
 		// 기술 삭제(전체방식)
 		}else if(e == 'reset'){
 			btnReset();
@@ -326,9 +325,9 @@
 		
 	}
 
-	// 기술 아이콘 추가
-	function addTechIcon(e, event, num, gubun){
-
+	// tech, po 아이콘 추가
+	function addThumbImg(e, event, num, gubun, type){
+		
 		var file = e.files;
 
 		if(file.length > 0){
@@ -360,7 +359,7 @@
 					reader.onload = function(event) {
 						var img_html = '';
 						img_html += '<img src="'+ event.target.result +'" class="mt-2" style="height: auto; width: 50%;">';
-						$("#techImgArea-"+gubun+"-"+num).html(img_html);
+						$("#"+type+"ImgArea-"+gubun+"-"+num).html(img_html);
 					};
 					
 					reader.readAsDataURL(file[0]);
@@ -369,21 +368,18 @@
 					
 					for(var i=0; i < res.fileList.length; i++) {
 						html += '<div class="d-flex fileData-area">';
-						
 						html += 	'<input type="hidden" name="arrFileOrgNm" value="'+res.fileList[i].fileOrgNm+'">';
 						html += 	'<input type="hidden" name="arrFileSvgNm" value="'+res.fileList[i].fileSvgNm+'">';
 						html += 	'<input type="hidden" name="arrFileExt" value="'+res.fileList[i].fileExt+'">';
 						html += 	'<input type="hidden" name="arrFilePath" value="'+res.fileList[i].filePath+'">';
 						html += 	'<input type="hidden" name="arrFileSize" value="'+res.fileList[i].fileSz+'">';
-						
 						html +=	'</div>';
 					}
 					
-					$("#techImgData-"+gubun+"-"+num).html(html);
-					$("#techImgYn-"+gubun+"-"+num).val("Y");
+					$("#"+type+"ImgData-"+gubun+"-"+num).html(html);
+					$("#"+type+"ImgYn-"+gubun+"-"+num).val("Y");
 					
-					$("#techImg-delBtn-"+gubun+"-"+num).removeClass('invisible');
-					$("#btn-bannerImgDel").prop('disabled', false);
+					$("#"+type+"Img-delBtn-"+gubun+"-"+num).removeClass('invisible');
 					
 				},
 				error : function(request, status, error){
@@ -711,7 +707,7 @@
 								<c:forEach var="list" items="${getTechList}">
 									<c:set var="techCnt" value="${techCnt + 1}" />
 					                <div class="col-lg-3 col-md-4 col-sm-6 mb-4 tech-card sorting cursor-pointer" id="dataTechDiv-${list.mainSeq }">
-										<input type="file" class="d-none" id="data-tech-file-${list.mainSeq }" onchange="addTechIcon(this, event, '${list.mainSeq }', 'data');">					                    
+										<input type="file" class="d-none" id="data-tech-file-${list.mainSeq }" onchange="addThumbImg(this, event, '${list.mainSeq }', 'data', 'tech');">					                    
 					                    <input type="hidden" name="arrMainSeq" value="${list.mainSeq }">
 					                    <input type="hidden" name="arrThumbYn" id="techImgYn-data-${list.mainSeq }" value="D">
 					                    <div class="card <c:if test="${list.stat eq 0 }">border-left-danger</c:if><c:if test="${list.stat eq 1 }">border-left-primary</c:if> shadow h-100 py-2">
@@ -810,7 +806,7 @@
 					</div>
 					
 					<div class="card-body">
-				    	<form id="frm-tech">
+				    	<form id="frm-po">
                				<input type="hidden" name="mainSe" value="P">
 				            <!-- 포트폴리오 영역 -->
 				            <div class="row" id="po-card-area">
@@ -825,22 +821,22 @@
 								<c:set var="poCnt" value="0" />
 								<c:forEach var="list" items="${getPoList}">
 									<c:set var="poCnt" value="${poCnt + 1}" />
-					                <div class="col-lg-3 col-md-4 col-sm-6 mb-4 po-card sorting cursor-pointer" id="dataTechDiv-${list.mainSeq }">
-										<input type="file" class="d-none" id="data-tech-file-${list.mainSeq }" onchange="addTechIcon(this, event, '${list.mainSeq }', 'data');">					                    
+					                <div class="col-lg-3 col-md-4 col-sm-6 mb-4 po-card sorting cursor-pointer" id="dataPoDiv-${list.mainSeq }">
+										<input type="file" class="d-none" id="data-po-file-${list.mainSeq }" onchange="addThumbImg(this, event, '${list.mainSeq }', 'data', 'po');">					                    
 					                    <input type="hidden" name="arrMainSeq" value="${list.mainSeq }">
-					                    <input type="hidden" name="arrThumbYn" id="techImgYn-data-${list.mainSeq }" value="D">
+					                    <input type="hidden" name="arrThumbYn" id="poImgYn-data-${list.mainSeq }" value="D">
 					                    <div class="card <c:if test="${list.stat eq 0 }">border-left-danger</c:if><c:if test="${list.stat eq 1 }">border-left-primary</c:if> shadow h-100 py-2">
 					                        <div class="card-body">
 					                            <div class="text-right">
-							              			<img src="${pageContext.request.contextPath }/resources/admin/assets/img/x_button.png" id="techImg-delBtn-data-${list.mainSeq }" class="cursor-pointer <c:if test="${empty list.filePath }">invisible</c:if>" title="이미지 삭제" onclick="techImgDel('data', ${list.mainSeq})" style="width: 20px">
+							              			<img src="${pageContext.request.contextPath }/resources/admin/assets/img/x_button.png" id="poImg-delBtn-data-${list.mainSeq }" class="cursor-pointer <c:if test="${empty list.filePath }">invisible</c:if>" title="이미지 삭제" onclick="techImgDel('data', ${list.mainSeq})" style="width: 20px">
 									           	</div>
-									           	<div class="text-center sorting_1" id="techImgArea-data-${list.mainSeq }" aria-label="${list.mainSeq }">
+									           	<div class="text-center sorting_1" id="poImgArea-data-${list.mainSeq }" aria-label="${list.mainSeq }">
 									           		<c:choose>
 									           			<c:when test="${not empty list.filePath }"><img src="${pageContext.request.contextPath }${list.filePath }/${list.strgFileNm}" class="mt-2" style="height: auto; width: 50%;"></c:when>
 									           			<c:otherwise><img src="${pageContext.request.contextPath }/resources/admin/assets/img/no-image.png" class="w-50"></c:otherwise>
 									           		</c:choose>
 												</div>
-					                            <div class="mb-2"><input type="text" class="form-control text-center techNm mt-2" name="arrTechNm" placeholder="기술명을 입력하세요." value="${list.techNm }" autocomplete="off"></div>
+					                            <div class="mb-2"><input type="text" class="form-control text-center poNm mt-2" name="arrTechNm" placeholder="기술명을 입력하세요." value="${list.techNm }" autocomplete="off"></div>
 					                            <div class="font-weight-bold mb-1">등록일시: ${list.regDt }</div>
 					                            <div class="font-weight-bold mb-1">수정일시: ${list.updDt }</div>
 												<c:choose>
@@ -855,7 +851,7 @@
 												<c:choose>
 													<c:when test="${list.stat eq 1 }">
 					                            	<div class="mt-1">
-					                                	<button type="button" class="btn btn-sm btn-success btn-icon-split" onclick="btnControl('addTechImg', '${list.mainSeq}')">
+					                                	<button type="button" class="btn btn-sm btn-success btn-icon-split" onclick="btnControl('addPoImg', '${list.mainSeq}')">
 							    							<span class="text">이미지 추가</span>
 									 					</button>
 					                            	</div>
@@ -881,7 +877,7 @@
 					                            </div>
 					                        </div>
 					                    </div>
-					                    <div id="techImgData-data-${list.mainSeq }">
+					                    <div id="poImgData-data-${list.mainSeq }">
 					                    	<input type="hidden" name="arrFileOrgNm" value="N">
 					                    	<input type="hidden" name="arrFileSvgNm" value="N">
 					                    	<input type="hidden" name="arrFileExt" value="N">
@@ -893,7 +889,7 @@
 								
 				            </div>
 							<div class="text-right mt-4">
-								<button type="button" class="btn btn-primary btn-icon-split" id="btn-techSave" onclick="btnControl('addTech');">
+								<button type="button" class="btn btn-primary btn-icon-split" id="btn-poSave" onclick="btnControl('addPo');">
 							    	<span class="text" id="btn-text-span">저장</span>
 								</button>
 								<button class="btn btn-secondary btn-icon-split" id="btn-reset" onclick="btnControl('reset');">
