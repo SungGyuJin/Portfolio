@@ -117,61 +117,6 @@
 			i++;
 		});
 		
-
-		var j = 0;
-		
-		// add Po
-		$("#btn-addPo").on('click', function(){
-			var html = '';
-			
-			html += '<div class="col-lg-3 col-md-4 col-sm-6 mb-4 po-card" id="tempPoDiv-'+j+'">';
-			html +=		'<input type="file" class="d-none" id="temp-po-file-'+j+'" onchange="addThumbImg(this, event, '+j+', \'temp\', \'po\');">';
-			html +=		'<input type="hidden" name="arrMainSeq" value="0">';
-			html +=		'<input type="hidden" name="arrThumbYn" id="techImgYn-temp-'+j+'" value="D">';
-			html += 	'<div class="card border-left-success shadow h-100 py-2">';
-			html +=     	'<div class="card-body">';
-			html +=           	'<div class="text-right">';
-			html +=              	'<img src="'+contextPath+'/resources/admin/assets/img/x_button.png" id="techImg-delBtn-temp-'+j+'" class="invisible cursor-pointer" title="이미지 삭제" onclick="techImgDel(\'temp\', '+j+');" style="width: 20px;">';
-			html +=           	'</div>';
-			html +=				'<div class="text-center" id="techImgArea-temp-'+j+'">';
-			html +=              	'<img src="'+contextPath+'/resources/admin/assets/img/no-image.png" class="w-50">';
-			html +=				'</div>';
-			html +=            	'<div class="mb-2"><input type="text" class="form-control text-center mt-2" placeholder="포트폴리오명을 입력하세요." name="arrTechNm" autocomplete="off"></div>';
-            html += 			'<div class="font-weight-bold mb-1">등록일시: -</div>';
-            html += 			'<div class="font-weight-bold mb-1">수정일시: -</div>';
-            html += 			'<div class="font-weight-bold mb-1">상태: <span class="text-success">생성중</span></div>';
-			html +=           	'<div class="d-flex justify-content-between">';
-			html +=					'<div>';
-			html +=           			'<button type="button" class="btn btn-sm btn-success btn-icon-split" onclick="btnControl(\'addTechImg\', '+j+', \'temp\');">';
-	    	html +=							'<span class="text">이미지 추가</span>';
-			html += 					'</button>';
-			html +=					'</div>';
-			html +=					'<div>';
-			html +=           			'<button type="button" class="btn btn-sm btn-danger btn-icon-split" onclick="btnControl(\'delTech\', '+j+', \'temp\');">';
-	    	html +=							'<span class="text">삭제</span>';
-			html += 					'</button>';
-			html +=					'</div>';
-			html +=        		'</div>';
-			html +=     	'</div>';
-			html += 	'</div>';
-			html +=		'<div id="techImgData-temp-'+j+'">';
-			html += 		'<input type="hidden" name="arrFileOrgNm" value="N">';
-			html += 		'<input type="hidden" name="arrFileSvgNm" value="N">';
-			html += 		'<input type="hidden" name="arrFileExt" value="N">';
-			html += 		'<input type="hidden" name="arrFilePath" value="N">';
-			html += 		'<input type="hidden" name="arrFileSize" value="0">';
-			html +=		'</div>';
-			html += '</div>';
-			
-			if($(".po-card").length == 0){
-				$("#po-card-area").empty();
-			}
-			
-			$("#po-card-area").append(html);
-			
-			j++;
-		});
-		
 	});
 	
 	// 버튼제어
