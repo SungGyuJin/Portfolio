@@ -38,6 +38,7 @@ public class MainVO extends DefalutVO {
 	
 	private String[] arrMainSeq    = null;
 	private String[] arrTechNm     = null;
+	private String[] arrPoNm	   = null;
 	private String[] arrFileOrgNm  = null;	// 파일이름(원본명)
 	private String[] arrFileSvgNm  = null;	// 파일이름(저장명)
 	private String[] arrFileExt    = null;	// 파일확장자
@@ -56,11 +57,11 @@ public class MainVO extends DefalutVO {
 				+ ", fileNm=" + fileNm + ", fileExt=" + fileExt + ", fileSz=" + fileSz + ", filePath=" + filePath
 				+ ", strgFileNm=" + strgFileNm + ", thumbYn=" + thumbYn + ", taRegDt=" + taRegDt + ", taUpdDt="
 				+ taUpdDt + ", arrMainSeq=" + Arrays.toString(arrMainSeq) + ", arrTechNm=" + Arrays.toString(arrTechNm)
-				+ ", arrFileOrgNm=" + Arrays.toString(arrFileOrgNm) + ", arrFileSvgNm=" + Arrays.toString(arrFileSvgNm)
-				+ ", arrFileExt=" + Arrays.toString(arrFileExt) + ", arrFilePath=" + Arrays.toString(arrFilePath)
-				+ ", arrFileSize=" + Arrays.toString(arrFileSize) + ", arrThumbYn=" + Arrays.toString(arrThumbYn)
-				+ ", delSeqArr=" + Arrays.toString(delSeqArr) + ", mainSeqArr=" + Arrays.toString(mainSeqArr)
-				+ ", srtOrdArr=" + Arrays.toString(srtOrdArr) + "]";
+				+ ", arrPoNm=" + Arrays.toString(arrPoNm) + ", arrFileOrgNm=" + Arrays.toString(arrFileOrgNm)
+				+ ", arrFileSvgNm=" + Arrays.toString(arrFileSvgNm) + ", arrFileExt=" + Arrays.toString(arrFileExt)
+				+ ", arrFilePath=" + Arrays.toString(arrFilePath) + ", arrFileSize=" + Arrays.toString(arrFileSize)
+				+ ", arrThumbYn=" + Arrays.toString(arrThumbYn) + ", delSeqArr=" + Arrays.toString(delSeqArr)
+				+ ", mainSeqArr=" + Arrays.toString(mainSeqArr) + ", srtOrdArr=" + Arrays.toString(srtOrdArr) + "]";
 	}
 	
 }

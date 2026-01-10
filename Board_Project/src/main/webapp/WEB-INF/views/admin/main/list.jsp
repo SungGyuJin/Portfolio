@@ -117,6 +117,61 @@
 			i++;
 		});
 		
+
+		var j = 0;
+		
+		// add Po
+		$("#btn-addPo").on('click', function(){
+			var html = '';
+			
+			html += '<div class="col-lg-3 col-md-4 col-sm-6 mb-4 po-card" id="tempPoDiv-'+j+'">';
+			html +=		'<input type="file" class="d-none" id="temp-po-file-'+j+'" onchange="addThumbImg(this, event, '+j+', \'temp\', \'po\');">';
+			html +=		'<input type="hidden" name="arrMainSeq" value="0">';
+			html +=		'<input type="hidden" name="arrThumbYn" id="poImgYn-temp-'+j+'" value="D">';
+			html += 	'<div class="card border-left-success shadow h-100 py-2">';
+			html +=     	'<div class="card-body">';
+			html +=           	'<div class="text-right">';
+			html +=              	'<img src="'+contextPath+'/resources/admin/assets/img/x_button.png" id="poImg-delBtn-temp-'+j+'" class="invisible cursor-pointer" title="이미지 삭제" onclick="poImgDel(\'temp\', '+j+');" style="width: 20px;">';
+			html +=           	'</div>';
+			html +=				'<div class="text-center" id="poImgArea-temp-'+j+'">';
+			html +=              	'<img src="'+contextPath+'/resources/admin/assets/img/no-image.png" class="w-50">';
+			html +=				'</div>';
+			html +=            	'<div class="mb-2"><input type="text" class="form-control text-center mt-2" placeholder="포트폴리오명을 입력하세요." name="arrPoNm" autocomplete="off"></div>';
+            html += 			'<div class="font-weight-bold mb-1">등록일시: -</div>';
+            html += 			'<div class="font-weight-bold mb-1">수정일시: -</div>';
+            html += 			'<div class="font-weight-bold mb-1">상태: <span class="text-success">생성중</span></div>';
+			html +=           	'<div class="d-flex justify-content-between">';
+			html +=					'<div>';
+			html +=           			'<button type="button" class="btn btn-sm btn-success btn-icon-split" onclick="btnControl(\'addPoImg\', '+j+', \'temp\');">';
+	    	html +=							'<span class="text">이미지 추가</span>';
+			html += 					'</button>';
+			html +=					'</div>';
+			html +=					'<div>';
+			html +=           			'<button type="button" class="btn btn-sm btn-danger btn-icon-split" onclick="btnControl(\'delPo\', '+j+', \'temp\');">';
+	    	html +=							'<span class="text">삭제</span>';
+			html += 					'</button>';
+			html +=					'</div>';
+			html +=        		'</div>';
+			html +=     	'</div>';
+			html += 	'</div>';
+			html +=		'<div id="poImgData-temp-'+j+'">';
+			html += 		'<input type="hidden" name="arrFileOrgNm" value="N">';
+			html += 		'<input type="hidden" name="arrFileSvgNm" value="N">';
+			html += 		'<input type="hidden" name="arrFileExt" value="N">';
+			html += 		'<input type="hidden" name="arrFilePath" value="N">';
+			html += 		'<input type="hidden" name="arrFileSize" value="0">';
+			html +=		'</div>';
+			html += '</div>';
+			
+			if($(".po-card").length == 0){
+				$("#po-card-area").empty();
+			}
+			
+			$("#po-card-area").append(html);
+			
+			j++;
+		});
+		
 	});
 	
 	// 버튼제어
@@ -178,7 +233,16 @@
 		
 		// 포트폴리오 등록(수정) 처리
 		}else if(e == 'addPo'){
+			frmSubmit(e);
 			
+		// 포트폴리오 이미지 추가 버튼
+		}else if(e == 'addPoImg'){
+
+			if(gubun == 'temp'){
+				$("#temp-po-file-"+num).trigger('click');
+			}else{
+				$("#data-po-file-"+num).trigger('click');
+			}
 			
 		// 기술 삭제(전체방식)
 		}else if(e == 'reset'){
@@ -233,7 +297,27 @@
 				$('[name="arrTechNm"]').eq(idx).focus();
 				return false;
 			}
+
+		}else if(e == 'addPo'){
+
+			frm = '#frm-po';
 			
+			var idx = 0;
+			var cnt = 0;
+			
+			$(".techNm").each(function(index){
+				if($(this).val().length == 0){
+					idx = index;
+					cnt++;
+					return false;
+				}
+			});
+			
+			if(cnt > 0){
+				alert((idx+1)+"번 기술명을 입력하세요.");
+				$('[name="arrTechNm"]').eq(idx).focus();
+				return false;
+			}
 		}
 		
 		$.ajax({
@@ -773,7 +857,7 @@
 					                    <div class="card <c:if test="${list.stat eq 0 }">border-left-danger</c:if><c:if test="${list.stat eq 1 }">border-left-primary</c:if> shadow h-100 py-2">
 					                        <div class="card-body">
 					                            <div class="text-right">
-							              			<img src="${pageContext.request.contextPath }/resources/admin/assets/img/x_button.png" id="poImg-delBtn-data-${list.mainSeq }" class="cursor-pointer <c:if test="${empty list.filePath }">invisible</c:if>" title="이미지 삭제" onclick="techImgDel('data', ${list.mainSeq})" style="width: 20px">
+							              			<img src="${pageContext.request.contextPath }/resources/admin/assets/img/x_button.png" id="poImg-delBtn-data-${list.mainSeq }" class="cursor-pointer <c:if test="${empty list.filePath }">invisible</c:if>" title="이미지 삭제" onclick="poImgDel('data', ${list.mainSeq})" style="width: 20px">
 									           	</div>
 									           	<div class="text-center sorting_1" id="poImgArea-data-${list.mainSeq }" aria-label="${list.mainSeq }">
 									           		<c:choose>
@@ -781,7 +865,7 @@
 									           			<c:otherwise><img src="${pageContext.request.contextPath }/resources/admin/assets/img/no-image.png" class="w-50"></c:otherwise>
 									           		</c:choose>
 												</div>
-					                            <div class="mb-2"><input type="text" class="form-control text-center poNm mt-2" name="arrTechNm" placeholder="기술명을 입력하세요." value="${list.techNm }" autocomplete="off"></div>
+					                            <div class="mb-2"><input type="text" class="form-control text-center poNm mt-2" name="arrPoNm" placeholder="포트폴리오명을 입력하세요." value="${list.poforNm }" autocomplete="off"></div>
 					                            <div class="font-weight-bold mb-1">등록일시: ${list.regDt }</div>
 					                            <div class="font-weight-bold mb-1">수정일시: ${list.updDt }</div>
 												<c:choose>
@@ -856,8 +940,7 @@
 						<!-- .card-body START -->
 	                    <div class="card-body">
 	                   		<form class="user" id="frm-addBbs">
-	                   			<input type="hidden" name="stat" id="stat" value="1" readonly="readonly"/>
-	                    		<input type="hidden" name="bbsSeq" id="bbsSeq" value="0" readonly="readonly" />
+               					<input type="hidden" name="mainSe" value="P">
 	                      		<div class="form-group">
 	                      			<label for="topBnNm"><strong>상단 배너명</strong></label>
 	                          		<input type="text" class="form-control form-control-user init-class" placeholder="상단 배너명 없음" value="${getBanner[0].topBnNm }" readonly="readonly">
