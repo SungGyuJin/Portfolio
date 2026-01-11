@@ -76,7 +76,7 @@
 			html += 	'<div class="card border-left-success shadow h-100 py-2">';
 			html +=     	'<div class="card-body">';
 			html +=           	'<div class="text-right">';
-			html +=              	'<img src="'+contextPath+'/resources/admin/assets/img/x_button.png" id="techImg-delBtn-temp-'+i+'" class="invisible cursor-pointer" title="이미지 삭제" onclick="techImgDel(\'temp\', '+i+');" style="width: 20px;">';
+			html +=              	'<img src="'+contextPath+'/resources/admin/assets/img/x_button.png" id="techImg-delBtn-temp-'+i+'" class="invisible cursor-pointer" title="이미지 삭제" onclick="imgDelete(\'temp\', '+i+', \'tech\');" style="width: 20px;">';
 			html +=           	'</div>';
 			html +=				'<div class="text-center" id="techImgArea-temp-'+i+'">';
 			html +=              	'<img src="'+contextPath+'/resources/admin/assets/img/no-image.png" class="w-50">';
@@ -131,7 +131,7 @@
 			html += 	'<div class="card border-left-success shadow h-100 py-2">';
 			html +=     	'<div class="card-body">';
 			html +=           	'<div class="text-right">';
-			html +=              	'<img src="'+contextPath+'/resources/admin/assets/img/x_button.png" id="poImg-delBtn-temp-'+j+'" class="invisible cursor-pointer" title="이미지 삭제" onclick="poImgDel(\'temp\', '+j+');" style="width: 20px;">';
+			html +=              	'<img src="'+contextPath+'/resources/admin/assets/img/x_button.png" id="poImg-delBtn-temp-'+j+'" class="invisible cursor-pointer" title="이미지 삭제" onclick="imgDelete(\'temp\', '+j+', \'po\');" style="width: 20px;">';
 			html +=           	'</div>';
 			html +=				'<div class="text-center" id="poImgArea-temp-'+j+'">';
 			html +=              	'<img src="'+contextPath+'/resources/admin/assets/img/no-image.png" class="w-50">';
@@ -428,15 +428,15 @@
 		}
 	}
 	
-	function techImgDel(gubun, num){
-		$("#techImgData-"+gubun+"-"+num).empty();
-		$("#techImgArea-"+gubun+"-"+num).html('<img src="'+contextPath+'/resources/admin/assets/img/no-image.png" class="w-50">');
-		$("#techImg-delBtn-"+gubun+"-"+num).addClass('invisible');
+	function imgDelete(gubun, num, type){
+		$("#"+type+"ImgData-"+gubun+"-"+num).empty();
+		$("#"+type+"ImgArea-"+gubun+"-"+num).html('<img src="'+contextPath+'/resources/admin/assets/img/no-image.png" class="w-50">');
+		$("#"+type+"Img-delBtn-"+gubun+"-"+num).addClass('invisible');
 		
 		if(gubun == 'data'){
-			$("#techImgYn-"+gubun+"-"+num).val('N');
+			$("#"+type+"ImgYn-"+gubun+"-"+num).val('N');
 		}else{
-			$("#techImgYn-"+gubun+"-"+num).val('D');
+			$("#"+type+"ImgYn-"+gubun+"-"+num).val('D');
 		}
 	}
 	
@@ -742,7 +742,7 @@
 					                    <div class="card <c:if test="${list.stat eq 0 }">border-left-danger</c:if><c:if test="${list.stat eq 1 }">border-left-primary</c:if> shadow h-100 py-2">
 					                        <div class="card-body">
 					                            <div class="text-right">
-							              			<img src="${pageContext.request.contextPath }/resources/admin/assets/img/x_button.png" id="techImg-delBtn-data-${list.mainSeq }" class="cursor-pointer <c:if test="${empty list.filePath }">invisible</c:if>" title="이미지 삭제" onclick="techImgDel('data', ${list.mainSeq})" style="width: 20px">
+							              			<img src="${pageContext.request.contextPath }/resources/admin/assets/img/x_button.png" id="techImg-delBtn-data-${list.mainSeq }" class="cursor-pointer <c:if test="${empty list.filePath }">invisible</c:if>" title="이미지 삭제" onclick="imgDelete('data', ${list.mainSeq}, 'tech')" style="width: 20px">
 									           	</div>
 									           	<div class="text-center sorting_1" id="techImgArea-data-${list.mainSeq }" aria-label="${list.mainSeq }">
 									           		<c:choose>
@@ -857,7 +857,7 @@
 					                    <div class="card <c:if test="${list.stat eq 0 }">border-left-danger</c:if><c:if test="${list.stat eq 1 }">border-left-primary</c:if> shadow h-100 py-2">
 					                        <div class="card-body">
 					                            <div class="text-right">
-							              			<img src="${pageContext.request.contextPath }/resources/admin/assets/img/x_button.png" id="poImg-delBtn-data-${list.mainSeq }" class="cursor-pointer <c:if test="${empty list.filePath }">invisible</c:if>" title="이미지 삭제" onclick="poImgDel('data', ${list.mainSeq})" style="width: 20px">
+							              			<img src="${pageContext.request.contextPath }/resources/admin/assets/img/x_button.png" id="poImg-delBtn-data-${list.mainSeq }" class="cursor-pointer <c:if test="${empty list.filePath }">invisible</c:if>" title="이미지 삭제" onclick="imgDelete('data', ${list.mainSeq}, 'po')" style="width: 20px">
 									           	</div>
 									           	<div class="text-center sorting_1" id="poImgArea-data-${list.mainSeq }" aria-label="${list.mainSeq }">
 									           		<c:choose>

@@ -140,26 +140,13 @@ public class MainServiceImpl implements MainService {
 									}else if(mainVO.getArrThumbYn()[i].equals("N")) {
 										AttachVO atchVO = new AttachVO();
 										atchVO.setBoardSeq(Integer.parseInt(mainVO.getArrMainSeq()[i]));
+										atchVO.setStat(22);
 										result += attachMapper.deleteTechImg(atchVO);
-									}else {
-										
 									}
 									
 								}
 								
 							}
-						}
-					}
-					
-					if(mainVO.getDelSeqArr() != null) {
-						
-						result = mainMapper.deleteMain(mainVO);
-						
-						for(int i=0; i < mainVO.getDelSeqArr().length; i++) {
-							AttachVO atchVO = new AttachVO();
-							
-							atchVO.setBoardSeq(Integer.parseInt(mainVO.getDelSeqArr()[i]));
-							result += attachMapper.deleteTechImg(atchVO);
 						}
 					}
 					
@@ -235,29 +222,14 @@ public class MainServiceImpl implements MainService {
 									}else if(mainVO.getArrThumbYn()[i].equals("N")) {
 										AttachVO atchVO = new AttachVO();
 										atchVO.setBoardSeq(Integer.parseInt(mainVO.getArrMainSeq()[i]));
+										atchVO.setStat(33);
 										result += attachMapper.deleteTechImg(atchVO);
-									}else {
-										
 									}
 									
 								}
-								
 							}
 						}
 					}
-					
-					if(mainVO.getDelSeqArr() != null) {
-						
-						result = mainMapper.deleteMain(mainVO);
-						
-						for(int i=0; i < mainVO.getDelSeqArr().length; i++) {
-							AttachVO atchVO = new AttachVO();
-							
-							atchVO.setBoardSeq(Integer.parseInt(mainVO.getDelSeqArr()[i]));
-							result += attachMapper.deleteTechImg(atchVO);
-						}
-					}
-					
 				}
 				
 				transactionManager.commit(status);

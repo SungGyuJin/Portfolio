@@ -190,7 +190,7 @@
 		FROM TB_ATTACH
 		WHERE 1=1
 			AND BOARD_SEQ = #{boardSeq}
-			AND STAT = 11
+			AND STAT = #{stat}
 	</delete>
 	
 	<delete id="deleteBnerImg">
