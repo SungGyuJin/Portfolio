@@ -61,7 +61,7 @@ public class MainServiceImpl implements MainService {
 						atchVO.setStrgFileNm(mainVO.getArrFileSvgNm()[0]);
 						atchVO.setRegNo(mainVO.getRegNo());
 						atchVO.setUpdNo(mainVO.getRegNo());
-						atchVO.setStat(22);
+						atchVO.setStat(11);
 						
 						attachMapper.addAttach(atchVO);
 
@@ -103,7 +103,7 @@ public class MainServiceImpl implements MainService {
 										atchVO.setStrgFileNm(mainVO.getArrFileSvgNm()[i]);
 										atchVO.setRegNo(mainVO.getRegNo());
 										atchVO.setUpdNo(mainVO.getRegNo());
-										atchVO.setStat(11);
+										atchVO.setStat(22);
 										
 										attachMapper.addAttach(atchVO);
 									}
@@ -133,7 +133,7 @@ public class MainServiceImpl implements MainService {
 										atchVO.setStrgFileNm(mainVO.getArrFileSvgNm()[i]);
 										atchVO.setRegNo(mainVO.getRegNo());
 										atchVO.setUpdNo(mainVO.getRegNo());
-										atchVO.setStat(11);
+										atchVO.setStat(22);
 										
 										attachMapper.addAttach(atchVO);
 										

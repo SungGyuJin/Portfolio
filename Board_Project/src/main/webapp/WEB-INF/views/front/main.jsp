@@ -1299,23 +1299,27 @@ function getBoardList(num, style, myPg, card){
 			html += 			'</ul>';
 			html += 		'</nav>';
 
-			html += 		'<div class="row g-3 mb-4 d-flex justify-content-end">';
-			html += 			'<div class="input-group justify-content-center mb-4">';
-			html += 				'<div class="me-1" style="width: 15%;">';
-			html += 					'<select class="form-select me-1 my-round" name="gubun" id="sel-gubun">';
-			html += 						'<option value="">제목 + 내용</option>';
-			html += 						'<option value="cn">내용</option>';
-			html += 						'<option value="writer">작성자</option>';
-			html += 						'<option value="cmnt">댓글내용</option>';
-			html += 					'</select>';
-			html += 				'</div>';
-			
-			
-			html += 				'<input type="text" class="form-control me-1 my-round" id="js-searchKeyword" placeholder="검색어를 입력해주세요" value="'+vo.searchKeyword+'" autocomplete="off" style="flex: 0 0 30%;" spellcheck=\"false\">';
-// 			html += 				'<button type="button" class="btn btn-success my-primary my-round" onclick="changeList();" style="flex: 0 0 15%;"></button>';
-			html += 				'<button type="button" class="btn my-green my-round" onclick="changeList();"><i class="fas fa-search fa-lg"></i></button>';
-			html += 			'</div>';
-			html += 		'</div>';
+// 			if($("#ustat").val() == 1){
+				html += 		'<div class="row g-3 mb-4 d-flex justify-content-end">';
+				html += 			'<div class="input-group justify-content-center mb-4">';
+				
+				html += 				'<div class="me-1" style="width: 15%;">';
+				html += 					'<select class="form-select me-1 my-round" name="gubun" id="sel-gubun">';
+				html += 						'<option value="">제목 + 내용</option>';
+				html += 						'<option value="cn">내용</option>';
+				html += 						'<option value="writer">작성자</option>';
+				html += 						'<option value="cmnt">댓글내용</option>';
+				html += 					'</select>';
+				html += 				'</div>';
+				
+					
+				
+				html += 				'<input type="text" class="form-control me-1 my-round" id="js-searchKeyword" placeholder="검색어를 입력해주세요" value="'+vo.searchKeyword+'" autocomplete="off" style="flex: 0 0 30%;" spellcheck=\"false\">';
+	// 			html += 				'<button type="button" class="btn btn-success my-primary my-round" onclick="changeList();" style="flex: 0 0 15%;"></button>';
+				html += 				'<button type="button" class="btn my-green my-round" onclick="changeList();"><i class="fas fa-search fa-lg"></i></button>';
+				html += 			'</div>';
+				html += 		'</div>';
+// 			}
 			html += 	'</div>';
 			
 
@@ -2358,12 +2362,14 @@ function btnAddCmntChange(str){
                 </div>
                 <div class="row text-center">
                 	<c:forEach var="list" items="${getTechList }">
-	                    <div class="col-md-3">
-	                        <span class="fa-stack fa-4x">
-								<img class="img-fluid my-round" src="${pageContext.request.contextPath}${list.filePath}/${list.strgFileNm}" alt="${list.techNm }" onerror="this.src='${pageContext.request.contextPath }/resources/admin/assets/img/no-image.png'" />
-	                        </span>
-	                        <p class="text-muted my-5">${list.techNm }</p>
-	                    </div>
+                		<c:if test="${list.stat eq 1 }">
+		                    <div class="col-md-3">
+		                        <span class="fa-stack fa-4x">
+									<img class="img-fluid my-round" src="${pageContext.request.contextPath}${list.filePath}/${list.strgFileNm}" alt="${list.techNm }" onerror="this.src='${pageContext.request.contextPath }/resources/admin/assets/img/no-image.png'" />
+		                        </span>
+		                        <p class="text-muted my-5">${list.techNm }</p>
+		                    </div>
+                		</c:if>
                 	</c:forEach>
                 
                     <%-- <div class="col-md-3">

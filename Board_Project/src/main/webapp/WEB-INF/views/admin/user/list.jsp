@@ -309,13 +309,12 @@
 													<col width="15%"> 	<!-- 프로필 	-->
 													<col width="10%"> 	<!-- 상태    	-->
 													<col width="10%"> 	<!-- 상태    	-->
-													<col width="10%"> 	<!-- 상태    	-->
 												</colgroup>
 												<thead>
 												    <tr role="row">
 												    	<th class="sorting sorting_asc text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 154px;">이름</th>
 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">ID</th>
-														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">프로필 이미지</th>
+<!-- 														<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">프로필 이미지</th> -->
 														<c:choose>
 															<c:when test="${userVO.listTyp eq 'list' }">
 																<th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">계정</th>
@@ -332,7 +331,7 @@
 													<c:forEach var="list" varStatus="varStatus" items="${getUserList }">
 													<tr class="text-center sorting" onclick="getUser(${list.userSeq}, '${list.userId}');" id="tr-${list.userSeq }">
 														<td class="sorting_1" id="nm-${list.userSeq }" aria-label="${list.userSeq }">${list.userNm }</td>
-														<td>${list.userId }</td>
+<%-- 														<td>${list.userId }</td> --%>
 														<td>${list.userId }</td>
 														<c:choose>
 															<c:when test="${list.stat eq 0 || list.stat eq 7 }">
@@ -389,7 +388,7 @@
 													</c:forEach>
 													<c:if test="${empty getUserList }">
 													<tr class="text-center">
-														<td colspan="6">
+														<td colspan="5">
 															<c:if test="${userVO.listTyp eq 'list' }"><strong class="text-lg"><br>등록된 사용자가 없습니다.<br><br></strong></c:if>
 															<c:if test="${userVO.listTyp eq 'leave' }"><strong class="text-lg"><br>탈퇴한 사용자가 없습니다.<br><br></strong></c:if>
 														</td>
