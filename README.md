@@ -73,7 +73,7 @@
 ***
 
 ## 데이터베이스 모델링
-![DBM](https://github.com/user-attachments/assets/60fbff6e-ef36-4638-bba1-474a47914fa8)
+![DBM](https://github.com/user-attachments/assets/47347f8c-5757-4dba-8045-03942d0cf450)
 
 PRIMARY: USER_SEQ, BBS_SEQ, BOARD_SEQ, ATTACH_SEQ, CMNT_SEQ
 
