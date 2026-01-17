@@ -260,7 +260,6 @@
 	
 	function frmSubmit(e, str){
 		
-		
 		var frm = '';
 		
 		if(e == 'addBn'){

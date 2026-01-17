@@ -21,14 +21,10 @@ public interface AttachMapper {
 	/* 첨부파일 조회 */
 	AttachVO getAttach(AttachVO attachVO) throws Exception;
 
-	/* 기술아이콘 삭제 */
-	int deleteTechImg(AttachVO attachVO) throws Exception;
-	
-	/* 배경 삭제 */
-	int deleteBnerImg() throws Exception;
+	/* [공용]메인 이미지 삭제(Bner, Tech, Pofor) 삭제 */
+	int deleteMainImg(AttachVO attachVO) throws Exception;
 
 	// Front
-
 	List<AttachVO> getFrontAttachList(AttachVO attachVO) throws Exception;
 	
 	/* 썸네일 초기화(All N) */

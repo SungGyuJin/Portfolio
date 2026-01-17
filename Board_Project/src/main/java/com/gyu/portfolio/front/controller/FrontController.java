@@ -114,10 +114,11 @@ public class FrontController {
 		MainVO mainVO = new MainVO();
 		mainVO.setMainSe("B");
 		Map<String, Object> getBanner =  mainService.getMainList(mainVO);;
-
+		
 		mav.addObject("getBbsList", getBbsList);
 		mav.addObject("getBanner", getBanner.get("getBanner"));
 		mav.addObject("getTechList", getBanner.get("getTechList"));
+		mav.addObject("getPoList", getBanner.get("getPoList"));
 		
 		return mav;
 	}
