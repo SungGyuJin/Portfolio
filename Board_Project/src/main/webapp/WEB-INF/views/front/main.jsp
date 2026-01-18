@@ -2371,56 +2371,6 @@ function btnAddCmntChange(str){
 		                    </div>
                 		</c:if>
                 	</c:forEach>
-                
-                    <%-- <div class="col-md-3">
-                        <span class="fa-stack fa-4x">
-							<img class="img-fluid my-round" src="${pageContext.request.contextPath}/resources/front/main/assets/img/lnglogos/java.png" alt="javaLogo" />
-                        </span>
-                        <p class="text-muted my-5">Java</p>
-                    </div>
-                    <div class="col-md-3">
-                        <span class="fa-stack fa-4x">
-							<img class="img-fluid my-round" src="${pageContext.request.contextPath}/resources/front/main/assets/img/lnglogos/springframework.png" alt="springframeworkLogo" />
-                        </span>
-                        <p class="text-muted my-5">Spring Framework</p>
-                    </div>
-                    <div class="col-md-3">
-                        <span class="fa-stack fa-4x">
-							<img class="img-fluid my-round" src="${pageContext.request.contextPath}/resources/front/main/assets/img/lnglogos/html.png" alt="htmlLogo" />
-                        </span>
-                        <p class="text-muted my-5">HTML</p>
-                    </div>
-                    <div class="col-md-3">
-                        <span class="fa-stack fa-4x">
-							<img class="img-fluid my-round" src="${pageContext.request.contextPath}/resources/front/main/assets/img/lnglogos/javascript.png" alt="javascriptLogo" />
-                        </span>
-                        <p class="text-muted my-5">JavaScript</p>
-                    </div>
-                    <div class="col-md-3">
-                        <span class="fa-stack fa-4x">
-							<img class="img-fluid my-round" src="${pageContext.request.contextPath}/resources/front/main/assets/img/lnglogos/bootstrap.png" alt="bootstrapLogo" />
-                        </span>
-                        <p class="text-muted my-5">Bootstarp</p>
-                    </div>
-                    <div class="col-md-3">
-                        <span class="fa-stack fa-4x">
-							<img class="img-fluid my-round" src="${pageContext.request.contextPath}/resources/front/main/assets/img/lnglogos/jquery.png" alt="jqueryLogo" style="max-width: 135px;"/>
-                        </span>
-                        <p class="text-muted my-5">jQuery</p>
-                    </div>
-                    <div class="col-md-3">
-                        <span class="fa-stack fa-4x">
-							<img class="img-fluid my-round" src="${pageContext.request.contextPath}/resources/front/main/assets/img/lnglogos/mysql.png" alt="mysqlLogo" />
-                        </span>
-                        <p class="text-muted my-5">MySQL</p>
-                    </div>
-                    <div class="col-md-3">
-                        <span class="fa-stack fa-4x">
-							<img class="img-fluid my-round" src="${pageContext.request.contextPath}/resources/front/main/assets/img/lnglogos/git.png" alt="gitLogo" />
-                        </span>
-                        <p class="text-muted my-5">Git</p>
-                    </div> --%>
-                    
                 </div>
             </div>
         </section>
@@ -2444,7 +2394,6 @@ function btnAddCmntChange(str){
 		                                <div class="portfolio-hover">
 		                                    <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
 		                                </div>
-<%-- 		                                <img class="img-fluid my-round" src="${pageContext.request.contextPath}/resources/front/main/assets/img/portfolio/1-board-img.jpg" alt="..." /> --%>
 		                                <img class="img-fluid my-round" src="${pageContext.request.contextPath}${list.filePath}/${list.strgFileNm}" alt="${list.techNm }" onerror="this.src='${pageContext.request.contextPath }/resources/admin/assets/img/no-image.png'" />
 		                            </a>
 		                            <div class="portfolio-caption text-center my-round">

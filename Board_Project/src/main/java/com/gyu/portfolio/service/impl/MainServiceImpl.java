@@ -222,12 +222,16 @@ public class MainServiceImpl implements MainService {
 										atchVO.setStat(33);
 										
 										attachMapper.addAttach(atchVO);
-										
+
 									}else if(mainVO.getArrThumbYn()[i].equals("N")) {
 										AttachVO atchVO = new AttachVO();
 										atchVO.setBoardSeq(Integer.parseInt(mainVO.getArrMainSeq()[i]));
 										atchVO.setStat(33);
 										result += attachMapper.deleteMainImg(atchVO);
+										
+
+										mainImgLogic(atchVO);
+										
 									}
 									
 								}
@@ -235,6 +239,7 @@ public class MainServiceImpl implements MainService {
 						}
 					}
 				}
+				
 				
 				transactionManager.commit(status);
 				
@@ -307,6 +312,23 @@ public class MainServiceImpl implements MainService {
 	@Override
 	public int updateStat(MainVO mainVO) throws Exception {
 		return mainMapper.updateStat(mainVO);
+	}
+
+	@Override
+	public void mainImgLogic(AttachVO attachVO) throws Exception {
+
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println("addMainImg 진입");
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
 	}
 
 }
