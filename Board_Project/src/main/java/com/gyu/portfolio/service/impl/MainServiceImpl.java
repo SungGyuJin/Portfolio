@@ -47,34 +47,38 @@ public class MainServiceImpl implements MainService {
 					result = mainMapper.updateMain(mainVO);
 
 					if(!mainVO.getThumbYn().equals("D")) {
-						AttachVO atchVO = new AttachVO();
 						
-						atchVO.setBoardSeq(1);
-						atchVO.setStat(11);
+						mainImgLogic(mainVO, null, 0);
 						
-						if(mainVO.getThumbYn().equals("Y")) {
-							
-							attachMapper.deleteMainImg(atchVO);
-							
-							atchVO.setThumbYn("Y");
-							atchVO.setFileNm(mainVO.getArrFileOrgNm()[0]);
-							atchVO.setFileExt(mainVO.getArrFileExt()[0]);
-							atchVO.setFileSz(mainVO.getArrFileSize()[0]);
-							atchVO.setFilePath(mainVO.getArrFilePath()[0]);
-							atchVO.setStrgFileNm(mainVO.getArrFileSvgNm()[0]);
-							atchVO.setRegNo(mainVO.getRegNo());
-							atchVO.setUpdNo(mainVO.getRegNo());
-							
-							attachMapper.addAttach(atchVO);
-							
-						}else if(mainVO.getThumbYn().equals("N")) {
-							attachMapper.deleteMainImg(atchVO);
-						}
+//						AttachVO atchVO = new AttachVO();
+//						
+//						atchVO.setBoardSeq(1);
+//						atchVO.setStat(11);
+//						
+//						if(mainVO.getThumbYn().equals("Y")) {
+//							
+//							attachMapper.deleteMainImg(atchVO);
+//							
+//							atchVO.setThumbYn("Y");
+//							atchVO.setFileNm(mainVO.getArrFileOrgNm()[0]);
+//							atchVO.setFileExt(mainVO.getArrFileExt()[0]);
+//							atchVO.setFileSz(mainVO.getArrFileSize()[0]);
+//							atchVO.setFilePath(mainVO.getArrFilePath()[0]);
+//							atchVO.setStrgFileNm(mainVO.getArrFileSvgNm()[0]);
+//							atchVO.setRegNo(mainVO.getRegNo());
+//							atchVO.setUpdNo(mainVO.getRegNo());
+//							
+//							attachMapper.addAttach(atchVO);
+//							
+//						}else if(mainVO.getThumbYn().equals("N")) {
+//							attachMapper.deleteMainImg(atchVO);
+//						}
+						
+						
 					}
-					
-					
-				// Tech Stack
-				}else if(mainVO.getMainSe().equals("T")) {
+
+				// Tech Stack, Pofor
+				}else {
 					
 					if(mainVO.getArrMainSeq() != null) {
 						
@@ -91,154 +95,165 @@ public class MainServiceImpl implements MainService {
 								vo.setStat(1);
 								
 								result = mainMapper.addMain(vo);
-								
-								if(mainVO.getArrThumbYn() != null) {
-									
-									if(mainVO.getArrThumbYn()[i].equals("Y")) {
-										
-										AttachVO atchVO = new AttachVO();
-										
-										atchVO.setBoardSeq(vo.getMainSeq());
-										atchVO.setThumbYn("Y");
-										atchVO.setFileNm(mainVO.getArrFileOrgNm()[i]);
-										atchVO.setFileExt(mainVO.getArrFileExt()[i]);
-										atchVO.setFileSz(mainVO.getArrFileSize()[i]);
-										atchVO.setFilePath(mainVO.getArrFilePath()[i]);
-										atchVO.setStrgFileNm(mainVO.getArrFileSvgNm()[i]);
-										atchVO.setRegNo(mainVO.getRegNo());
-										atchVO.setUpdNo(mainVO.getRegNo());
-										atchVO.setStat(22);
-										
-										attachMapper.addAttach(atchVO);
-									}
+
+								if(!mainVO.getArrThumbYn()[i].equals("D")) {
+									mainImgLogic(mainVO, vo, i);
 								}
+								
+								
+//								if(mainVO.getArrThumbYn() != null) {
+//									
+//									if(mainVO.getArrThumbYn()[i].equals("Y")) {
+//										
+//										AttachVO atchVO = new AttachVO();
+//										
+//										atchVO.setBoardSeq(vo.getMainSeq());
+//										atchVO.setThumbYn("Y");
+//										atchVO.setFileNm(mainVO.getArrFileOrgNm()[i]);
+//										atchVO.setFileExt(mainVO.getArrFileExt()[i]);
+//										atchVO.setFileSz(mainVO.getArrFileSize()[i]);
+//										atchVO.setFilePath(mainVO.getArrFilePath()[i]);
+//										atchVO.setStrgFileNm(mainVO.getArrFileSvgNm()[i]);
+//										atchVO.setRegNo(mainVO.getRegNo());
+//										atchVO.setUpdNo(mainVO.getRegNo());
+//										atchVO.setStat(22);
+//										
+//										attachMapper.addAttach(atchVO);
+//									}
+//								}
 
 							// 수정
 							}else {
 								
 								MainVO vo = new MainVO();
 								vo.setMainSeq(Integer.parseInt(mainVO.getArrMainSeq()[i]));
-								vo.setTechNm(mainVO.getArrTechNm()[i]);
 								vo.setUpdNo(mainVO.getRegNo());
+
+								if(mainVO.getMainSe().equals("T")) {
+									vo.setTechNm(mainVO.getArrTechNm()[i]);
+								}else {
+									vo.setPoforNm(mainVO.getArrPoNm()[i]);
+								}
 								
 								result = mainMapper.updateMain(vo);
-								
-								if(mainVO.getArrThumbYn() != null) {
 
-									AttachVO atchVO = new AttachVO();
-									atchVO.setBoardSeq(Integer.parseInt(mainVO.getArrMainSeq()[i]));
-									atchVO.setStat(22);
-									
-									if(mainVO.getArrThumbYn()[i].equals("Y")) {
-										
-										attachMapper.deleteMainImg(atchVO);
-										
-										atchVO.setThumbYn("Y");
-										atchVO.setFileNm(mainVO.getArrFileOrgNm()[i]);
-										atchVO.setFileExt(mainVO.getArrFileExt()[i]);
-										atchVO.setFileSz(mainVO.getArrFileSize()[i]);
-										atchVO.setFilePath(mainVO.getArrFilePath()[i]);
-										atchVO.setStrgFileNm(mainVO.getArrFileSvgNm()[i]);
-										atchVO.setRegNo(mainVO.getRegNo());
-										atchVO.setUpdNo(mainVO.getRegNo());
-										
-										attachMapper.addAttach(atchVO);
-										
-									}else if(mainVO.getArrThumbYn()[i].equals("N")) {
-										result += attachMapper.deleteMainImg(atchVO);
-									}
-									
+								if(!mainVO.getArrThumbYn()[i].equals("D")) {
+									mainImgLogic(mainVO, vo, i);
 								}
+								
+//								if(mainVO.getArrThumbYn() != null) {
+//
+//									AttachVO atchVO = new AttachVO();
+//									atchVO.setBoardSeq(Integer.parseInt(mainVO.getArrMainSeq()[i]));
+//									atchVO.setStat(22);
+//									
+//									if(mainVO.getArrThumbYn()[i].equals("Y")) {
+//										
+//										attachMapper.deleteMainImg(atchVO);
+//										
+//										atchVO.setThumbYn("Y");
+//										atchVO.setFileNm(mainVO.getArrFileOrgNm()[i]);
+//										atchVO.setFileExt(mainVO.getArrFileExt()[i]);
+//										atchVO.setFileSz(mainVO.getArrFileSize()[i]);
+//										atchVO.setFilePath(mainVO.getArrFilePath()[i]);
+//										atchVO.setStrgFileNm(mainVO.getArrFileSvgNm()[i]);
+//										atchVO.setRegNo(mainVO.getRegNo());
+//										atchVO.setUpdNo(mainVO.getRegNo());
+//										
+//										attachMapper.addAttach(atchVO);
+//										
+//									}else if(mainVO.getArrThumbYn()[i].equals("N")) {
+//										result += attachMapper.deleteMainImg(atchVO);
+//									}
+//									
+//								}
 								
 							}
 						}
 					}
 					
 				// Pofor
-				}else if(mainVO.getMainSe().equals("P")) {
-
-					
-					if(mainVO.getArrMainSeq() != null) {
-						
-						for(int i=0; i < mainVO.getArrMainSeq().length; i++) {
-							
-							// 등록
-							if(mainVO.getArrMainSeq()[i].equals("0")) {
-								MainVO vo = new MainVO();
-								vo.setMainSeq(Integer.parseInt(mainVO.getArrMainSeq()[i]));
-								vo.setMainSe(mainVO.getMainSe());
-								vo.setPoforNm(mainVO.getArrPoNm()[i]);
-								vo.setRegNo(mainVO.getRegNo());
-								vo.setUpdNo(mainVO.getRegNo());
-								vo.setStat(1);
-								
-								result = mainMapper.addMain(vo);
-								
-								if(mainVO.getArrThumbYn() != null) {
-									
-									if(mainVO.getArrThumbYn()[i].equals("Y")) {
-										
-										AttachVO atchVO = new AttachVO();
-										
-										atchVO.setBoardSeq(vo.getMainSeq());
-										atchVO.setThumbYn("Y");
-										atchVO.setFileNm(mainVO.getArrFileOrgNm()[i]);
-										atchVO.setFileExt(mainVO.getArrFileExt()[i]);
-										atchVO.setFileSz(mainVO.getArrFileSize()[i]);
-										atchVO.setFilePath(mainVO.getArrFilePath()[i]);
-										atchVO.setStrgFileNm(mainVO.getArrFileSvgNm()[i]);
-										atchVO.setRegNo(mainVO.getRegNo());
-										atchVO.setUpdNo(mainVO.getRegNo());
-										atchVO.setStat(33);
-										
-										attachMapper.addAttach(atchVO);
-									}
-								}
-
-							// 수정
-							}else {
-								
-								MainVO vo = new MainVO();
-								vo.setMainSeq(Integer.parseInt(mainVO.getArrMainSeq()[i]));
-								vo.setPoforNm(mainVO.getArrPoNm()[i]);
-								vo.setUpdNo(mainVO.getRegNo());
-								
-								result = mainMapper.updateMain(vo);
-								
-								if(mainVO.getArrThumbYn() != null) {
-									
-									if(mainVO.getArrThumbYn()[i].equals("Y")) {
-										AttachVO atchVO = new AttachVO();
-										
-										atchVO.setBoardSeq(Integer.parseInt(mainVO.getArrMainSeq()[i]));
-										atchVO.setThumbYn("Y");
-										atchVO.setFileNm(mainVO.getArrFileOrgNm()[i]);
-										atchVO.setFileExt(mainVO.getArrFileExt()[i]);
-										atchVO.setFileSz(mainVO.getArrFileSize()[i]);
-										atchVO.setFilePath(mainVO.getArrFilePath()[i]);
-										atchVO.setStrgFileNm(mainVO.getArrFileSvgNm()[i]);
-										atchVO.setRegNo(mainVO.getRegNo());
-										atchVO.setUpdNo(mainVO.getRegNo());
-										atchVO.setStat(33);
-										
-										attachMapper.addAttach(atchVO);
-
-									}else if(mainVO.getArrThumbYn()[i].equals("N")) {
-										AttachVO atchVO = new AttachVO();
-										atchVO.setBoardSeq(Integer.parseInt(mainVO.getArrMainSeq()[i]));
-										atchVO.setStat(33);
-										result += attachMapper.deleteMainImg(atchVO);
-										
-
-										mainImgLogic(atchVO);
-										
-									}
-									
-								}
-							}
-						}
-					}
 				}
+				
+//				else if(mainVO.getMainSe().equals("P")) {
+//
+//					
+//					if(mainVO.getArrMainSeq() != null) {
+//						
+//						for(int i=0; i < mainVO.getArrMainSeq().length; i++) {
+//							
+//							// 등록
+//							if(mainVO.getArrMainSeq()[i].equals("0")) {
+//								MainVO vo = new MainVO();
+//								vo.setMainSeq(Integer.parseInt(mainVO.getArrMainSeq()[i]));
+//								vo.setMainSe(mainVO.getMainSe());
+//								vo.setPoforNm(mainVO.getArrPoNm()[i]);
+//								vo.setRegNo(mainVO.getRegNo());
+//								vo.setUpdNo(mainVO.getRegNo());
+//								vo.setStat(1);
+//								
+//								result = mainMapper.addMain(vo);
+//								
+//								if(mainVO.getArrThumbYn() != null) {
+//									
+//									if(mainVO.getArrThumbYn()[i].equals("Y")) {
+//										
+//										AttachVO atchVO = new AttachVO();
+//										
+//										atchVO.setBoardSeq(vo.getMainSeq());
+//										atchVO.setThumbYn("Y");
+//										atchVO.setFileNm(mainVO.getArrFileOrgNm()[i]);
+//										atchVO.setFileExt(mainVO.getArrFileExt()[i]);
+//										atchVO.setFileSz(mainVO.getArrFileSize()[i]);
+//										atchVO.setFilePath(mainVO.getArrFilePath()[i]);
+//										atchVO.setStrgFileNm(mainVO.getArrFileSvgNm()[i]);
+//										atchVO.setRegNo(mainVO.getRegNo());
+//										atchVO.setUpdNo(mainVO.getRegNo());
+//										atchVO.setStat(33);
+//										
+//										attachMapper.addAttach(atchVO);
+//									}
+//								}
+//
+//							// 수정
+//							}else {
+//								
+//								MainVO vo = new MainVO();
+//								vo.setMainSeq(Integer.parseInt(mainVO.getArrMainSeq()[i]));
+//								vo.setPoforNm(mainVO.getArrPoNm()[i]);
+//								vo.setUpdNo(mainVO.getRegNo());
+//								
+//								result = mainMapper.updateMain(vo);
+//								
+//								if(mainVO.getArrThumbYn() != null) {
+//									
+//									if(mainVO.getArrThumbYn()[i].equals("Y")) {
+//										AttachVO atchVO = new AttachVO();
+//										
+//										atchVO.setBoardSeq(Integer.parseInt(mainVO.getArrMainSeq()[i]));
+//										atchVO.setThumbYn("Y");
+//										atchVO.setFileNm(mainVO.getArrFileOrgNm()[i]);
+//										atchVO.setFileExt(mainVO.getArrFileExt()[i]);
+//										atchVO.setFileSz(mainVO.getArrFileSize()[i]);
+//										atchVO.setFilePath(mainVO.getArrFilePath()[i]);
+//										atchVO.setStrgFileNm(mainVO.getArrFileSvgNm()[i]);
+//										atchVO.setRegNo(mainVO.getRegNo());
+//										atchVO.setUpdNo(mainVO.getRegNo());
+//										atchVO.setStat(33);
+//										
+//										attachMapper.addAttach(atchVO);
+//
+//									}else if(mainVO.getArrThumbYn()[i].equals("N")) {
+//										AttachVO atchVO = new AttachVO();
+//										atchVO.setBoardSeq(Integer.parseInt(mainVO.getArrMainSeq()[i]));
+//										atchVO.setStat(33);
+//										result += attachMapper.deleteMainImg(atchVO);
+//									}
+//								}
+//							}
+//						}
+//					}
+//				}
 				
 				
 				transactionManager.commit(status);
@@ -315,20 +330,84 @@ public class MainServiceImpl implements MainService {
 	}
 
 	@Override
-	public void mainImgLogic(AttachVO attachVO) throws Exception {
+	public void mainImgLogic(MainVO mainVO, MainVO subVO, int i) throws Exception {
 
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println("addMainImg 진입");
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
+		AttachVO atchVO = new AttachVO();
+
+		// Banner
+		if(mainVO.getMainSe().equals("B")) {
+			atchVO.setBoardSeq(1);
+			atchVO.setStat(11);
+
+			attachMapper.deleteMainImg(atchVO);
+			
+			if(mainVO.getThumbYn().equals("Y")) {
+				atchVO.setThumbYn("Y");
+				atchVO.setFileNm(mainVO.getArrFileOrgNm()[i]);
+				atchVO.setFileExt(mainVO.getArrFileExt()[i]);
+				atchVO.setFileSz(mainVO.getArrFileSize()[i]);
+				atchVO.setFilePath(mainVO.getArrFilePath()[i]);
+				atchVO.setStrgFileNm(mainVO.getArrFileSvgNm()[i]);
+				atchVO.setRegNo(mainVO.getRegNo());
+				atchVO.setUpdNo(mainVO.getRegNo());
+				
+				attachMapper.addAttach(atchVO);
+			}
+//			else if(mainVO.getThumbYn().equals("N")) {
+//				attachMapper.deleteMainImg(atchVO);
+//			}
+			
+
+		// Tech Stack, Pofor
+		}else {
+			
+			atchVO.setStat(mainVO.getMainSe().equals("T") ? 22 : 33);
+			
+			// 등록
+			if(mainVO.getArrMainSeq()[i].equals("0")) {
+				
+				if(mainVO.getArrThumbYn() != null) {
+					
+					if(mainVO.getArrThumbYn()[i].equals("Y")) {
+						
+						atchVO.setBoardSeq(subVO.getMainSeq());
+						atchVO.setThumbYn("Y");
+						atchVO.setFileNm(mainVO.getArrFileOrgNm()[i]);
+						atchVO.setFileExt(mainVO.getArrFileExt()[i]);
+						atchVO.setFileSz(mainVO.getArrFileSize()[i]);
+						atchVO.setFilePath(mainVO.getArrFilePath()[i]);
+						atchVO.setStrgFileNm(mainVO.getArrFileSvgNm()[i]);
+						atchVO.setRegNo(mainVO.getRegNo());
+						atchVO.setUpdNo(mainVO.getRegNo());
+						
+						attachMapper.addAttach(atchVO);
+					}
+				}
+
+			// 수정
+			}else {
+				
+				if(mainVO.getArrThumbYn() != null) {
+
+					atchVO.setBoardSeq(Integer.parseInt(mainVO.getArrMainSeq()[i]));
+					attachMapper.deleteMainImg(atchVO);
+					
+					if(mainVO.getArrThumbYn()[i].equals("Y")) {
+						atchVO.setThumbYn("Y");
+						atchVO.setFileNm(mainVO.getArrFileOrgNm()[i]);
+						atchVO.setFileExt(mainVO.getArrFileExt()[i]);
+						atchVO.setFileSz(mainVO.getArrFileSize()[i]);
+						atchVO.setFilePath(mainVO.getArrFilePath()[i]);
+						atchVO.setStrgFileNm(mainVO.getArrFileSvgNm()[i]);
+						atchVO.setRegNo(mainVO.getRegNo());
+						atchVO.setUpdNo(mainVO.getRegNo());
+						
+						attachMapper.addAttach(atchVO);
+						
+					}
+				}
+			}
+		}
 	}
 
 }

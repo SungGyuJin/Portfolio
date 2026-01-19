@@ -3,7 +3,6 @@ package com.gyu.portfolio.service;
 
 import java.util.Map;
 
-import com.gyu.portfolio.model.AttachVO;
 import com.gyu.portfolio.model.MainVO;
 
 public interface MainService {
@@ -19,7 +18,8 @@ public interface MainService {
 
 	// 정렬순서 변경
 	int updateStat(MainVO mainVO) throws Exception;
-	
-	void mainImgLogic(AttachVO attachVO) throws Exception;
+
+	// (공통) 메인 이미지 등록, 삭제
+	void mainImgLogic(MainVO mainVO, MainVO subVO, int i) throws Exception;
 	
 }
