@@ -20,6 +20,6 @@ public interface MainService {
 	int updateStat(MainVO mainVO) throws Exception;
 
 	// (공통) 메인 이미지 등록, 삭제
-	void mainImgLogic(MainVO mainVO, MainVO subVO, int i) throws Exception;
+	void mainImgLogic(MainVO mainVO, int seq, int i) throws Exception;
 	
 }
