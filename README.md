@@ -86,7 +86,7 @@ UNIQUE: USER_ID
 # 관리자
 
 # 1. 로그인
-https://github.com/user-attachments/assets/4474b179-f6f8-4885-9c22-7dc2417e961e
+![1  회원가입 및 로그인](https://github.com/user-attachments/assets/56314f96-006e-44e5-a793-b03bb10d830f)
 ### 1) 회원가입 및 로그인
 > 먼저 관리자 계정을 생성하고 로그인 하는 부분입니다. 영상에서 보는바와 같이 관리자 계정은 일반 계정과 다르게 "관리자 승인번호" 라는 것이 필요합니다. 지금은 제가 임의의 번호 네 자리를 Controller 부분에 설정해두었습니다. 그 번호가 맞다면 오른쪽 계정생성 입력란이 활성화 됩니다. 내용을 작성한 후 JOIN 버튼을 누르면 계정생성이 완료됩니다. 어느 항목도 빈 값을 입력할 수 없도록 설정해두었고, 영상에서는 비밀번호 일치여부만 나타내었습니다.
 
@@ -98,7 +98,7 @@ https://github.com/user-attachments/assets/4474b179-f6f8-4885-9c22-7dc2417e961e
 "Remember ID" 를 체크함으로써 로그아웃 후에도 ID가 저장되어있음을 확인할 수 있습니다.
 
 ### 2) 세션체크
-https://github.com/user-attachments/assets/619ea5f4-3065-4919-84b0-88a7587a07fc
+![2  세션체크](https://github.com/user-attachments/assets/7716b11c-e88c-4cb9-b0be-f8090f84bd1e)
 > 로그인 되어있지 않은 상태에서 주소창에 "관리자 게시판 URL 주소" 로 이동했지만 다시 로그인 화면으로 돌아오는 상황입니다. 회원가입을 제외한 모든 페이지는 진입시 세션정보가 없을때 로그인 페이지로 redirect 하도록 했습니다. (Interceptor)
 
 ### ** 개선방향
@@ -111,19 +111,19 @@ https://github.com/user-attachments/assets/619ea5f4-3065-4919-84b0-88a7587a07fc
 
 # 2. 게시판
 ### 1) 등록
-https://github.com/user-attachments/assets/9b0b639e-88f3-49ff-a70e-5295a7e54902
+![1  등록](https://github.com/user-attachments/assets/d0f555de-ee12-41f6-b2c5-1f88dea06704)
 > 게시판 페이지는 등록, 수정, 삭제를 모두 한 페이지에서 처리할 수 있도록 작업 했습니다. 그리고 모든 관리자 페이지의 상세화면은 상세화면이 곧 수정화면이 되도록 작업했습니다. (사용자 화면은 상세화면을 따로 만들 예정)
 >
 > 우측 게시판 등록박스의 신규 등록버튼을 클릭하면 아래 입력란들이 활성화 됩니다. 게시판명, 게시판에 대한 설명을 간단하게 작성하고 아래 게시판 옵션을 선택합니다. 다시 말해 이 게시판에 대한 답글, 댓글, 첨부파일, 비밀 글에 대한 기능들을 활성화할 것인지에 대한 옵션기능입니다. 이후 등록버튼을 클릭하여 새로운 게시판 생성을 완료합니다. 등록된 게시판은 좌측 게시판 목록에서 확인할 수 있습니다.
 
 ### 2) 수정
-https://github.com/user-attachments/assets/f9105f0c-1e43-4a77-ab75-811eded68444
+![2  수정](https://github.com/user-attachments/assets/5f1ab93d-d713-4ff6-af0d-dc5b6d38454b)
 > 좌측의 목록박스에서 수정하고자 하는 게시판을 클릭하면 우측의 등록박스가 수정박스로 바뀌면서 등록되었던 게시판 데이터를 불러옵니다 (ajax). 이후 수정완료를 클릭하여 수정을 완료합니다.
 >
 > 여기서 게시판 옵션에 대한 설명을 좀 더 하자면 예를 들어, 활성화 되어 있는 답글 기능을 비활성화 시키면 더 이상 그 게시판은 답글을 달수 없는 게시판이 됩니다. 대신 기존에 이미 달려있는 답글들은 그대로 노출이 되도록 작업했습니다.
 
 ### 3) 삭제 (복구, 영구삭제)
-https://github.com/user-attachments/assets/2666192f-d18e-4978-8a58-315f6fab2e71
+![3  삭제(복구, 영구삭제)](https://github.com/user-attachments/assets/bc12732d-22e5-49cc-82a2-e00b0e379df0)
 > 게시판 삭제방법은 좌측 목록박스에서 삭제하고자 하는 게시판을 선택합니다.
 > 이후 우측의 수정박스 아래의 삭제버튼을 클릭하여 게시판 삭제를 완료합니다. (삭제된 게시판은 휴지통에서 확인 가능)
 > 
@@ -141,11 +141,11 @@ https://github.com/user-attachments/assets/2666192f-d18e-4978-8a58-315f6fab2e71
 > 비록 토이 프로젝트라 할지라도 실전이라 생각하고 데이터 베이스 손실을 미연에 방지하고자 하는 마인드로 작업했습니다. 실제로 업무를 볼때 DB에 바로 붙어서 작업을 했던 경험이 있어서 데이터 보존은 정말 중요하다고 생각합니다.
 
 ### 4) 검색
-https://github.com/user-attachments/assets/3c68976c-fbbe-490c-9501-cdf80bac3d91
+![4  검색](https://github.com/user-attachments/assets/b7b9c902-3ea0-4afd-93ff-02bfef53d3f2)
 > 목록박스 아래의 검색창에 게시판명을 입력하여 검색할 수 있습니다. 삭제된 게시판은 검색되지 않는 것을 영상에서 볼 수 있으며 페이징 처리도 완료하였습니다. (페이징 처리는 게시물 파트에서 영상참조)
 
 ### 5) 순서변경
-https://github.com/user-attachments/assets/fe278ffa-b368-4482-a0c7-e75ea90323cc
+![5  순서변경](https://github.com/user-attachments/assets/94524451-8726-44be-b692-2c51a7db105e)
 > 게시판의 순서변경을 Drag 형식으로 변경해보고 싶어 추가한 기능입니다. jqueryUI Library를 사용했으며, 관리자 화면에서 순서를 변경한 후 사용자 화면에서 확인하면 순서가 변경된 것을 확인할 수 있습니다.
 
 ### ** 개선방향
@@ -154,22 +154,22 @@ https://github.com/user-attachments/assets/fe278ffa-b368-4482-a0c7-e75ea90323cc
 ***
 
 # 3. 게시물 관리
-https://github.com/user-attachments/assets/e9e6f42d-885a-4de7-9a4b-443a91918e83
->설명에 앞서 게시판을 선택할때, 삭제된 게시판은 보이지 않도록 작업했습니다. (사용자 화면도 동일 적용)
+![0](https://github.com/user-attachments/assets/c0258a9d-ebae-49c1-99cc-c4cdb2ab2da4)
+> 설명에 앞서 게시판을 선택할때, 삭제된 게시판은 보이지 않도록 작업했습니다. (사용자 화면도 동일 적용)
 
 ### 1) 등록
-https://github.com/user-attachments/assets/d68a4eef-5f7c-4c8d-9641-27cd9a3d24b2
+![1  등록](https://github.com/user-attachments/assets/5439a081-fa6c-49ed-a6d4-b016736cc5c6)
 > 게시물 등록 방법입니다. 우측 미리보기 박스 상단의 신규등록 버튼을 클릭하여 등록 페이지로 이동합니다. 게시판 선택후 제목, 내용을 작성하고 등록완료 버튼을 게시물 작성을 완료합니다. 이후 게시물 목록 페이지로 다시 이동합니다.
->Parsley Validator 를 이용하여 게시판, 제목, 내용은 필수로 입력하게끔 하였습니다.
+> Parsley Validator 를 이용하여 게시판, 제목, 내용은 필수로 입력하게끔 하였습니다.
 
 ### 2) 수정
-https://github.com/user-attachments/assets/f3c5b7b1-db9b-4746-abd7-4e880f218964
+![2  수정](https://github.com/user-attachments/assets/6b3bd205-5a40-45dc-b535-4a670aa86f6a)
 > 목록에서 수정하고자 하는 게시물을 선택하면, 우측박스에서 게시물에 대한 정보를 간단하게 확인할 수 있으며 상세페이지 이동 버튼을 눌러 수정화면으로 이동합니다. 이후엔 등록방식과 동일합니다. 수정후 수정완료 버튼을 눌러 수정을 마무리합니다.
 
 ### 3) 삭제(복구, 영구삭제)
-https://github.com/user-attachments/assets/dc27df54-f238-4480-840f-79923b566cff
+![3  삭제(복구, 영구삭제)](https://github.com/user-attachments/assets/c3d3d0f6-5449-4198-a48a-5b84dc3be61d)
 > 게시물 삭제방법은 게시판 삭제방법과 완전 동일합니다. 좌측 목록박스에서 삭제하고자 하는 게시물을 선택합니다. 이후 우측의 미리보기 박스 아래의 삭제버튼을 클릭하여 게시물 삭제를 완료합니다. 이후 삭제된 게시물은 휴지통에서 확인할 수 있습니다. 
->복구, 영구삭제의 원리 또한 게시판과 동일합니다.
+> 복구, 영구삭제의 원리 또한 게시판과 동일합니다.
 
 ### 4) 첨부파일 (Drag&Drop)
 https://github.com/user-attachments/assets/6b90bed2-0a88-40c1-9350-6c7e6e262f2c
