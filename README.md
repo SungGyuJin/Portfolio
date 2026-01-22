@@ -176,7 +176,7 @@ https://github.com/user-attachments/assets/6b90bed2-0a88-40c1-9350-6c7e6e262f2c
 > 첨부파일은 Dropzone 라이브러리를 사용했습니다. 영상과 같이 drag&drop 방식도 가능하고, 화면에는 나오지 않았지만 파일을 선택해서 추가하는 방식 역시 가능합니다. 그리고 첨부파일이 있는 게시글은 목록화면에서 바로 확인이 가능하도록 클립 아이콘 표시를 해두었고, 사용자 화면의 게시글 상세화면에서 첨부파일을 다운로드 받을수 있도록 작업했습니다.
 
 ### 5) 검색 및 페이징 처리
-https://github.com/user-attachments/assets/7fcfa570-c0ae-4bca-b283-c881a5f757d9
+![5  검색 및 페이징 처리](https://github.com/user-attachments/assets/058759f2-bada-4772-a9ca-a569b235ba27)
 > 페이징 객체를 따로 만들어 구현했습니다. BbsVO와 BoardVO는 페이징 처리를 위해 DefaultVO를 상속받습니다. (굳이 페이징이 아니더라도 공통된 필드들이 추가되면 DefaultVO에 추가할 예정)
 > 첫 페이지, 끝 페이지 바로이동하는 버튼 추가예정입니다.
 
@@ -187,7 +187,7 @@ https://github.com/user-attachments/assets/8fbfa87c-1647-4c2b-a023-288e28fafce9
 > 게시물 상세 페이지에서 답글쓰기 버튼을 눌러 답글 등록 페이지로 이동합니다. 제목, 내용을 작성한 후 답글 등록을 완료합니다. (수정방식은 기존의 게시물 수정방식과 동일합니다) 이후 목록에서 보면 들여쓰기가 된 답글을 확인할 수 있습니다.
 
 ### 7) 게시물 체크박스
-https://github.com/user-attachments/assets/28661123-f7a9-4b51-bc92-bb069b8cec6d
+![7  체크박스](https://github.com/user-attachments/assets/053634e6-f175-45e2-a9ba-9bcd9d2542ba)
 > 기존 게시물을 보다빠르게 삭제, 복구하기 위해 체크박스 기능을 추가 했습니다. 기존과 모든게 동일하나 체크박스를 통한 편리함만 추가했습니다. 그리고 기존방식에서는 게시물의 행을 클릭할때 우측박스에서 간단한 상세정보를 확인할 수 있었습니다. 체크박스 방식으로 바뀐 후에는 체크박스가 있는 열을 누를때는 상세정보가 나타나지 않게했습니다. 상세정보를 확인하고 싶을때는 체크박스 이외의 열을 클릭하면 확인가능 하도록 수정했습니다. (ex. 제목, 작성자, 등록일시 등등 부분을 클릭)
 
 ## ** 개선방향
@@ -208,11 +208,11 @@ https://github.com/user-attachments/assets/465b7c85-57cb-47b7-afb7-d3a11f573f1b
 https://github.com/user-attachments/assets/56f27230-eb40-4e4f-9ad1-06be4ce68726
 > 메인 관리 중, 기술 영역 부분의 기능 구현 모습입니다. 역시 고정된 방식이였으나 기술명, 기술 아이콘의 수정이 가능하며, 목록(카드)의 정렬은 Drag&Drop 방식을 적용했습니다. 마우스 드래그를 통해 순서변경을 자유자재로 가능하게끔 했습니다.
 
-https://github.com/user-attachments/assets/90e38bac-febc-4657-8ca2-f77f23ebab7c
+![4  (Tech Stack) 기술 적용(삭제)](https://github.com/user-attachments/assets/a8ff9da8-22be-4816-8300-a2943b03a7a2)
 > 삭제 역시 가능합니다. 삭제를 하면 메인화면에서는 보여지지 않으나, 관리자 화면에서는 삭제된 데이터로 남게됩니다. 영구삭제까지 해야만 관리자 화면에서도 보이지 않게 됩니다.
 
 # 5. 회원 관리(권한)
-https://github.com/user-attachments/assets/e5354ad6-2911-458b-9c53-e9f439114a99
+![0  회원관리](https://github.com/user-attachments/assets/ebb34ff9-29d0-46dc-a85a-97d2774ea2c1)
 > 회원 관리는 계정, 글쓰기, 댓글에 대한 권한 설정과 관련된 기능입니다. 관리자 화면에서 부여된 그대로  메인화면(Board) 부분에 적용됩니다.
 
 ### 1) 계정
