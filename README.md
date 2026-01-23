@@ -184,6 +184,7 @@ https://github.com/user-attachments/assets/6b90bed2-0a88-40c1-9350-6c7e6e262f2c
 - 게시물 답글은 설명의 흐름을 위해 영상 하나에 모든 과정을 담았습니다. 초반에 보다시피 공지사항(게시판)은 일반적으로 사용자에게 공지를 하여 알리는 글이기에 답글 옵션을 비활성화 해놓았습니다. 게시물 상세 페이지에서 답글쓰기 버튼이 없는 것을 확인할 수 있습니다.
 
 https://github.com/user-attachments/assets/8fbfa87c-1647-4c2b-a023-288e28fafce9
+
 > 게시물 상세 페이지에서 답글쓰기 버튼을 눌러 답글 등록 페이지로 이동합니다. 제목, 내용을 작성한 후 답글 등록을 완료합니다. (수정방식은 기존의 게시물 수정방식과 동일합니다) 이후 목록에서 보면 들여쓰기가 된 답글을 확인할 수 있습니다.
 
 ### 7) 게시물 체크박스
@@ -198,14 +199,14 @@ https://github.com/user-attachments/assets/8fbfa87c-1647-4c2b-a023-288e28fafce9
 
 # 4. 메인 관리
 ### 1) Banner
-https://github.com/user-attachments/assets/27c5a313-964f-433f-b44e-4e5600c73f19
+![1  (Banner) 상, 하단 배너명](https://github.com/user-attachments/assets/1bdcb666-5e47-49f9-8348-de11cad5f7f8)
 > 메인 관리 중 상단, 하단의 배너명을 관리자 화면에서 변경하는 모습입니다. 기존에는 고정적인 문구를 사용하였으나 변경된 방식은 관리자가 원하는 때에 얼마든지 배너명 변경이 가능합니다. (수정일시는 수정때마다 변경)
 
-https://github.com/user-attachments/assets/465b7c85-57cb-47b7-afb7-d3a11f573f1b
+![2  (Banner) 배경 적용](https://github.com/user-attachments/assets/19d7c2db-0573-4201-a6bb-503e1e48bf97)
 > 배너 이미지 즉, 메인 배경화면을 추가, 삭제하는 기능입니다. 메인 배경 역시 고정 이미지를 사용하였으나 변경된 방식은 관리자가 원하는 때에 얼마든지 배경 변경이 가능합니다. 배경 적용 등록일시는 이미지 윗부분에 따로 보이도록 했습니다. (배너명 등록, 수정시기와 별개) 배경이 없을때는 부트스트랩 기본 이미지로 대체했습니다.
 
 ### 2) Tech Stack
-https://github.com/user-attachments/assets/56f27230-eb40-4e4f-9ad1-06be4ce68726
+![3  (Tech Stack) 기술 적용](https://github.com/user-attachments/assets/c1aaac6d-cb11-4c07-ad0b-9870dc160f8c)
 > 메인 관리 중, 기술 영역 부분의 기능 구현 모습입니다. 역시 고정된 방식이였으나 기술명, 기술 아이콘의 수정이 가능하며, 목록(카드)의 정렬은 Drag&Drop 방식을 적용했습니다. 마우스 드래그를 통해 순서변경을 자유자재로 가능하게끔 했습니다.
 
 ![4  (Tech Stack) 기술 적용(삭제)](https://github.com/user-attachments/assets/a8ff9da8-22be-4816-8300-a2943b03a7a2)
@@ -220,7 +221,7 @@ https://github.com/user-attachments/assets/b3569b73-9977-47b7-9523-3350107788d0
 > 계정관련 권한은 로그인 즉시 경고창이 나타나며, 본인 글 확인 하는 것 외에는 모두 사용 불가능하도록 작업했습니다. 글쓰기 역시 금지상태이기 때문에 글쓰기 버튼 클릭시 다시한번 경고창이 나타나며, 문의하기 게시판만 이용 가능합니다.
 
 ### 2) 글쓰기
-https://github.com/user-attachments/assets/d002a51a-1719-4915-88d2-4ce1fed82ee0
+![2  글쓰기](https://github.com/user-attachments/assets/c14e4fd8-e64c-4e28-b97f-52031b27c17f)
 > 글쓰기관련 권한은 글쓰기 버튼 클릭시 경고창이 나타나며, 문의하기 게시판만 이용 가능합니다. 
 
 ### 3) 댓글
