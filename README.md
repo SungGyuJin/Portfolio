@@ -172,7 +172,7 @@ UNIQUE: USER_ID
 > 복구, 영구삭제의 원리 또한 게시판과 동일합니다.
 
 ### 4) 첨부파일 (Drag&Drop)
-https://github.com/user-attachments/assets/6b90bed2-0a88-40c1-9350-6c7e6e262f2c
+![4  첨부파일(Drag Drop)](https://github.com/user-attachments/assets/6dded457-ab07-402c-8086-22d1ddc8d320)
 > 첨부파일은 Dropzone 라이브러리를 사용했습니다. 영상과 같이 drag&drop 방식도 가능하고, 화면에는 나오지 않았지만 파일을 선택해서 추가하는 방식 역시 가능합니다. 그리고 첨부파일이 있는 게시글은 목록화면에서 바로 확인이 가능하도록 클립 아이콘 표시를 해두었고, 사용자 화면의 게시글 상세화면에서 첨부파일을 다운로드 받을수 있도록 작업했습니다.
 
 ### 5) 검색 및 페이징 처리
@@ -183,7 +183,7 @@ https://github.com/user-attachments/assets/6b90bed2-0a88-40c1-9350-6c7e6e262f2c
 ### 6) 답글 (등록, 수정, 삭제)
 - 게시물 답글은 설명의 흐름을 위해 영상 하나에 모든 과정을 담았습니다. 초반에 보다시피 공지사항(게시판)은 일반적으로 사용자에게 공지를 하여 알리는 글이기에 답글 옵션을 비활성화 해놓았습니다. 게시물 상세 페이지에서 답글쓰기 버튼이 없는 것을 확인할 수 있습니다.
 
-https://github.com/user-attachments/assets/8fbfa87c-1647-4c2b-a023-288e28fafce9
+![6  답글(등록, 수정, 삭제)](https://github.com/user-attachments/assets/2b3e8b4d-75d6-4cad-8f01-32aa837e87ad)
 
 > 게시물 상세 페이지에서 답글쓰기 버튼을 눌러 답글 등록 페이지로 이동합니다. 제목, 내용을 작성한 후 답글 등록을 완료합니다. (수정방식은 기존의 게시물 수정방식과 동일합니다) 이후 목록에서 보면 들여쓰기가 된 답글을 확인할 수 있습니다.
 
@@ -217,7 +217,7 @@ https://github.com/user-attachments/assets/8fbfa87c-1647-4c2b-a023-288e28fafce9
 > 회원 관리는 계정, 글쓰기, 댓글에 대한 권한 설정과 관련된 기능입니다. 관리자 화면에서 부여된 그대로  메인화면(Board) 부분에 적용됩니다.
 
 ### 1) 계정
-https://github.com/user-attachments/assets/b3569b73-9977-47b7-9523-3350107788d0
+![1  계정](https://github.com/user-attachments/assets/38abaa98-ef66-4b62-9a09-799e0ccc1a2d)
 > 계정관련 권한은 로그인 즉시 경고창이 나타나며, 본인 글 확인 하는 것 외에는 모두 사용 불가능하도록 작업했습니다. 글쓰기 역시 금지상태이기 때문에 글쓰기 버튼 클릭시 다시한번 경고창이 나타나며, 문의하기 게시판만 이용 가능합니다.
 
 ### 2) 글쓰기
@@ -225,11 +225,11 @@ https://github.com/user-attachments/assets/b3569b73-9977-47b7-9523-3350107788d0
 > 글쓰기관련 권한은 글쓰기 버튼 클릭시 경고창이 나타나며, 문의하기 게시판만 이용 가능합니다. 
 
 ### 3) 댓글
-https://github.com/user-attachments/assets/2fdd5aae-d315-4adb-8595-97ffb4d892e9
+![3  댓글](https://github.com/user-attachments/assets/ae6c33d8-da10-4bda-b2ad-0d4ea764b30e)
 > 댓글관련 권한 금지는 모든 게시판 이용까지 다 가능하나, 댓글과 대댓글까지 모두 이용 금지됩니다.
 
 ### ** 글, 댓글 쓰기 모두 금지
-https://github.com/user-attachments/assets/d1eb9842-da79-4f74-9dc9-020dba2580db
+![4  글, 댓글 모두 금지](https://github.com/user-attachments/assets/8c6f076e-57c1-419a-bb8e-8c0162497e7f)
 > 위 기능과 같습니다. 다만 목록 상단의 문구가 둘 다(글, 댓글) 금지라는 차이점이 있습니다.
 
 ## * 개선방향
