@@ -238,55 +238,56 @@ UNIQUE: USER_ID
 ***
 
 # 사용자
-https://github.com/user-attachments/assets/39442227-1d03-491f-95d2-4e744f36950f
+![0  메인화면](https://github.com/user-attachments/assets/a2d9cec6-d9b7-4b97-8099-24186a301c68)
 > 사용자 메인화면입니다. nav바 메뉴를 클릭하면 해당 메뉴를 이동합니다. TECH STACK 메뉴는 사용된 기술을 나열, PORTFOLIO 메뉴는 여러개의 프로젝트들을 나열, LOGIN은 로그인 페이지로 이동할 수도록 작업했습니다. Modal을 킨 상태에서 Esc 또는 모달 외부 클릭시 모달이 꺼지지 않도록 작업했습니다.
 
 ***
 
 # 1. 게시물
 ### 1) 세션체크
-https://github.com/user-attachments/assets/65c4cc98-2375-46d6-9656-3263f9ab7a09
+![1  세션체크](https://github.com/user-attachments/assets/7717ee3e-6ee5-4fba-9bc8-35593f9273fd)
 > 로그인이 되어 있지 않은 경우 글쓰기 버튼 자체가 보이지 않도록 작업했습니다.
 
 ### 2) 등록
-https://github.com/user-attachments/assets/53417be1-daad-4bdf-9c2b-64d7882bece4
+![2  등록](https://github.com/user-attachments/assets/168685d3-6270-4b43-ba66-8b5dcb858628)
 > 글쓰기 Modal을 띄우기 전, 목록화면에서의 현재 선택된 게시판이 그대로 등록 form Modal에서도 같은 게시판 선택이 적용된 모습입니다. 목록에서 Q&A 게시판을 선택하고 들어왔더라도 최종적으로 등록시 선택한 게시판으로 돌아오도록 작업했습니다.
 
 ### 3) 수정
-https://github.com/user-attachments/assets/46f6c3e2-1b36-4039-9120-40184875bf2b
+![3  수정](https://github.com/user-attachments/assets/a863f667-1e61-441a-b994-0f64a746d341)
 > 글 작성자가 아니라면 수정, 삭제를 할 수 없도록 작업했습니다. (현재는 '홍길동' 이라는 사용자가 로그인한 상태)
 >
 > 관리자는 관리자 화면에서만 모든 글수정이 가능합니다. (댓글은 등록가능)
 
 ### 4) 검색
-https://github.com/user-attachments/assets/f1842520-85d5-494f-a884-3f12bac5e00b
+![4  검색](https://github.com/user-attachments/assets/ad82b26a-bce2-470d-a58c-b1db8943bbe2)
 > UI는 NAVER 카페를 참고했습니다. 왼쪽에는 게시판 메뉴, 우측에는 게시물 목록을이 나옵니다. 관리자 화면과의 차이라면 공지사항은 항상 상단에 고정되도록 작업했으며, 왼쪽 게시판 메뉴에는 공지사항이 없는 것을 확인할 수 있습니다. 데이터 개수도 조절할 수 있도록 했습니다. 페이지 이동 역시 가능합니다. 조건에 맞게 검색할 수 있고, 게시물 제목 클릭시 상세화면 Modal이 우측에 켜지도록 작업했습니다. 영상에는 없지만 글쓰기 버튼을 누르면 왼쪽에는 글쓰기 Modal창이 뜹니다. 아직 작업이 덜되서 완료후 영상 추가예정입니다.
 
 ### 5) 조회수
-https://github.com/user-attachments/assets/d8640d7a-e9d9-4206-baf5-0ce6367a84f7
+![5  조회수](https://github.com/user-attachments/assets/2e91b511-9ed8-4258-99b8-8df27dfea798)
 > 게시글 제목을 누르는 즉시 조회수가 올라가도록 작업했습니다.
 
 ### 6) 비밀 글 (설정, 변경, 해제, 삭제, 기타)
 
 - #### 설정, 변경
-https://github.com/user-attachments/assets/949cef24-3b16-41cc-a172-85ac596d977a
+![1  설정, 변경](https://github.com/user-attachments/assets/85f4e0ca-54db-47a3-a642-2dbee9fa5feb)
 > * 비밀 글로 설정후 비밀번호까지 변경하는 모습입니다.
 > * 아무것도 체크하지 않고 다른부분(제목, 내용)만 변경한 후 수정버튼을 누르면 원래쓰던 비밀번호를 그대로 사용할 수 있습니다.
 
 - #### 해제
-https://github.com/user-attachments/assets/3dbce61b-53c3-450d-abde-ff9f474aade4
+![2  해제](https://github.com/user-attachments/assets/492e6cf8-4d37-4e01-9d1f-f013059c196e)
 > * 비밀 글을 해제하고 싶다면 '비밀 글 해제' 를 체크한 후에 수정을 누르면 비밀 글이 해제됩니다.
 > * 다시 비밀 글로 설정하고 싶다면 위 방법으로 얼마든지 수정 가능합니다.
 
 - #### 삭제
-https://github.com/user-attachments/assets/f56a25f9-3281-437a-94dc-428afabf4b34
+![3  삭제](https://github.com/user-attachments/assets/fa7a0e28-42ef-4b62-a33e-77228d56aeb5)
 > * 비밀 글을 삭제할 때에는 삭제전 다시한번 비밀번호를 입력하도록 작업했습니다.
 > * 삭제후 복구가 불가하다는 문구도 추가했습니다. (관리자 화면에서도 볼 수 없도록 바로 영구삭제로 작업처리)
 
-- #### 기타(비밀글 표시화면)
-https://github.com/user-attachments/assets/edf90aa1-4f9b-4042-9141-fac3e7fb9c37
+- #### 기타(비밀글 표시화면) - 사용자
+![4  기타 (사용자)](https://github.com/user-attachments/assets/75149a08-585c-4688-b0f0-d184b9598d0e)
 > 위 영상은 사용자 화면의 비밀글입니다. 제목 앞부분에 자물쇠 아이콘을 추가하였고, 게시글 제목 클릭시 비밀번호 입력 창이 나타나도록 했습니다.
 
+- #### 기타(비밀글 표시화면) - 관리자
 https://github.com/user-attachments/assets/a3bbb871-31b7-4d0d-880d-bdcb777e1d4e
 > 위 영상은 관리자 화면의 비밀글입니다. 제목 앞부분 자물쇠 아이콘까지는 사용자 화면과 같지만 관리자 페이지 특성상 비밀번호를 입력하지 않도록 작업했습니다. 
 
