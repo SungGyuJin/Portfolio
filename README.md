@@ -288,26 +288,26 @@ UNIQUE: USER_ID
 > 위 영상은 사용자 화면의 비밀글입니다. 제목 앞부분에 자물쇠 아이콘을 추가하였고, 게시글 제목 클릭시 비밀번호 입력 창이 나타나도록 했습니다.
 
 - #### 기타(비밀글 표시화면) - 관리자
-https://github.com/user-attachments/assets/a3bbb871-31b7-4d0d-880d-bdcb777e1d4e
+![5  기타 (관리자)](https://github.com/user-attachments/assets/6a82d66f-2b54-46f4-b2a6-dc58927e0799)
 > 위 영상은 관리자 화면의 비밀글입니다. 제목 앞부분 자물쇠 아이콘까지는 사용자 화면과 같지만 관리자 페이지 특성상 비밀번호를 입력하지 않도록 작업했습니다. 
 
 ***
 
 # 2. 댓글
 ### 1) 등록
-https://github.com/user-attachments/assets/6326cfd7-6270-4811-b08e-8925e35b848d
+![1  등록](https://github.com/user-attachments/assets/1c697a8b-7178-4abb-a8ff-bd978208c559)
 > 로그인 안되어 있을시 댓글 등록창에 "로그인이 필요합니다" 라는 문구를 넣었으며, 등록 즉시 게시믈과 상세화면의 댓글수가 update 되도록 했고, 게시글 작성자 본인이 댓글을 쓰면 영상에서와 같이 "작성자" 라는 표시가 생기도록 작업했습니다.
 
 ### 2) 수정
-https://github.com/user-attachments/assets/1a029186-4b3e-4dc7-bf2a-c82c9e5b0ed2
+![2  수정](https://github.com/user-attachments/assets/480ac4c7-b8bb-4f63-908d-3a539773e13b)
 > 수정버튼은 본인이 쓴 댓글만 수정버튼이 나옵니다. 버튼 클릭시 수정 입력 form으로 바뀌고 수정을 완료할 수 있습니다.
 
 ### 3) 답글(대댓글)
-https://github.com/user-attachments/assets/d04d83ef-e324-43d9-83fb-ce8436a24c73
+![3  답글](https://github.com/user-attachments/assets/9716c421-2fcd-4d9f-b096-ecc888ab6355)
 > 답글쓰는 방식 또한 등록과 비슷합니다, 약간의 차이라면 "답글쓰기" 클릭시 선택한 답글 밑에 들여쓰기한 폼이 생긴다는 것이 차이입니다. 이후 답글등록을 완료합니다.
 
 ### 4) 삭제
-https://github.com/user-attachments/assets/84cffed9-920c-4950-8297-a516413c3f26
+![4  삭제](https://github.com/user-attachments/assets/8c819581-02e7-42f4-a3f9-7b018a2e2a35)
 > 삭제버튼 역시 본인이 쓴 댓글에만 삭제버튼이 나옵니다. 삭제시에는 사용자에게 정말 삭제를 할 것인지에 대한 alert 작업을 했습니다. 
 
 ### ** 개선방향
