@@ -271,8 +271,6 @@ table tbody tr:hover {
 		    </div>
 		</c:otherwise>
 	</c:choose>
-	
-	
 
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">

@@ -356,6 +356,8 @@
 						</otherwise>
 					</choose>
 				</if>
+				
+				<!-- 이 부분 점검 -->
 				<if test='myPageYn.equals("N")'>
 					<choose>
 						<when test="bbsSeq > 0">AND (BBS_SEQ = 1 OR BBS_SEQ = #{bbsSeq})</when>

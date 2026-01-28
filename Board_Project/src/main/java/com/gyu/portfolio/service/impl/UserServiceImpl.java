@@ -52,7 +52,8 @@ public class UserServiceImpl implements UserService{
 				result = userMapper.updateUser(userVO);
 				
 				// 프로필 이미지 등록 및 수정
-				if(attachVO.getThumbYn().equals("Y") || attachVO.getThumbYn().equals("N")){
+				if(!attachVO.getThumbYn().equals("D")) {
+					
 
 					attachVO.setRegNo(userVO.getUserSeq());
 					

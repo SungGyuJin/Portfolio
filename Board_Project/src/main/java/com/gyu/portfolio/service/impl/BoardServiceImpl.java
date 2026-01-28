@@ -95,32 +95,26 @@ public class BoardServiceImpl implements BoardService {
 						attachMapper.addAttach(vo);
 					}
 				}
-				
-				// 썸네일 등록 및 수정
-				if(attachVO.getThumbYn().equals("Y") || attachVO.getThumbYn().equals("N")){
 
+				// 썸네일 등록 및 수정
+				if(attachVO.getThumbYn().equals("Y")){
 					AttachVO vo = new AttachVO();
 					
 					vo.setBoardSeq(boardVO.getBoardSeq());
 					vo.setRegNo(boardVO.getUpdNo());
 					vo.setThumbYn(attachVO.getThumbYn());
-
-					attachMapper.thumbInit(attachVO);
+					vo.setStat(1);
+					vo.setFileNm(attachVO.getThumbFileOrgNm());
+					vo.setFileExt(attachVO.getThumbFileExt());
+					vo.setFileSz(attachVO.getThumbFileSize());
+					vo.setFilePath(attachVO.getThumbFilePath());
+					vo.setStrgFileNm(attachVO.getThumbFileSvgNm());
 					
-					if(attachVO.getThumbYn().equals("Y")){
-						
-						vo.setStat(1);
-						vo.setFileNm(attachVO.getThumbFileOrgNm());
-						vo.setFileExt(attachVO.getThumbFileExt());
-						vo.setFileSz(attachVO.getThumbFileSize());
-						vo.setFilePath(attachVO.getThumbFilePath());
-						vo.setStrgFileNm(attachVO.getThumbFileSvgNm());
-						
-						attachMapper.addAttach(vo);
-					}
+					attachMapper.addAttach(vo);
 				}
 				
 				transactionManager.commit(status);
+				
 			}catch(Exception e){
 				transactionManager.rollback(status);
 				System.out.println();
@@ -144,7 +138,6 @@ public class BoardServiceImpl implements BoardService {
 		try{
 			
 			result = boardMapper.updateBoard(boardVO);
-
 			
 			// 첨부파일 등록
 			if(attachVO.getArrFileOrgNm() != null) {
@@ -169,14 +162,13 @@ public class BoardServiceImpl implements BoardService {
 			}
 
 			// 썸네일 등록 및 수정
-			if(attachVO.getThumbYn().equals("Y") || attachVO.getThumbYn().equals("N")){
-
+			if(!attachVO.getThumbYn().equals("D")){
 				AttachVO vo = new AttachVO();
 				
 				vo.setBoardSeq(boardVO.getBoardSeq());
 				vo.setRegNo(boardVO.getUpdNo());
 				vo.setThumbYn(attachVO.getThumbYn());
-
+				
 				attachMapper.thumbInit(attachVO);
 				
 				if(attachVO.getThumbYn().equals("Y")){
@@ -198,6 +190,7 @@ public class BoardServiceImpl implements BoardService {
 			}
 			
 			transactionManager.commit(status);
+			
 		}catch(Exception e){
 			transactionManager.rollback(status);
 			System.out.println();
