@@ -92,7 +92,7 @@
 			html += 					'</button>';
 			html +=					'</div>';
 			html +=					'<div>';
-			html +=           			'<button type="button" class="btn btn-sm btn-danger btn-icon-split" onclick="btnControl(\'delTech\', '+i+', \'temp\');">';
+			html +=           			'<button type="button" class="btn btn-sm btn-danger btn-icon-split" onclick="btnControl(\'Tech\', '+i+', \'temp\');">';
 	    	html +=							'<span class="text">삭제</span>';
 			html += 					'</button>';
 			html +=					'</div>';
@@ -147,7 +147,7 @@
 			html += 					'</button>';
 			html +=					'</div>';
 			html +=					'<div>';
-			html +=           			'<button type="button" class="btn btn-sm btn-danger btn-icon-split" onclick="btnControl(\'delPo\', '+j+', \'temp\');">';
+			html +=           			'<button type="button" class="btn btn-sm btn-danger btn-icon-split" onclick="btnControl(\'Po\', '+j+', \'temp\');">';
 	    	html +=							'<span class="text">삭제</span>';
 			html += 					'</button>';
 			html +=					'</div>';
@@ -176,7 +176,6 @@
 	
 	// 버튼제어
 	function btnControl(e, num, gubun, stat){
-		
 		// 배너 등록(수정) 처리
 		if(e == 'addBn'){
 			frmSubmit(e);
@@ -251,7 +250,7 @@
 		// 기술 복구,삭제
 		}else{
 			if(gubun == 'temp'){
-				$("#tempTechDiv-"+num).remove();
+				$("#temp"+e+"Div-"+num).remove();
 			}else{
 				changeStat_1(num, stat);
 			}
@@ -827,9 +826,6 @@
 	    					<button class="btn btn-primary btn-icon-split" id="btn-addPo" title="추가" value="add">
 	    						<span class="text">추가</span>
 			    			</button>
-	    					<button class="btn btn-danger btn-icon-split" id="btn-delPo" title="삭제" value="del" disabled>
-	    						<span class="text">삭제</span>
-			    			</button>
     					</div>
 					</div>
 					
@@ -976,9 +972,6 @@
 									<button class="btn btn-primary btn-icon-split init-class" id="btn-bnerImgsave" onclick="btnControl('addBn');" <c:if test="${empty getBanner[0].filePath }">disabled</c:if>>
 								    	<span class="text" id="btn-text-span">배경 저장</span>
 									</button>
-									<!-- <button class="btn btn-secondary btn-icon-split init-class" id="btn-reset" onclick="btnControl('reset');">
-					         			<span class="text">취소</span>
-					    			</button> -->
 								</div>
 								<div id="btn-divTag2">
 									<button class="btn btn-success btn-icon-split init-class d-none" id="btn-restore" onclick="btnControl('stat', '1');">

@@ -335,35 +335,33 @@
 				, (SELECT STRG_FILE_NM FROM TB_ATTACH WHERE BOARD_SEQ = 0 AND  STAT = 1 AND REG_NO = T1.REG_NO) P_STRG_FILE_NM
 			FROM TB_BOARD T1, (SELECT @rownum := 0) AS TMP
 			WHERE 1=1
-				<if test='stat == 8'>
-					AND (BBS_SEQ = 26 OR BBS_SEQ = 1)
-				</if>
-				<if test='!myPageYn.equals("T")'>
-					AND STAT = 1
-				</if>
-				<if test='!myPageYn.equals("N")'>
-					<choose>
-						<when test='myPageYn.equals("B")'>AND REG_NO = #{regNo}</when>
-						<when test='myPageYn.equals("T")'>AND REG_NO = #{regNo} AND STAT = 5</when>
-						<otherwise>
-						AND EXISTS (
-					        SELECT 1
-					        FROM TB_COMMENT C
-					        WHERE C.STAT = 1
-					          AND C.REG_NO = #{regNo}
-         	 				AND C.BOARD_SEQ = T1.BOARD_SEQ
-					    )
-						</otherwise>
-					</choose>
-				</if>
-				
-				<!-- 이 부분 점검 -->
-				<if test='myPageYn.equals("N")'>
-					<choose>
-						<when test="bbsSeq > 0">AND (BBS_SEQ = 1 OR BBS_SEQ = #{bbsSeq})</when>
-						<otherwise>AND BBS_SEQ IN(SELECT BBS_SEQ FROM TB_BBS WHERE STAT = 1)</otherwise>
-					</choose>
-				</if>
+				<!-- 계정 권한 게정권한 Logic (1: 공지, 26: 문의하기) -->
+				<if test='stat == 8'>AND (BBS_SEQ = 26 OR BBS_SEQ = 1)</if>
+				<choose>
+					<!-- Common List -->
+					<when test='myPageYn.equals("N")'>
+						<choose>
+							<when test="bbsSeq > 0">AND (BBS_SEQ = 1 OR BBS_SEQ = #{bbsSeq}) AND STAT = 1</when>
+							<otherwise>AND BBS_SEQ IN(SELECT BBS_SEQ FROM TB_BBS WHERE STAT = 1) AND STAT = 1</otherwise>
+						</choose>
+					</when>
+					<!-- MyPg List -->
+					<otherwise>
+						<choose>
+							<when test='myPageYn.equals("B")'>AND REG_NO = #{regNo} AND STAT = 1</when>
+							<when test='myPageYn.equals("T")'>AND REG_NO = #{regNo} AND STAT = 5</when>
+							<otherwise>
+							AND EXISTS (
+						        SELECT 1
+						        FROM TB_COMMENT C
+						        WHERE C.STAT = 1
+						          AND C.REG_NO = #{regNo}
+	         	 				AND C.BOARD_SEQ = T1.BOARD_SEQ
+						    )
+							</otherwise>
+						</choose>
+					</otherwise>
+				</choose>
 				<if test="searchKeyword != null and !searchKeyword.equals('')">
 					<choose>
 						<when test="gubun.equals('cn')">AND CONT LIKE CONCAT('%', #{searchKeyword}, '%')</when>
@@ -393,33 +391,30 @@
         	COUNT(*)
         FROM TB_BOARD T1
 		WHERE 1=1
-			<if test='stat == 8'>
-				AND (BBS_SEQ = 26 OR BBS_SEQ = 1)
-			</if>
-			<if test='!myPageYn.equals("T")'>
-				AND STAT = 1
-			</if>
-			<if test='!myPageYn.equals("N")'>
-				<choose>
-					<when test='myPageYn.equals("B")'>AND REG_NO = #{regNo}</when>
-					<when test='myPageYn.equals("T")'>AND REG_NO = #{regNo} AND STAT = 5</when>
-					<otherwise>
+			<if test='stat == 8'>AND (BBS_SEQ = 26 OR BBS_SEQ = 1)</if>
+			<choose>
+				<when test='myPageYn.equals("N")'>
+					<choose>
+						<when test="bbsSeq > 0">AND (BBS_SEQ = 1 OR BBS_SEQ = #{bbsSeq}) AND STAT = 1</when>
+						<otherwise>AND BBS_SEQ IN(SELECT BBS_SEQ FROM TB_BBS WHERE STAT = 1) AND STAT = 1</otherwise>
+					</choose>
+				</when>
+				<otherwise>
+					<choose>
+						<when test='myPageYn.equals("B")'>AND REG_NO = #{regNo} AND STAT = 1</when>
+						<when test='myPageYn.equals("T")'>AND REG_NO = #{regNo} AND STAT = 5</when>
+						<otherwise>
 						AND EXISTS (
 					        SELECT 1
 					        FROM TB_COMMENT C
 					        WHERE C.STAT = 1
 					          AND C.REG_NO = #{regNo}
-          					AND C.BOARD_SEQ = T1.BOARD_SEQ
+	        	 				AND C.BOARD_SEQ = T1.BOARD_SEQ
 					    )
-					</otherwise>
-				</choose>
-			</if>
-			<if test='myPageYn.equals("N")'>
-				<choose>
-					<when test="bbsSeq > 0">AND (BBS_SEQ = 1 OR BBS_SEQ = #{bbsSeq})</when>
-					<otherwise>AND BBS_SEQ IN(SELECT BBS_SEQ FROM TB_BBS WHERE STAT = 1)</otherwise>
-				</choose>
-			</if>
+						</otherwise>
+					</choose>
+				</otherwise>
+			</choose>
 			<if test="searchKeyword != null and !searchKeyword.equals('')">
 				<choose>
 					<when test="gubun.equals('cn')">AND CONT LIKE CONCAT('%', #{searchKeyword}, '%')</when>

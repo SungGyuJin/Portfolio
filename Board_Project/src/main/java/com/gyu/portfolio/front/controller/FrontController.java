@@ -141,6 +141,11 @@ public class FrontController {
 
 //		boardVO.setAmount(10);	// 페이지당 데이터 갯수
 	    boardVO.setListTyp("list");
+
+	    System.out.println();
+	    System.out.println("boardVO.bbsSeq: "+ boardVO.getBbsSeq());
+	    System.out.println("boardVO.myPh: "+ boardVO.getMyPageYn());
+	    System.out.println();
 	    
 	    resultMap = boardService.getFrontBoardList(boardVO);
 

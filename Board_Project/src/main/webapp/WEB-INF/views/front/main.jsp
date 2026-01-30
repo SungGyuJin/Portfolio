@@ -587,11 +587,13 @@ function removeThumb(gubun){
 
 // 게시물 등록처리
 function addBoardPost(gubun){
-	
-	gubun == 'temp' ? $("#board-stat").val('5') : $("#board-stat").val('1');
 
 	if(gubun == 'temp'){
+		$("#board-stat").val('5');
 		$("#myPageYn").val('T');
+	}else{
+		$("#board-stat").val('1');
+		$("#myPageYn").val('N');
 	}
 	
 	if($("#brd-select").val() == ''){
@@ -628,7 +630,7 @@ function addBoardPost(gubun){
 				}else{
 					alert('등록되었습니다.');
 					$("#bbsSeq").val($("#brd-select").val());
-					getBoardList('1', $("#listTyp").val(), '');
+					getBoardList('1', $("#listTyp").val(), $("#myPageYn").val());
 					$("#brd-select").val('');
 					$("#brd-title").val('');
 					$("#brd-cont").val('');
@@ -753,6 +755,10 @@ function addBoardModalView(){
 	$("#brd-add-file").val('');
 	$("#add-file-data").empty();
 	$("#add-added-file").empty();
+	$("#add-thumb-view").empty();
+	$("#add-thumb-data").empty();
+	$("#add-file-thumb").val('');
+	$("#brd-title").val('');	
 }
 
 function btnUpdateBoardClose(no, pYn){
@@ -2191,7 +2197,7 @@ function btnAddCmntChange(str){
 					            </div>
 					            <div class="mb-3">
 					            	<label for="brd-title" class="form-label fw-bold">제목</label>
-					              	<input type="text" class="form-control my-input" name="title" id="brd-title">
+					              	<input type="text" class="form-control my-input" name="title" id="brd-title" autocomplete="off">
 					            </div>
 					            <div class="mb-3" id="div-add-secrt">
 					            	<label for="brd-pwdYn" class="form-label fw-bold">비밀 글</label>
