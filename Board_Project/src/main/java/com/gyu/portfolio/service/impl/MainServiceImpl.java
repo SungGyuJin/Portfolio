@@ -83,10 +83,12 @@ public class MainServiceImpl implements MainService {
 
 								if(mainVO.getMainSe().equals("T")) {
 									vo.setTechNm(mainVO.getArrTechNm()[i]);
+									vo.setMainSe("T");
 								}else {
 									vo.setPoforNm(mainVO.getArrPoNm()[i]);
+									vo.setMainSe("P");
 								}
-								
+
 								result = mainMapper.updateMain(vo);
 
 								// D: default
