@@ -2243,7 +2243,8 @@ function btnAddCmntChange(str){
 					<div class="w-100 mt-2 text-start">
 			            <div class="d-flex justify-content-between mt-5">
 				        	<h1>수정</h1>
-				        	<div>
+			            	<div class="d-flex gap-2">
+			            		<small class="text-danger mt-2">* 현재 글은 임시저장 상태입니다.<br>수정 클릭시 공개로 전환됩니다.</small>
 					            <button type="button" class="naver-button-temp" id="btn-updateBoard-temp">임시저장</button>
 					            <button type="button" class="naver-button" id="btn-updateBoard">수정</button>
 				        	</div>
@@ -2427,7 +2428,7 @@ function btnAddCmntChange(str){
 						<div class="w-100 mt-2 text-start">
 				            <div class="d-flex justify-content-between mt-5">
 				            	<div>
-						        	<h1>Information</h1>
+						        	<h1>마이페이지</h1>
 				            	</div>
 				            	<div class="d-flex gap-2">
 				            		<small class="text-danger mt-2" id="uSttsMent">* 현재 탈퇴신청 상태입니다.<br>수정을 원하시면 탈퇴신청을 철회하세요.</small>

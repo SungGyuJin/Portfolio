@@ -488,6 +488,13 @@ img.blocking-hover {
   font-weight: bold;
 }
 
+.my-text-primary {
+  color: #4e73df;
+/*   background-color: #4e73df; */
+/*   border-color: #4e73df; */
+  font-weight: 700;
+}
+
 </style>
         
         

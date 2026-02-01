@@ -381,7 +381,14 @@
 					</choose>
 				</if>
 		) AS SUB
-		ORDER BY BBS_SEQ ASC, REF DESC, STEP
+		<choose>
+			<when test='myPageYn.equals("T")'>
+				ORDER BY REF DESC
+				</when>
+			<otherwise>
+				ORDER BY BBS_SEQ ASC, REF DESC, STEP
+			</otherwise>
+		</choose>
 		LIMIT #{skip}, #{amount}
 	</select>
 	
