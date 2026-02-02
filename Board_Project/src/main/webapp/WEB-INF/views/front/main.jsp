@@ -768,8 +768,21 @@ function btnUpdateBoardClose(no, pYn){
 	}
 }
 
+function moveBbs(){
+	alert("진ㅇ")
+}
+
 function getBoard(no, pYn, stat){
 
+	$("#btn-updateBoard-close").attr('onclick', 'btnUpdateBoardClose(\''+no+'\', \''+pYn+'\');');
+	$("#btn-updateBoard").attr('onclick', 'updateBoardPost(\''+no+'\', \''+pYn+'\', \'1\');');
+	$("#btn-updateBoard-temp").attr('onclick', 'updateBoardPost(\''+no+'\', \''+pYn+'\', \'5\');');
+	
+	if(stat == '5'){
+		updateBoard(no, 'upd', stat);
+		return false;
+	}
+	
 	if($("#ustat").val() == '3' || $("#ustat").val() == '4' || $("#ustat").val() == '8'){
 		$("#cmnt-cn").prop('disabled', true);
 		$("#cmnt-cn").prop('placeholder', '댓글(답글) 쓰기가 금지되었습니다. 관리자에게 문의하세요.');
@@ -779,10 +792,6 @@ function getBoard(no, pYn, stat){
 	}
 	
 	$("#fn-area").empty();
-	
-	$("#btn-updateBoard-close").attr('onclick', 'btnUpdateBoardClose(\''+no+'\', \''+pYn+'\');');
-	$("#btn-updateBoard").attr('onclick', 'updateBoardPost(\''+no+'\', \''+pYn+'\', \'1\');');
-	$("#btn-updateBoard-temp").attr('onclick', 'updateBoardPost(\''+no+'\', \''+pYn+'\', \'5\');');
 	
 	if(pYn == 'N'){
 		
@@ -817,8 +826,9 @@ function getBoard(no, pYn, stat){
 				}
 				
 				$("#brd-profile").html(profileImg);
-				
+
 				$("#brd-bbsNm").html(data.bbsNm);
+				$("#brd-bbsNm").attr('onclick', 'moveBbs(\''+data.bbsSeq+'\');');
 				
 				if(data.pwdYn == 'Y'){
 					$("#brd-ttl").html('<img class="mb-2 me-1" src="'+contextPath+'/resources/front/main/assets/img/lock.png" style="max-width: 22px;">'+data.title);
@@ -2077,7 +2087,7 @@ function btnAddCmntChange(str){
     				<hr>
       				<div class="w-100 d-flex justify-content-between align-items-start mt-2 text-start">
         				<div>
-          					<small class="text-success fw-bold ms-1"><span id="brd-bbsNm"></span>&gt;</small>
+          					<small class="text-success fw-bold ms-1"><span id="brd-bbsNm" class="cursor-pointer"></span>&gt;</small>
           					<h4 class="fw-bold mt-1" id="brd-ttl"></h4>
           					<div class="d-flex align-items-center mt-2 mb-4">
 	          					<span class="me-1" id="brd-profile">
