@@ -341,7 +341,7 @@
 					<!-- Common List -->
 					<when test='myPageYn.equals("N")'>
 						<choose>
-							<when test="bbsSeq > 0">AND (BBS_SEQ = 1 OR BBS_SEQ = #{bbsSeq}) AND STAT = 1</when>
+							<when test='bbsSeq > 0'>AND (BBS_SEQ = 1 OR BBS_SEQ = #{bbsSeq}) AND STAT = 1</when>
 							<otherwise>AND BBS_SEQ IN(SELECT BBS_SEQ FROM TB_BBS WHERE STAT = 1) AND STAT = 1</otherwise>
 						</choose>
 					</when>

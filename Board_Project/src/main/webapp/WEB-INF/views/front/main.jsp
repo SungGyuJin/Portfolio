@@ -676,6 +676,10 @@ function updateBoardPost(no, pYn, stat){
 		$("#brd-upd-pwd").focus();
 		return false
 	}
+	
+	if(stat == 1){
+		$("#myPageYn").val('N');
+	}
 
 	var formData = new FormData($('#frm-updateBoard')[0]);
 	
@@ -817,7 +821,7 @@ function getBoard(no, pYn, stat){
 			success  : function(res){
 				
 				var data = res.getBoard;
-
+				
 				var profileImg = '<img src="'+contextPath+'/resources/front/main/assets/img/profile.png" class="me-2" alt="프로필 이미지" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">';
 				$("#brd-profile").html(html);
 				
@@ -1528,14 +1532,13 @@ function updateBoard(no, gubun, num, option){
 					$("#btn-updateBoard-temp").addClass('d-none');
 				}
 				
-// 				res.getBoard.secrtYn == 'Y' ? $("#div-upd-secrt").removeClass('d-none') : $("#div-upd-secrt").addClass('d-none');
 				res.getBoard.atchYn == 'Y' ? $("#div-upd-atchYn").removeClass('d-none') : $("#div-upd-atchYn").addClass('d-none');
 			
 				$("#brd-upd-boardSeq").val(res.getBoard.boardSeq);
 				$('#updateBoardModal').css('z-index', '1060');
 				$('.modal-backdrop').last().css('z-index', '1055');
 
-// 				$("#brd-upd-select").val(res.getBoard.bbsSeq);
+				$("#bbsSeq").val(res.getBoard.bbsSeq);
 				$("#upd-bbs").val(res.getBoard.bbsNm);
 				$("#brd-upd-title").val(res.getBoard.title);
 				CKEDITOR.instances['brd-upd-cont'].setData(res.getBoard.cont);

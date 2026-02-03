@@ -132,6 +132,20 @@ public class FrontController {
 			HttpSession session,
 			HttpServletResponse response) throws Exception{
 		
+		
+		/* request 정보확인 START */
+		System.out.println();
+		System.out.println("++++++++++++++++++++++++++++++");
+		System.out.println("============ /getBoardList.do INFO  ===========");
+		Enumeration params = request.getParameterNames();
+		while(params.hasMoreElements()) {
+			String name= (String) params.nextElement();
+			System.out.println(name + ": " + request.getParameter(name));
+		}
+		System.out.println("++++++++++++++++++++++++++++++");
+		System.out.println();
+		/* request 정보확인 END */
+		
 		// 게시물 목록
 	    Map<String, Object> resultMap = new HashMap<>();
 
