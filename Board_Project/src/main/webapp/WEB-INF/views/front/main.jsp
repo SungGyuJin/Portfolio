@@ -1107,8 +1107,8 @@ function getBoardList(num, style, myPg, card){
 			html += 		'<div class="d-flex justify-content-between">';
 			html += 			'<div><h4>'+bbsNm+'</h4></div>';
 			html += 			'<div class="d-flex">';
-			html +=					'<img src="'+contextPath +'/resources/front/main/assets/img/list.svg" class="cursor-pointer mb-1 me-2" id="list-icon" onclick="getBoardList(null, \'L\');" style="width: 45px;"/>';
-			html +=					'<img src="'+contextPath +'/resources/front/main/assets/img/grid.svg" class="cursor-pointer mb-1 me-3" id="grid-icon" onclick="getBoardList(null, \'G\');" style="width: 35px;"/>';
+			html +=					'<img src="'+contextPath +'/resources/front/main/assets/img/list.svg" class="cursor-pointer mb-1 me-2" id="list-icon" onclick="getBoardList(null, \'L\', \''+$("#myPageYn").val()+'\');" style="width: 45px;"/>';
+			html +=					'<img src="'+contextPath +'/resources/front/main/assets/img/grid.svg" class="cursor-pointer mb-1 me-3" id="grid-icon" onclick="getBoardList(null, \'G\', \''+$("#myPageYn").val()+'\');" style="width: 35px;"/>';
 			html += 				'<select class="form-select cursor-pointer" name="amount" onchange="changeList('+vo.pageNum+');" id="sel-amount">';
 			html += 					'<option value="10">10개씩</option>';
 			html += 					'<option value="20">20개씩</option>';
@@ -1694,7 +1694,7 @@ function addCmnt(frm, gubun){
 				
 				if(res > 0){
 					getCmntList($("#cmnt-boardSeq").val());
-					getBoardList($("#pageNum").val(), $("#listTyp").val());
+					getBoardList($("#pageNum").val(), $("#listTyp").val(), $("#myPageYn").val());
 				}
 			},
 			error : function(request, status, error){
@@ -1716,7 +1716,7 @@ function addCmnt(frm, gubun){
 				
 				if(res > 0){
 					getCmntList($("#cmnt-boardSeq").val());
-					getBoardList($("#pageNum").val(), $("#listTyp").val());
+					getBoardList($("#pageNum").val(), $("#listTyp").val(), $("#myPageYn").val());
 					
 					if(gubun == 'add'){
 						$("#btn-addCmnt").addClass('disabled');
