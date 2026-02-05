@@ -1528,8 +1528,10 @@ function updateBoard(no, gubun, num, option){
 				
 				if(res.getBoard.stat == 5){
 					$("#btn-updateBoard-temp").removeClass('d-none');
+					$("#temp-ment").removeClass('d-none');
 				}else{
 					$("#btn-updateBoard-temp").addClass('d-none');
+					$("#temp-ment").addClass('d-none');
 				}
 				
 				res.getBoard.atchYn == 'Y' ? $("#div-upd-atchYn").removeClass('d-none') : $("#div-upd-atchYn").addClass('d-none');
@@ -2257,7 +2259,7 @@ function btnAddCmntChange(str){
 			            <div class="d-flex justify-content-between mt-5">
 				        	<h1>수정</h1>
 			            	<div class="d-flex gap-2">
-			            		<small class="text-danger mt-2">* 현재 글은 임시저장 상태입니다.<br>수정 클릭시 공개로 전환됩니다.</small>
+			            		<small class="text-danger mt-2" id="temp-ment">* 현재 글은 임시저장 상태입니다.<br>수정 클릭시 공개로 전환됩니다.</small>
 					            <button type="button" class="naver-button-temp" id="btn-updateBoard-temp">임시저장</button>
 					            <button type="button" class="naver-button" id="btn-updateBoard">수정</button>
 				        	</div>

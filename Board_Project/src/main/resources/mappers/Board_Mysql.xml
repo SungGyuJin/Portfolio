@@ -307,14 +307,9 @@
 		SELECT * FROM (
 			SELECT
 				BOARD_SEQ
-				, CASE
-<!-- 				<if test='!myPageYn.equals("N")'> -->
-					WHEN (SELECT COUNT(1) FROM TB_COMMENT WHERE BOARD_SEQ = T1.BOARD_SEQ AND STAT = 1) <![CDATA[>]]> 0 THEN NULL
-<!-- 				</if> -->
-<!-- 				<if test='myPageYn.equals("N")'> -->
-					WHEN T1.LVL = 0 THEN @rownum := @rownum + 1
-<!-- 				</if> -->
-				  ELSE NULL END AS ROW_NUM
+				<if test='myPageYn.equals("N") or myPageYn.equals("B")'>
+					, CASE WHEN T1.BBS_SEQ = 1 THEN NULL WHEN T1.LVL = 0 THEN @rownum := @rownum + 1 ELSE NULL END AS ROW_NUM
+				</if>
 				, BBS_SEQ
 				, TITLE
 				, CONT
