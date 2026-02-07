@@ -1,5 +1,6 @@
 package com.gyu.portfolio.controller;
 
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,6 +39,19 @@ public class BbsController {
 			HttpServletRequest request,
 			HttpSession session,
 			HttpServletResponse response) throws Exception{
+
+		/* request 정보확인 START */
+		System.out.println();
+		System.out.println("++++++++++++++++++++++++++++++");
+		System.out.println("============ /list.do INFO  ===========");
+		Enumeration params = request.getParameterNames();
+		while(params.hasMoreElements()) {
+			String name= (String) params.nextElement();
+			System.out.println(name + ": " + request.getParameter(name));
+		}
+		System.out.println("++++++++++++++++++++++++++++++");
+		System.out.println();
+		/* request 정보확인 END */
 		
 		ModelAndView mav = null;
 		mav = new ModelAndView("admin/bbs/list");

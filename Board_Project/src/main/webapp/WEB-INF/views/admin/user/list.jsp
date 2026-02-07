@@ -188,7 +188,7 @@
 	
 	// 게시만 조회
 	function getUser(no, str){
-
+alert('ㅇㄴ')
 		$("table tr").removeClass('table-active');
 		$("#tr-"+no).addClass('table-active');
 		$(".init-class").prop("disabled", false);
@@ -294,8 +294,6 @@
 					
 					<!-- Card Body -->
 					<div class="card-body">
-<%-- 							<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum }" /> --%>
-<%-- 							<input type="hidden" name="amount" value="${pageMaker.cri.amount }"  /> --%>
 						<form id="frm-search" method="get">
 							<input type="hidden" name="listTyp" id="listTyp" value="${userVO.listTyp }" readonly="readonly">
 					    	<div class="table-responsive" style="overflow-x: hidden;">
@@ -526,9 +524,6 @@
 											<button class="btn btn-success btn-icon-split init-class" id="btn-restore" onclick="btnControl('restore', '1');" disabled>
 							         			<span class="text">계정복구</span>
 							    			</button>
-											<!-- <button class="btn btn-danger btn-icon-split init-class" id="btn-del" onclick="btnControl('stat', '0');">
-							         			<span class="text">삭제</span>
-							    			</button> -->
 											<button class="btn btn-danger btn-icon-split init-class" id="btn-delPermnt" onclick="btnControl('delete', '0');" disabled>
 						         				<span class="text">탈퇴처리</span>
 						    				</button>

@@ -218,7 +218,6 @@
 		SET
 			STEP = STEP + 1
 		WHERE 1=1 
-<!-- 			AND REF = #{ref} AND STEP > #{step} -->
 			AND REF = #{ref} AND STEP >= #{step}
 	</update>
 	
