@@ -72,9 +72,8 @@ public class LoginController {
 					processLogin(request, vo);
 					response.sendRedirect("/main.do");
 				}else if(vo.getStat() == 0) {
-					session.setAttribute("loginNum", "0");
-					session.setAttribute("loginMsg", "계정이 탈퇴처리되었습니다. 로그인 화면으로 이동합니다.");
-					response.sendRedirect("/main.do");
+					session.setAttribute("loginMsg", "계정이 탈퇴처리되었습니다.");
+					response.sendRedirect("/login.do");
 				}else {
 					processLogin(request, vo);
 					response.sendRedirect("/main.do");

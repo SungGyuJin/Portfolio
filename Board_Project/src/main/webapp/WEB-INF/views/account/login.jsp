@@ -24,6 +24,14 @@ $(function(){
 	}else{
 		$("#loginChk").prop("checked", false);
 	}
+	
+    var loginMsg = "${loginMsg}";
+    
+    if(loginMsg) {
+		alert(loginMsg);
+		<% session.removeAttribute("loginMsg"); %>
+    }
+	
 });
 
 </script>

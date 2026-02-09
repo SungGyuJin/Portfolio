@@ -26,11 +26,6 @@ $(function(){
         alert(loginMsg);
     }
     
-    if(loginNum == 0){
-// 		location.href = '/login.do';
-    }
-	
-    
 	getUserInfo($("#uno").val(), 'refresh');
 	
 	$("#btn-addProfile").on('click', function(){
@@ -1044,9 +1039,6 @@ function getBoardList(num, style, myPg, card){
 				html_bbs +=	'</tr>';
 				
 				for(let i=0; i < bbsList.length; i++){
-					
-						
-					
 					html_bbs += '<tr>';
 					if(bbsList[i].bbsSeq != 1){
 						html_bbs += '<td class="my-td"> └ <a href="javascript:bbsClick('+bbsList[i].bbsSeq+')" id="bbsSeq-'+bbsList[i].bbsSeq+'" class="my-a text-dark" onclick="changeBbsSeq('+bbsList[i].bbsSeq+', this);"><img class="mb-1 me-1" src="'+contextPath +'/resources/front/main/assets/img/bbs_icon.png" style="max-width: 16px;"/><span class="underline">'+bbsList[i].nm+'</span></a></td>';
@@ -1208,7 +1200,8 @@ function getBoardList(num, style, myPg, card){
 											var nm = boardList[i].userNm;
 
 											if(boardList[i].regNo > 1){
-				html +=							'<small>'+nm.substring(0, 1)+'*'+nm.substring(2, 3)+'</small>';
+// 				html +=							'<small>'+nm.substring(0, 1)+'*'+nm.substring(2, 3)+'</small>';
+				html +=							'<small>'+secretName(nm)+'</small>';
 											}else{
 				html +=							'<small>'+nm+'</small>';
 											}
@@ -1279,13 +1272,7 @@ function getBoardList(num, style, myPg, card){
 					
 					html +=	'</div>';
 					
-				}else{
-					
-					
-					
 				}
-				
-				
 			}
 
 			$("#board-body").html(html);
@@ -1382,6 +1369,17 @@ function getBoardList(num, style, myPg, card){
 			})
 		}
 	});
+}
+
+function secretName(name) {
+    if (name.length <= 1) return name;
+    if (name.length === 2) return name[0] + "*";
+    
+    const firstChar = name[0];
+    const lastChar = name.at(-1);
+    const stars = "*".repeat(name.length - 2);
+    
+    return firstChar + stars + lastChar;
 }
 
 function getUserInfo(no, str){
@@ -2489,7 +2487,7 @@ function btnAddCmntChange(str){
 								<div class="row mt-3">
 									<div class="col-12">
 								    	<div class="mb-3">
-								      		<label for="uNm" class="form-label fw-bold">사용자 이름(닉네임)</label>
+								      		<label for="uNm" class="form-label fw-bold">이름</label>
 								      		<input type="text" class="form-control my-input" name="userNm" id="uNm" spellcheck="false" autocomplete="off">
 								    	</div>
 									</div>

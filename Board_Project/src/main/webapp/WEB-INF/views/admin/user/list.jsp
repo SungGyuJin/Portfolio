@@ -188,7 +188,6 @@
 	
 	// 게시만 조회
 	function getUser(no, str){
-alert('ㅇㄴ')
 		$("table tr").removeClass('table-active');
 		$("#tr-"+no).addClass('table-active');
 		$(".init-class").prop("disabled", false);
