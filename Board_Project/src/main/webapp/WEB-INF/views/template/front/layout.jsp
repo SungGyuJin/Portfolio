@@ -494,6 +494,11 @@ img.blocking-hover {
 /*   border-color: #4e73df; */
   font-weight: 700;
 }
+.portfolio-link img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+}
 
 </style>
         

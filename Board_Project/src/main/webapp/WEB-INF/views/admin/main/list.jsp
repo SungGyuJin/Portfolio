@@ -385,7 +385,7 @@
 					
 					reader.onload = function(event) {
 						var img_html = '';
-						img_html += '<img src="'+ event.target.result +'" class="mt-2" style="height: auto; width: 50%;">';
+						img_html += '<img src="'+ event.target.result +'" class="mt-2" style="height: 180px; width: 100%; object-fit: cover;">';
 						$("#"+type+"ImgArea-"+gubun+"-"+num).html(img_html);
 					};
 					
@@ -744,7 +744,7 @@
 									           	</div>
 									           	<div class="text-center sorting_1" id="techImgArea-data-${list.mainSeq }" aria-label="${list.mainSeq }">
 									           		<c:choose>
-									           			<c:when test="${not empty list.filePath }"><img src="${pageContext.request.contextPath }${list.filePath }/${list.strgFileNm}" class="mt-2" style="height: auto; width: 50%;"></c:when>
+									           			<c:when test="${not empty list.filePath }"><img src="${pageContext.request.contextPath }${list.filePath }/${list.strgFileNm}" class="mt-2" style="height: 150px; width: 50%; object-fit: cover;"></c:when>
 									           			<c:otherwise><img src="${pageContext.request.contextPath }/resources/admin/assets/img/no-image.png" class="w-50"></c:otherwise>
 									           		</c:choose>
 												</div>
@@ -856,7 +856,7 @@
 									           	</div>
 									           	<div class="text-center sorting_1" id="poImgArea-data-${list.mainSeq }" aria-label="${list.mainSeq }">
 									           		<c:choose>
-									           			<c:when test="${not empty list.filePath }"><img src="${pageContext.request.contextPath }${list.filePath }/${list.strgFileNm}" class="mt-2" style="height: auto; width: 50%;"></c:when>
+									           			<c:when test="${not empty list.filePath }"><img src="${pageContext.request.contextPath }${list.filePath }/${list.strgFileNm}" class="mt-2" style="height: 180px; width: 100%; object-fit: cover;"></c:when>
 									           			<c:otherwise><img src="${pageContext.request.contextPath }/resources/admin/assets/img/no-image.png" class="w-50"></c:otherwise>
 									           		</c:choose>
 												</div>

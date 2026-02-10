@@ -61,11 +61,17 @@ public class MainServiceImpl implements MainService {
 							if(mainVO.getArrMainSeq()[i].equals("0")) {
 								MainVO vo = new MainVO();
 								vo.setMainSeq(Integer.parseInt(mainVO.getArrMainSeq()[i]));
-								vo.setMainSe(mainVO.getMainSe());
-								vo.setTechNm(mainVO.getArrTechNm()[i]);
 								vo.setRegNo(mainVO.getRegNo());
 								vo.setUpdNo(mainVO.getRegNo());
 								vo.setStat(1);
+
+								if(mainVO.getMainSe().equals("T")) {
+									vo.setTechNm(mainVO.getArrTechNm()[i]);
+									vo.setMainSe("T");
+								}else {
+									vo.setPoforNm(mainVO.getArrPoNm()[i]);
+									vo.setMainSe("P");
+								}
 								
 								result = mainMapper.addMain(vo);
 
