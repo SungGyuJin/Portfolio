@@ -2416,7 +2416,7 @@ function btnAddCmntChange(str){
 	                            </a>
 	                            <div class="portfolio-caption text-center my-round">
 	                                <div class="portfolio-caption-heading">${list.poforNm }</div>
-	                                <div class="portfolio-caption-subheading text-muted">Basic</div>
+<!-- 	                                <div class="portfolio-caption-subheading text-muted">Basic</div> -->
 	                            </div>
 	                        </div>
 	                    </div>

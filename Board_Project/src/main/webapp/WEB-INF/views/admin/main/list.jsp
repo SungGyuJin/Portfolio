@@ -79,7 +79,7 @@
 			html +=              	'<img src="'+contextPath+'/resources/admin/assets/img/x_button.png" id="techImg-delBtn-temp-'+i+'" class="invisible cursor-pointer" title="이미지 삭제" onclick="imgDelete(\'temp\', '+i+', \'tech\');" style="width: 20px;">';
 			html +=           	'</div>';
 			html +=				'<div class="text-center" id="techImgArea-temp-'+i+'">';
-			html +=              	'<img src="'+contextPath+'/resources/admin/assets/img/no-image.png" class="w-50">';
+			html +=              	'<img src="'+contextPath+'/resources/admin/assets/img/no-image.png" class="mt-2" style="height: 180px; width: 50%;">';
 			html +=				'</div>';
 			html +=            	'<div class="mb-2"><input type="text" class="form-control text-center mt-2" placeholder="기술명을 입력하세요." name="arrTechNm" autocomplete="off"></div>';
             html += 			'<div class="font-weight-bold mb-1">등록일시: -</div>';
@@ -134,7 +134,7 @@
 			html +=              	'<img src="'+contextPath+'/resources/admin/assets/img/x_button.png" id="poImg-delBtn-temp-'+j+'" class="invisible cursor-pointer" title="이미지 삭제" onclick="imgDelete(\'temp\', '+j+', \'po\');" style="width: 20px;">';
 			html +=           	'</div>';
 			html +=				'<div class="text-center" id="poImgArea-temp-'+j+'">';
-			html +=              	'<img src="'+contextPath+'/resources/admin/assets/img/no-image.png" class="w-50">';
+			html +=              	'<img src="'+contextPath+'/resources/admin/assets/img/no-image.png" class="mt-2" style="height: 180px; width: 50%;">';
 			html +=				'</div>';
 			html +=            	'<div class="mb-2"><input type="text" class="form-control text-center mt-2" placeholder="포트폴리오명을 입력하세요." name="arrPoNm" autocomplete="off"></div>';
             html += 			'<div class="font-weight-bold mb-1">등록일시: -</div>';
@@ -362,9 +362,6 @@
 
 			if(imgChk != "image"){
 				alert("이미지파일만 첨부 가능합니다");
-// 				$("#"+gubun+"-file-thumb").val('');
-// 				$("#"+gubun+"-thumb-view").children().remove();
-// 				$("#"+gubun+"-file-thumbYn").val('N');
 				return false;
 			}
 			
@@ -385,7 +382,12 @@
 					
 					reader.onload = function(event) {
 						var img_html = '';
-						img_html += '<img src="'+ event.target.result +'" class="mt-2" style="height: 180px; width: 100%; object-fit: cover;">';
+						
+						if(type == 'tech'){
+							img_html += '<img src="'+ event.target.result +'" class="mt-2" style="height: 180px; width: 50%;">';
+						}else{
+							img_html += '<img src="'+ event.target.result +'" class="mt-2" style="height: 180px; width: 100%; border-radius: 3%;">';
+						}
 						$("#"+type+"ImgArea-"+gubun+"-"+num).html(img_html);
 					};
 					
@@ -417,18 +419,12 @@
 				}
 			});
 			
-		}else{
-// 			$("#banner-area").children().remove();
-// 			$("#bannerYn").val('N');
-// 			$("#banner-file").val('');
-// 			$("#banner-data").empty();
-// 			$("#btn-bannerImgDel").prop('disabled', true);
 		}
 	}
 	
 	function imgDelete(gubun, num, type){
 		$("#"+type+"ImgData-"+gubun+"-"+num).empty();
-		$("#"+type+"ImgArea-"+gubun+"-"+num).html('<img src="'+contextPath+'/resources/admin/assets/img/no-image.png" class="w-50">');
+		$("#"+type+"ImgArea-"+gubun+"-"+num).html('<img src="'+contextPath+'/resources/admin/assets/img/no-image.png" class="mt-2" style="height: 180px; width: 50%;">');
 		$("#"+type+"Img-delBtn-"+gubun+"-"+num).addClass('invisible');
 		
 		if(gubun == 'data'){
@@ -744,8 +740,8 @@
 									           	</div>
 									           	<div class="text-center sorting_1" id="techImgArea-data-${list.mainSeq }" aria-label="${list.mainSeq }">
 									           		<c:choose>
-									           			<c:when test="${not empty list.filePath }"><img src="${pageContext.request.contextPath }${list.filePath }/${list.strgFileNm}" class="mt-2" style="height: 150px; width: 50%; object-fit: cover;"></c:when>
-									           			<c:otherwise><img src="${pageContext.request.contextPath }/resources/admin/assets/img/no-image.png" class="w-50"></c:otherwise>
+									           			<c:when test="${not empty list.filePath }"><img src="${pageContext.request.contextPath }${list.filePath }/${list.strgFileNm}" class="mt-2" style="height: 180px; width: 50%;"></c:when>
+									           			<c:otherwise><img src="${pageContext.request.contextPath }/resources/admin/assets/img/no-image.png" class="mt-2" style="height: 180px; width: 50%;"></c:otherwise>
 									           		</c:choose>
 												</div>
 					                            <div class="mb-2"><input type="text" class="form-control text-center techNm mt-2" name="arrTechNm" placeholder="기술명을 입력하세요." value="${list.techNm }" autocomplete="off"></div>
@@ -856,8 +852,8 @@
 									           	</div>
 									           	<div class="text-center sorting_1" id="poImgArea-data-${list.mainSeq }" aria-label="${list.mainSeq }">
 									           		<c:choose>
-									           			<c:when test="${not empty list.filePath }"><img src="${pageContext.request.contextPath }${list.filePath }/${list.strgFileNm}" class="mt-2" style="height: 180px; width: 100%; object-fit: cover;"></c:when>
-									           			<c:otherwise><img src="${pageContext.request.contextPath }/resources/admin/assets/img/no-image.png" class="w-50"></c:otherwise>
+									           			<c:when test="${not empty list.filePath }"><img src="${pageContext.request.contextPath }${list.filePath }/${list.strgFileNm}" class="mt-2" style="height: 180px; width: 100%; border-radius: 3%;"></c:when>
+									           			<c:otherwise><img src="${pageContext.request.contextPath }/resources/admin/assets/img/no-image.png" class="mt-2" style="height: 180px; width: 50%;"></c:otherwise>
 									           		</c:choose>
 												</div>
 					                            <div class="mb-2"><input type="text" class="form-control text-center poNm mt-2" name="arrPoNm" placeholder="포트폴리오명을 입력하세요." value="${list.poforNm }" autocomplete="off"></div>
