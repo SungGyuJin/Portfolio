@@ -138,6 +138,10 @@ public class MainServiceImpl implements MainService {
 	    List<MainVO> getPoList = mainMapper.getMain(mainVO);
 	    resultMap.put("getPoList", getPoList);
 
+	    System.out.println();
+	    System.out.println(getPoList.size());
+	    System.out.println();
+	    
 		return resultMap;
 	}
 

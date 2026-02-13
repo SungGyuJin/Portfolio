@@ -129,7 +129,7 @@
 		WHERE 1=1
 			AND TM.MAIN_SE = #{mainSe}
 			AND TM.STAT NOT IN('9')
-		ORDER BY SRT_ORD ASC
+		ORDER BY SRT_ORD, REG_DT
 	</select>
 	
 	<update id="updateStat">
