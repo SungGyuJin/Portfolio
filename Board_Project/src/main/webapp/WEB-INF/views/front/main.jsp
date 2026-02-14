@@ -970,10 +970,10 @@ function changeBbsSeq(no, info){
 }
 
 // 게시물 목록 JS
-function getBoardList(num, style, myPg, card){
+function getBoardList(num, style, myPg, card, no){
 	
 	if(card == 'click'){
-		var getBoardListModal = new bootstrap.Modal($('#getBoardListModal')[0], {
+		var getBoardListModal = new bootstrap.Modal($('#getModalList-'+no)[0], {
 			backdrop: 'static',
 			keyboard: false,
 			focus: false
@@ -1967,10 +1967,16 @@ function btnAddCmntChange(str){
 	}
 }
 
+function openModal(no){
+	if(no == '139'){
+		getBoardList('1', 'L', null, 'click', no);
+	}
+}
+
 </script>
 
 	<!-- getFnceList Modal -->
-	<div class="portfolio-modal modal fade" id="getFnceListModal" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="portfolio-modal modal fade" id="getModalList-159" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered mx-auto" style="max-width: 100%;">
 	        <div class="modal-content m-3">
 	            <div class="close-modal" data-bs-dismiss="modal">
@@ -1986,53 +1992,45 @@ function btnAddCmntChange(str){
 	            						<div class="sticky-sidebar">
 											<div class="col-md-1 me-2 d-flex align-items-center justify-content-center"></div>
 		            						<div class="image-wrapper mb-2">
-										        
 										        <c:choose>
 										        	<c:when test="${sessionScope.USERSEQ ne null }">
-				            								
-				            								
-										        <c:choose>
-										        	<c:when test="${sessionScope.USERSEQ ne 1 }">
-				            							<div class="user-info-box bg-light border rounded pt-2 mb-1 text-center fixed-image">
-										        		
-												            <div class="fw-bold mb-2">
-												            	<a href="javascript:getUserInfo('${sessionScope.USERSEQ }');" class="my-a">
-												            		<!-- <span id="user-profile">👤</span> -->
-												            		<span id="">
-												            			<img src="${pageContext.request.contextPath}/resources/front/main/assets/img/profile.png" alt="프로필 이미지" style="width: 25px; height: 25px; object-fit: cover; border-radius: 50%;">
-												            		</span>
-												            		<span id="">${sessionScope.USERNM }</span> 님
-												            	</a>
-												            </div>
-												            
-												            <div class="small text-muted d-flex justify-content-between ms-1 me-1" id="">
-															    <div><img class="mb-1 me-1" src="${pageContext.request.contextPath}/resources/front/main/assets/img/pencil-black.png" style="max-width: 16px;">내가 쓴 게시글:</div>
-															    <div><a href="javascript:getBoardList(1, 'L', 'B');" class="my-a"><span id=""></span> 개</a></div>
-															</div>
-															
-												            <div class="small text-muted d-flex justify-content-between ms-1 me-1" id="">
-															    <div><img class="mb-1 me-1" src="${pageContext.request.contextPath}/resources/front/main/assets/img/cmnt.png" style="max-width: 16px;">내가 쓴 댓글:</div>
-															    <div><a href="javascript:getBoardList(1, 'L', 'C');" class="my-a"><span id=""></span> 개</a></div>
-															</div>
-															
-												            <div class="small text-muted d-flex justify-content-between ms-1 me-1" id="">
-															    <div><img class="mb-1 me-1" src="${pageContext.request.contextPath}/resources/front/main/assets/img/cmnt.png" style="max-width: 16px;">임시저장 글:</div>
-															    <div><a href="javascript:getBoardList(1, 'L', 'T');" class="my-a"><span id=""></span> 개</a></div>
-															</div>
-				       										<button type="button" class="btn my-success w-100 mt-1" id="" onclick="">
-				       											글쓰기
-				       										</button>
-												        </div>
-										        	</c:when>
-										        	<c:otherwise>
-				            							<div class="user-info-box bg-light border rounded pt-2 mb-1 text-center fixed-image">
-				            								<br>
-				            								<br>
-												            <div class="fw-bold mb-2">👤 <span id="">관리자 계정입니다</span></div>
-												        </div>
-										        	</c:otherwise>
-										        </c:choose>
-				            							
+												        <c:choose>
+												        	<c:when test="${sessionScope.USERSEQ ne 1 }">
+						            							<div class="user-info-box bg-light border rounded pt-2 mb-1 text-center fixed-image">
+														            <div class="fw-bold mb-2">
+														            	<a href="javascript:getUserInfo('${sessionScope.USERSEQ }');" class="my-a">
+														            		<!-- <span id="user-profile">👤</span> -->
+														            		<span id="">
+														            			<img src="${pageContext.request.contextPath}/resources/front/main/assets/img/profile.png" alt="프로필 이미지" style="width: 25px; height: 25px; object-fit: cover; border-radius: 50%;">
+														            		</span>
+														            		<span id="">${sessionScope.USERNM }</span> 님
+														            	</a>
+														            </div>
+														            <div class="small text-muted d-flex justify-content-between ms-1 me-1" id="">
+																	    <div><img class="mb-1 me-1" src="${pageContext.request.contextPath}/resources/front/main/assets/img/pencil-black.png" style="max-width: 16px;">내가 쓴 게시글:</div>
+																	    <div><a href="javascript:getBoardList(1, 'L', 'B');" class="my-a"><span id=""></span> 개</a></div>
+																	</div>
+														            <div class="small text-muted d-flex justify-content-between ms-1 me-1" id="">
+																	    <div><img class="mb-1 me-1" src="${pageContext.request.contextPath}/resources/front/main/assets/img/cmnt.png" style="max-width: 16px;">내가 쓴 댓글:</div>
+																	    <div><a href="javascript:getBoardList(1, 'L', 'C');" class="my-a"><span id=""></span> 개</a></div>
+																	</div>
+														            <div class="small text-muted d-flex justify-content-between ms-1 me-1" id="">
+																	    <div><img class="mb-1 me-1" src="${pageContext.request.contextPath}/resources/front/main/assets/img/cmnt.png" style="max-width: 16px;">임시저장 글:</div>
+																	    <div><a href="javascript:getBoardList(1, 'L', 'T');" class="my-a"><span id=""></span> 개</a></div>
+																	</div>
+						       										<button type="button" class="btn my-success w-100 mt-1" id="" onclick="">
+						       											글쓰기
+						       										</button>
+														        </div>
+												        	</c:when>
+												        	<c:otherwise>
+						            							<div class="user-info-box bg-light border rounded pt-2 mb-1 text-center fixed-image">
+						            								<br>
+						            								<br>
+														            <div class="fw-bold mb-2">👤 <span id="">관리자 계정입니다</span></div>
+														        </div>
+												        	</c:otherwise>
+												        </c:choose>
 										        	</c:when>
 										        	<c:otherwise>
 				            							<div class="user-info-box bg-light border rounded p-2 mb-1 text-center fixed-image">
@@ -2076,7 +2074,7 @@ function btnAddCmntChange(str){
 	</div>
 
 	<!-- getBoardList Modal -->
-	<div class="portfolio-modal modal fade" id="getBoardListModal" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="portfolio-modal modal fade" id="getModalList-139" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered mx-auto" style="max-width: 100%;">
 	        <div class="modal-content m-3">
 	            <div class="close-modal" data-bs-dismiss="modal">
@@ -2092,53 +2090,45 @@ function btnAddCmntChange(str){
 	            						<div class="sticky-sidebar">
 											<div class="col-md-1 me-2 d-flex align-items-center justify-content-center"></div>
 		            						<div class="image-wrapper mb-2">
-										        
 										        <c:choose>
 										        	<c:when test="${sessionScope.USERSEQ ne null }">
-				            								
-				            								
-										        <c:choose>
-										        	<c:when test="${sessionScope.USERSEQ ne 1 }">
-				            							<div class="user-info-box bg-light border rounded pt-2 mb-1 text-center fixed-image">
-										        		
-												            <div class="fw-bold mb-2">
-												            	<a href="javascript:getUserInfo('${sessionScope.USERSEQ }');" class="my-a">
-												            		<!-- <span id="user-profile">👤</span> -->
-												            		<span id="user-profile">
-												            			<img src="${pageContext.request.contextPath}/resources/front/main/assets/img/profile.png" alt="프로필 이미지" style="width: 25px; height: 25px; object-fit: cover; border-radius: 50%;">
-												            		</span>
-												            		<span id="user-nickname">${sessionScope.USERNM }</span> 님
-												            	</a>
-												            </div>
-												            
-												            <div class="small text-muted d-flex justify-content-between ms-1 me-1" id="my-board">
-															    <div><img class="mb-1 me-1" src="${pageContext.request.contextPath}/resources/front/main/assets/img/pencil-black.png" style="max-width: 16px;">내가 쓴 게시글:</div>
-															    <div><a href="javascript:getBoardList(1, 'L', 'B');" class="my-a"><span id="boardCnt"></span> 개</a></div>
-															</div>
-															
-												            <div class="small text-muted d-flex justify-content-between ms-1 me-1" id="my-cmnt">
-															    <div><img class="mb-1 me-1" src="${pageContext.request.contextPath}/resources/front/main/assets/img/cmnt.png" style="max-width: 16px;">내가 쓴 댓글:</div>
-															    <div><a href="javascript:getBoardList(1, 'L', 'C');" class="my-a"><span id="cmntCnt"></span> 개</a></div>
-															</div>
-															
-												            <div class="small text-muted d-flex justify-content-between ms-1 me-1" id="my-temp">
-															    <div><img class="mb-1 me-1" src="${pageContext.request.contextPath}/resources/front/main/assets/img/cmnt.png" style="max-width: 16px;">임시저장 글:</div>
-															    <div><a href="javascript:getBoardList(1, 'L', 'T');" class="my-a"><span id="tempCnt"></span> 개</a></div>
-															</div>
-				       										<button type="button" class="btn my-success w-100 mt-1" id="btn-addBoradModal" onclick="addBoardModalView();">
-				       											글쓰기
-				       										</button>
-												        </div>
-										        	</c:when>
-										        	<c:otherwise>
-				            							<div class="user-info-box bg-light border rounded pt-2 mb-1 text-center fixed-image">
-				            								<br>
-				            								<br>
-												            <div class="fw-bold mb-2">👤 <span id="admin-nickname">관리자 계정입니다</span></div>
-												        </div>
-										        	</c:otherwise>
-										        </c:choose>
-				            							
+												        <c:choose>
+												        	<c:when test="${sessionScope.USERSEQ ne 1 }">
+						            							<div class="user-info-box bg-light border rounded pt-2 mb-1 text-center fixed-image">
+														            <div class="fw-bold mb-2">
+														            	<a href="javascript:getUserInfo('${sessionScope.USERSEQ }');" class="my-a">
+														            		<!-- <span id="user-profile">👤</span> -->
+														            		<span id="user-profile">
+														            			<img src="${pageContext.request.contextPath}/resources/front/main/assets/img/profile.png" alt="프로필 이미지" style="width: 25px; height: 25px; object-fit: cover; border-radius: 50%;">
+														            		</span>
+														            		<span id="user-nickname">${sessionScope.USERNM }</span> 님
+														            	</a>
+														            </div>
+														            <div class="small text-muted d-flex justify-content-between ms-1 me-1" id="my-board">
+																	    <div><img class="mb-1 me-1" src="${pageContext.request.contextPath}/resources/front/main/assets/img/pencil-black.png" style="max-width: 16px;">내가 쓴 게시글:</div>
+																	    <div><a href="javascript:getBoardList(1, 'L', 'B');" class="my-a"><span id="boardCnt"></span> 개</a></div>
+																	</div>
+														            <div class="small text-muted d-flex justify-content-between ms-1 me-1" id="my-cmnt">
+																	    <div><img class="mb-1 me-1" src="${pageContext.request.contextPath}/resources/front/main/assets/img/cmnt.png" style="max-width: 16px;">내가 쓴 댓글:</div>
+																	    <div><a href="javascript:getBoardList(1, 'L', 'C');" class="my-a"><span id="cmntCnt"></span> 개</a></div>
+																	</div>
+														            <div class="small text-muted d-flex justify-content-between ms-1 me-1" id="my-temp">
+																	    <div><img class="mb-1 me-1" src="${pageContext.request.contextPath}/resources/front/main/assets/img/cmnt.png" style="max-width: 16px;">임시저장 글:</div>
+																	    <div><a href="javascript:getBoardList(1, 'L', 'T');" class="my-a"><span id="tempCnt"></span> 개</a></div>
+																	</div>
+						       										<button type="button" class="btn my-success w-100 mt-1" id="btn-addBoradModal" onclick="addBoardModalView();">
+						       											글쓰기
+						       										</button>
+														        </div>
+												        	</c:when>
+												        	<c:otherwise>
+						            							<div class="user-info-box bg-light border rounded pt-2 mb-1 text-center fixed-image">
+						            								<br>
+						            								<br>
+														            <div class="fw-bold mb-2">👤 <span id="admin-nickname">관리자 계정입니다</span></div>
+														        </div>
+												        	</c:otherwise>
+												        </c:choose>
 										        	</c:when>
 										        	<c:otherwise>
 				            							<div class="user-info-box bg-light border rounded p-2 mb-1 text-center fixed-image">
@@ -2511,7 +2501,8 @@ function btnAddCmntChange(str){
 					<c:if test="${list.stat ne 0 }">
 	                    <div class="col-lg-4 col-sm-6 mb-4">
 	                        <div class="portfolio-item">
-	                            <a href="javascript:getBoardList(1, 'L', null, 'click');" class="portfolio-link">
+<!-- 	                            <a href="javascript:getBoardList(1, 'L', null, 'click');" class="portfolio-link"> -->
+	                            <a href="javascript:openModal('${list.mainSeq}');" class="portfolio-link">
 	                                <div class="portfolio-hover">
 	                                    <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
 	                                </div>
