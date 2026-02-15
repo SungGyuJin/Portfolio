@@ -1970,108 +1970,99 @@ function btnAddCmntChange(str){
 function openModal(no){
 	if(no == '139'){
 		getBoardList('1', 'L', null, 'click', no);
+	}else{
+		var getFnceListModal = new bootstrap.Modal($('#getModalList-'+no)[0], {
+			backdrop: 'static',
+			keyboard: false,
+			focus: false
+		});
+
+		getFnceListModal.show();
 	}
 }
+
+
 
 </script>
 
 	<!-- getFnceList Modal -->
 	<div class="portfolio-modal modal fade" id="getModalList-159" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered mx-auto" style="max-width: 100%;">
-	        <div class="modal-content m-3">
-	            <div class="close-modal" data-bs-dismiss="modal">
-	                <img src="${pageContext.request.contextPath}/resources/front/main/assets/img/close-icon.svg" alt="Close modal" style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%;" />
-	            </div>
-	            <div class="container-fluid">
-	                <div class="row justify-content-center">
-	                    <div class="col-lg-12">
-							<div class="modal-body mt-5" id="">
-		                        <div class="row">
-		                        	<div class="col-md-2"></div>
-		                        	<div class="col-md-1">
-	            						<div class="sticky-sidebar">
-											<div class="col-md-1 me-2 d-flex align-items-center justify-content-center"></div>
-		            						<div class="image-wrapper mb-2">
-										        <c:choose>
-										        	<c:when test="${sessionScope.USERSEQ ne null }">
-												        <c:choose>
-												        	<c:when test="${sessionScope.USERSEQ ne 1 }">
-						            							<div class="user-info-box bg-light border rounded pt-2 mb-1 text-center fixed-image">
-														            <div class="fw-bold mb-2">
-														            	<a href="javascript:getUserInfo('${sessionScope.USERSEQ }');" class="my-a">
-														            		<!-- <span id="user-profile">👤</span> -->
-														            		<span id="">
-														            			<img src="${pageContext.request.contextPath}/resources/front/main/assets/img/profile.png" alt="프로필 이미지" style="width: 25px; height: 25px; object-fit: cover; border-radius: 50%;">
-														            		</span>
-														            		<span id="">${sessionScope.USERNM }</span> 님
-														            	</a>
-														            </div>
-														            <div class="small text-muted d-flex justify-content-between ms-1 me-1" id="">
-																	    <div><img class="mb-1 me-1" src="${pageContext.request.contextPath}/resources/front/main/assets/img/pencil-black.png" style="max-width: 16px;">내가 쓴 게시글:</div>
-																	    <div><a href="javascript:getBoardList(1, 'L', 'B');" class="my-a"><span id=""></span> 개</a></div>
-																	</div>
-														            <div class="small text-muted d-flex justify-content-between ms-1 me-1" id="">
-																	    <div><img class="mb-1 me-1" src="${pageContext.request.contextPath}/resources/front/main/assets/img/cmnt.png" style="max-width: 16px;">내가 쓴 댓글:</div>
-																	    <div><a href="javascript:getBoardList(1, 'L', 'C');" class="my-a"><span id=""></span> 개</a></div>
-																	</div>
-														            <div class="small text-muted d-flex justify-content-between ms-1 me-1" id="">
-																	    <div><img class="mb-1 me-1" src="${pageContext.request.contextPath}/resources/front/main/assets/img/cmnt.png" style="max-width: 16px;">임시저장 글:</div>
-																	    <div><a href="javascript:getBoardList(1, 'L', 'T');" class="my-a"><span id=""></span> 개</a></div>
-																	</div>
-						       										<button type="button" class="btn my-success w-100 mt-1" id="" onclick="">
-						       											글쓰기
-						       										</button>
-														        </div>
-												        	</c:when>
-												        	<c:otherwise>
-						            							<div class="user-info-box bg-light border rounded pt-2 mb-1 text-center fixed-image">
-						            								<br>
-						            								<br>
-														            <div class="fw-bold mb-2">👤 <span id="">관리자 계정입니다</span></div>
-														        </div>
-												        	</c:otherwise>
-												        </c:choose>
-										        	</c:when>
-										        	<c:otherwise>
-				            							<div class="user-info-box bg-light border rounded p-2 mb-1 text-center fixed-image">
-												            <div class="mt-5">※ 로그인이 필요합니다.</div>
-												        </div>
-										        	</c:otherwise>
-										        </c:choose>
-		            						</div>
-			                        		<table class="table table-sm mb-0 text-start">
-												<tbody class="text-muted my-thead" id=""></tbody>
-											</table>
-	            						</div>
-		                        	</div>
-		                        	
-			                        <div class="col-md-6 mt-4">
-			                            <div class="d-flex justify-content-between">
-			                            	<span class="mt-3" id=""></span>
-			                            </div>
-										<input type="hidden" id="" value="">
-			                        	<hr>
-			                        	<form id="">
-			                        		<input type="hidden" name="myPageYn" id="" value="N">
-			                        		<input type="hidden" name="listTyp" id="" value="L">
-			                        		<input type="hidden" name="bbsSeq" id="" value="0">
-			                        		<input type="hidden" name="pageNum" id="" value="1">
-			                        		<input type="hidden" name="searchKeyword" id="" autocomplete="off">
-			                        		<input type="hidden" name="bbsNm" id="" value="${vo.pageNum }">
-			                        		<input type="hidden" name="stat" id="" value="1">
-			                        		<div id=""></div>
-			                        		<div id=""></div>
-			                        		<div id=""></div>
-			                        	</form>
-			                        </div>
-		                        </div>	<!-- .row end -->
-	                        </div>
-	                    </div>
-	                </div>
-	            </div>
-	        </div>
-	    </div>
-	</div>
+    <div class="modal-dialog modal-dialog-centered mx-auto" style="max-width: 900px;"> <div class="modal-content shadow-lg border-0">
+            <div class="close-modal" data-bs-dismiss="modal" style="cursor:pointer; position:absolute; right:20px; top:20px; z-index:999;">
+                <img src="${pageContext.request.contextPath}/resources/front/main/assets/img/close-icon.svg" alt="Close" style="width: 30px;"/>
+            </div>
+
+            <div class="modal-body p-0">
+                <div class="row g-0">
+                    <div class="col-md-4 bg-dark text-white p-4">
+                        <div class="user-info-section mb-4">
+                            <h5 class="fw-bold mb-3">내 자산 현황</h5>
+                            <div class="card bg-secondary border-0 mb-3">
+                                <div class="card-body">
+                                    <p class="small mb-1 text-light">주거래 계좌</p>
+                                    <h4 class="fw-bold text-warning mb-0">2,540,000 원</h4>
+                                    <p class="x-small text-muted mt-2 mb-0">신한 110-456-789012</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="recent-transfer mt-5">
+                            <h6 class="small fw-bold text-muted mb-3 text-uppercase">최근 이체 대상</h6>
+                            <div class="small">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>김철수(신한)</span>
+                                    <span class="text-muted">110-***</span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>이영희(우리)</span>
+                                    <span class="text-muted">1002-***</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-8 p-5 bg-white">
+                        <h3 class="fw-bold mb-4">돈 보내기</h3>
+                        <hr>
+                        <form id="transferForm">
+                            <div class="mb-4">
+                                <label class="form-label small fw-bold text-primary">받는 분</label>
+                                <div class="input-group">
+                                    <select class="form-select border-primary-subtle" style="width: 30%;">
+                                        <option selected>은행 선택</option>
+                                        <option>신한</option><option>우리</option><option>국민</option>
+                                    </select>
+                                    <input type="text" class="form-control w-50" placeholder="계좌번호를 입력하세요.">
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label small fw-bold text-primary">보낼 금액</label>
+                                <div class="input-group input-group-lg">
+                                    <input type="number" class="form-control text-end" id="sendAmount" placeholder="0">
+                                    <span class="input-group-text bg-white">원</span>
+                                </div>
+                                <div class="mt-2 d-flex gap-1 justify-content-end">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary">+ 1만</button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary">+ 5만</button>
+                                    <button type="button" class="btn btn-sm btn-outline-primary">+ 전액</button>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label small fw-bold text-primary">받는 분 통장 표시</label>
+                                <input type="text" class="form-control" placeholder="메모를 입력하세요(선택)">
+                            </div>
+
+                            <button type="button" class="btn btn-primary btn-lg w-100 fw-bold py-3 mt-3" onclick="doTransfer()">
+                                이체하기
+                            </button>
+                        </form>
+                    </div>
+                </div> </div>
+        </div>
+    </div>
+</div>
 
 	<!-- getBoardList Modal -->
 	<div class="portfolio-modal modal fade" id="getModalList-139" tabindex="-1" role="dialog" aria-hidden="true">
