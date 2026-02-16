@@ -409,6 +409,10 @@ $(function(){
 		
 	});
 	
+	/* $(function(){})  Fnce */
+	
+	
+	
 });
 
 // 썸네일 업로드 조건 및 표시
@@ -1982,7 +1986,6 @@ function openModal(no){
 }
 
 
-
 </script>
 
 	<!-- getFnceList Modal -->
@@ -2059,7 +2062,8 @@ function openModal(no){
                             </button>
                         </form>
                     </div>
-                </div> </div>
+                </div> 
+			</div>
         </div>
     </div>
 </div>
