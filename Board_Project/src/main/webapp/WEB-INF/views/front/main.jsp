@@ -36,52 +36,8 @@ function openModal(no){
 
 	<jsp:include page="board.jsp" flush="false" />
 	<jsp:include page="fnce.jsp" flush="false" />
-
-	
         
-        
-        <!-- Modal Sample -->
-        <%-- <div class="portfolio-modal modal fade" id="getBoardModal" tabindex="-1" role="dialog" aria-hidden="true">
-<!--             <div class="modal-dialog modal-dialog-centered mx-auto" style="max-width: 50%;"> -->
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content" id="modal-board">
-                    <div class="close-modal" data-bs-dismiss="modal">
-                    	<img src="${pageContext.request.contextPath}/resources/front/main/assets/img/close-icon.svg" alt="Close modal" />
-                    </div>
-                    <div class="container">
-                        <div class="row justify-content-center">
-                            <div class="col-lg-8">
-                                <div class="modal-body">
-                                    <!-- Project details-->
-                                    <h2 class="text-uppercase">Board</h2>
-                                    <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
-                                    <img class="img-fluid d-block mx-auto" src="${pageContext.request.contextPath}/resources/front/main/assets/img/portfolio/1-board-img.jpg" alt="..." />
-                                    <p class="fs-5">사용자가 원하는 게시판에 글을 쓰고, 수정할 수 있으며 댓글, 비밀 글 등의 옵션이 있는 게시판입니다.</p>
-                                    <ul class="list-inline">
-                                        <li>
-                                            <strong>Client:</strong>
-                                            Threads(Name)
-                                        </li>
-                                        <li>
-                                            <strong>Category:</strong>
-                                            Illustration
-                                        </li>
-                                    </ul>
-<!--                                     <button class="btn btn-danger btn-xl text-uppercase btn-opt" data-bs-dismiss="modal" type="button" value="1"> -->
-                                    <button type="button" class="btn btn-danger btn-xl text-uppercase btn-opt" value="1">
-                                        GO
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> --%>
-        
-
-
-		<!-- Masthead-->
+        <!-- Masthead-->
 	 	<c:choose>
 	 		<c:when test="${not empty getBanner[0].filePath }">
 				<header class="masthead mb-4" style="background-image: url('${pageContext.request.contextPath}${getBanner[0].filePath}/${getBanner[0].strgFileNm}');">
@@ -123,7 +79,6 @@ function openModal(no){
             </div>
         </section>
         
-        
         <!-- Portfolio Grid-->
         <section class="page-section bg-light" id="portfolio">
             <div class="container">
@@ -154,7 +109,44 @@ function openModal(no){
             </div>
         </section>
         
-        
+        <!-- Modal Sample -->
+        <%-- <div class="portfolio-modal modal fade" id="getBoardModal" tabindex="-1" role="dialog" aria-hidden="true">
+<!--             <div class="modal-dialog modal-dialog-centered mx-auto" style="max-width: 50%;"> -->
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content" id="modal-board">
+                    <div class="close-modal" data-bs-dismiss="modal">
+                    	<img src="${pageContext.request.contextPath}/resources/front/main/assets/img/close-icon.svg" alt="Close modal" />
+                    </div>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <div class="modal-body">
+                                    <!-- Project details-->
+                                    <h2 class="text-uppercase">Board</h2>
+                                    <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+                                    <img class="img-fluid d-block mx-auto" src="${pageContext.request.contextPath}/resources/front/main/assets/img/portfolio/1-board-img.jpg" alt="..." />
+                                    <p class="fs-5">사용자가 원하는 게시판에 글을 쓰고, 수정할 수 있으며 댓글, 비밀 글 등의 옵션이 있는 게시판입니다.</p>
+                                    <ul class="list-inline">
+                                        <li>
+                                            <strong>Client:</strong>
+                                            Threads(Name)
+                                        </li>
+                                        <li>
+                                            <strong>Category:</strong>
+                                            Illustration
+                                        </li>
+                                    </ul>
+<!--                                     <button class="btn btn-danger btn-xl text-uppercase btn-opt" data-bs-dismiss="modal" type="button" value="1"> -->
+                                    <button type="button" class="btn btn-danger btn-xl text-uppercase btn-opt" value="1">
+                                        GO
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> --%>
         
         <!-- OG -->
         <!-- Portfolio item 1 modal popup-->
