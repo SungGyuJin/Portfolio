@@ -6,6 +6,14 @@
 <script>
 $(function(){
 	
+	$(".payBtn").on('click', function(){
+		
+		var rsAmnt = Number($("#sendAmount").val());
+		rsAmnt += Number($(this).val());
+		
+		$("#sendAmount").val(rsAmnt);
+	});
+	
 });
 
 
@@ -26,7 +34,7 @@ $(function(){
                             <div class="card bg-secondary border-0 mb-3">
                                 <div class="card-body">
                                     <p class="small mb-1 text-light">주거래 계좌</p>
-                                    <h4 class="fw-bold text-warning mb-0">2,540,000 원</h4>
+                                    <h4 class="fw-bold text-warning mb-0">5,000,000 원</h4>
                                     <p class="x-small text-muted mt-2 mb-0">신한 110-456-789012</p>
                                 </div>
                             </div>
@@ -69,9 +77,10 @@ $(function(){
                                     <span class="input-group-text bg-white">원</span>
                                 </div>
                                 <div class="mt-2 d-flex gap-1 justify-content-end">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary">+ 1만</button>
-                                    <button type="button" class="btn btn-sm btn-outline-secondary">+ 5만</button>
-                                    <button type="button" class="btn btn-sm btn-outline-primary">+ 전액</button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary payBtn" value="10000">+ 1만</button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary payBtn" value="50000">+ 5만</button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary payBtn" value="100000">+ 10만</button>
+                                    <button type="button" class="btn btn-sm btn-outline-primary payBtn" value="all">+ 전액</button>
                                 </div>
                             </div>
 
