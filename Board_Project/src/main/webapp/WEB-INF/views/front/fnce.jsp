@@ -8,10 +8,13 @@ $(function(){
 	
 	$(".payBtn").on('click', function(){
 		
-		var rsAmnt = Number($("#sendAmount").val());
-		rsAmnt += Number($(this).val());
+		var rsAmnt = 0;
+		var oldAmnt = $("#sendAmount").val().replace(/,/g, "");
+		var newAmnt = $(this).val();
 		
-		$("#sendAmount").val(rsAmnt);
+		rsAmnt = Number(oldAmnt) + Number(newAmnt);
+		
+		$("#sendAmount").val(rsAmnt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
 	});
 	
 });
@@ -73,7 +76,7 @@ $(function(){
                             <div class="mb-4">
                                 <label class="form-label small fw-bold text-primary">보낼 금액</label>
                                 <div class="input-group input-group-lg">
-                                    <input type="number" class="form-control text-end" id="sendAmount" placeholder="0">
+                                    <input type="text" class="form-control text-end" id="sendAmount" placeholder="0">
                                     <span class="input-group-text bg-white">원</span>
                                 </div>
                                 <div class="mt-2 d-flex gap-1 justify-content-end">
