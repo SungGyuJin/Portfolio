@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AcntLogVO extends DefalutVO {
+public class FnceLogVO extends DefalutVO {
 	
 	private int    logSeq  		=   0;	// 로그일련번호
 	private String acntNo   	=  "";  // 계좌번호

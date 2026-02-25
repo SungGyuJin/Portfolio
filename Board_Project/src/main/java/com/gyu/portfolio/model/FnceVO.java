@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AcntVO extends DefalutVO {
+public class FnceVO extends DefalutVO {
 	
 	private String acntNo   =  "";  // 계좌번호
 	private int    userSeq  =   0;	// 사용자 일련번호
