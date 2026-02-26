@@ -9,6 +9,8 @@
 		<typeAlias type="com.gyu.portfolio.model.CmntVO" 	alias="cmntVO"		/>
 		<typeAlias type="com.gyu.portfolio.model.UserVO" 	alias="userVO"		/>
 		<typeAlias type="com.gyu.portfolio.model.MainVO" 	alias="mainVO"		/>
+		
+		<typeAlias type="com.gyu.portfolio.model.FnceVO"	alias="fnceVO"		/>
 	</typeAliases>
 	
 	
@@ -32,6 +34,8 @@
 		<mapper resource="/mappers/Cmnt_Mysql.xml"		/>
 		<mapper resource="/mappers/User_Mysql.xml"		/>
 		<mapper resource="/mappers/Main_Mysql.xml"		/>
+		
+		<mapper resource="/mappers/Fnce_Mysql.xml"		/>
 	</mappers>
 	
 </configuration>
