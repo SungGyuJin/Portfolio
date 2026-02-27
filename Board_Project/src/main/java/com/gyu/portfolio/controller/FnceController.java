@@ -58,7 +58,7 @@ public class FnceController {
 		return mav;
 	}
 	
-	@GetMapping("/getBbs.do")
+	@GetMapping("/getFnce.do")
 	@ResponseBody
 	public Map<String, Object> getFnce(ModelMap model,
 			@ModelAttribute("FnceVO") FnceVO fnceVO,
@@ -82,35 +82,6 @@ public class FnceController {
 		fnceVO.setRegNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
 		int result = 0;
 		
-		return result;
-	}
-	
-	@PostMapping("/updateBbs.do")
-	@ResponseBody
-	public int updateBbs(ModelMap model,
-			@ModelAttribute("FnceVO") FnceVO fnceVO,
-			HttpServletRequest request,
-			HttpServletResponse response,
-			HttpSession session) throws Exception{
-
-		fnceVO.setUpdNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
-		int result = 0;
-
-		return result;
-	}
-	
-	/* 게시판 상태변경(복구, 삭제, 영구삭제)(Ajax) */
-	@PostMapping("/changeStat.do")
-	@ResponseBody
-	public int changeStat(ModelMap model,
-			@ModelAttribute("FnceVO") FnceVO fnceVO,
-			HttpServletRequest request,
-			HttpServletResponse response,
-			HttpSession session) throws Exception{
-
-		fnceVO.setUpdNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
-		int result = 0;
-
 		return result;
 	}
 	
