@@ -3,6 +3,11 @@
 <mapper namespace="com.gyu.portfolio.service.mapper.FnceMapper">
 	
 	<resultMap id="fnceVO" type="fnceVO">
+		<result property="acntNo"		column="ACNT_NO" 	/>
+		<result property="userSeq"		column="USER_SEQ" 	/>
+		<result property="bankNm"		column="BANK_NM" 	/>
+		<result property="currBal"		column="CURR_BAL" 	/>
+		<result property="accPwd"		column="ACC_PWD" 	/>
 		
 		<result property="regNo"		column="REG_NO" 	/>
 		<result property="regDt"		column="REG_DT" 	/>
@@ -11,5 +16,30 @@
 		<result property="stat"			column="STAT" 		/>
 	</resultMap>
 	
+	<insert id="addFnce">
+		INSERT INTO TB_FNCE(
+			ACNT_NO
+			, USER_SEQ
+			, BANK_NM
+			, CURR_BAL
+			, ACC_PWD
+			, REG_NO
+			, REG_DT
+			, UPD_NO
+			, UPD_DT
+			, STAT
+		)VALUES (
+			#{acntNo}
+			, #{userSeq}
+			, #{bankNm}
+			, #{currBal}
+			, #{accPwd}
+			, #{regNo}
+			, NOW()
+			, #{regNo}
+			, NOW()
+			, 1
+		)
+	</insert>
 	
 </mapper>

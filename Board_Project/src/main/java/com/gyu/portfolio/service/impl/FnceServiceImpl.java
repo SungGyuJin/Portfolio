@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Service;
 
+import com.gyu.portfolio.model.FnceVO;
 import com.gyu.portfolio.service.FnceService;
 import com.gyu.portfolio.service.mapper.FnceMapper;
 
@@ -15,6 +16,11 @@ public class FnceServiceImpl implements FnceService{
 
 	@Autowired
 	private DataSourceTransactionManager transactionManager;
+
+	@Override
+	public int addFnce(FnceVO fnceVO) throws Exception {
+		return fnceMapper.addFnce(fnceVO);
+	}
 	
 
 }

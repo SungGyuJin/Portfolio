@@ -1,11 +1,12 @@
 package com.gyu.portfolio.service.mapper;
 
 import java.util.List;
-import java.util.Map;
 
-import com.gyu.portfolio.model.BbsVO;
+import org.apache.ibatis.annotations.Mapper;
+
 import com.gyu.portfolio.model.BoardVO;
 
+@Mapper
 public interface BoardMapper {
 
 	/* ########################################################################################################### */
