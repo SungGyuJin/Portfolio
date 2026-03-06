@@ -46,7 +46,12 @@ public class MainServiceImpl implements MainService {
 					
 					result = mainMapper.updateMain(mainVO);
 
-					if(!mainVO.getThumbYn().equals("D")) {
+					if(mainVO.getThumbYn().equals("Y") || mainVO.getThumbYn().equals("N")) {
+
+						System.out.println();
+						System.out.println("진입: "+mainVO.getThumbYn());
+						System.out.println();
+						
 						mainImgLogic(mainVO, 0, 0);
 					}
 
