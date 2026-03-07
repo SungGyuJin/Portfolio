@@ -1,7 +1,6 @@
 package com.gyu.portfolio.controller;
 
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +21,7 @@ import com.gyu.portfolio.model.FnceVO;
 import com.gyu.portfolio.service.FnceService;
 
 /* ##################################################### */
-/* ################## 게시판 Controller ################## */
+/* ################## Fnce Controller ################## */
 /* ##################################################### */
 
 @Controller
@@ -65,8 +64,7 @@ public class FnceController {
 			HttpServletRequest request,
 			HttpServletResponse response) throws Exception{
 		
-	    Map<String, Object> resultMap = new HashMap<>();
-	    
+//	    Map<String, Object> resultMap = new HashMap<>();
 		
 		return resultMap;
 	}
@@ -79,8 +77,8 @@ public class FnceController {
 			HttpServletResponse response,
 			HttpSession session) throws Exception{
 		
-		fnceVO.setRegNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
-		int result = 0;
+//		fnceVO.setRegNo(Integer.parseInt(session.getAttribute("USERSEQ").toString()));
+//		int result = 0;
 		
 		return result;
 	}
